@@ -20,7 +20,7 @@ public class Worker{
 
     public void build(Box where)
     {
-        where.getTower().build();
+        where.build();
     }
 
     public String toString()

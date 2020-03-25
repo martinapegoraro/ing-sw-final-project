@@ -24,7 +24,16 @@ public class Tower {
     }
 
     public void build(){
-        //controllo la lista dei blocchi se non è completta aggiungo un blocco inserendo in modo automatico il blocco corretto
+        if(pieces.size()==0)
+            pieces.add(Block.LEVEL1);
+        else {
+            try {
+                Block daCostruire = Block.getNextBlock(pieces.get(pieces.size()));
+                pieces.add(daCostruire);
+            } catch (TowerCompleteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
