@@ -1,5 +1,11 @@
 package it.polimi.ingsw.Module;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Player {
     private boolean isActive;
     private String username;
@@ -30,6 +36,10 @@ public class Player {
         return number;
     }
 
+    public List<Worker> getWorkerList()
+    {
+        return new ArrayList<Worker>(Arrays.asList(workers));
+    }
     /**
      * public God getGod() {
      *
