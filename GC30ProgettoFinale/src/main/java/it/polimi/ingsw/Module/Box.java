@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Module;
 
+import java.util.List;
+
 public class Box {
     private boolean occupied;
     private Tower tower;
@@ -16,10 +18,7 @@ public class Box {
 
     public Tower getTower()
     {
-        if(tower !=null)
-            return tower.getTower();
-        else
-            return null;
+       return tower;
     }
 
     public void build()

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Module;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Tower {
@@ -13,14 +14,10 @@ public class Tower {
         return pieces.size();
     }
 
-    public Tower getTower()
+    public List<Block> getPieces()
     {
-        try {
-            return (Tower) this.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
+
+        return pieces;
     }
 
     public void build(){
@@ -28,7 +25,7 @@ public class Tower {
             pieces.add(Block.LEVEL1);
         else {
             try {
-                Block daCostruire = Block.getNextBlock(pieces.get(pieces.size()));
+                Block daCostruire = Block.getNextBlock(pieces.get(pieces.size()-1));
                 pieces.add(daCostruire);
             } catch (TowerCompleteException e) {
                 e.printStackTrace();
