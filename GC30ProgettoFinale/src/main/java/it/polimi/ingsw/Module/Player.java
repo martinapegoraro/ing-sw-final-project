@@ -9,7 +9,7 @@ import java.util.List;
 public class Player {
     private boolean isActive;
     private String username;
-    //TODO: private God card;
+    private God card;
     //TODO: Aggiungere effetti applicati al Player da/dai Gods
     private Worker[] workers = new Worker[2];
     private int number; //Salvo il numero del giocatore per gestire eventuali elementi grafici
@@ -18,6 +18,16 @@ public class Player {
     {
         number = n;
         username = name; // Assumo non cambi durante la partita
+
+        //Il giocatore con numero 1 è il primo a giocare
+        if(number == 1)
+        {
+            isActive = true;
+        }
+        else
+            {
+                isActive = false;
+            }
 
     }
 
@@ -36,15 +46,14 @@ public class Player {
         return number;
     }
 
-    public List<Worker> getWorkerList()
+    public ArrayList<Worker> getWorkerList()
     {
-        return new ArrayList<Worker>(Arrays.asList(workers));
+        return new ArrayList<>(Arrays.asList(workers));
     }
-    /**
-     * public God getGod() {
-     *
-     * }
-     * **/
+
+     public God getGod() {
+        return card;
+     }
 
     public void setWorker(int nWorker, Box casella)
     {
