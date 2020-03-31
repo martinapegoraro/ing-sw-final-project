@@ -1,4 +1,7 @@
-package it.polimi.ingsw.Module;
+package it.polimi.ingsw.Module.Gods;
+
+import it.polimi.ingsw.Module.God;
+import it.polimi.ingsw.Module.GodEffect;
 
 public class Apollo extends God implements GodEffect {
 
@@ -9,6 +12,6 @@ public class Apollo extends God implements GodEffect {
     }
     public void effect()
     {
-        return;
+        //...
     }
 }

@@ -4,7 +4,7 @@ public class God  {
     protected String name;
     protected int type;
 
-    God()
+    public God()
     {
         name="";
         type=-1;
