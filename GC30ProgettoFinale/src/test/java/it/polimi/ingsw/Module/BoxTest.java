@@ -5,20 +5,21 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class BoxTest {
-    Box testBox=new Box();
+    //Modificabili per controllare proprietà specifiche di una box
+    Box testBox=new Box(1,1);
     @Test
     public void isOccupied() {
-        assertEquals(false,testBox.isOccupied());
+        assertFalse(testBox.isOccupied());
     }
 
     @Test
     public void getTowerEmpty() {
-        assertEquals(null,testBox.getTower());
+        assertNull(testBox.getTower());
     }
 
     @Test
     public void build() {
-        assertEquals(null,testBox.getTower());
+        assertNull(testBox.getTower());
         testBox.build();
         assertNotEquals(0,testBox.getTower().getHeight());
     }

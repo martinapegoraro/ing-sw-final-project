@@ -5,10 +5,15 @@ import java.util.List;
 public class Box {
     private boolean occupied;
     private Tower tower;
-    public Box()
+    private final int x;
+    private final int y;
+
+    public Box(int coordX, int coordY)
     {
         occupied=false;
         tower=null;
+        x = coordX;
+        y = coordY;
     }
 
     public boolean isOccupied()
@@ -28,6 +33,12 @@ public class Box {
         tower.build();
     }
 
-
+    public int[] getCoord()
+    {
+        int[] coord = new int[2];
+        coord[0] = x;
+        coord[1] = y;
+        return coord;
+    }
 
 }
