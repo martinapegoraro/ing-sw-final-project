@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Module;
 
+import it.polimi.ingsw.Module.Exceptions.TowerCompleteException;
+
 public enum Block {
     LEVEL1,LEVEL2,LEVEL3,DOME;
 
