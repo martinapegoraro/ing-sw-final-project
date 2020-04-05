@@ -5,15 +5,14 @@ import java.util.List;
 
 public class Match {
     private Board board;
-    //interpreto il turno come un contatore che viene incrementato ogni volta che gioca un giocatore
-    private int round;
+
     private List<Player> playerSet;
     //lista delle carte utilizzabili
 
     public Match(List<String> names)
     {
         board=board.getInstance();
-        round=0;
+
         playerSet=new ArrayList<Player>();
         for (String n:names)
             addPlayer(n);
@@ -28,10 +27,7 @@ public class Match {
     {
         return board.getInstance();
     }
-    public int getRound()
-    {
-        return round;
-    }
+
     public int getNumberPlayer(){
         return playerSet.size();
     }
@@ -39,13 +35,9 @@ public class Match {
     {
         playerSet.add(new Player(playerSet.size(),name));
     }
-    public Player getPlayerRound()
+
+    public Player getPlayerRound(int turn)
     {
-        return playerSet.get(round%playerSet.size());
-    }
-    public Player switchPlayer()
-    {
-        round++;
-        return getPlayerRound();
+        return playerSet.get(turn%playerSet.size());
     }
 }

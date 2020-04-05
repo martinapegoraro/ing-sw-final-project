@@ -41,4 +41,9 @@ public class Box {
         return coord;
     }
 
+    public boolean isReachable(Box b)
+    {
+        return b.getTower().getHeight() - tower.getHeight() == 1;
+    }
+
 }

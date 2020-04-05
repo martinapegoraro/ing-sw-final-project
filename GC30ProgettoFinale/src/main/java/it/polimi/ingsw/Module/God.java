@@ -9,4 +9,11 @@ public class God  {
         name="";
         type=-1;
     }
+    public void chooseEffect()
+    {
+        switch(name)
+        {
+            //per ogni divinità richiamerò il metodo implementato
+        }
+    }
 }

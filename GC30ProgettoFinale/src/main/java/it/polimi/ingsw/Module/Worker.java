@@ -3,12 +3,14 @@ package it.polimi.ingsw.Module;
 public class Worker{
     Box position;
     int height; //Altezza della torre su cui si trova il worker, per non dover passare da Box e Tower
-
+    int posX,posY;
     //Chiamo il costruttore solo dopo aver assegnato una casella al worker
     public Worker(Box b)
     {
         position = b;
         height = position.getTower().getHeight(); //No Default a 0 per evitare bug
+        posX=b.getCoord()[0];
+        posY=b.getCoord()[1];
     }
 
     public void move(Box to)
