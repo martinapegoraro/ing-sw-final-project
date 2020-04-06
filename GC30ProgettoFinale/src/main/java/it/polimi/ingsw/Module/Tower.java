@@ -22,16 +22,14 @@ public class Tower {
         return pieces;
     }
 
-    public void build(){
+    public void build() throws TowerCompleteException{
         if(pieces.size()==0)
             pieces.add(Block.LEVEL1);
         else {
-            try {
+
                 Block daCostruire = Block.getNextBlock(pieces.get(pieces.size()-1));
                 pieces.add(daCostruire);
-            } catch (TowerCompleteException e) {
-                e.printStackTrace();
-            }
+
         }
     }
 

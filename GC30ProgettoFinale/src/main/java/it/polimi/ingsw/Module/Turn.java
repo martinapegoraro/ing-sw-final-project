@@ -48,4 +48,28 @@ public class Turn {
         return occupabili;
     }
 
+    public List<Box> whereBuild(Box b)
+    {
+        Board tavolo=gestorePartita.getBoard();
+        int x=b.getCoord()[0];
+        int y=b.getCoord()[1];
+        List<Box> edificabili=new ArrayList<Box>();
+        int i=0,j=0;
+        x--;
+        y--;
+        while (i<3)
+        {
+            x+=i;
+            for(j=0;i<3;j++)
+            {
+                y+=j;
+                if(!tavolo.getBox(x,y).isOccupied() && x>=0 && x<=5 && y>=0 && y<=5)
+                    edificabili.add(tavolo.getBox(x,y));
+            }
+            i++;
+            y-=2;
+        }
+        return edificabili;
+    }
+
 }

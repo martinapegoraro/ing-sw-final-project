@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Module;
 
+import it.polimi.ingsw.Module.Exceptions.TowerCompleteException;
+
 import java.util.List;
 
 public class Box {
@@ -30,7 +32,11 @@ public class Box {
     {
         if(tower==null)
             tower=new Tower();
-        tower.build();
+        try {
+            tower.build();
+        } catch (TowerCompleteException e) {
+           occupied=true;
+        }
     }
 
     public int[] getCoord()

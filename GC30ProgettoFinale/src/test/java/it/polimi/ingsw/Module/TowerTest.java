@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Module;
 
+import it.polimi.ingsw.Module.Exceptions.TowerCompleteException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -14,18 +15,31 @@ public class TowerTest {
      @Test
     public void buildTestVuota()
      {
-         tow.build();
+         try {
+             tow.build();
+         } catch (TowerCompleteException e) {
+             e.printStackTrace();
+         }
          assertEquals(1,tow.getHeight());
      }
 
      @Test
     public void buildTestCompleta()
     {
-        tow.build();
-        tow.build();
-        tow.build();
-        tow.build();
+        try {
+            tow.build();
+            tow.build();
+            tow.build();
+            tow.build();
+        } catch (TowerCompleteException e) {
+            e.printStackTrace();
+        }
         assertEquals(4,tow.getHeight());
-        tow.build();
+        try {
+            tow.build();
+        } catch (TowerCompleteException e) {
+            e.printStackTrace();
+        }
+
     }
 }
