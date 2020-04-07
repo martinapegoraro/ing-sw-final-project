@@ -1,41 +1,20 @@
 package it.polimi.ingsw.Module;
 
 public enum GodsList {
-    APOLLO(1), ARTEMIS(1), ATHENA(2), ATLAS(1), DEMETER(1), HEPHAESTUS(1), MINOTAUR(1), PAN(0), PROMETHEUS(1);
+    APOLLO(1, "Apollo"), ARTEMIS(1,"Artemis"), ATHENA(2, "Athena"), ATLAS(1, "Atlas"), DEMETER(1,"Demeter"), HEPHAESTUS(1,"Hephaestus"), MINOTAUR(1, "Minotaur"), PAN(0, "Pan"), PROMETHEUS(1,"Prometheus");
     private int type;
-    GodsList(int type){
+    private String name;
+    GodsList(int type, String name){
         this.type = type;
+        this.name = name;
     }
-    public int gettype() {
+    public int getType() {
         return type;
     }
 
-    public static void getEffect(GodsList god){
-        switch (god){
-            case APOLLO: //effect
-                break;
-            case ARTEMIS: //effect
-                break;
-            case ATHENA: //effect
-                break;
-            case ATLAS: //effect
-                break;
-            case DEMETER: //effect
-                break;
-            case HEPHAESTUS: //effect
-                break;
-            case MINOTAUR: //effect
-                break;
-            case PAN: //effect
-                break;
-            case PROMETHEUS: //effect
-                break;
-            default: //no effect
-                break;
-        }
+    public String getName(){
+        return name;
+
     }
-
-
-
 }
 
