@@ -55,7 +55,7 @@ public class Player {
         return card;
      }
 
-    public void setWorker(int nWorker, Box casella)
+    public void setWorkerPosition(int nWorker, Box casella)
     {
         try
         {
