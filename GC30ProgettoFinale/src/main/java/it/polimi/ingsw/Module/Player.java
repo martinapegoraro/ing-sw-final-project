@@ -9,7 +9,7 @@ import java.util.List;
 public class Player {
     private boolean isActive;
     private String username;
-    private God card;
+    private GodsList card;
     //TODO: Aggiungere effetti applicati al Player da/dai Gods
     private Worker[] workers = new Worker[2];
     private int number; //Salvo il numero del giocatore per gestire eventuali elementi grafici
@@ -51,7 +51,7 @@ public class Player {
         return new ArrayList<>(Arrays.asList(workers));
     }
 
-     public God getGod() {
+     public GodsList getGod() {
         return card;
      }
 
