@@ -1,23 +1,20 @@
-package it.polimi.ingsw.Module;
+package it.polimi.ingsw.Model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class Player {
     private boolean isActive;
     private final String username;
     private GodsList card;
     private Worker[] workers = new Worker[2];
-    private int number; //Salvo il numero del giocatore per gestire eventuali elementi grafici
+    private int idNumber; //Salvo il numero del giocatore per gestire eventuali elementi grafici
     private boolean godActive;
     private boolean athenaCondition;
 
     public Player(int n, String name)
     {
-        number = n;
+        idNumber = n;
         username = name;
         card=null;
         workers[0]=null;
@@ -42,8 +39,8 @@ public class Player {
 
     public int getNumber()
     {
-        return number;
-    }
+        return idNumber;
+    } //TODO: Useful test to see if idNumber is in synch with Turn array
 
     public ArrayList<Worker> getWorkerList()
     {

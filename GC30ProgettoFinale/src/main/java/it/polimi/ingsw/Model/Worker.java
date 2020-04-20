@@ -1,11 +1,11 @@
-package it.polimi.ingsw.Module;
+package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Module.Exceptions.TowerCompleteException;
+import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
 
 public class Worker{
-    Box position;
-    int height; //Altezza della torre su cui si trova il worker, per non dover passare da Box e Tower
-    int posX,posY;
+    private Box position;
+    private int height; //Altezza della torre su cui si trova il worker, per non dover passare da Box e Tower
+    private int posX,posY;
     //Chiamo il costruttore solo dopo aver assegnato una casella al worker
 
     public Worker(Box b)

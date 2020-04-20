@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Module;
+package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.View.Observable;
 

@@ -1,6 +1,6 @@
-package it.polimi.ingsw.Module;
+package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Module.Exceptions.TowerCompleteException;
+import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

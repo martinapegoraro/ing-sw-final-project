@@ -1,9 +1,6 @@
-package it.polimi.ingsw.Module;
+package it.polimi.ingsw.Model;
 
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -14,9 +11,9 @@ public class PlayerTest {
     Player giocatore3 = new Player(3, "Giovanni");
     @Test
     public void getActive() {
-        assertTrue(giocatore1.getActive());
-        assertFalse(giocatore2.getActive());
-        assertFalse(giocatore3.getActive());
+        assertTrue(giocatore1.isPlayerActive());
+        assertFalse(giocatore2.isPlayerActive());
+        assertFalse(giocatore3.isPlayerActive());
     }
 
     @Test

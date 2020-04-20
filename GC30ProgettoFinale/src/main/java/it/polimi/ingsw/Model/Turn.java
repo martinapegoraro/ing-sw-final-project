@@ -1,6 +1,6 @@
-package it.polimi.ingsw.Module;
+package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Module.Exceptions.ImpossibleAddAnotherPlayerException;
+import it.polimi.ingsw.Model.Exceptions.ImpossibleAddAnotherPlayerException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +44,7 @@ public class Turn {
     {
         return player.getGod();
     }
+
     public void addPlayer(String name)throws ImpossibleAddAnotherPlayerException
     {
         if(listaGiocatori.size()<3)
@@ -51,6 +52,7 @@ public class Turn {
         else
             throw new ImpossibleAddAnotherPlayerException("max number of players already reached");
     }
+
     public List<Box> getPossibleMoves(Box b)
     {
         List<Box> lista=new ArrayList<Box>();
