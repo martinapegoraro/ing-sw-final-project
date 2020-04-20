@@ -1,75 +1,74 @@
 package it.polimi.ingsw.Module;
 
+import it.polimi.ingsw.Module.Exceptions.ImpossibleAddAnotherPlayerException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Turn {
-
-    private int nTurn;
-    private Match gestorePartita;
-    public Turn(List<String> names)
+    private  int nTurn;
+    private Board boardInstance;
+    private ArrayList<Player> listaGiocatori;
+    public Turn(List<String> playersNamesList)
     {
         nTurn=0;
-        gestorePartita=new Match(names);
-    }
-
-
-    public Player switchPlayer()
-    {
-        nTurn++;
-        return gestorePartita.getPlayerRound(nTurn);
-    }
-
-    public int getTurn()
-    {
-        return nTurn;
-    }
-    public List<Box> whereMove(Box b)
-    {
-        Board tavolo=gestorePartita.getBoard();
-        int x=b.getCoord()[0];
-        int y=b.getCoord()[1];
-        List<Box> occupabili=new ArrayList<Box>();
-        int i=0,j=0;
-        x--;
-        y--;
-        while (i<3)
-        {
-            x+=i;
-            for(j=0;i<3;j++)
-            {
-                y+=j;
-                if(!tavolo.getBox(x,y).isOccupied() && b.isReachable(tavolo.getBox(x,y))&& x>=0 && x<=5 && y>=0 && y<=5)
-                    occupabili.add(tavolo.getBox(x,y));
+        boardInstance=Board.getInstance();
+        listaGiocatori=new ArrayList<Player>();
+        for (String name:playersNamesList) {
+            try {
+                addPlayer(name);
+            } catch (ImpossibleAddAnotherPlayerException e) {
+                break;
             }
-            i++;
-            y-=2;
         }
-        return occupabili;
+        setNextPlayer();
     }
 
-    public List<Box> whereBuild(Box b)
+    public void setNextPlayer()
     {
-        Board tavolo=gestorePartita.getBoard();
-        int x=b.getCoord()[0];
-        int y=b.getCoord()[1];
-        List<Box> edificabili=new ArrayList<Box>();
-        int i=0,j=0;
-        x--;
-        y--;
-        while (i<3)
-        {
-            x+=i;
-            for(j=0;i<3;j++)
-            {
-                y+=j;
-                if(!tavolo.getBox(x,y).isOccupied() && x>=0 && x<=5 && y>=0 && y<=5)
-                    edificabili.add(tavolo.getBox(x,y));
-            }
-            i++;
-            y-=2;
+        for (Player p:listaGiocatori) {
+            p.setPlayerActive(false);
         }
-        return edificabili;
+        listaGiocatori.get(nTurn%listaGiocatori.size()).setPlayerActive(true);
+    }
+
+    public Player getCurrentPlayer()
+    {
+        for (Player p:listaGiocatori) {
+            if (p.isPlayerActive())
+                return p;
+        }
+        return null;
+    }
+    public GodsList getPlayerGod(Player player)
+    {
+        return player.getGod();
+    }
+    public void addPlayer(String name)throws ImpossibleAddAnotherPlayerException
+    {
+        if(listaGiocatori.size()<3)
+            listaGiocatori.add(new Player(listaGiocatori.size(),name));
+        else
+            throw new ImpossibleAddAnotherPlayerException("max number of players already reached");
+    }
+    public List<Box> getPossibleMoves(Box b)
+    {
+        List<Box> lista=new ArrayList<Box>();
+        for (Box cell:boardInstance.getBorderBoxes(b)) {
+            if(!cell.isOccupied() && cell.isReachable(b))
+                lista.add(b);
+        }
+        return lista;
+
+    }
+    public List<Box> getPossibleBuildLocations(Box b)
+    {
+        List<Box> lista=new ArrayList<Box>();
+        for (Box cell:boardInstance.getBorderBoxes(b)) {
+            if(!cell.isOccupied())
+                lista.add(b);
+        }
+        return lista;
     }
 
 }

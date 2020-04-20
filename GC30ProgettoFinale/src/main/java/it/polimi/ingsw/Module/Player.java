@@ -8,35 +8,34 @@ import java.util.List;
 
 public class Player {
     private boolean isActive;
-    private String username;
+    private final String username;
     private GodsList card;
-    //TODO: Aggiungere effetti applicati al Player da/dai Gods
     private Worker[] workers = new Worker[2];
     private int number; //Salvo il numero del giocatore per gestire eventuali elementi grafici
+    private boolean godActive;
+    private boolean athenaCondition;
 
     public Player(int n, String name)
     {
         number = n;
-        username = name; // Assumo non cambi durante la partita
-
-        //Il giocatore con numero 1 è il primo a giocare
-        if(number == 1)
-        {
-            isActive = true;
-        }
-        else
-            {
-                isActive = false;
-            }
-
+        username = name;
+        card=null;
+        workers[0]=null;
+        workers[1]=null;
+        godActive=false;
+        athenaCondition=false;
+        isActive=false;
     }
 
-    public boolean getActive()
+    public boolean isPlayerActive()
     {
         return isActive;
     }
-
-    public String getName()
+    public void setPlayerActive(boolean active)
+    {
+        isActive=active;
+    }
+    public String getPlayerName()
     {
         return username;
     }
@@ -54,16 +53,31 @@ public class Player {
      public GodsList getGod() {
         return card;
      }
-
-    public void setWorkerPosition(int nWorker, Box casella)
+     public boolean isAthenaConditionTrue(){
+        return athenaCondition;
+     }
+     public void setGodActive(boolean active)
+     {
+         godActive=active;
+     }
+     public boolean isGodActive()
+     {
+         return godActive;
+     }
+     public void changeAthenaCondition(boolean active)
+     {
+         athenaCondition=active;
+     }
+    public void setWorkersPosition(Box b1,Box b2)
     {
         try
         {
-            workers[nWorker] = new Worker(casella);
+            workers[0] = new Worker(b1);
+            workers[1] = new Worker(b2);
         }
         catch(IndexOutOfBoundsException ex)
         {
-            System.out.println("Indice scorretto passato a setWorker! I: " + nWorker);
+            System.out.println("Indice scorretto passato a setWorker!");
         }
     }
 

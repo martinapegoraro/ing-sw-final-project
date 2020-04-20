@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Module;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
     private Box[][] board;
     private static Board singletonBoard;
@@ -31,5 +34,23 @@ public class Board {
     public Box getBox(int riga, int col)
     {
         return board[riga][col];
+    }
+
+    public List<Box> getBorderBoxes(Box b)
+    {
+        List<Box> lista=new ArrayList<Box>();
+        int i=-1,j=-1;
+        while(i+j<=2)
+        {
+            j=-1;
+            while(j<2)
+            {
+                lista.add(getBox(b.getCoord()[0]+i,b.getCoord()[1]+j));
+                j++;
+            }
+            i++;
+        }
+        lista.remove(5);
+        return lista;
     }
 }

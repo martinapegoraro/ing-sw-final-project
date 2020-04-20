@@ -1,20 +1,25 @@
 package it.polimi.ingsw.Module;
 
+import it.polimi.ingsw.Module.Exceptions.NotExistingGodException;
+
 public enum GodsList {
-    APOLLO(1, "Apollo"), ARTEMIS(1,"Artemis"), ATHENA(2, "Athena"), ATLAS(1, "Atlas"), DEMETER(1,"Demeter"), HEPHAESTUS(1,"Hephaestus"), MINOTAUR(1, "Minotaur"), PAN(0, "Pan"), PROMETHEUS(1,"Prometheus");
-    private int type;
+    APOLLO("Apollo"), ARTEMIS("Artemis"), ATHENA("Athena"),
+    ATLAS( "Atlas"),DEMETER("Demeter"), HEPHAESTUS("Hephaestus"),
+    MINOTAUR( "Minotaur"), PAN( "Pan"),PROMETHEUS("Prometheus");
     private String name;
-    GodsList(int type, String name){
-        this.type = type;
+    GodsList(String name){
         this.name = name;
     }
-    public int getType() {
-        return type;
-    }
-
     public String getName(){
         return name;
-
+    }
+    public GodsList getGod(String godName) throws NotExistingGodException
+    {
+        for (GodsList god:GodsList.values()) {
+            if(godName.equals(god.name))
+                return god;
+        }
+        throw new NotExistingGodException("This God doesn't exist");
     }
 }
 
