@@ -7,7 +7,7 @@ import java.util.List;
 public class Model extends Observable {
     private Turn turn;
     private int playerNum;
-    //ModelRepresentation rep;
+    private ModelRepresentation modelRep;
     public Model(List<String> playersNamesList)
     {
         turn=new Turn(playersNamesList);
