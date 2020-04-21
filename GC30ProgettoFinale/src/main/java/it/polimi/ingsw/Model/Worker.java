@@ -19,6 +19,10 @@ public class Worker{
         position = to;
         updatePosition();
     }
+    public Box getPosition()
+    {
+        return position;
+    }
     private void updatePosition()
     {
         posX=position.getCoord()[0];

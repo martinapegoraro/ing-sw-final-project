@@ -12,10 +12,15 @@ public class Model extends Observable {
     {
         turn=new Turn(playersNamesList);
         playerNum=playersNamesList.size();
+        modelRep=createModelRep();
     }
     public Turn getTurn()
     {
         return turn;
     }
-    //Manca da gestire tutta la parte collegata Al model representation.
+
+    public ModelRepresentation createModelRep()
+    {
+        return new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList());
+    }
 }

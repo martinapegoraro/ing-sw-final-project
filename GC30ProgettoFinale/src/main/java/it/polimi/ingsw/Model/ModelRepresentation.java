@@ -25,7 +25,7 @@ public class ModelRepresentation {
         for (Player player : players) {
             List<Worker> workers = player.getWorkerList();
             for (Worker worker : workers) {
-                int[] casella= worker./*getposition.*/getCoord();
+                int[] casella= worker.getPosition().getCoord();
                 workerposition[casella[0]][casella[1]] = 0;
 
             }

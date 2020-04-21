@@ -40,6 +40,9 @@ public class Turn {
         }
         return null;
     }
+    public Board getBoardInstance() {
+        return boardInstance;
+    }
     public GodsList getPlayerGod(Player player)
     {
         return player.getGod();
@@ -71,6 +74,11 @@ public class Turn {
                 lista.add(b);
         }
         return lista;
+    }
+
+    public List<Player> getPlayersList()
+    {
+        return listaGiocatori;
     }
 
 }
