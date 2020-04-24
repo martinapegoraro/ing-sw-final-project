@@ -41,7 +41,8 @@ public class Context {
                 //Uso un metodo che calcola la lista di possibili mosse guardando quali divinità sono attive e
                 //chiamando al getPossibleMoves del Model
                 //TODO: IMPLEMENTARE LOGICA CAMBIO STATO
-                newState = new MoveState(null, true, true);
+                Box moveTo = contextModel.getTurn().getCurrentPlayer().getSelectedWorker().getPosition();
+                newState = new MoveState(getPossibleMoveBoxes(moveTo), true, true);
                 switchState(newState);
             case 3:
             case 4:
@@ -115,5 +116,6 @@ public class Context {
             scelta = (MoveChoice) userChoice;
 
         }
+        //TODO: Impostare l'active worker con la WorkerSelectChoice
     }
 }
