@@ -43,6 +43,7 @@ public class Turn {
     public Board getBoardInstance() {
         return boardInstance;
     }
+
     public GodsList getPlayerGod(Player player)
     {
         return player.getGod();
@@ -56,6 +57,7 @@ public class Turn {
             throw new ImpossibleAddAnotherPlayerException("max number of players already reached");
     }
 
+
     public List<Box> getPossibleMoves(Box b)
     {
         List<Box> lista=new ArrayList<Box>();
@@ -66,6 +68,8 @@ public class Turn {
         return lista;
 
     }
+
+
     public List<Box> getPossibleBuildLocations(Box b)
     {
         List<Box> lista=new ArrayList<Box>();

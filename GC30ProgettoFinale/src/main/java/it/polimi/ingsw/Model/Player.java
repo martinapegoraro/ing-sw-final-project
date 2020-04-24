@@ -11,6 +11,7 @@ public class Player {
     private int idNumber; //Salvo il numero del giocatore per gestire eventuali elementi grafici
     private boolean godActive;
     private boolean athenaCondition;
+    private Worker selectedWorker;
 
     public Player(int n, String name)
     {
@@ -22,6 +23,7 @@ public class Player {
         godActive=false;
         athenaCondition=false;
         isActive=false;
+        selectedWorker = null;
     }
 
     public boolean isPlayerActive()
@@ -76,6 +78,30 @@ public class Player {
         {
             System.out.println("Indice scorretto passato a setWorker!");
         }
+    }
+
+    public Worker getSelectedWorker()
+    {
+        return selectedWorker;
+        //TODO: AGGIORNARE UML
+    }
+
+    public void setSelectedWorker(Worker selected)
+    {
+        selectedWorker = selected;
+    }
+
+    public void setSelectedWorker(int n)
+    {
+        try
+        {
+            selectedWorker = workers[n];
+        }
+        catch(IndexOutOfBoundsException ex)
+        {
+            System.out.println("Indice scorretto passato a setSelectedWorker!");
+        }
+
     }
 
 

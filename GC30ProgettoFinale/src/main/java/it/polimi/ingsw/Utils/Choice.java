@@ -1,5 +1,18 @@
 package it.polimi.ingsw.Utils;
 
-public interface Choice {
+public abstract class Choice {
+    private int playerId;
+
+    public int getId()
+    {
+        return playerId;
+    }
+
+    public void setId(int id)
+    {
+        playerId = id;
+    }
+
+
 
 }

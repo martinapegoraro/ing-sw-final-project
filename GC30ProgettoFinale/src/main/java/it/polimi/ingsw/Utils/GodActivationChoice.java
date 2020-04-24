@@ -1,10 +1,14 @@
 package it.polimi.ingsw.Utils;
 
-public class GodActivationChoice implements Choice {
-    public final boolean godActive;
-    public int playerid;
-    publicGodActivationChoice(boolean active)
-    {
+public class GodActivationChoice extends Choice {
 
+    public final boolean godActive;
+
+    public int playerId;
+
+    public GodActivationChoice(boolean active)
+    {
+        godActive = active;
     }
+
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Utils;
 
-public class SelectWorkerCellChoice implements Choice {
+public class SelectWorkerCellChoice extends Choice {
     public int x;
     public int y;
     public int playerid;
