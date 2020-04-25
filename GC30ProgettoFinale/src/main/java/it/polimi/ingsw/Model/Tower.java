@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +39,10 @@ public class Tower {
     public void build() throws TowerCompleteException{
         if(getHeight()==0)
             pieces.add(Block.LEVEL1);
+        else if(getPieces().get(getHeight()-1)==Block.DOME)
+            throw new TowerCompleteException(" you are trying to build over a dome!!");
         else
-            pieces.add(Block.getNextBlock(pieces.get(getHeight())));
+            pieces.add(Block.getNextBlock(pieces.get(getHeight()-1)));
     }
 
 

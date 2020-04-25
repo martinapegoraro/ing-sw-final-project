@@ -1,45 +1,67 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class TowerTest {
 
-    Tower tow=new Tower();
-    @Test
-    public void getHeight() {
-        assertEquals(0,tow.getHeight());
-    }
-     @Test
-    public void buildTestVuota()
-     {
-         try {
-             tow.build();
-         } catch (TowerCompleteException e) {
-             e.printStackTrace();
-         }
-         assertEquals(1,tow.getHeight());
-     }
+    Tower testTower;
 
-     @Test
-    public void buildTestCompleta()
+    @Before
+    public void instantiateTower()
     {
-        try {
-            tow.build();
-            tow.build();
-            tow.build();
-            tow.build();
-        } catch (TowerCompleteException e) {
-            e.printStackTrace();
-        }
-        assertEquals(4,tow.getHeight());
-        try {
-            tow.build();
-        } catch (TowerCompleteException e) {
-            e.printStackTrace();
-        }
+        testTower=new Tower();
+    }
+
+    @Test
+    public void getTowerHeightTest()
+    {
+        assertEquals(0,testTower.getHeight());
+    }
+
+    @Test
+    public void getTowerPiecesTest()
+    {
+        assertNotNull(testTower.getPieces());
+    }
+
+    @Test
+    public void twoLevelsOrdinaryBuildTest() throws TowerCompleteException
+    {
+        testTower.build();
+        testTower.build();
+        assertEquals(2,testTower.getHeight());
+    }
+
+    @Test(expected = TowerCompleteException.class)
+    public void fiveLevelsTowerTest() throws TowerCompleteException
+    {
+        testTower.build();
+        testTower.build();
+        testTower.build();
+        testTower.build();
+        testTower.build();
+    }
+
+    @Test
+    public void domeInsteadOfLevel2Test() throws TowerCompleteException
+    {
+        testTower.build();
+        testTower.build(Block.DOME);
+        assertEquals(2,testTower.getHeight());
+        assertEquals(Block.DOME,testTower.getPieces().get(1));
+    }
+
+    @Test(expected = TowerCompleteException.class)
+    public void buildOverADomeTest() throws TowerCompleteException
+    {
+        testTower.build(Block.DOME);
+        testTower.build();
 
     }
+
+
 }

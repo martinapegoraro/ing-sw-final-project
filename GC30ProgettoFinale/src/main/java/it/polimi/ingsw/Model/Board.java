@@ -40,17 +40,18 @@ public class Board {
     {
         List<Box> lista=new ArrayList<Box>();
         int i=-1,j=-1;
-        while(i+j<=2)
+        while(i<2)
         {
             j=-1;
             while(j<2)
             {
-                lista.add(getBox(b.getCoord()[0]+i,b.getCoord()[1]+j));
+                if(b.getCoord()[0]+i>=0 && b.getCoord()[0]+i<5 && b.getCoord()[1]+j>=0 && b.getCoord()[1]+j<5)
+                    if(i!=0 || j!=0)
+                        lista.add(getBox(b.getCoord()[0]+i,b.getCoord()[1]+j));
                 j++;
             }
             i++;
         }
-        lista.remove(5);
         return lista;
     }
 }

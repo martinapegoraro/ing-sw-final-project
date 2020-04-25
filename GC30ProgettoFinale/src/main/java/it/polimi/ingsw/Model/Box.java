@@ -47,7 +47,11 @@ public class Box {
 
     public boolean isReachable(Box b)
     {
-        return b.getTower().getHeight() - tower.getHeight() == 1;
+        int startHeight=0,destinationHeight=0;
+        if(tower!=null) startHeight=tower.getHeight();
+        if(b.getTower()!=null) destinationHeight=b.getTower().getHeight();
+        if(destinationHeight-startHeight>1)return false;
+        else return true;
     }
 
 }
