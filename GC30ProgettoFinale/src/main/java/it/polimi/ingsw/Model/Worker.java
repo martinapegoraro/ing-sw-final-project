@@ -16,6 +16,8 @@ public class Worker{
 
     public void move(Box to)
     {
+        //controllare se la cella passata è corretta o partiamo dal
+        // presupposto che le celle passate siano sempre corrette?
         position = to;
         updatePosition();
     }
@@ -27,7 +29,10 @@ public class Worker{
     {
         posX=position.getCoord()[0];
         posY=position.getCoord()[1];
-        height=position.getTower().getHeight();
+        if(position.getTower()!=null)
+            height=position.getTower().getHeight();
+        else
+            height=0;
     }
     public void build(Box where)
     {
@@ -39,7 +44,6 @@ public class Worker{
         try {
             where.getTower().build(nextBlock);
         } catch (TowerCompleteException e) {
-            e.printStackTrace();
         }
     }
 
