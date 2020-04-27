@@ -11,19 +11,33 @@ public class MoveState implements State {
     private ArrayList<Box> possibleMovesList;
     private boolean swapWorkerPosition;
     private boolean pushWorkerBack;
+    private boolean hasFinished;
 
     public MoveState(ArrayList<Box> possibleMoves, boolean pushWorker, boolean swapWorker)
     {
         possibleMovesList = possibleMoves;
         pushWorkerBack = pushWorker;
         swapWorkerPosition = swapWorker;
+        hasFinished = false;
     }
 
+    @Override
     public int getID()
     {
         return stateID;
     }
 
+    @Override
+    public void startup(Model model) {
+
+    }
+
+    @Override
+    public boolean hasFinished() {
+        return hasFinished;
+    }
+
+    @Override
     public void update(Choice userChoice, Model model)
     {
 

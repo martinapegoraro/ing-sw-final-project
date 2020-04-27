@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -49,24 +51,35 @@ public class Player {
         return new ArrayList<>(Arrays.asList(workers));
     }
 
+    public void setGodCard(GodsList card)
+    {
+        this.card = card;
+    }
+
      public GodsList getGod() {
         return card;
      }
+
      public boolean isAthenaConditionTrue(){
         return athenaCondition;
      }
+
      public void setGodActive(boolean active)
      {
          godActive=active;
      }
+
      public boolean isGodActive()
      {
          return godActive;
      }
+
      public void changeAthenaCondition(boolean active)
      {
          athenaCondition=active;
      }
+
+
     public void setWorkersPosition(Box b1,Box b2)
     {
         try
@@ -77,6 +90,10 @@ public class Player {
         catch(IndexOutOfBoundsException ex)
         {
             System.out.println("Indice scorretto passato a setWorker!");
+        }
+        catch(BoxAlreadyOccupiedException ex)
+        {
+            System.out.println(ex.getMessage());
         }
     }
 

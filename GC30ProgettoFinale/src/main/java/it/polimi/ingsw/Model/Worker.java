@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
 import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
 
 public class Worker{
@@ -8,8 +9,18 @@ public class Worker{
     private int posX,posY;
     //Chiamo il costruttore solo dopo aver assegnato una casella al worker
 
-    public Worker(Box b)
+    public Worker(Box b) throws NullPointerException, BoxAlreadyOccupiedException
     {
+        if(b == null)
+        {
+            throw new NullPointerException("Worker box can't be initialized to null!");
+        }
+
+        if(b.isOccupied())
+        {
+            throw new BoxAlreadyOccupiedException("Worker box can't be occupied during initialization!");
+        }
+
         position = b;
         updatePosition();
     }
@@ -25,6 +36,7 @@ public class Worker{
     {
         return position;
     }
+
     private void updatePosition()
     {
         posX=position.getCoord()[0];

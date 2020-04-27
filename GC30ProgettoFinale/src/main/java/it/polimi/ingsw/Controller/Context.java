@@ -1,23 +1,28 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.Box;
+import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Utils.Choice;
-import it.polimi.ingsw.Utils.GodActivationChoice;
-import it.polimi.ingsw.Utils.MoveChoice;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Context {
     private State currentState;
     private int numberofPlayers;
     private Model contextModel;
+    private ArrayList<GodsList> activeGods;
 
-    public Context()
+    public Context(Model model) throws NullPointerException
     {
-        currentState = new SetUpState(numberofPlayers);
+        if(model == null)
+        {
+            throw new NullPointerException("Model can't be null when linking Context!");
+        }
+        currentState = new SetUpState(numberofPlayers, model);
+        numberofPlayers = 0;
+        contextModel = model;
+        activeGods = new ArrayList<GodsList>();
     }
 
 
@@ -26,7 +31,7 @@ public class Context {
 
 
 
-    public void defaultStateChange()
+    public void stateChange()
     {
         State newState;
         switch(currentState.getID())
@@ -72,6 +77,7 @@ public class Context {
     }
 
     private ArrayList<Box> getPossibleBuildBoxes()
+
     {
         return null;
     }
@@ -82,17 +88,35 @@ public class Context {
 
     }
 
-    public void update(Choice userChoice, Model model)
+    public void update(Choice userChoice) throws NullPointerException
     {
+        if(userChoice == null)
+        {
+            throw new NullPointerException("Null pointer on model or userChoice!");
+        }
         Player actingPlayer;
-        ArrayList<Player> playerList = (ArrayList<Player>) model.getTurn().getPlayersList();
+        ArrayList<Player> playerList = (ArrayList<Player>) contextModel.getTurn().getPlayersList();
         actingPlayer = playerList.get(userChoice.getId());
         //TODO: Aggiungere controlli sui messaggi girati dai player
-        //Viene passato il ref e non la copia
-        contextModel = model;
 
+        currentState.update(userChoice, contextModel);
 
-        //Setto i flag in base a quali divinità sono state attivate, se è un GodActivationMessage
+        //Saving the Gods list activated in the current turn to simplify methods
+        for(Player player : playerList)
+        {
+            if(player.isGodActive())
+            {
+                activeGods.add(player.getGod());
+            }
+        }
+
+        //Check if the state has completed it's task
+        if(currentState.hasFinished())
+        {
+            stateChange();
+        }
+
+/*        //Setto i flag in base a quali divinità sono state attivate, se è un GodActivationMessage
         if(userChoice instanceof GodActivationChoice)
         {
             //Prendo i giocatori, seleziono il giocatore corretto in base all'ID e guardo che carta God possiede
@@ -116,6 +140,13 @@ public class Context {
             scelta = (MoveChoice) userChoice;
 
         }
+        else if(userChoice instanceof SelectWorkerCellChoice)
+        {
+            //Set worker status on model as active, deactivate other workers
+
+        }
+
+ */
         //TODO: Impostare l'active worker con la WorkerSelectChoice
     }
 }
