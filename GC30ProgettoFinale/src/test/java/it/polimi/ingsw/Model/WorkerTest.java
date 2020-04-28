@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
 import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,11 @@ public class WorkerTest {
         box1=new Box(1,3);
         box2=new Box(2,2);
         box3=new Box(3,2);
-        workerUnderTest=new Worker(box2);
+        try {
+            workerUnderTest=new Worker(box2);
+        } catch (BoxAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
         box1.build();
         box1.build();
         try{box3.getTower().build(Block.DOME);}catch(TowerCompleteException e){}

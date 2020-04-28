@@ -54,4 +54,13 @@ public class Box {
         else return true;
     }
 
+
+
+    public boolean equals(Box b2)
+    {
+        if(b2.getCoord()[0]==this.getCoord()[0] &&b2.getCoord()[1]==this.getCoord()[1])
+            return true;
+        return false;
+    }
+
 }

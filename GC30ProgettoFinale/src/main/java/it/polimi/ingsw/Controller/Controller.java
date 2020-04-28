@@ -18,7 +18,8 @@ public class Controller implements Observer<Choice> {
     public Controller(Model model, int playerNumber) throws WrongNumberOfPlayersException
     {
         this.modelInstance = model;
-        context = new Context();
+        //!!-- ho aggiunto modelInstance così riuscivo a compilare--!!
+        context = new Context(modelInstance);
         if(playerNumber < 2 || playerNumber > 3)
         {
             throw new WrongNumberOfPlayersException("Wrong number of players passed to Controller");
@@ -75,6 +76,6 @@ public class Controller implements Observer<Choice> {
 
     public void update(Choice userChoice)
     {
-        context.update(userChoice, modelInstance);
+       // context.update(userChoice, modelInstance);
     }
 }

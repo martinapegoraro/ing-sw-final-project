@@ -90,4 +90,11 @@ public class BoxTest {
         assertTrue(testBox.isReachable(testBox2));
     }
 
+    @Test
+    public void equalsTest()
+    {
+        Box b2=new Box(0,0);
+        assertFalse(testBox.equals(b2));
+    }
+
 }
