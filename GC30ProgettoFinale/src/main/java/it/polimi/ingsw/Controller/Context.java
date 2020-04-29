@@ -31,7 +31,7 @@ public class Context {
 
 
 
-    public void stateChange()
+    private void stateChange()
     {
         State newState;
         switch(currentState.getID())
@@ -101,9 +101,10 @@ public class Context {
 
         currentState.update(userChoice, contextModel);
 
-        //Saving the Gods list activated in the current turn to simplify methods
+        //Saving the Gods list activated in the current turn to simplify methods, va messa
         for(Player player : playerList)
         {
+            //TODO: CHECK FOR EACH
             if(player.isGodActive())
             {
                 activeGods.add(player.getGod());
