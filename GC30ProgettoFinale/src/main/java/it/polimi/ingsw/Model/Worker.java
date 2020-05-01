@@ -55,7 +55,9 @@ public class Worker{
     {
         try {
             where.getTower().build(nextBlock);
-        } catch (TowerCompleteException e) {
+        }
+        catch (TowerCompleteException e) {
+            System.out.println(e.getMessage());
         }
     }
 

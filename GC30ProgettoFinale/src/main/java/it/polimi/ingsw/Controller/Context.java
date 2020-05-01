@@ -1,13 +1,10 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.Box;
+import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
 import it.polimi.ingsw.Model.Exceptions.BuildErrorException;
 import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
 import it.polimi.ingsw.Model.Exceptions.WrongChoiceTypeException;
-import it.polimi.ingsw.Model.GodsList;
-import it.polimi.ingsw.Model.Model;
-import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.View.Observer;
 
@@ -44,12 +41,13 @@ public class Context implements Observer<Choice> {
             case SetUp:
                 newState = new BeginTurnState();
                 switchState(newState);
+
             case BeginTurn:
                 newState = new ActivationGodState();
                 switchState(newState);
+
             case ActivationGod:
-                //Uso un metodo che calcola la lista di possibili mosse guardando quali divinità sono attive e
-                //chiamando al getPossibleMoves del Model
+
                 //I save the active Gods for this turn for easier access later
                 ArrayList<Player> playersList = (ArrayList<Player>)contextModel.getTurn().getPlayersList();
                 for(Player player : playersList)
@@ -59,9 +57,28 @@ public class Context implements Observer<Choice> {
                         activeGods.add(player.getGod());
                     }
                 }
-                Box moveTo = contextModel.getTurn().getCurrentPlayer().getSelectedWorker().getPosition();
-                newState = new MoveState(getPossibleMoveBoxes(moveTo), true, true);
+
+                //TODO:Nessun worker è ancora stato selezionato, come costruisco lo stato BuildState?
+                //Get worker cells and move boxes
+                ArrayList<Box> workerPositions = new ArrayList<>();
+                workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());
+                workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());
+
+                ArrayList<Box> possibleMoves = new ArrayList<>();
+                for(Box b: workerPositions)
+                {
+                    possibleMoves.addAll(getPossibleMoveBoxes(b));
+                }
+
+                //Define god flags to build state
+                boolean pushWorker, swapWorker;
+                pushWorker = false;
+                swapWorker = false;
+                if(activeGods.contains(GodsList.MINOTAUR)) pushWorker = true;
+                if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;
+                newState = new MoveState(possibleMoves, pushWorker, swapWorker);
                 switchState(newState);
+
             case CheckWinCondition:
             case Move:
             case Build:
@@ -78,28 +95,111 @@ public class Context implements Observer<Choice> {
 
 
 
-    //__________________________________State Construction Methods__________________________________________________
+    //________________________________________MOVE/BUILD METHODS__________________________________________________
 
 
     private ArrayList<Box> getPossibleMoveBoxes(Box currentCell)
     {
-        //Devo prendere la cella dalla quale effettuo lo spostamento
-        //Passarla alla getPossibleMoves() e poi aggiornare controllando quali god sono attivi
         ArrayList<Box> possibleMoves = (ArrayList<Box>)contextModel.getTurn().getPossibleMoves(currentCell);
-        //TODO: SCEGLIERE IL FLOW DEL CONTEXT
-        return null;
+
+        //Check god cards to first extend then contract list of boxes
+        //Gods activated by the active player
+        if(activeGods.contains(GodsList.APOLLO))
+        {
+            possibleMoves = apolloEffect(possibleMoves, currentCell);
+        }
+        else if(activeGods.contains(GodsList.MINOTAUR))
+        {
+            possibleMoves = minotaurEffect(possibleMoves, currentCell);
+        }
+
+        //Gods activated by another player
+        if(activeGods.contains(GodsList.ATHENA))
+        {
+            possibleMoves = athenaEffect(possibleMoves, currentCell);
+        }
+
+        return possibleMoves;
     }
 
     private ArrayList<Box> getPossibleBuildBoxes()
 
     {
+        Box currentCell = contextModel.getTurn().getCurrentPlayer().getSelectedWorker().getPosition();
+        ArrayList<Box> possibleBuildBoxes = (ArrayList<Box>)contextModel.getTurn().getPossibleBuildLocations(currentCell);
+
+        //Check god cards to first extend then contract list of boxes
+
+
+        return possibleBuildBoxes;
+    }
+
+
+    //______________________________________________GOD EFFECTS METHODS_______________________________________________
+
+
+    private ArrayList<Box> apolloEffect(ArrayList<Box> basicMoves, Box b)
+    {
+        ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
+        
+        for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {
+            if(cell.isOccupied() && cell.isReachable(b))
+            {
+                godMoves.add(cell);
+            }
+        }
+
+        return godMoves;
+    }
+
+    //REQUIRES: athenaCondition == true on the player who activated the card
+    private ArrayList<Box> athenaEffect(ArrayList<Box> basicMoves, Box b)
+    {
+        //Prevents the player from moving up
+        ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
+        
+        for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {
+            if(b.getTower().getHeight() < cell.getTower().getHeight())
+            {
+                godMoves.remove(cell);
+            }
+        }
+
+        return godMoves;
+    }
+
+    private void artemisEffect()
+    {
+
+    }
+
+    private ArrayList<Box> atlasEffect(ArrayList<Box> basicBuildBoxes, Box b)
+    {
         return null;
     }
 
+    private void demeterEffect()
+    {
+
+    }
 
     private void hephaestusEffect()
     {
 
+    }
+
+    private ArrayList<Box> minotaurEffect(ArrayList<Box> basicMoves, Box b)
+    {
+        ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
+        
+        for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {
+            if(cell.isOccupied() && cell.isReachable(b))
+            {
+                godMoves.add(cell);
+            }
+        }
+
+        return godMoves;
     }
 
     public void update(Choice userChoice) throws NullPointerException
