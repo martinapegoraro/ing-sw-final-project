@@ -4,7 +4,7 @@ import it.polimi.ingsw.View.Observable;
 
 import java.util.List;
 
-public class Model extends Observable {
+public class Model extends Observable<ModelRepresentation> {
     private Turn turn;
     private int playerNum;
     private ModelRepresentation modelRep;
@@ -12,15 +12,27 @@ public class Model extends Observable {
     {
         turn=new Turn(playersNamesList);
         playerNum=playersNamesList.size();
-        modelRep=createModelRep();
+        //I create a new modelRep based on the current status of the model
+        updateModelRep();
     }
     public Turn getTurn()
     {
         return turn;
     }
 
-    public ModelRepresentation createModelRep()
+    public  ModelRepresentation getModelRep()
     {
-        return new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList());
+        return modelRep;
+    }
+
+    public void updateModelRep()
+    {
+        modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList());
+        notify(modelRep);
+    }
+
+    @Override
+    public void notify(ModelRepresentation message) {
+        super.notify(message);
     }
 }

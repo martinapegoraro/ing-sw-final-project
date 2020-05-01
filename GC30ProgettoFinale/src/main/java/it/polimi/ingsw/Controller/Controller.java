@@ -77,5 +77,6 @@ public class Controller implements Observer<Choice> {
     public void update(Choice userChoice)
     {
        // context.update(userChoice, modelInstance);
+        //TODO: Check if player sending message is active player
     }
 }

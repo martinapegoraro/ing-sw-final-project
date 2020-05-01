@@ -1,9 +1,13 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Model.Box;
+import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
+import it.polimi.ingsw.Model.Exceptions.WrongChoiceTypeException;
 import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,20 +15,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class SetUpState implements State{
-    private int numberOfPlayers;
-    private int stateID;
-    private boolean hasFinished;
 
-    public SetUpState(int n, Model model)
+    private StateEnum stateID;
+    private boolean hasFinished;
+    private ArrayList<Box> boxList = new ArrayList<>();
+
+    public SetUpState(Model model)
     {
-        stateID = 0;
-        numberOfPlayers = n;
+        stateID = StateEnum.SetUp;
         hasFinished = false;
         startup(model);
     }
 
     @Override
-    public int getID()
+    public StateEnum getID()
     {
         return stateID;
     }
@@ -38,6 +42,12 @@ public class SetUpState implements State{
         {
             playerList.get(n).setGodCard(godsList.get(n));
         }
+
+        //Sets active player
+        playerList.get(0).setPlayerActive(true);
+
+        //Notify VirtualView
+        model.updateModelRep();
     }
 
     @Override
@@ -55,8 +65,48 @@ public class SetUpState implements State{
     }
 
     @Override
-    public void update(Choice userChoice, Model model)
+    public void update(Choice userChoice, Model model) throws WrongChoiceTypeException,BoxAlreadyOccupiedException
     {
+        Player actingPlayer;
+        SelectWorkerCellChoice castedChoice;
+        ArrayList<Player> playerList = (ArrayList<Player>) model.getTurn().getPlayersList();
+        actingPlayer = playerList.get(userChoice.getId());
 
+        if(userChoice instanceof SelectWorkerCellChoice)
+        {
+            castedChoice = (SelectWorkerCellChoice)userChoice;
+            Box selectedCell;
+            //Initialize worker in the selected position if the cell is free
+            selectedCell = model.getTurn().getBoardInstance().getBox(castedChoice.x, castedChoice.y);
+
+            if(selectedCell.isOccupied())
+            {
+                throw new BoxAlreadyOccupiedException("Another worker already occupies this Box!");
+            }
+            else
+                {
+                    boxList.add(selectedCell);
+                }
+
+            if(boxList.size() == 2){
+                actingPlayer.setWorkersPosition(boxList.get(0), boxList.get(1));
+                boxList.clear();
+
+                //Exits out of SetUpState if the actingPlayer is the last
+                if(actingPlayer == playerList.get(playerList.size()-1))
+                {
+                    hasFinished = true;
+                }
+
+                model.getTurn().setNextPlayer();
+                model.updateModelRep();
+
+            }
+        }
+        else
+            {
+                throw new WrongChoiceTypeException("Wrong Choice Type! Expected: SelectWorkerCellChoice," +
+                        "Received: "+ userChoice.toString());
+            }
     }
 }

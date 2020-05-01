@@ -1,13 +1,19 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.Box;
+import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
+import it.polimi.ingsw.Model.Exceptions.BuildErrorException;
+import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
+import it.polimi.ingsw.Model.Exceptions.WrongChoiceTypeException;
 import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.View.Observer;
+
 import java.util.ArrayList;
 
-public class Context {
+public class Context implements Observer<Choice> {
     private State currentState;
     private int numberofPlayers;
     private Model contextModel;
@@ -19,7 +25,7 @@ public class Context {
         {
             throw new NullPointerException("Model can't be null when linking Context!");
         }
-        currentState = new SetUpState(numberofPlayers, model);
+        currentState = new SetUpState(model);
         numberofPlayers = 0;
         contextModel = model;
         activeGods = new ArrayList<GodsList>();
@@ -30,30 +36,38 @@ public class Context {
 
 
 
-
     private void stateChange()
     {
         State newState;
         switch(currentState.getID())
         {
-            case 0:
+            case SetUp:
                 newState = new BeginTurnState();
                 switchState(newState);
-            case 1:
+            case BeginTurn:
                 newState = new ActivationGodState();
                 switchState(newState);
-            case 2:
+            case ActivationGod:
                 //Uso un metodo che calcola la lista di possibili mosse guardando quali divinità sono attive e
                 //chiamando al getPossibleMoves del Model
-                //TODO: IMPLEMENTARE LOGICA CAMBIO STATO
+                //I save the active Gods for this turn for easier access later
+                ArrayList<Player> playersList = (ArrayList<Player>)contextModel.getTurn().getPlayersList();
+                for(Player player : playersList)
+                {
+                    if(player.isGodActive())
+                    {
+                        activeGods.add(player.getGod());
+                    }
+                }
                 Box moveTo = contextModel.getTurn().getCurrentPlayer().getSelectedWorker().getPosition();
                 newState = new MoveState(getPossibleMoveBoxes(moveTo), true, true);
                 switchState(newState);
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
+            case CheckWinCondition:
+            case Move:
+            case Build:
+            case EndTurn:
+                newState = new BeginTurnState();
+                switchState(newState);
         }
     }
 
@@ -94,21 +108,24 @@ public class Context {
         {
             throw new NullPointerException("Null pointer on model or userChoice!");
         }
-        Player actingPlayer;
+        /*Player actingPlayer;
         ArrayList<Player> playerList = (ArrayList<Player>) contextModel.getTurn().getPlayersList();
-        actingPlayer = playerList.get(userChoice.getId());
-        //TODO: Aggiungere controlli sui messaggi girati dai player
+        actingPlayer = playerList.get(userChoice.getId());*/
 
-        currentState.update(userChoice, contextModel);
 
-        //Saving the Gods list activated in the current turn to simplify methods, va messa
-        for(Player player : playerList)
+        //Handle choice errors
+        try
         {
-            //TODO: CHECK FOR EACH
-            if(player.isGodActive())
-            {
-                activeGods.add(player.getGod());
-            }
+            currentState.update(userChoice, contextModel);
+        }
+        catch(WrongChoiceTypeException ex)
+        {
+            //TODO: Creare messaggi da resituire al Client
+            System.out.println(ex.getMessage());
+        }
+        catch (MoveErrorException | BoxAlreadyOccupiedException | BuildErrorException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         //Check if the state has completed it's task

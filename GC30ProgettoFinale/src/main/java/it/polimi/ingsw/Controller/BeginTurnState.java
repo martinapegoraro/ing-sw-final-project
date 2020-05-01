@@ -4,16 +4,16 @@ import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.Choice;
 
 public class BeginTurnState implements State {
-    private int stateID;
+    private StateEnum stateID;
     private boolean hasFinished;
 
     public BeginTurnState()
     {
-        stateID = 1;
+        stateID = StateEnum.BeginTurn;
     }
 
     @Override
-    public int getID()
+    public StateEnum getID()
     {
         return stateID;
     }
