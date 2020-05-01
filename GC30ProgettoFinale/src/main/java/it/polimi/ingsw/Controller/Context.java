@@ -36,6 +36,9 @@ public class Context implements Observer<Choice> {
     private void stateChange()
     {
         State newState;
+        //Saves
+        ArrayList<Box> workerPositions = new ArrayList<>();
+
         switch(currentState.getID())
         {
             case SetUp:
@@ -60,7 +63,6 @@ public class Context implements Observer<Choice> {
 
                 //TODO:Nessun worker è ancora stato selezionato, come costruisco lo stato BuildState?
                 //Get worker cells and move boxes
-                ArrayList<Box> workerPositions = new ArrayList<>();
                 workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());
                 workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());
 
@@ -81,6 +83,25 @@ public class Context implements Observer<Choice> {
 
             case CheckWinCondition:
             case Move:
+
+                //Get worker cells and move boxes
+                workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());
+                workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());
+
+                ArrayList<Box> possibleBuildList = new ArrayList<>();
+
+                for(Box b: workerPositions)
+                {
+                    possibleBuildList.addAll(getPossibleBuildBoxes(b));
+                }
+
+                //Initialize god flags
+                boolean domeAtAnyLevel = false;
+                if(activeGods.contains(GodsList.ATLAS)) domeAtAnyLevel = true;
+
+                newState = new BuildState(possibleBuildList, domeAtAnyLevel);
+                switchState(newState);
+
             case Build:
             case EndTurn:
                 newState = new BeginTurnState();
@@ -122,10 +143,9 @@ public class Context implements Observer<Choice> {
         return possibleMoves;
     }
 
-    private ArrayList<Box> getPossibleBuildBoxes()
+    private ArrayList<Box> getPossibleBuildBoxes(Box currentCell)
 
     {
-        Box currentCell = contextModel.getTurn().getCurrentPlayer().getSelectedWorker().getPosition();
         ArrayList<Box> possibleBuildBoxes = (ArrayList<Box>)contextModel.getTurn().getPossibleBuildLocations(currentCell);
 
         //Check god cards to first extend then contract list of boxes
