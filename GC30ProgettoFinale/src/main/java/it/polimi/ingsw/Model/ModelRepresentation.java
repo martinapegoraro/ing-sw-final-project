@@ -73,4 +73,39 @@ public class ModelRepresentation {
             activeGodsList[i] = players.get(i).isGodActive();
         }
     }
+
+    public int[][] getWorkerPosition()
+    {
+        return workerposition;
+    }
+
+    public int[][] getTowerPosition()
+    {
+        return towerposition;
+    }
+
+    public String[] getGodList()
+    {
+        return godList;
+    }
+
+    public String[] getPlayersName()
+    {
+        return playersName;
+    }
+
+    public int getPlayerNum()
+    {
+        return playerNum;
+    }
+
+    public int getActivePlayer()
+    {
+        return activePlayer;
+    }
+
+    public boolean[] getActiveGodsList()
+    {
+        return activeGodsList;
+    }
 }

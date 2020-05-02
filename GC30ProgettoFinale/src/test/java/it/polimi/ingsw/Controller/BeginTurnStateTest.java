@@ -8,12 +8,12 @@ import static org.junit.Assert.*;
 public class BeginTurnStateTest {
     BeginTurnState beginTurnStateTest;
     @Before
-    public void initializeState() {beginTurnStateTest = new BeginTurnState()}
+    public void initializeState() {beginTurnStateTest = new BeginTurnState();}
 
     @Test
     public void getID()
     {
-
+        assertEquals(1, beginTurnStateTest.getID());
     }
 
 
@@ -21,7 +21,6 @@ public class BeginTurnStateTest {
     @Test
     public void hasFinished()
     {
-        beginTurnStateTest.hasFinished() = false;
         assertFalse(beginTurnStateTest.hasFinished());
     }
 }

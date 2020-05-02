@@ -20,7 +20,6 @@ public class ActivationGodStateTest {
     @Test
     public void hasFinished()
     {
-        activationGodStateTest.hasFinished() = false;
         assertFalse(activationGodStateTest.hasFinished());
     }
 }

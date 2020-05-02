@@ -9,7 +9,9 @@ public class BeginTurnState implements State {
 
     public BeginTurnState()
     {
+
         stateID = StateEnum.BeginTurn;
+        hasFinished = false;
     }
 
     @Override

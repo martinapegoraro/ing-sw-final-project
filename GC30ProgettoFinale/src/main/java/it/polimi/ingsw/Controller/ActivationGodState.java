@@ -10,6 +10,7 @@ public class ActivationGodState implements State {
     public ActivationGodState()
     {
         stateID = 2;
+        hasFinished = false;
     }
 
     @Override
