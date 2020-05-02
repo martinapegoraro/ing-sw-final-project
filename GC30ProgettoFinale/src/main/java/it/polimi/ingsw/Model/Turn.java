@@ -52,7 +52,7 @@ public class Turn {
     public void addPlayer(String name)throws ImpossibleAddAnotherPlayerException
     {
         if(listaGiocatori.size()<3)
-            listaGiocatori.add(new Player(listaGiocatori.size(),name));
+            listaGiocatori.add(new Player(listaGiocatori.size()-1,name));
         else
             throw new ImpossibleAddAnotherPlayerException("max number of players already reached");
     }
@@ -83,6 +83,11 @@ public class Turn {
     public List<Player> getPlayersList()
     {
         return listaGiocatori;
+    }
+
+    public Player getPlayer(int id)
+    {
+        return listaGiocatori.get(id);
     }
 
 }

@@ -14,6 +14,7 @@ public class Player {
     private boolean godActive;
     private boolean athenaCondition;
     private Worker selectedWorker;
+    private boolean hasLost;
 
     public Player(int n, String name)
     {
@@ -26,6 +27,7 @@ public class Player {
         athenaCondition=false;
         isActive=false;
         selectedWorker = null;
+        hasLost = false;
     }
 
     public boolean isPlayerActive()
@@ -119,6 +121,16 @@ public class Player {
             System.out.println("Indice scorretto passato a setSelectedWorker!");
         }
 
+    }
+
+    public boolean getHasLost()
+    {
+        return hasLost;
+    }
+
+    public void setHasLost()
+    {
+        hasLost = true;
     }
 
 

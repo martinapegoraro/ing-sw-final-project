@@ -10,6 +10,7 @@ public class ModelRepresentation {
     public int playerNum;
     public int activePlayer;
     public boolean[] activeGodsList;
+    public int[][] activeCells;
 
     public ModelRepresentation(Board instance, List<Player> players)
     {
