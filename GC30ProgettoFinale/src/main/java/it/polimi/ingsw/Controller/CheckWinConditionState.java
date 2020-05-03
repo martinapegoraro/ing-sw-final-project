@@ -5,14 +5,17 @@ import it.polimi.ingsw.Utils.Choice;
 
 public class CheckWinConditionState implements State{
     private boolean hasFinished;
+    StateEnum stateId;
 
     public CheckWinConditionState()
     {
+        stateId = StateEnum.CheckWinCondition;
         hasFinished = false;
     }
+
     @Override
-    public int getID() {
-        return 0;
+    public StateEnum getID() {
+        return stateId;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
+import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
 import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,9 +38,18 @@ public class WorkerTest {
     @Test()
     public void allowedMovementTest()
     {
-        workerUnderTest.move(new Box(1,2));
-        assertEquals(1,workerUnderTest.getPosition().getCoord()[0]);
-        assertEquals(2,workerUnderTest.getPosition().getCoord()[1]);
+        try
+        {
+            workerUnderTest.move(new Box(1,2));
+            assertEquals(1,workerUnderTest.getPosition().getCoord()[0]);
+            assertEquals(2,workerUnderTest.getPosition().getCoord()[1]);
+        }
+        catch(MoveErrorException ex)
+        {
+            System.out.println(ex.getMessage());
+            System.out.println(ex.getStackTrace().toString());
+        }
+
 
     }
 

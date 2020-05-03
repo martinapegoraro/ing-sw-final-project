@@ -4,17 +4,17 @@ import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.Choice;
 
 public class ActivationGodState implements State {
-    int stateID;
+    StateEnum stateID;
     private boolean hasFinished;
 
     public ActivationGodState()
     {
-        stateID = 2;
+        stateID = StateEnum.ActivationGod;
         hasFinished = false;
     }
 
     @Override
-    public int getID()
+    public StateEnum getID()
     {
         return stateID;
     }

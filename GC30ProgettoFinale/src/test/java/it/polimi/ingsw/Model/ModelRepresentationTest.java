@@ -4,10 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -23,7 +20,7 @@ public class ModelRepresentationTest {
     {
         player1 = new Player(1, "Anna");
         player2 = new Player (2, "Marco");
-        players = new List<Player>();
+        players = new ArrayList<Player>();
         b1= new Box(1,2);
         b2 = new Box (3,3);
         b3 = new Box (2,5);
@@ -40,7 +37,8 @@ public class ModelRepresentationTest {
         player2.setGodActive(false);
         b5.build();
         b6.build();
-        modelRepresentationTest = new ModelRepresentation(boardTest, players);
+        int[][] selectedCells = new int[5][5];
+        modelRepresentationTest = new ModelRepresentation(boardTest, players, selectedCells);
     }
 
     @Test
