@@ -14,20 +14,22 @@ import java.util.ArrayList;
 
 public class MoveState implements State {
     private StateEnum stateID;
-    private ArrayList<Box> possibleMovesList;
+    private ArrayList<Box> possibleMovesWorker0;
+    private ArrayList<Box> possibleMovesWorker1;
     private boolean swapWorkerPosition;
     private boolean pushWorkerBack;
     private boolean hasFinished;
 
-    public MoveState(ArrayList<Box> possibleMoves, boolean pushWorker, boolean swapWorker, Model model)
+    public MoveState(ArrayList<Box> possibleMovesby0,ArrayList<Box> possibleMovesby1, boolean pushWorker, boolean swapWorker, Model model)
     {
         //If possibleMoves is empty the player has lost
-        if(possibleMoves.isEmpty())
+        if(possibleMovesby0.isEmpty() && possibleMovesby1.isEmpty())
         {
             playerHasLost(model);
         }
 
-        possibleMovesList = possibleMoves;
+        possibleMovesWorker0 = possibleMovesby0;
+        possibleMovesWorker1 = possibleMovesby1;
         pushWorkerBack = pushWorker;
         swapWorkerPosition = swapWorker;
         hasFinished = false;
@@ -71,10 +73,13 @@ public class MoveState implements State {
                 if(actingPlayer.getWorkerList().get(0).getPosition() == workerBox)
                 {
                     actingPlayer.setSelectedWorker(0);
+                    model.updateModelRep(possibleMovesWorker0);
+
                 }
                 else if(actingPlayer.getWorkerList().get(1).getPosition() == workerBox)
                 {
                     actingPlayer.setSelectedWorker(1);
+                    model.updateModelRep(possibleMovesWorker1);
                 }
                 else
                     {
@@ -90,6 +95,42 @@ public class MoveState implements State {
         }
         else if(userChoice instanceof MoveChoice)
         {
+            MoveChoice currentChoice;
+            currentChoice = (MoveChoice)userChoice;
+            Box b;
+            b = model.getTurn().getBoardInstance().getBox(currentChoice.x,currentChoice.y);
+
+            //Check which worker is currently active and if selected cell is compatible with worker
+            //Otherwise ignores the choice
+            if(
+                    (possibleMovesWorker0.contains(b) && actingPlayer.getSelectedWorker() == actingPlayer.getWorkerList().get(0))
+                    ||
+                    (possibleMovesWorker1.contains(b) && actingPlayer.getSelectedWorker() == actingPlayer.getWorkerList().get(1)))
+            {
+                try
+                {
+                    actingPlayer.getSelectedWorker().move(b);
+                    model.updateModelRep();
+                    hasFinished = true;
+                }
+                catch (MoveErrorException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+                catch (NullPointerException ex)
+                {
+                    System.out.println("No selected worker!");
+                }
+                finally
+                {
+                    actingPlayer.setSelectedWorker(null);
+                }
+            }
+            else
+                {
+                    //The box is not a valid move
+                    throw new MoveErrorException("The move received is unvalid!");
+                }
 
         }
         else

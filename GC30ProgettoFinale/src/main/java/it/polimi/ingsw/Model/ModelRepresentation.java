@@ -10,10 +10,13 @@ public class ModelRepresentation {
     public int playerNum;
     public int activePlayer;
     public boolean[] activeGodsList;
+    //activeCells is used to show clients which moves are possible highlighting the spaces
+    //0 means the box is not selected
     public int[][] activeCells;
 
-    public ModelRepresentation(Board instance, List<Player> players)
+    public ModelRepresentation(Board instance, List<Player> players, int[][] selectedCells)
     {
+        activeCells = selectedCells.clone();
         workerposition = new int [5][5]; //matrice contentente -1 dove non è presente un worker, 0 dove è presente
         for (int i = 0; i<=5; i++)
         {

@@ -9,6 +9,7 @@ public class BuildChoice extends Choice {
     {
         this.x = x;
         this.y = y;
+        this.type = "BuildChoice";
     }
 
 

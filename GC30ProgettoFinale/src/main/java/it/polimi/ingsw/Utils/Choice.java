@@ -2,6 +2,7 @@ package it.polimi.ingsw.Utils;
 
 public abstract class Choice {
     private int playerId;
+    public String type;
 
     public int getId()
     {
@@ -13,5 +14,11 @@ public abstract class Choice {
         playerId = id;
     }
 
+    @Override
+
+    public String toString()
+    {
+        return type;
+    }
 
 }

@@ -8,5 +8,6 @@ public class SelectWorkerCellChoice extends Choice {
     {
         this.x = x;
         this.y = y;
+        this.type = "SelectWorkerCellChoice";
     }
 }

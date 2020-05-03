@@ -5,5 +5,6 @@ public class PlayerNumberChoice extends Choice {
     public PlayerNumberChoice(int pN)
     {
         playerNumber = pN;
+        this.type = "PlayerNumberChoice";
     }
 }

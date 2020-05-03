@@ -3,7 +3,9 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.Exceptions.ImpossibleAddAnotherPlayerException;
 import it.polimi.ingsw.Model.Exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.Model.Model;
+import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.GodActivationChoice;
 import it.polimi.ingsw.View.Observer;
 import it.polimi.ingsw.View.VirtualView;
 
@@ -28,33 +30,6 @@ public class Controller implements Observer<Choice> {
         playerNum = playerNumber;
     }
 
-    public void addPlayer(String p, int ID)
-    {
-
-        try
-        {
-            modelInstance.getTurn().addPlayer(p); //TODO: ID here?
-        }
-        catch(ImpossibleAddAnotherPlayerException ex)
-        {
-            System.out.println(ex.getMessage());
-            return;
-        }
-
-        //The player was correctly added
-        playerNum++;
-
-
-    }
-
-    //Players can leave only before a game is started, if a match is in progress the Player entity will not be
-    //deleted until the end (the Player inputs will be ignored)
-    public void playerLeaves(String p)
-    {
-        //TODO: Method has to be implemented in Turn
-        playerNum--;
-    }
-
     /**public void playerNumSet(int n)
     {
         this.playerNum = n;
@@ -77,7 +52,24 @@ public class Controller implements Observer<Choice> {
     public void update(Choice userChoice)
     {
         //context.update(userChoice, modelInstance);
-        context.update(userChoice);
-        //TODO: Check if player sending message is active player
+        Player actingPlayer = modelInstance.getTurn().getPlayer(userChoice.getId());
+
+        //Check if the choice is valid, invalid choices are not passed to Context
+        if(!actingPlayer.getHasLost())
+        {
+            if(actingPlayer.isPlayerActive() || userChoice instanceof GodActivationChoice)
+            {
+                //God choices are in sync for all the players
+                context.update(userChoice);
+            }
+            else
+                {
+                    System.out.println("Choice sent by inactive player, choice type: "+ userChoice.toString());
+                }
+        }
+        else
+            {
+                System.out.println("Choice sent by player who has lost, choice type: " + userChoice.toString());
+            }
     }
 }

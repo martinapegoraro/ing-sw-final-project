@@ -8,5 +8,6 @@ public class InitialPositionChoice extends Choice {
     {
         this.x = x;
         this.y = y;
+        this.type = "InitialPositionChoice";
     }
 }

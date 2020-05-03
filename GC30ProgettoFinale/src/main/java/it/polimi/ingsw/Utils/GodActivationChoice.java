@@ -7,6 +7,7 @@ public class GodActivationChoice extends Choice {
     public GodActivationChoice(boolean active)
     {
         godActive = active;
+        this.type = "GodActivationChoice";
     }
 
 }

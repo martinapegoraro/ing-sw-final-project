@@ -8,5 +8,6 @@ public class MoveChoice extends Choice {
     {
         this.x = x;
         this.y = y;
+        this.type = "MoveChoice";
     }
 }

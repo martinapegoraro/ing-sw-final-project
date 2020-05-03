@@ -61,16 +61,12 @@ public class Context implements Observer<Choice> {
                     }
                 }
 
-                //TODO:Nessun worker è ancora stato selezionato, come costruisco lo stato BuildState?
                 //Get worker cells and move boxes
                 workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());
                 workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());
 
-                ArrayList<Box> possibleMoves = new ArrayList<>();
-                for(Box b: workerPositions)
-                {
-                    possibleMoves.addAll(getPossibleMoveBoxes(b));
-                }
+                ArrayList<Box> possibleMovesWorker0 = new ArrayList<>(getPossibleMoveBoxes(workerPositions.get(0)));
+                ArrayList<Box> possibleMovesWorker1 = new ArrayList<>(getPossibleMoveBoxes(workerPositions.get(1)));
 
                 //Define god flags to build state
                 boolean pushWorker, swapWorker;
@@ -78,7 +74,7 @@ public class Context implements Observer<Choice> {
                 swapWorker = false;
                 if(activeGods.contains(GodsList.MINOTAUR)) pushWorker = true;
                 if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;
-                newState = new MoveState(possibleMoves, pushWorker, swapWorker);
+                newState = new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, contextModel);
                 switchState(newState);
 
             case CheckWinCondition:

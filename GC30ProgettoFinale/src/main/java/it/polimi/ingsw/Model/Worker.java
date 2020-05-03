@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
+import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
 import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
 
 public class Worker{
@@ -25,12 +26,19 @@ public class Worker{
         updatePosition();
     }
 
-    public void move(Box to)
+    public void move(Box to) throws MoveErrorException
     {
-        //controllare se la cella passata è corretta o partiamo dal
-        // presupposto che le celle passate siano sempre corrette?
-        position = to;
-        updatePosition();
+        if(position.isAdjacent(to))
+        {
+            position = to;
+            updatePosition();
+        }
+        else
+            {
+                position = to;
+                updatePosition();
+                throw new MoveErrorException("WARNING: Box selected for Move is not Adjacent to current Worker!");
+            }
     }
     public Box getPosition()
     {
