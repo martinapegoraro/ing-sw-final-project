@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ModelRepresentation {
     public int[][] workerposition;
-    public int[][] towerposition;
+    public int[][] towerposition; //TODO: Aggiungere altezza torri oltre alla posizione
     public String[] godList;
     public String[] playersName;
     public int playerNum;
