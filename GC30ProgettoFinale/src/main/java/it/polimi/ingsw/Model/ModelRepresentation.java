@@ -16,11 +16,13 @@ public class ModelRepresentation {
 
     public ModelRepresentation(Board instance, List<Player> players, int[][] selectedCells)
     {
+        playerNum = players.size();
+
         activeCells = selectedCells.clone();
         workerposition = new int [5][5]; //matrice contentente -1 dove non è presente un worker, 0 dove è presente
-        for (int i = 0; i<=5; i++)
+        for (int i = 0; i<=4; i++)
         {
-            for (int k = 0; k<=5; k++)
+            for (int k = 0; k<=4; k++)
             {
                 workerposition[i][k] = -1;
 
@@ -29,16 +31,20 @@ public class ModelRepresentation {
         for (Player player : players) {
             List<Worker> workers = player.getWorkerList();
             for (Worker worker : workers) {
-                int[] casella= worker.getPosition().getCoord();
-                workerposition[casella[0]][casella[1]] = 0;
+               //when the modelRep is created for the first time the workers aren't declared yet,
+                //so the worker position matrix remains of all -1
+                if(worker!=null) {
+                    int[] casella = worker.getPosition().getCoord();
+                    workerposition[casella[0]][casella[1]] = 0;
+                }
 
             }
         }
 
-       towerposition = new int[5][5]; // come worker position ma con le torri
-        for (int i = 0; i<=5; i++)
+        towerposition = new int[5][5]; // come worker position ma con le torri
+        for (int i = 0; i<=4; i++)
         {
-            for (int k = 0; k<=5; k++)
+            for (int k = 0; k<=4; k++)
             {
                 if (instance.getBox(i,k).getTower() !=  null )
                 {
@@ -52,16 +58,19 @@ public class ModelRepresentation {
         godList = new String[playerNum];
         for (int i =0; i < players.size(); i++)
         {
-            godList[i] = players.get(i).getGod().getName();
+            //as the workers list the first time the god instances are null
+            if(players.get(i).getGod()!=null) {
+                godList[i] = players.get(i).getGod().getName();
+            }
         }
 
         playersName = new String[playerNum];
-        for (int i = 0; i< players.size(); i++)
+        for (int i = 0; i<players.size(); i++)
         {
             playersName[i] = players.get(i).getPlayerName();
         }
 
-        playerNum = players.size();
+
 
         for(Player player : players)
         {
