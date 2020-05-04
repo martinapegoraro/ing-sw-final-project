@@ -4,12 +4,13 @@ import java.util.List;
 
 public class ModelRepresentation {
     public int[][] workerposition;
-    public int[][] towerposition; //TODO: Aggiungere altezza torri oltre alla posizione
+    public int[][] towerposition;
     public String[] godList;
     public String[] playersName;
     public int playerNum;
     public int activePlayer;
     public boolean[] activeGodsList;
+    public String[][] lastBlock;
     //activeCells is used to show clients which moves are possible highlighting the spaces
     //0 means the box is not selected
     public int[][] activeCells;
@@ -17,11 +18,12 @@ public class ModelRepresentation {
     public ModelRepresentation(Board instance, List<Player> players, int[][] selectedCells)
     {
         playerNum = players.size();
+
         activeCells = selectedCells.clone();
-        workerposition = new int [5][5]; //matrice contentente -1 dove non è presente un worker, 0 dove è presente
-        for (int i = 0; i<5; i++)
+        workerposition = new int [5][5]; //matrix contains -1 when no worker is present, 0 when a worker is present
+        for (int i = 0; i<=4; i++)
         {
-            for (int k = 0; k<5; k++)
+            for (int k = 0; k<=4; k++)
             {
                 workerposition[i][k] = -1;
 
@@ -30,22 +32,27 @@ public class ModelRepresentation {
         for (Player player : players) {
             List<Worker> workers = player.getWorkerList();
             for (Worker worker : workers) {
-                int[] casella= worker.getPosition().getCoord();
-                workerposition[casella[0]][casella[1]] = 0;
+               //when the modelRep is created for the first time the workers aren't declared yet,
+                //so the worker position matrix remains of all -1
+                if(worker!=null) {
+                    int[] casella = worker.getPosition().getCoord();
+                    workerposition[casella[0]][casella[1]] = 0;
+                }
 
             }
         }
 
-        towerposition = new int[5][5]; // come worker position ma con le torri
-        for (int i = 0; i<5; i++)
+        towerposition = new int[5][5]; // matrix contains -1 when no tower is present
+                                        //when a tower is present, it contains the height of the tower
+        for (int i = 0; i<=4; i++)
         {
-            for (int k = 0; k<5; k++)
+            for (int k = 0; k<=4; k++)
             {
-                if (instance.getBox(i,k).getTower().getHeight() == 0)
+                if (instance.getBox(i,k).getTower() !=  null )
                 {
-                    towerposition [i][k] = -1;
+                    towerposition [i][k] = instance.getBox(i,k).getTower().getHeight();
                 }
-                else towerposition[i][k] = 0;
+                else towerposition[i][k] = -1;
 
             }
         }
@@ -53,16 +60,19 @@ public class ModelRepresentation {
         godList = new String[playerNum];
         for (int i =0; i < players.size(); i++)
         {
-            godList[i] = players.get(i).getGod().getName();
+            //as the workers list the first time the god instances are null
+            if(players.get(i).getGod()!=null) {
+                godList[i] = players.get(i).getGod().getName();
+            }
         }
 
         playersName = new String[playerNum];
-        for (int i = 0; i< players.size(); i++)
+        for (int i = 0; i<players.size(); i++)
         {
             playersName[i] = players.get(i).getPlayerName();
         }
 
-        playerNum = players.size();
+
 
         for(Player player : players)
         {
@@ -77,6 +87,27 @@ public class ModelRepresentation {
         {
             activeGodsList[i] = players.get(i).isGodActive();
         }
+
+        lastBlock = new String[5][5];
+
+        for (int i = 0; i<=4; i++)
+        {
+            for (int k = 0; k<=4; k++)
+            {
+                if (instance.getBox(i,k).getTower() !=  null )
+                {
+                    if (instance.getBox(i,k).getTower().getHeight() == 1) {lastBlock[i][k] = "Level 1";}
+                    if (instance.getBox(i,k).getTower().getHeight() == 2) {lastBlock[i][k] = "Level 2";}
+                    if (instance.getBox(i,k).getTower().getHeight() == 3) {lastBlock[i][k] = "Level 3";}
+                    if (instance.getBox(i,k).getTower().getHeight() == 4) {lastBlock[i][k] = "Dome";}
+
+                }
+                else lastBlock[i][k] = null;
+
+            }
+        }
+
+
     }
 
     public int[][] getWorkerPosition()
@@ -112,5 +143,9 @@ public class ModelRepresentation {
     public boolean[] getActiveGodsList()
     {
         return activeGodsList;
+    }
+    public String[][] getLastBlock()
+    {
+        return lastBlock;
     }
 }

@@ -11,7 +11,7 @@ public class Box {
     public Box(int coordX, int coordY)
     {
         occupied=false;
-        tower=new Tower();
+        tower=null;
         x = coordX;
         y = coordY;
     }
@@ -19,6 +19,15 @@ public class Box {
     public boolean isOccupied()
     {
         return occupied;
+    }
+
+    public void setOccupied()
+    {
+        occupied=true;
+    }
+    public void setNotOccupied()
+    {
+        occupied=false;
     }
 
     public Tower getTower()

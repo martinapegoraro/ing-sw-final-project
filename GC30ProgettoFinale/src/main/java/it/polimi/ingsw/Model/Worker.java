@@ -23,6 +23,7 @@ public class Worker{
         }
 
         position = b;
+        position.setOccupied();
         updatePosition();
     }
 
@@ -30,13 +31,15 @@ public class Worker{
     {
         if(position.isAdjacent(to))
         {
+            position.setNotOccupied();
             position = to;
+            position.setOccupied();
             updatePosition();
         }
         else
             {
-                position = to;
-                updatePosition();
+                //position = to;
+                //updatePosition();
                 throw new MoveErrorException("WARNING: Box selected for Move is not Adjacent to current Worker!");
             }
     }

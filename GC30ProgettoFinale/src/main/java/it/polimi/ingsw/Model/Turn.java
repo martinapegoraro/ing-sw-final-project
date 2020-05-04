@@ -21,15 +21,20 @@ public class Turn {
                 break;
             }
         }
-        setNextPlayer();
+        listaGiocatori.get(0).setPlayerActive(true);
     }
 
     public void setNextPlayer()
     {
+        nTurn++;
+        int turnoDi=nTurn%listaGiocatori.size();
         for (Player p:listaGiocatori) {
             p.setPlayerActive(false);
         }
-        listaGiocatori.get(nTurn%listaGiocatori.size()).setPlayerActive(true);
+        while(listaGiocatori.get(turnoDi).getHasLost())
+           turnoDi=(turnoDi+1)%listaGiocatori.size();
+        listaGiocatori.get(turnoDi).setPlayerActive(true);
+
     }
 
     public Player getCurrentPlayer()
@@ -61,9 +66,10 @@ public class Turn {
     public List<Box> getPossibleMoves(Box b)
     {
         List<Box> lista=new ArrayList<Box>();
-        for (Box cell:boardInstance.getBorderBoxes(b)) {
+        List<Box> borderBoxes=boardInstance.getBorderBoxes(b);
+        for (Box cell:borderBoxes) {
             if(!cell.isOccupied() && cell.isReachable(b))
-                lista.add(b);
+                lista.add(cell);
         }
         return lista;
 
