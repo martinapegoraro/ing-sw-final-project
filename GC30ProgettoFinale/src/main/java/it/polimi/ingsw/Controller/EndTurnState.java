@@ -19,7 +19,7 @@ public class EndTurnState implements State {
 
     @Override
     public StateEnum getID() {
-        return null;
+        return stateID;
     }
 
     @Override
