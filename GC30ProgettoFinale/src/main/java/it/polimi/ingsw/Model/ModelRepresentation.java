@@ -18,9 +18,9 @@ public class ModelRepresentation {
     {
         activeCells = selectedCells.clone();
         workerposition = new int [5][5]; //matrice contentente -1 dove non è presente un worker, 0 dove è presente
-        for (int i = 0; i<=5; i++)
+        for (int i = 0; i<5; i++)
         {
-            for (int k = 0; k<=5; k++)
+            for (int k = 0; k<5; k++)
             {
                 workerposition[i][k] = -1;
 
@@ -36,9 +36,9 @@ public class ModelRepresentation {
         }
 
         towerposition = new int[5][5]; // come worker position ma con le torri
-        for (int i = 0; i<=5; i++)
+        for (int i = 0; i<5; i++)
         {
-            for (int k = 0; k<=5; k++)
+            for (int k = 0; k<5; k++)
             {
                 if (instance.getBox(i,k).getTower() !=  null )
                 {

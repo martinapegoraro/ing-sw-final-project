@@ -1,11 +1,12 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Model.ModelRepresentation;
 
 import java.util.Arrays;
 
 //Dummy view for unpacking ModelRep type messages
-public class DummyView {
+public class DummyView implements Observer<ModelRepresentation> {
     int[][] workers;
     int[][] towers;
     int[][] activeCells;
@@ -49,5 +50,10 @@ public class DummyView {
         {
             System.out.println(Arrays.toString(row));
         }
+    }
+
+    @Override
+    public void update(ModelRepresentation message) {
+        showModel(message);
     }
 }
