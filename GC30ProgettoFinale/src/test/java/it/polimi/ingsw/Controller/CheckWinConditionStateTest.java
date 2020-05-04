@@ -12,7 +12,7 @@ public class CheckWinConditionStateTest {
     @Test
     public void getID()
     {
-        assertEquals(0, checkWinConditionStateTest.getID());
+        assertEquals(StateEnum.CheckWinCondition, checkWinConditionStateTest.getID());
     }
 
 

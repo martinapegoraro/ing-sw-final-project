@@ -14,10 +14,12 @@ public class ModelTest {
     Board boardTest;
     Player player1, player2;
 
+
     @Before
 
     public void initializeModel ()
     {
+        boardTest = Board.getInstance();
         List<String> listaNomi=new ArrayList<>();
         listaNomi.add("pippo");
         listaNomi.add("pluto");
@@ -28,15 +30,23 @@ public class ModelTest {
         List<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
-        modelRepTest = new ModelRepresentation(boardTest, players,)
+        int[][] selectedCells = new int[5][5];
+        modelRepTest = new ModelRepresentation(boardTest, players,selectedCells);
+
 
     }
 
     @Test
-    public void getTurn() {
+    public void getTurn()
+    {
+
+        assertNotNull(modelTest.getTurn());
+
     }
 
     @Test
-    public void createModelRep() {
+    public void createModelRep()
+    {
+        assertNotNull(modelTest.getModelRep());
     }
 }

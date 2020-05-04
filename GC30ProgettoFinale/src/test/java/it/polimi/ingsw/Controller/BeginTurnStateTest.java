@@ -13,7 +13,7 @@ public class BeginTurnStateTest {
     @Test
     public void getID()
     {
-        assertEquals(1, beginTurnStateTest.getID());
+        assertEquals(StateEnum.BeginTurn, beginTurnStateTest.getID());
     }
 
 

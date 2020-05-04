@@ -11,7 +11,7 @@ public class Box {
     public Box(int coordX, int coordY)
     {
         occupied=false;
-        tower=new Tower();
+        tower=null;
         x = coordX;
         y = coordY;
     }

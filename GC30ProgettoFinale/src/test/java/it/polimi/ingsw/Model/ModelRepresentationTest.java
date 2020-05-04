@@ -10,15 +10,16 @@ import static org.junit.Assert.*;
 
 public class ModelRepresentationTest {
     ModelRepresentation modelRepresentationTest;
-    Board boardTest;
+    Board instanceBoard;
     Player player1, player2;
-    Box b1,b2,b3,b4,b5,b6;
-    Model model;
+    Box b1,b2,b3,b4;
+
 
 
     @Before
     public void initializeModelRep ()
     {
+        instanceBoard = Board.getInstance();
         player1 = new Player(1, "Anna");
         player2 = new Player (2, "Marco");
         List<Player> players = new ArrayList<>();
@@ -28,19 +29,17 @@ public class ModelRepresentationTest {
         b2 = new Box (2,2);
         b3 = new Box (1,4);
         b4 = new Box (4,0);
-        b5 = new Box (1,2);
-        b6 = new Box (3,0);
         player1.setWorkersPosition(b1,b2);
         player2.setWorkersPosition(b3,b4);
         player1.setGodCard(GodsList.ATHENA);
         player2.setGodCard(GodsList.PROMETHEUS);
         player1.setGodActive(true);
         player2.setGodActive(false);
-        b5.build();
-        b6.build();
+        instanceBoard.getBox(1,2).build();
+        instanceBoard.getBox(1,2).build();
+        instanceBoard.getBox(3,0).build();
         int[][] selectedCells = new int[5][5];
-        modelRepresentationTest = new ModelRepresentation(boardTest, players, selectedCells);
-
+        modelRepresentationTest = new ModelRepresentation(instanceBoard, players, selectedCells);
 
     }
 
@@ -64,9 +63,9 @@ public class ModelRepresentationTest {
     public void testTowerPosition ()
     {
         int[][] towers = modelRepresentationTest.getTowerPosition();
-        assertEquals(0, towers[1][2]);
+        assertEquals(2, towers[1][2]);
         assertEquals(-1, towers[1][1]);
-        assertEquals(0, towers[3][0]);
+        assertEquals(1, towers[3][0]);
         assertEquals(-1, towers[2][2]);
         assertEquals(-1, towers[4][0]);
     }
@@ -102,6 +101,7 @@ public class ModelRepresentationTest {
         assertFalse (activegods[1]);
 
     }
+
 
 
 

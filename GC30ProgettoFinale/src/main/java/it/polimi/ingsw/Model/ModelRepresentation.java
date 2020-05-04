@@ -19,7 +19,7 @@ public class ModelRepresentation {
         playerNum = players.size();
 
         activeCells = selectedCells.clone();
-        workerposition = new int [5][5]; //matrice contentente -1 dove non è presente un worker, 0 dove è presente
+        workerposition = new int [5][5]; //matrice contains -1 when no worker is present, 0 when a worker is present
         for (int i = 0; i<=4; i++)
         {
             for (int k = 0; k<=4; k++)
@@ -41,14 +41,15 @@ public class ModelRepresentation {
             }
         }
 
-        towerposition = new int[5][5]; // come worker position ma con le torri
+        towerposition = new int[5][5]; // matrix contains -1 when no tower is present
+                                        //when a tower is present, it contains the height of the tower
         for (int i = 0; i<=4; i++)
         {
             for (int k = 0; k<=4; k++)
             {
                 if (instance.getBox(i,k).getTower() !=  null )
                 {
-                    towerposition [i][k] = 0;
+                    towerposition [i][k] = instance.getBox(i,k).getTower().getHeight();
                 }
                 else towerposition[i][k] = -1;
 

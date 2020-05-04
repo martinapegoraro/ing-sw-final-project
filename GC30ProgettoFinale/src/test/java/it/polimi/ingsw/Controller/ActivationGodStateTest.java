@@ -13,7 +13,7 @@ public class ActivationGodStateTest {
     @Test
     public void getID()
     {
-        assertEquals(2, activationGodStateTest.getID());
+        assertEquals(StateEnum.ActivationGod, activationGodStateTest.getID());
     }
 
 
