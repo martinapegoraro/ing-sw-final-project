@@ -56,5 +56,23 @@ public class TurnTest {
         //bisogna aggiungere torri e ostacoli così da testare meglio la lista
     }
 
+    @Test
+    public void setNextPlayerTest() throws ImpossibleAddAnotherPlayerException {
+        turnTest.addPlayer("paperino");
+        assertEquals(turnTest.getPlayersList().get(0),turnTest.getCurrentPlayer());
+        turnTest.setNextPlayer();
+        assertEquals(turnTest.getPlayersList().get(1),turnTest.getCurrentPlayer());
+        turnTest.setNextPlayer();
+        assertEquals(turnTest.getPlayersList().get(2),turnTest.getCurrentPlayer());
+        turnTest.getPlayersList().get(0).setHasLost();
+        turnTest.setNextPlayer();
+        assertEquals(turnTest.getPlayersList().get(1),turnTest.getCurrentPlayer());
+        turnTest.getPlayersList().get(2).setHasLost();
+        turnTest.setNextPlayer();
+        assertEquals(turnTest.getPlayersList().get(1),turnTest.getCurrentPlayer());
+
+
+    }
+
 
 }

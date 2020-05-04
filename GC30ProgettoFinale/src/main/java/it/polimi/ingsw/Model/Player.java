@@ -131,7 +131,20 @@ public class Player {
     public void setHasLost()
     {
         hasLost = true;
+        deleteWorkers();
     }
 
+    private void deleteWorkers()
+    {
+        if (workers[0]!=null)
+        {
+            workers[0].getPosition().setNotOccupied();
+            workers[0]=null;
+        }
+        if(workers[1]!=null) {
+            workers[1].getPosition().setNotOccupied();
+            workers[1] = null;
+        }
+    }
 
 }
