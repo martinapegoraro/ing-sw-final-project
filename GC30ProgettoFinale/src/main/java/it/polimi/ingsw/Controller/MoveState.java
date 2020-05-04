@@ -50,7 +50,7 @@ public class MoveState implements State {
     private void playerHasLost(Model model)
     {
         model.getTurn().getCurrentPlayer().setHasLost();
-        //TODO: Eliminare i suoi worker e andare al turno del player successivo
+
     }
 
     @Override

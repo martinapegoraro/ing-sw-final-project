@@ -84,18 +84,13 @@ public class Context implements Observer<Choice> {
                 workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());
                 workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());
 
-                ArrayList<Box> possibleBuildList = new ArrayList<>();
-
-                for(Box b: workerPositions)
-                {
-                    possibleBuildList.addAll(getPossibleBuildBoxes(b));
-                }
-
+                ArrayList<Box> possibleBuildList0 = getPossibleBuildBoxes(workerPositions.get(0));
+                ArrayList<Box> possibleBuildList1 = getPossibleBuildBoxes(workerPositions.get(1));
                 //Initialize god flags
                 boolean domeAtAnyLevel = false;
                 if(activeGods.contains(GodsList.ATLAS)) domeAtAnyLevel = true;
 
-                newState = new BuildState(possibleBuildList, domeAtAnyLevel);
+                newState = new BuildState(possibleBuildList0,possibleBuildList1,domeAtAnyLevel,contextModel);
                 switchState(newState);
 
             case Build:

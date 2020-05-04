@@ -6,6 +6,7 @@ import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.InitialPositionChoice;
 import it.polimi.ingsw.Utils.MoveChoice;
+import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,8 +49,9 @@ public class SetUpStateTest {
 
     @Test(expected = BoxAlreadyOccupiedException.class)
     public void updateTestWithOccupiedBox() throws BoxAlreadyOccupiedException, BuildErrorException, WrongChoiceTypeException, MoveErrorException, TowerCompleteException {
-        Choice c= new InitialPositionChoice(1,1);
+        Choice c= new SelectWorkerCellChoice(1,1);
         model.getTurn().getBoardInstance().getBox(1,1).getTower().build(Block.DOME);
+        model.getTurn().getBoardInstance().getBox(1,1).setOccupied();
         stateUnderTest.update(c,model);
     }
 
@@ -63,7 +65,7 @@ public class SetUpStateTest {
     @Test
     public void updateTest()
     {
-        Choice c= new MoveChoice(1,1);
+        Choice c= new SelectWorkerCellChoice(1,1);
         try {
             stateUnderTest.update(c,model);
         } catch (WrongChoiceTypeException e) {
@@ -75,7 +77,7 @@ public class SetUpStateTest {
         } catch (BoxAlreadyOccupiedException e) {
             e.printStackTrace();
         }
-        Choice c1= new MoveChoice(3,1);
+        Choice c1= new SelectWorkerCellChoice(3,1);
         try {
             stateUnderTest.update(c1,model);
         } catch (WrongChoiceTypeException e) {
@@ -87,6 +89,6 @@ public class SetUpStateTest {
         } catch (BoxAlreadyOccupiedException e) {
             e.printStackTrace();
         }
-        assertTrue(stateUnderTest.hasFinished());
+
     }
 }

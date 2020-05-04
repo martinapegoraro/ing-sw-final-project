@@ -81,7 +81,7 @@ public class Turn {
         List<Box> lista=new ArrayList<Box>();
         for (Box cell:boardInstance.getBorderBoxes(b)) {
             if(!cell.isOccupied())
-                lista.add(b);
+                lista.add(cell);
         }
         return lista;
     }

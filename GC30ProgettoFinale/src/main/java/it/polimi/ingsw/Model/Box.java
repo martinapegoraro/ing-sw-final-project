@@ -32,7 +32,9 @@ public class Box {
 
     public Tower getTower()
     {
-       return tower;
+       if (tower==null)
+           tower=new Tower();
+        return tower;
     }
 
     public void build()
@@ -44,6 +46,8 @@ public class Box {
         } catch (TowerCompleteException e) {
            occupied=true;
         }
+        if(tower.getPieces().contains(Block.DOME))
+            occupied=true;
     }
 
     public int[] getCoord()

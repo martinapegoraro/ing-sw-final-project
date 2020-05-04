@@ -42,7 +42,7 @@ public class MoveStateTest {
     {
        stateUnderTest=new MoveState(
                (ArrayList<Box>)model.getTurn().getPossibleMoves( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition()),
-               (ArrayList<Box>)model.getTurn().getPossibleMoves( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition()),
+               (ArrayList<Box>)model.getTurn().getPossibleMoves( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition()),
                false,false,model);
     }
 

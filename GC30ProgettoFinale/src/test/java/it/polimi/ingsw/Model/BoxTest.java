@@ -27,7 +27,7 @@ public class BoxTest {
     @Test
     public void nullTowerInBoxTest()
     {
-        assertNull(testBox.getTower());
+        assertNotNull(testBox.getTower());
     }
 
     @Test
