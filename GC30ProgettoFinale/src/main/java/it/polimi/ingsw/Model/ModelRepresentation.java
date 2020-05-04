@@ -35,7 +35,7 @@ public class ModelRepresentation {
             }
         }
 
-        towerposition = new int[5][5]; // come worker position ma con le torri
+       towerposition = new int[5][5]; // come worker position ma con le torri
         for (int i = 0; i<=5; i++)
         {
             for (int k = 0; k<=5; k++)
