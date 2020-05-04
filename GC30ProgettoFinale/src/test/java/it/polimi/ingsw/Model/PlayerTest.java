@@ -72,6 +72,16 @@ public class PlayerTest {
         assertTrue(giocatore1.getSelectedWorker().getPosition().equals(box2));
 
     }
+    @Test
+    public void playerHasLostTest()
+    {
+        Box box1=new Box(1,1);
+        Box box2=new Box(5,3);
+        giocatore1.setWorkersPosition(box1,box2);
+        giocatore1.setHasLost();
+        assertNull(giocatore1.getWorkerList().get(0));
+        assertNull(giocatore1.getWorkerList().get(1));
+    }
 
 
 

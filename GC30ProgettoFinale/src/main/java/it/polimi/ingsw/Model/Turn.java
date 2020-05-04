@@ -21,15 +21,20 @@ public class Turn {
                 break;
             }
         }
-        setNextPlayer();
+        listaGiocatori.get(0).setPlayerActive(true);
     }
 
     public void setNextPlayer()
     {
+        nTurn++;
+        int turnoDi=nTurn%listaGiocatori.size();
         for (Player p:listaGiocatori) {
             p.setPlayerActive(false);
         }
-        listaGiocatori.get(nTurn%listaGiocatori.size()).setPlayerActive(true);
+        while(listaGiocatori.get(turnoDi).getHasLost())
+           turnoDi=(turnoDi+1)%listaGiocatori.size();
+        listaGiocatori.get(turnoDi).setPlayerActive(true);
+
     }
 
     public Player getCurrentPlayer()
