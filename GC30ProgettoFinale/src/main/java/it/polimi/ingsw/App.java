@@ -1,13 +1,16 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.View.DummyView;
+
 /**
  * Hello world!
  *
  */
-public class App 
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Ciao Mondo!" );
+        DummyView view = new DummyView();
+        view.main();
     }
 }
