@@ -4,12 +4,13 @@ import java.util.List;
 
 public class ModelRepresentation {
     public int[][] workerposition;
-    public int[][] towerposition; //TODO: Aggiungere altezza torri oltre alla posizione
+    public int[][] towerposition;
     public String[] godList;
     public String[] playersName;
     public int playerNum;
     public int activePlayer;
     public boolean[] activeGodsList;
+    public String[][] lastBlock;
     //activeCells is used to show clients which moves are possible highlighting the spaces
     //0 means the box is not selected
     public int[][] activeCells;
@@ -19,7 +20,7 @@ public class ModelRepresentation {
         playerNum = players.size();
 
         activeCells = selectedCells.clone();
-        workerposition = new int [5][5]; //matrice contains -1 when no worker is present, 0 when a worker is present
+        workerposition = new int [5][5]; //matrix contains -1 when no worker is present, 0 when a worker is present
         for (int i = 0; i<=4; i++)
         {
             for (int k = 0; k<=4; k++)
@@ -86,6 +87,27 @@ public class ModelRepresentation {
         {
             activeGodsList[i] = players.get(i).isGodActive();
         }
+
+        lastBlock = new String[5][5];
+
+        for (int i = 0; i<=4; i++)
+        {
+            for (int k = 0; k<=4; k++)
+            {
+                if (instance.getBox(i,k).getTower() !=  null )
+                {
+                    if (instance.getBox(i,k).getTower().getHeight() == 1) {lastBlock[i][k] = "Level 1";}
+                    if (instance.getBox(i,k).getTower().getHeight() == 2) {lastBlock[i][k] = "Level 2";}
+                    if (instance.getBox(i,k).getTower().getHeight() == 3) {lastBlock[i][k] = "Level 3";}
+                    if (instance.getBox(i,k).getTower().getHeight() == 4) {lastBlock[i][k] = "Dome";}
+
+                }
+                else lastBlock[i][k] = null;
+
+            }
+        }
+
+
     }
 
     public int[][] getWorkerPosition()
@@ -121,5 +143,9 @@ public class ModelRepresentation {
     public boolean[] getActiveGodsList()
     {
         return activeGodsList;
+    }
+    public String[][] getLastBlock()
+    {
+        return lastBlock;
     }
 }
