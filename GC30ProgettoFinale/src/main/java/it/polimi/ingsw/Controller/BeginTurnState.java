@@ -21,7 +21,19 @@ public class BeginTurnState implements State {
     }
 
     @Override
-    public void startup(Model model) {
+    public void startup(Model model)
+    {
+        model.getTurn().setNextPlayer();
+        if(model.getTurn().getCurrentPlayer().getHasLost() == true)
+        {
+            model.getTurn().setNextPlayer();
+        }
+        else
+            {
+                model.updateModelRep();
+                hasFinished = true;
+            }
+
 
     }
 
