@@ -16,6 +16,7 @@ public class ModelRepresentation {
 
     public ModelRepresentation(Board instance, List<Player> players, int[][] selectedCells)
     {
+        playerNum = players.size();
         activeCells = selectedCells.clone();
         workerposition = new int [5][5]; //matrice contentente -1 dove non è presente un worker, 0 dove è presente
         for (int i = 0; i<5; i++)
@@ -40,11 +41,11 @@ public class ModelRepresentation {
         {
             for (int k = 0; k<5; k++)
             {
-                if (instance.getBox(i,k).getTower() !=  null )
+                if (instance.getBox(i,k).getTower().getHeight() == 0)
                 {
-                    towerposition [i][k] = 0;
+                    towerposition [i][k] = -1;
                 }
-                else towerposition[i][k] = -1;
+                else towerposition[i][k] = 0;
 
             }
         }

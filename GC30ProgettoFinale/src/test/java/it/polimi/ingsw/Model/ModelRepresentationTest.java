@@ -10,9 +10,9 @@ import static org.junit.Assert.*;
 
 public class ModelRepresentationTest {
     ModelRepresentation modelRepresentationTest;
-    Board boardTest;
+    Board boardTest = Board.getInstance();
     Player player1, player2;
-    List<Player>  players;
+    ArrayList<Player>  players = new ArrayList<>();
     Box b1,b2,b3,b4,b5,b6;
 
     @Before
@@ -21,12 +21,12 @@ public class ModelRepresentationTest {
         player1 = new Player(1, "Anna");
         player2 = new Player (2, "Marco");
         players = new ArrayList<Player>();
-        b1= new Box(1,2);
-        b2 = new Box (3,3);
-        b3 = new Box (2,5);
-        b4 = new Box (5,1);
-        b5 = new Box (2,3);
-        b6 = new Box (4,1);
+        b1= boardTest.getBox(0,1);
+        b2 = boardTest.getBox(2,2);
+        b3 = boardTest.getBox(1,4);
+        b4 = boardTest.getBox(4,0);
+        b5 = boardTest.getBox(1,2);
+        b6 = boardTest.getBox(3,0);
         players.add(player1);
         players.add(player2);
         player1.setWorkersPosition(b1,b2);
@@ -46,14 +46,14 @@ public class ModelRepresentationTest {
 
     {
         int [][] workers = modelRepresentationTest.getWorkerPosition();
-        assertEquals(-1, workers[2][2] );
-        assertEquals(0, workers[1][2]);
-        assertEquals(0, workers[2][5]);
-        assertEquals(-1, workers[4][3]);
-        assertEquals(0,workers[3][3]);
-        assertEquals(0,workers[5][1]);
-        assertEquals(-1, workers[3][2]);
-        assertEquals(-1, workers[4][1]);
+        assertEquals(0, workers[2][2] );
+        assertEquals(-1, workers[1][2]);
+        assertEquals(-1, workers[2][4]);
+        assertEquals(0, workers[0][1]);
+        assertEquals(-1,workers[3][3]);
+        assertEquals(-1,workers[4][1]);
+        assertEquals(0, workers[1][4]);
+        assertEquals(0, workers[4][0]);
 
     }
 
@@ -61,11 +61,11 @@ public class ModelRepresentationTest {
     public void testTowerPosition ()
     {
         int[][] towers = modelRepresentationTest.getTowerPosition();
-        assertEquals(0, towers[2][3]);
+        assertEquals(0, towers[1][2]);
         assertEquals(-1, towers[2][2]);
-        assertEquals(0, towers[4][1]);
+        assertEquals(0, towers[3][0]);
         assertEquals(-1, towers[3][3]);
-        assertEquals(-1, towers[5][1]);
+        assertEquals(-1, towers[4][1]);
     }
 
     @Test
