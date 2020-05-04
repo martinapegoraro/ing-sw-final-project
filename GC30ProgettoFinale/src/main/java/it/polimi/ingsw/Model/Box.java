@@ -21,6 +21,15 @@ public class Box {
         return occupied;
     }
 
+    public void setOccupied()
+    {
+        occupied=true;
+    }
+    public void setNotOccupied()
+    {
+        occupied=false;
+    }
+
     public Tower getTower()
     {
        return tower;

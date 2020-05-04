@@ -61,9 +61,10 @@ public class Turn {
     public List<Box> getPossibleMoves(Box b)
     {
         List<Box> lista=new ArrayList<Box>();
-        for (Box cell:boardInstance.getBorderBoxes(b)) {
+        List<Box> borderBoxes=boardInstance.getBorderBoxes(b);
+        for (Box cell:borderBoxes) {
             if(!cell.isOccupied() && cell.isReachable(b))
-                lista.add(b);
+                lista.add(cell);
         }
         return lista;
 
