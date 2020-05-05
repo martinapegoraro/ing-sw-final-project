@@ -24,7 +24,11 @@ public class BeginTurnState implements State {
     public void startup(Model model)
     {
         model.getTurn().setNextPlayer();
-        if(model.getTurn().getCurrentPlayer().getHasLost() == true)
+        //Athena condition is resetted at the start of a players turn
+        model.getTurn().getCurrentPlayer().changeAthenaCondition(false);
+
+        //setNextPlayer should already skip players who have lost
+        if(model.getTurn().getCurrentPlayer().getHasLost())
         {
             model.getTurn().setNextPlayer();
         }

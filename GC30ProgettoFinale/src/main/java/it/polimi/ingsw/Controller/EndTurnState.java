@@ -27,8 +27,9 @@ public class EndTurnState implements State {
     {
         Player currentPlayer;
         currentPlayer = model.getTurn().getCurrentPlayer();
-        currentPlayer.setPlayerActive(false);
-        currentPlayer.changeAthenaCondition(false);
+        //currentPlayer.setPlayerActive(false); This breaks SetNextPlayer, setPlayerActive should not be accessed manually
+        // HAS TO BE SET IN BEGINTURNSTATE! currentPlayer.changeAthenaCondition(false);
+        //Otherwise some players may never be able to use Athena
         currentPlayer.setSelectedWorker(null);
         List<Player> players = model.getTurn().getPlayersList();
         for (Player player : players)

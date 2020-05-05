@@ -44,7 +44,6 @@ public class MoveState implements State {
 
     @Override
     public void startup(Model model) {
-
     }
 
     private void playerHasLost(Model model)
@@ -109,7 +108,17 @@ public class MoveState implements State {
             {
                 try
                 {
+                    //TODO: Add different effects for God flags
+                    Box oldBox;
+                    oldBox = actingPlayer.getSelectedWorker().getPosition();
                     actingPlayer.getSelectedWorker().move(b);
+
+                    //If the player moves up his AthenaCondition will be set to true, at the beginning of his next
+                    //MoveState it'll be set to false again
+                    if(b.getTower().getHeight() > oldBox.getTower().getHeight())
+                    {
+                        actingPlayer.changeAthenaCondition(true);
+                    }
                     model.updateModelRep();
                     hasFinished = true;
                 }

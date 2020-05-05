@@ -1,9 +1,6 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
-import it.polimi.ingsw.Model.Exceptions.BuildErrorException;
-import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
-import it.polimi.ingsw.Model.Exceptions.WrongChoiceTypeException;
+import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.Choice;
 
@@ -17,7 +14,8 @@ public interface State {
 
     //Called at every update of Context
     void update(Choice userChoice, Model model) throws WrongChoiceTypeException,
-            MoveErrorException, BuildErrorException, BoxAlreadyOccupiedException;
+            MoveErrorException, BuildErrorException, BoxAlreadyOccupiedException,
+            GodConditionNotSatisfiedException;
 
     //Method which tells if the state has completed it's operations
     boolean hasFinished();

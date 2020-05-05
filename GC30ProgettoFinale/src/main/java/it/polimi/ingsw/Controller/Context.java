@@ -1,10 +1,7 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.*;
-import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
-import it.polimi.ingsw.Model.Exceptions.BuildErrorException;
-import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
-import it.polimi.ingsw.Model.Exceptions.WrongChoiceTypeException;
+import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.View.Observer;
 
@@ -25,7 +22,7 @@ public class Context implements Observer<Choice> {
         currentState = new SetUpState(model);
         numberofPlayers = 0;
         contextModel = model;
-        activeGods = new ArrayList<GodsList>();
+        activeGods = new ArrayList<>();
     }
 
 
@@ -50,7 +47,6 @@ public class Context implements Observer<Choice> {
                 switchState(newState);
 
             case ActivationGod:
-
                 //I save the active Gods for this turn for easier access later
                 ArrayList<Player> playersList = (ArrayList<Player>)contextModel.getTurn().getPlayersList();
                 for(Player player : playersList)
@@ -234,9 +230,9 @@ public class Context implements Observer<Choice> {
             //TODO: Creare messaggi da resituire al Client
             System.out.println(ex.getMessage());
         }
-        catch (MoveErrorException | BoxAlreadyOccupiedException | BuildErrorException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
+        catch (MoveErrorException | BoxAlreadyOccupiedException | BuildErrorException |GodConditionNotSatisfiedException ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
 
         //Check if the state has completed it's task

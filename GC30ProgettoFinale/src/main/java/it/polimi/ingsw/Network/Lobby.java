@@ -1,8 +1,10 @@
-package it.polimi.ingsw.View;
+package it.polimi.ingsw.Network;
 
 import it.polimi.ingsw.Controller.Controller;
 import it.polimi.ingsw.Model.Exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.Model.Model;
+import it.polimi.ingsw.Network.SocketClientConnection;
+import it.polimi.ingsw.View.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
