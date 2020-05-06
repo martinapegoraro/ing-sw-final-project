@@ -225,7 +225,7 @@ public class Context implements Observer<Choice> {
         {
             currentState.update(userChoice, contextModel);
         }
-        catch(WrongChoiceTypeException ex)
+        catch(WrongChoiceException ex)
         {
             //TODO: Creare messaggi da resituire al Client
             System.out.println(ex.getMessage());

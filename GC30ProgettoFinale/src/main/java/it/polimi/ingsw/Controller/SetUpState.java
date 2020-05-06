@@ -2,7 +2,7 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.Box;
 import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
-import it.polimi.ingsw.Model.Exceptions.WrongChoiceTypeException;
+import it.polimi.ingsw.Model.Exceptions.WrongChoiceException;
 import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Model.Player;
@@ -65,7 +65,7 @@ public class SetUpState implements State{
     }
 
     @Override
-    public void update(Choice userChoice, Model model) throws WrongChoiceTypeException,BoxAlreadyOccupiedException
+    public void update(Choice userChoice, Model model) throws WrongChoiceException,BoxAlreadyOccupiedException
     {
         Player actingPlayer;
         SelectWorkerCellChoice castedChoice;
@@ -77,7 +77,14 @@ public class SetUpState implements State{
             castedChoice = (SelectWorkerCellChoice)userChoice;
             Box selectedCell;
             //Initialize worker in the selected position if the cell is free
-            selectedCell = model.getTurn().getBoardInstance().getBox(castedChoice.x, castedChoice.y);
+            try
+            {
+                selectedCell = model.getTurn().getBoardInstance().getBox(castedChoice.x, castedChoice.y);
+            }
+            catch(IndexOutOfBoundsException ex)
+            {
+                throw new WrongChoiceException("Invalid coordinates for Worker: " + castedChoice.x+","+ castedChoice.y);
+            }
 
             if(selectedCell.isOccupied())
             {
@@ -105,7 +112,7 @@ public class SetUpState implements State{
         }
         else
             {
-                throw new WrongChoiceTypeException("Wrong Choice Type! Expected: SelectWorkerCellChoice," +
+                throw new WrongChoiceException("Wrong Choice Type! Expected: SelectWorkerCellChoice," +
                         "Received: "+ userChoice.toString());
             }
     }

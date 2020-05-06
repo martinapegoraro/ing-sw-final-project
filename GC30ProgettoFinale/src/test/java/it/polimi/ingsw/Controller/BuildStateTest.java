@@ -81,27 +81,15 @@ public class BuildStateTest {
         Choice c=new SelectWorkerCellChoice(1,1);
         try {
             stateUnderTest1.update(c,model);
-        } catch (WrongChoiceTypeException e) {
+        } catch (WrongChoiceException | GodConditionNotSatisfiedException | MoveErrorException | BoxAlreadyOccupiedException | BuildErrorException e) {
             e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException ex) {
-            ex.printStackTrace();
         }
 
         Choice c1=new BuildChoice(0,1);
         try {
             stateUnderTest1.update(c1,model);
-        } catch (WrongChoiceTypeException e) {
+        } catch (WrongChoiceException | GodConditionNotSatisfiedException | BuildErrorException | BoxAlreadyOccupiedException | MoveErrorException e) {
             e.printStackTrace();
-        } catch (MoveErrorException ex) {
-            ex.printStackTrace();
-        } catch (BoxAlreadyOccupiedException ex) {
-            ex.printStackTrace();
-        } catch (BuildErrorException ex) {
-            ex.printStackTrace();
         }
 
         assertTrue(stateUnderTest1.hasFinished());
@@ -115,26 +103,14 @@ public class BuildStateTest {
         Choice c=new SelectWorkerCellChoice(1,1);
         try {
             stateUnderTest1.update(c,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | GodConditionNotSatisfiedException | BoxAlreadyOccupiedException | BuildErrorException | MoveErrorException e) {
             e.printStackTrace();
         }
 
         Choice c1=new BuildChoice(2,2);
         try {
             stateUnderTest1.update(c1,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | GodConditionNotSatisfiedException | BoxAlreadyOccupiedException | BuildErrorException | MoveErrorException e) {
             e.printStackTrace();
         }
         assertTrue(stateUnderTest1.hasFinished());
@@ -148,26 +124,14 @@ public class BuildStateTest {
         Choice c=new SelectWorkerCellChoice(1,1);
         try {
             stateUnderTest1.update(c,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | GodConditionNotSatisfiedException | BoxAlreadyOccupiedException | BuildErrorException | MoveErrorException e) {
             e.printStackTrace();
         }
 
         Choice c1=new BuildChoice(0,1);
         try {
             stateUnderTest1.update(c1,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | MoveErrorException | BuildErrorException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException e) {
             e.printStackTrace();
         }
         assertTrue(stateUnderTest1.hasFinished());
@@ -181,26 +145,14 @@ public class BuildStateTest {
         Choice c=new SelectWorkerCellChoice(1,1);
         try {
             stateUnderTest1.update(c,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | GodConditionNotSatisfiedException | MoveErrorException | BuildErrorException | BoxAlreadyOccupiedException e) {
             e.printStackTrace();
         }
 
         Choice c1=new BuildChoice(0,2);
         try {
             stateUnderTest1.update(c1,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | MoveErrorException | BuildErrorException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException e) {
             e.printStackTrace();
         }
         assertTrue(stateUnderTest1.hasFinished());
@@ -214,39 +166,27 @@ public class BuildStateTest {
         Choice c=new SelectWorkerCellChoice(4,1);
         try {
             stateUnderTest1.update(c,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | MoveErrorException | BuildErrorException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException e) {
             e.printStackTrace();
         }
 
         Choice c1=new BuildChoice(3,0);
         try {
             stateUnderTest1.update(c1,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | MoveErrorException | BuildErrorException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException e) {
             e.printStackTrace();
         }
         assertTrue(stateUnderTest1.hasFinished());
 
     }
 
-    @Test(expected = WrongChoiceTypeException.class)
-    public void wrongChoiceTest() throws WrongChoiceTypeException, BuildErrorException, BoxAlreadyOccupiedException, MoveErrorException {
+    @Test(expected = WrongChoiceException.class)
+    public void wrongChoiceTest() throws WrongChoiceException, BuildErrorException, BoxAlreadyOccupiedException, MoveErrorException, GodConditionNotSatisfiedException {
         Choice c=new MoveChoice(1,1);
         stateUnderTest1.update(c,model);
     }
     @Test(expected=BuildErrorException.class)
-    public void workerNotBelongingTest() throws BuildErrorException, BoxAlreadyOccupiedException, WrongChoiceTypeException, MoveErrorException {
+    public void workerNotBelongingTest() throws BuildErrorException, BoxAlreadyOccupiedException, WrongChoiceException, MoveErrorException, GodConditionNotSatisfiedException {
         Choice c=new SelectWorkerCellChoice(0,0);
         stateUnderTest1.update(c,model);
     }

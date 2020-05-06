@@ -2,15 +2,12 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.BuildErrorException;
-import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
 import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
-import it.polimi.ingsw.Model.Exceptions.WrongChoiceTypeException;
+import it.polimi.ingsw.Model.Exceptions.WrongChoiceException;
 import it.polimi.ingsw.Utils.BuildChoice;
 import it.polimi.ingsw.Utils.Choice;
-import it.polimi.ingsw.Utils.MoveChoice;
 import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BuildState implements State{
@@ -48,13 +45,24 @@ public class BuildState implements State{
 
     }
 
+
     @Override
-    public void update(Choice userChoice, Model model) throws BuildErrorException, WrongChoiceTypeException {
+    public void update(Choice userChoice, Model model) throws BuildErrorException, WrongChoiceException {
         Player actingPlayer = model.getTurn().getPlayer(userChoice.getId());
         if(userChoice instanceof SelectWorkerCellChoice)
         {
-            Box workerBox = model.getTurn().getBoardInstance().getBox(((SelectWorkerCellChoice) userChoice).x,
-                    ((SelectWorkerCellChoice) userChoice).y);
+            //Cannot assume the choice message is valid!
+            Box workerBox;
+            try
+            {
+                workerBox = model.getTurn().getBoardInstance().getBox(((SelectWorkerCellChoice) userChoice).x,
+                        ((SelectWorkerCellChoice) userChoice).y);
+            }
+            catch(IndexOutOfBoundsException ex)
+            {
+                throw new WrongChoiceException("WorkerChoice message is not valid! COORDINATES: " +
+                        ((SelectWorkerCellChoice) userChoice).x + " " + ((SelectWorkerCellChoice) userChoice).y);
+            }
 
             //A worker is present in the box and belongs to the actingPlayer
             if(workerBox.isOccupied())
@@ -87,7 +95,15 @@ public class BuildState implements State{
             BuildChoice currentChoice;
             currentChoice = (BuildChoice)userChoice;
             Box b;
-            b = model.getTurn().getBoardInstance().getBox(currentChoice.x,currentChoice.y);
+            try
+            {
+                b = model.getTurn().getBoardInstance().getBox(currentChoice.x,currentChoice.y);
+            }
+            catch(IndexOutOfBoundsException ex)
+            {
+                throw new WrongChoiceException("BuildChoice coords are invalid: " + currentChoice.x + "," + currentChoice.y);
+            }
+
 
             //Check which worker is currently active and if selected cell is compatible with worker
             //Otherwise ignores the choice
@@ -133,7 +149,7 @@ public class BuildState implements State{
         }
         else
         {
-            throw new WrongChoiceTypeException("Wrong choice in MoveState, received: "+ userChoice.toString());
+            throw new WrongChoiceException("Wrong choice in MoveState, received: "+ userChoice.toString());
         }
     }
 

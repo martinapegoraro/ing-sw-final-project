@@ -31,7 +31,7 @@ public class Board {
         return singletonBoard;
     }
 
-    public Box getBox(int riga, int col)
+    public Box getBox(int riga, int col) throws IndexOutOfBoundsException
     {
         return board[riga][col];
     }

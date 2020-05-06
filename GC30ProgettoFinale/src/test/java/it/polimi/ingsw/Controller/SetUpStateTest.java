@@ -4,7 +4,6 @@ import it.polimi.ingsw.Model.Block;
 import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.Choice;
-import it.polimi.ingsw.Utils.InitialPositionChoice;
 import it.polimi.ingsw.Utils.MoveChoice;
 import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 import org.junit.Before;
@@ -48,7 +47,7 @@ public class SetUpStateTest {
     }
 
     @Test(expected = BoxAlreadyOccupiedException.class)
-    public void updateTestWithOccupiedBox() throws BoxAlreadyOccupiedException, BuildErrorException, WrongChoiceTypeException, MoveErrorException, TowerCompleteException {
+    public void updateTestWithOccupiedBox() throws BoxAlreadyOccupiedException, BuildErrorException, WrongChoiceException, MoveErrorException, TowerCompleteException, GodConditionNotSatisfiedException {
         Choice c= new SelectWorkerCellChoice(1,1);
         model.getTurn().getBoardInstance().getBox(1,1).getTower().build(Block.DOME);
         model.getTurn().getBoardInstance().getBox(1,1).setOccupied();
@@ -56,8 +55,8 @@ public class SetUpStateTest {
     }
 
 
-    @Test(expected = WrongChoiceTypeException.class)
-    public void updateTestWithWrongChoice() throws BoxAlreadyOccupiedException, BuildErrorException, WrongChoiceTypeException, MoveErrorException {
+    @Test(expected = WrongChoiceException.class)
+    public void updateTestWithWrongChoice() throws BoxAlreadyOccupiedException, BuildErrorException, WrongChoiceException, MoveErrorException, GodConditionNotSatisfiedException {
         Choice c= new MoveChoice(1,1);
         stateUnderTest.update(c,model);
     }
@@ -68,25 +67,13 @@ public class SetUpStateTest {
         Choice c= new SelectWorkerCellChoice(1,1);
         try {
             stateUnderTest.update(c,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException | BuildErrorException | MoveErrorException e) {
             e.printStackTrace();
         }
         Choice c1= new SelectWorkerCellChoice(3,1);
         try {
             stateUnderTest.update(c1,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | MoveErrorException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException | BuildErrorException e) {
             e.printStackTrace();
         }
 

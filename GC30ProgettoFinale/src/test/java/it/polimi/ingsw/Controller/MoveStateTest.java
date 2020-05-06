@@ -1,10 +1,7 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.Box;
-import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
-import it.polimi.ingsw.Model.Exceptions.BuildErrorException;
-import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
-import it.polimi.ingsw.Model.Exceptions.WrongChoiceTypeException;
+import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.MoveChoice;
@@ -65,25 +62,19 @@ public class MoveStateTest {
         Choice c=new SelectWorkerCellChoice(1,1);
         try {
             stateUnderTest.update(c,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | GodConditionNotSatisfiedException | BoxAlreadyOccupiedException | BuildErrorException | MoveErrorException e) {
             e.printStackTrace();
         }
     }
 
     @Test(expected = MoveErrorException.class)
-    public void updateWithMoveErrorWorkerNotBelongingTest() throws MoveErrorException, WrongChoiceTypeException, BuildErrorException, BoxAlreadyOccupiedException {
+    public void updateWithMoveErrorWorkerNotBelongingTest() throws MoveErrorException, WrongChoiceException, BuildErrorException, BoxAlreadyOccupiedException, GodConditionNotSatisfiedException {
         Choice c=new SelectWorkerCellChoice(2,3);
         stateUnderTest.update(c,model);
     }
 
     @Test(expected = MoveErrorException.class)
-    public void updateWithMoveErrorWorkerNotPresentTest() throws MoveErrorException, WrongChoiceTypeException, BuildErrorException, BoxAlreadyOccupiedException {
+    public void updateWithMoveErrorWorkerNotPresentTest() throws MoveErrorException, WrongChoiceException, BuildErrorException, BoxAlreadyOccupiedException, GodConditionNotSatisfiedException {
         Choice c=new SelectWorkerCellChoice(2,2);
         stateUnderTest.update(c,model);
     }
@@ -94,25 +85,13 @@ public class MoveStateTest {
         Choice c=new SelectWorkerCellChoice(1,1);
         try {
             stateUnderTest.update(c,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException | BuildErrorException | MoveErrorException e) {
             e.printStackTrace();
         }
         Choice c1=new MoveChoice(2,2);
         try {
             stateUnderTest.update(c1,model);
-        } catch (WrongChoiceTypeException e) {
-            e.printStackTrace();
-        } catch (MoveErrorException e) {
-            e.printStackTrace();
-        } catch (BuildErrorException e) {
-            e.printStackTrace();
-        } catch (BoxAlreadyOccupiedException e) {
+        } catch (WrongChoiceException | MoveErrorException | BuildErrorException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException e) {
             e.printStackTrace();
         }
         assertTrue(stateUnderTest.hasFinished());

@@ -13,7 +13,7 @@ public interface State {
     void startup(Model model);
 
     //Called at every update of Context
-    void update(Choice userChoice, Model model) throws WrongChoiceTypeException,
+    void update(Choice userChoice, Model model) throws WrongChoiceException,
             MoveErrorException, BuildErrorException, BoxAlreadyOccupiedException,
             GodConditionNotSatisfiedException;
 

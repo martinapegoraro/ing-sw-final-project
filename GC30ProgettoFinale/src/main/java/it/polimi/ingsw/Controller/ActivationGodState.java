@@ -2,12 +2,10 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.GodConditionNotSatisfiedException;
-import it.polimi.ingsw.Model.Exceptions.WrongChoiceTypeException;
+import it.polimi.ingsw.Model.Exceptions.WrongChoiceException;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.GodActivationChoice;
-import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ActivationGodState implements State {
@@ -31,12 +29,38 @@ public class ActivationGodState implements State {
         //TODO: Setting the flag for each player to decide if he can activate his god card
     }
 
+    /**Called when activating Minotaur card, checks if the opponent worker has a free cell
+     * behind him to use the  God's power**/
+    private boolean minotaurCheck(Box opponentWorkerBox, Box playerWorkerBox, Model model)
+    {
+        int x1,x2,y1,y2;
+        int xBehind, yBehind;
+        x1 = opponentWorkerBox.getCoord()[0];
+        y1 = opponentWorkerBox.getCoord()[1];
+        x2 = playerWorkerBox.getCoord()[0];
+        y2 = playerWorkerBox.getCoord()[1];
+
+        xBehind = x1 + (x1-x2);
+        yBehind = y1 + (y1-y2);
+
+        try
+        {
+            Box behindBox = model.getTurn().getBoardInstance().getBox(xBehind, yBehind);
+            return !behindBox.isOccupied();
+        }
+        catch(IndexOutOfBoundsException ex)
+        {
+            System.out.println("Worker is at the edge of the board, cannot use Minotaur!\n" + ex.getMessage());
+            return false;
+        }
+    }
+
     /**Called by Context after BeginTurnState has finished
      * The method collects the decision for every player
      * to activate their god card and updates the Model accordingly
      * **/
     @Override
-    public void update(Choice userChoice, Model model) throws WrongChoiceTypeException, GodConditionNotSatisfiedException
+    public void update(Choice userChoice, Model model) throws WrongChoiceException, GodConditionNotSatisfiedException
     {
         if(userChoice instanceof GodActivationChoice)
         {
@@ -61,7 +85,6 @@ public class ActivationGodState implements State {
                 switch(currentGod) {
                     case APOLLO:
                         //Player's turn and there is an OPPONENT worker in neighboring spaces
-                        //TODO: check if the worker belongs to opponent
                         boolean apolloCondition = false;
 
                         for(Box b : neighborBoxes)
@@ -69,11 +92,12 @@ public class ActivationGodState implements State {
                             if(b.isOccupied() && (b.getTower() == null || !b.getTower().getPieces().contains(Block.DOME)))
                             {
                                 //Flag isOccupied is used both with domes and workers
-                                apolloCondition = true;
+                                if(b != firstWorkerBox && b != secondWorkerBox)
+                                {
+                                    apolloCondition = true;
+                                }
                             }
                         }
-
-
 
                         if(actingPlayer.isPlayerActive() && apolloCondition)
                         {
@@ -148,7 +172,7 @@ public class ActivationGodState implements State {
 
                     case MINOTAUR:
                         //Like Apollo condition but for every OPPONENT worker the space behind it must be free
-                        //TODO: Check if worker belongs to opponent!
+                        //To check if worker belongs to opponent I just check it's not mine
                         boolean minotaurCondition = false;
 
                         for(Box b : neighborBoxes)
@@ -158,20 +182,19 @@ public class ActivationGodState implements State {
                                 //Flag isOccupied is used both with domes and workers
                                 //This part calculates the cell opposite to workerCell with center in b
                                 //The boxes have to be bounded to board (no out of bounds)
-                                ArrayList<Box> borderBoxes = (ArrayList<Box>) model.getTurn().getBoardInstance().getBorderBoxes(b);
-                                if(borderBoxes.contains(firstWorkerBox))
+                                if(b != firstWorkerBox && b!= secondWorkerBox)
                                 {
-                                    //TODO: Calculate mirror box excluding borderboxes
+                                    if(b.isAdjacent(firstWorkerBox))
+                                    {
+                                        if(minotaurCheck(b, firstWorkerBox, model)) minotaurCondition = true;
+                                    }
+                                    if(b.isAdjacent(secondWorkerBox))
+                                    {
+                                        if(minotaurCheck(b, secondWorkerBox, model)) minotaurCondition = true;
+                                    }
                                 }
-                                else if(borderBoxes.contains(secondWorkerBox))
-                                {
-
-                                }
-                                minotaurCondition = true;
                             }
                         }
-
-
 
                         if(actingPlayer.isPlayerActive() && minotaurCondition)
                         {
@@ -190,7 +213,7 @@ public class ActivationGodState implements State {
         }
         else
             {
-                throw new WrongChoiceTypeException("Wrong Choice, EXPECTED: GodActivation, FOUND: "+ userChoice.toString());
+                throw new WrongChoiceException("Wrong Choice, EXPECTED: GodActivation, FOUND: "+ userChoice.toString());
             }
 
     }
