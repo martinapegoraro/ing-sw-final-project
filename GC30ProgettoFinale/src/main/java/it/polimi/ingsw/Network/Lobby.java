@@ -7,44 +7,55 @@ import it.polimi.ingsw.Network.SocketClientConnection;
 import it.polimi.ingsw.View.VirtualView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Lobby {
-    private List<SocketClientConnection> connectionList;
-    private List<String> namesList;
+
+    private Map<SocketClientConnection,String> connectionMap;
     private Model model;
     private Controller controller;
     private List<VirtualView> virtualViewList;
-    private int playerInTheLobby;
+    private int numberOfPlayers;
 
-    public Lobby()
+
+    public Lobby(SocketClientConnection connection,String nome,int numberOfPlayers)
     {
-        connectionList=new ArrayList<SocketClientConnection>();
-        namesList=new ArrayList<String>();
+
+        this.numberOfPlayers=numberOfPlayers;
+        connectionMap=new HashMap<>();
+        connectionMap.put(connection,nome);
         model=null;
         controller=null;
         virtualViewList=new ArrayList<VirtualView>();
-        playerInTheLobby=0;
+
     }
 
     public synchronized void  addPlayer(SocketClientConnection conn,String name)
     {
-        connectionList.add(playerInTheLobby,conn);
-        namesList.add(playerInTheLobby,name);
-        playerInTheLobby++;
+        connectionMap.put(conn, name);
+        if(connectionMap.size()==numberOfPlayers)
+            startGame();
 
     }
 
-    public synchronized void removePlayer(String name)
+    public int getNumberOfPlayers(){
+        return numberOfPlayers;
+    }
+    public synchronized boolean isInInTheLobby(SocketClientConnection conn)
     {
-        connectionList.remove(namesList.indexOf(name));
-        namesList.remove(name);
-        playerInTheLobby--;
+        return connectionMap.get(conn) != null;
+    }
+
+    public synchronized void removePlayer(SocketClientConnection connection)
+    {
+        connectionMap.remove(connection);
     }
 
     private  void instantiateModel()
     {
-        model=new Model(namesList);
+        model=new Model((ArrayList<String>)connectionMap.values());
         //add the virtualView to the model observer
         //model.addObservers();
     }
@@ -52,7 +63,7 @@ public class Lobby {
     private void createController()
     {
         try {
-            controller=new Controller(model,playerInTheLobby);
+            controller=new Controller(model,numberOfPlayers);
         } catch (WrongNumberOfPlayersException e) {
             e.printStackTrace();
         }
@@ -72,4 +83,8 @@ public class Lobby {
         //partenza gioco;
     }
 
+    public void print()
+    {
+        System.out.println(connectionMap.toString());
+    }
 }

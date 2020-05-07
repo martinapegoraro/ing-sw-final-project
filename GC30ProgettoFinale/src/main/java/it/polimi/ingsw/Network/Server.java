@@ -9,11 +9,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 
 public class Server {
-    private static final int PORT=1234;
+    private static final int PORT=12345;
     private ServerSocket serverSocket;
     private ExecutorService executor;
     private List<SocketClientConnection> connections;
-    private Lobby lobby;
+    private List<Lobby> lobbiesList;
 
 
     public Server() throws IOException
@@ -21,7 +21,7 @@ public class Server {
         this.serverSocket=new ServerSocket(PORT);
         executor= Executors.newFixedThreadPool(128);
         connections=new ArrayList<SocketClientConnection>();
-        lobby=new Lobby();
+        lobbiesList=null;
     }
 
     private synchronized void registerConnection(SocketClientConnection c)
@@ -34,6 +34,7 @@ public class Server {
             try {
                 Socket socket=serverSocket.accept();
                 SocketClientConnection connection=new SocketClientConnection(socket,this);
+
                 registerConnection(connection);
                 executor.submit(connection);
             } catch (IOException e) {
@@ -42,14 +43,39 @@ public class Server {
         }
     }
 
-    public void addToLobby(SocketClientConnection connection,String name)
+    public void addToLobby(SocketClientConnection connection,String name,int numberOfPlayer)
     {
-        lobby.addPlayer(connection,name);
+        if(lobbiesList==null){
+            lobbiesList=new ArrayList<Lobby>();
+            lobbiesList.add(new Lobby(connection,name,numberOfPlayer));
+        }
+        else
+        {
+            for (Lobby l:lobbiesList) {
+                if(numberOfPlayer==l.getNumberOfPlayers()) {
+                    l.addPlayer(connection, name);
+                    return;
+                }
+            }
+            lobbiesList.add(new Lobby(connection,name,numberOfPlayer));
+        }
     }
 
     public synchronized void deregisterConnection(SocketClientConnection c)
     {
-        connections.remove(c);
+        for (Lobby l:lobbiesList) {
+            if(l.isInInTheLobby(c))
+                l.removePlayer(c);
+        }
         //TODO: to handle whats append to the game connection when i close one.
+    }
+    public synchronized void printLobbiesList()
+    {
+        int i=1;
+        for (Lobby l:lobbiesList ) {
+            System.out.println("printing lobby number"+i);
+            l.print();
+            i++;
+        }
     }
 }
