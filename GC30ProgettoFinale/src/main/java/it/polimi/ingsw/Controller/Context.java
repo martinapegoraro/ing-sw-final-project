@@ -74,6 +74,7 @@ public class Context implements Observer<Choice> {
                 switchState(newState);
 
             case CheckWinCondition:
+
             case Move:
 
                 //Get worker cells and move boxes

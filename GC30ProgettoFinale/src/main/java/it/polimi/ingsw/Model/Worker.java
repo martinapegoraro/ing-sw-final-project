@@ -43,6 +43,27 @@ public class Worker{
                 throw new MoveErrorException("WARNING: Box selected for Move is not Adjacent to current Worker!");
             }
     }
+
+    /**Swaps the positions of two workers.
+     * Method added to complement move, swap does not change box.isOccupied() state
+     * two consecutive moves would leave one box flag in the wrong state.**/
+    public void swap(Worker opponentWorker) throws MoveErrorException
+    {
+        if(position.isAdjacent(opponentWorker.getPosition()))
+        {
+            Box temp;
+            temp = position;
+            position = opponentWorker.getPosition();
+            opponentWorker.position = temp;
+        }
+        else
+        {
+            //position = to;
+            //updatePosition();
+            throw new MoveErrorException("WARNING: Box selected for Move is not Adjacent to current Worker!");
+        }
+    }
+
     public Box getPosition()
     {
         return position;

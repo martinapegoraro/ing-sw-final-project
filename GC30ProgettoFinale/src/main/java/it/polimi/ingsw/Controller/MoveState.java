@@ -5,6 +5,7 @@ import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
 import it.polimi.ingsw.Model.Exceptions.WrongChoiceException;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.Worker;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.MoveChoice;
 import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
@@ -124,10 +125,73 @@ public class MoveState implements State {
             {
                 try
                 {
-                    //TODO: Add different effects for God flags
                     Box oldBox;
                     oldBox = actingPlayer.getSelectedWorker().getPosition();
-                    actingPlayer.getSelectedWorker().move(b);
+                    Worker opponentWorker = null;
+                    if(swapWorkerPosition)
+                    {
+                        //Apollo is active
+                        for(Player p : model.getTurn().getPlayersList())
+                        {
+                            if(p!=actingPlayer)
+                            {
+                                for(Worker w: p.getWorkerList())
+                                {
+                                    if(w.getPosition() == b)
+                                    {
+                                        opponentWorker = w;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if(opponentWorker != null)
+                        {
+                            opponentWorker.swap(actingPlayer.getSelectedWorker());
+                        }
+                        else
+                            {
+                                throw new MoveErrorException("There's no opponent worker in the vicinity to swap!");
+                            }
+
+
+                    }
+                    else if (pushWorkerBack) {
+                        //Minotaur is active
+                        for(Player p : model.getTurn().getPlayersList())
+                        {
+                            if(p!=actingPlayer)
+                            {
+                                for(Worker w: p.getWorkerList())
+                                {
+                                    if(w.getPosition() == b)
+                                    {
+                                        opponentWorker = w;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if(opponentWorker != null)
+                        {
+                            //Calculate push cell
+                            int xPush, yPush;
+                            xPush =
+                                    opponentWorker.getPosition().getCoord()[0] - actingPlayer.getSelectedWorker().getPosition().getCoord()[0];
+                            yPush =
+                                    opponentWorker.getPosition().getCoord()[1] - actingPlayer.getSelectedWorker().getPosition().getCoord()[1];
+
+                            opponentWorker.move(model.getTurn().getBoardInstance().getBox(xPush, yPush));
+                            actingPlayer.getSelectedWorker().move(b);
+                        }
+                    }
+                    else
+                        {
+                            //No special god effects apply
+                            actingPlayer.getSelectedWorker().move(b);
+                        }
 
                     //If the player moves up his AthenaCondition will be set to true, at the beginning of his next
                     //MoveState it'll be set to false again
@@ -135,6 +199,13 @@ public class MoveState implements State {
                     {
                         actingPlayer.changeAthenaCondition(true);
                     }
+
+                    //Check to see if player has won using default rules, moving to third level
+                    if(b.getTower().getHeight() == 3)
+                    {
+                        actingPlayer.setHasWon();
+                    }
+
                     model.updateModelRep();
                     hasFinished = true;
                 }

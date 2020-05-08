@@ -122,8 +122,17 @@ public class ActivationGodState implements State {
                         }
 
                     case ARTEMIS:
+                        //Check it's player's turn
                         //Player can move two times without moving back to it's own space
                         //Check is done in Context
+                        if(actingPlayer.isPlayerActive())
+                        {
+                            actingPlayer.setGodActive(true);
+                        }
+                        else
+                        {
+                            throw new GodConditionNotSatisfiedException("Artemis can't be activated!");
+                        }
 
                     case ATLAS:
                         //There has to be at least one free Tower near a player's worker, Domes cannot be built on level 0
@@ -146,8 +155,17 @@ public class ActivationGodState implements State {
                         }
 
                     case DEMETER:
-                        //Checks if it's player turn and if two sequential moves are possible without
-                        //going back to the starting cell
+                        //Checks if it's player turn
+                        //the check for two possible consecutive builds will be done by the Context
+                        if(actingPlayer.isPlayerActive())
+                        {
+                            actingPlayer.setGodActive(true);
+                        }
+                        else
+                        {
+                            throw new GodConditionNotSatisfiedException("Demeter can't be activated!");
+                        }
+
 
                     case HEPHAESTUS:
                         //Checks if there is a tower in player workers vicinity with height <= 1 (to build two times)
@@ -206,7 +224,26 @@ public class ActivationGodState implements State {
                         }
 
                     case PROMETHEUS:
-                        //Must be able to build before moving
+                        //Player's turn and Must be able to build before moving
+                        boolean prometheusCondition = false;
+
+                        for(Box b : neighborBoxes)
+                        {
+                            if (!b.isOccupied()) {
+                                //There is a box where the workers can build
+                                prometheusCondition = true;
+                                break;
+                            }
+                        }
+
+                        if(actingPlayer.isPlayerActive() && prometheusCondition)
+                        {
+                            actingPlayer.setGodActive(true);
+                        }
+                        else
+                        {
+                            throw new GodConditionNotSatisfiedException("Prometheus can't be activated!");
+                        }
 
                 }
             }

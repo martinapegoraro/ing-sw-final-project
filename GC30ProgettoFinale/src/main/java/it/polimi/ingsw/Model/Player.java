@@ -15,6 +15,7 @@ public class Player {
     private boolean athenaCondition;
     private Worker selectedWorker;
     private boolean hasLost;
+    private boolean hasWon;
 
     public Player(int n, String name)
     {
@@ -28,6 +29,7 @@ public class Player {
         isActive=false;
         selectedWorker = null;
         hasLost = false;
+        hasWon = false;
     }
 
     public boolean isPlayerActive()
@@ -132,6 +134,16 @@ public class Player {
     {
         hasLost = true;
         deleteWorkers();
+    }
+
+    public boolean getHasWon()
+    {
+        return hasWon;
+    }
+
+    public void setHasWon()
+    {
+        hasWon = true;
     }
 
     private void deleteWorkers()
