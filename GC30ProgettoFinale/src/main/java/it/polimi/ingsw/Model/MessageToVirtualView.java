@@ -8,12 +8,12 @@ public class MessageToVirtualView implements Serializable {
     private  ModelRepresentation modelRep;
     private  ErrorMessage errorMsg;
 
-    public void MessageToVirualView(ModelRepresentation modelRep)
+    public  MessageToVirtualView(ModelRepresentation modelRep)
     {
         this.modelRep=modelRep;
         errorMsg=null;
     }
-    public void MessageToVirualView(ErrorMessage errorMsg)
+    public  MessageToVirtualView(ErrorMessage errorMsg)
     {
         modelRep=null;
         this.errorMsg=errorMsg;

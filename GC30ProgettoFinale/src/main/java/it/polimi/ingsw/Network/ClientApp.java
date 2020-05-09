@@ -9,7 +9,7 @@ public class ClientApp {
         try{
             client.run();
         }
-        catch(IOException e){
+        catch(IOException | InterruptedException e){
                 System.out.println(e.getMessage());
         }
     }

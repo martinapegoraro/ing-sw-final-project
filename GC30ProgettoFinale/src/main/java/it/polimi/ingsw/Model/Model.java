@@ -11,6 +11,7 @@ public class Model extends Observable<ModelRepresentation> {
     private ModelRepresentation modelRep;
     public Model(List<String> playersNamesList)
     {
+
         turn=new Turn(playersNamesList);
         playerNum=playersNamesList.size();
         //I create a new modelRep based on the current status of the model

@@ -43,12 +43,32 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         active=false;
     }
 
+    private synchronized void send(MessageToVirtualView message) {
+        try {
+            out.reset();
+            out.writeObject(message);
+            out.flush();
+        } catch(IOException e){
+            System.err.println(e.getMessage());
+        }
 
+    }
+
+    public void asyncSend(MessageToVirtualView message){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                send(message);
+            }
+        }).start();
+    }
 
     private void close()
     {
         closeConnection();
-        //server.deregisterConnection(this);
+        System.out.println("Deregistering client...");
+        server.deregisterConnection(this);
+        System.out.println("Done!");
     }
 
     public void run()
@@ -56,7 +76,6 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         try{
             PlayerNumberChoice nameNPChoice= (PlayerNumberChoice)in.readObject();
             server.addToLobby(this, nameNPChoice.name,nameNPChoice.playerNumber);
-            server.printLobbiesList();
             while(isActive())
             {
                 Choice read= (Choice)in.readObject();

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.Model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ModelRepresentation {
+public class ModelRepresentation implements Serializable {
     public int[][] workerposition;
     public int[][] towerposition;
     public String[] godList;

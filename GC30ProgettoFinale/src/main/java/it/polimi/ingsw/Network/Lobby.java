@@ -2,14 +2,13 @@ package it.polimi.ingsw.Network;
 
 import it.polimi.ingsw.Controller.Controller;
 import it.polimi.ingsw.Model.Exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Network.SocketClientConnection;
 import it.polimi.ingsw.View.VirtualView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.crypto.MacSpi;
+import java.util.*;
 
 public class Lobby {
 
@@ -59,9 +58,11 @@ public class Lobby {
 
     private  void instantiateModel()
     {
-        model=new Model((ArrayList<String>)connectionMap.values());
-        //add the virtualView to the model observer
-        //model.addObservers();
+
+        List<String> nomiGiocatori=new ArrayList<String>(connectionMap.values());
+        System.out.println("sono qui");
+        model=new Model(nomiGiocatori);
+        System.out.println("model creato");
     }
 
     private void createController()
@@ -83,12 +84,19 @@ public class Lobby {
     public void startGame()
     {
         System.out.println("starting the game");
+
         instantiateModel();
+        System.out.println("sono qui2");
         createController();
+        System.out.println("sono qui3");
         createVirtualView();
         //partenza gioco;
         //model.addObservers(virtualView);
         virtualView.addObservers(controller);
+        for (SocketClientConnection c:connectionMap.keySet() ) {
+            System.out.println("sono qui");
+            c.asyncSend(new MessageToVirtualView(model.getModelRep()));
+        }
     }
 
     public void print()

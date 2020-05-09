@@ -15,8 +15,9 @@ import java.util.Scanner;
 public class Client {
     private String ip;
     private int port;
-    ObjectOutputStream out;
-    ObjectInputStream in;
+    private boolean active = true;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
     public Client(String ip,int port)
     {
@@ -24,8 +25,60 @@ public class Client {
         this.port=port;
     }
 
-    public void run() throws IOException
-    {
+
+
+    public synchronized boolean isActive(){
+        return active;
+    }
+
+    public synchronized void setActive(boolean active){
+        this.active = active;
+    }
+
+    public Thread asyncReadFromSocket(final ObjectInputStream in){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (isActive()) {
+                        MessageToVirtualView messaggio =(MessageToVirtualView) in.readObject();
+                        if(messaggio.isModelRep()){
+                            //stampa il modello
+                            System.out.println("sono qui");
+                        } else {
+                            //stampa errore
+                        }
+                    }
+                } catch (Exception e){
+                    setActive(false);
+                }
+            }
+        });
+        t.start();
+        return t;
+    }
+
+    public Thread asyncWriteToSocket(Choice c, final ObjectOutputStream out){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //while (isActive()) {
+
+                        out.writeObject(c);
+                        out.flush();
+                    //}
+                }catch(Exception e){
+                    setActive(false);
+                }
+            }
+        });
+        t.start();
+        return t;
+    }
+
+
+    public void run() throws IOException, InterruptedException {
         Socket socket=new Socket(ip,port);
         out =new ObjectOutputStream(socket.getOutputStream());
         in=new ObjectInputStream(socket.getInputStream());
@@ -35,17 +88,18 @@ public class Client {
         System.out.println("scrivi con quanti vuoi giocare");
         int num=stdin.nextInt();
         Choice c=new PlayerNumberChoice(name,num);
-        out.writeObject(c);
-        out.flush();
+        Thread t1 = asyncWriteToSocket(c, out);
+        t1.join();
+        //out.writeObject(c);
+        //out.flush();
         MessageToVirtualView msg;
         try {
 
 
             while (true) {
                 msg = (MessageToVirtualView)in.readObject();
-
-
-
+                Thread t0 = asyncReadFromSocket(in);
+                t0.join();
             }
         }
         catch(NoSuchElementException | ClassNotFoundException e)
