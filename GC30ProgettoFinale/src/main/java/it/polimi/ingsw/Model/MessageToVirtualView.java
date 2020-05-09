@@ -2,7 +2,9 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Utils.ErrorMessages.ErrorMessage;
 
-public class MessageToVirtualView {
+import java.io.Serializable;
+
+public class MessageToVirtualView implements Serializable {
     private  ModelRepresentation modelRep;
     private  ErrorMessage errorMsg;
 

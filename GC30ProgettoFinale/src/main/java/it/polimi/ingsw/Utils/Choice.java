@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Utils;
 
-public abstract class Choice {
+import java.io.Serializable;
+
+public abstract class Choice implements Serializable {
     private int playerId;
     public String type;
 

@@ -1,4 +1,7 @@
 package it.polimi.ingsw.View;
 
-public class VirtualView {
+import it.polimi.ingsw.Model.MessageToVirtualView;
+import it.polimi.ingsw.Utils.Choice;
+
+public class VirtualView extends Observable<Choice> {
 }
