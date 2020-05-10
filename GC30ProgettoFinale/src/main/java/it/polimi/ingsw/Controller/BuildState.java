@@ -6,6 +6,9 @@ import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
 import it.polimi.ingsw.Model.Exceptions.WrongChoiceException;
 import it.polimi.ingsw.Utils.BuildChoice;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ErrorMessages.BuildErrorMessage;
+import it.polimi.ingsw.Utils.ErrorMessages.SelectWorkerPositionErrorMessage;
+import it.polimi.ingsw.Utils.ErrorMessages.SelectedCellErrorMessage;
 import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 
 import java.util.ArrayList;
@@ -60,6 +63,7 @@ public class BuildState implements State{
             }
             catch(IndexOutOfBoundsException ex)
             {
+                model.notify(new MessageToVirtualView(new SelectWorkerPositionErrorMessage()));
                 throw new WrongChoiceException("WorkerChoice message is not valid! COORDINATES: " +
                         ((SelectWorkerCellChoice) userChoice).x + " " + ((SelectWorkerCellChoice) userChoice).y);
             }
@@ -80,12 +84,14 @@ public class BuildState implements State{
                 }
                 else
                 {
+                    model.notify(new MessageToVirtualView(new SelectWorkerPositionErrorMessage()));
                     throw new BuildErrorException("Selected Worker does not belong to player: "
                             + actingPlayer.getPlayerName()+"!");
                 }
             }
             else
             {
+                model.notify(new MessageToVirtualView(new BuildErrorMessage()));
                 throw new BuildErrorException("No Worker present in the box selected by "
                         + actingPlayer.getPlayerName()+"!");
             }
@@ -101,6 +107,7 @@ public class BuildState implements State{
             }
             catch(IndexOutOfBoundsException ex)
             {
+                model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
                 throw new WrongChoiceException("BuildChoice coords are invalid: " + currentChoice.x + "," + currentChoice.y);
             }
 
@@ -133,6 +140,7 @@ public class BuildState implements State{
                 //}
                 catch (NullPointerException ex)
                 {
+                    model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
                     System.out.println("No selected worker!");
                 }
                 finally
@@ -142,14 +150,16 @@ public class BuildState implements State{
             }
             else
             {
-                //The box is not a valid move
+                //The box is not a valid position for a build
+                model.notify(new MessageToVirtualView(new BuildErrorMessage()));
                 throw new BuildErrorException("The build received is unvalid!");
             }
 
         }
         else
         {
-            throw new WrongChoiceException("Wrong choice in MoveState, received: "+ userChoice.toString());
+            model.notify(new MessageToVirtualView(new BuildErrorMessage()));
+            throw new WrongChoiceException("Wrong choice in Build, received: "+ userChoice.toString());
         }
     }
 

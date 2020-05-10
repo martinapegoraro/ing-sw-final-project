@@ -5,7 +5,7 @@ import it.polimi.ingsw.View.Observable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model extends Observable<ModelRepresentation> {
+public class Model extends Observable<MessageToVirtualView> {
     private Turn turn;
     private int playerNum;
     private ModelRepresentation modelRep;
@@ -32,7 +32,7 @@ public class Model extends Observable<ModelRepresentation> {
         //I initialize mi matrix with just zeroes (java default value for int)
         int [][] selectedCells = new int[5][5];
         modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList(),selectedCells);
-        notify(modelRep);
+        notify(new MessageToVirtualView(modelRep));
     }
 
     public void updateModelRep(ArrayList<Box> selectedWorkerCells)
@@ -45,11 +45,11 @@ public class Model extends Observable<ModelRepresentation> {
             selectedCells[coordinates[0]][coordinates[1]] = 1;
         }
         modelRep = new ModelRepresentation(turn.getBoardInstance(), turn.getPlayersList(), selectedCells);
-        notify(modelRep);
+        notify(new MessageToVirtualView(modelRep));
     }
 
     @Override
-    public void notify(ModelRepresentation message) {
+    public void notify(MessageToVirtualView message) {
         super.notify(message);
     }
 }

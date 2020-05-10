@@ -15,7 +15,7 @@ public class Lobby {
     private Map<SocketClientConnection,String> connectionMap;
     private Model model;
     private Controller controller;
-    private VirtualView virtualView;
+    private List<VirtualView> virtualViewList;
     private int numberOfPlayers;
 
 
@@ -27,7 +27,7 @@ public class Lobby {
         connectionMap.put(connection,nome);
         model=null;
         controller=null;
-        virtualView=null;
+        virtualViewList=new ArrayList<VirtualView>();
 
     }
 
@@ -77,8 +77,11 @@ public class Lobby {
     //TODO:Gestione virtual view
     private void createVirtualView()
     {
-        //vv1.addObserver(controller);
-        virtualView=new VirtualView();
+        int i=0;
+        for (SocketClientConnection connection:connectionMap.keySet()) {
+            virtualViewList.add(new VirtualView(i,connection));
+            i++;
+        }
     }
 
     public void startGame()
@@ -86,15 +89,15 @@ public class Lobby {
         System.out.println("starting the game");
 
         instantiateModel();
-        System.out.println("sono qui2");
         createController();
-        System.out.println("sono qui3");
         createVirtualView();
-        //partenza gioco;
-        //model.addObservers(virtualView);
-        virtualView.addObservers(controller);
+
+        for (VirtualView v:virtualViewList) {
+            model.addObservers(v);
+            v.addObservers(controller);
+        }
+
         for (SocketClientConnection c:connectionMap.keySet() ) {
-            System.out.println("sono qui");
             c.asyncSend(new MessageToVirtualView(model.getModelRep()));
         }
     }

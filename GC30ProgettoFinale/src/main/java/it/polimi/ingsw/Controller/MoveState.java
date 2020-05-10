@@ -3,10 +3,15 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.Box;
 import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
 import it.polimi.ingsw.Model.Exceptions.WrongChoiceException;
+import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.Worker;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ErrorMessages.MoveErrorMessage;
+import it.polimi.ingsw.Utils.ErrorMessages.SelectWorkerPositionErrorMessage;
+import it.polimi.ingsw.Utils.ErrorMessages.SelectedCellErrorMessage;
+import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 import it.polimi.ingsw.Utils.MoveChoice;
 import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 
@@ -72,6 +77,7 @@ public class MoveState implements State {
             }
             catch(IndexOutOfBoundsException ex)
             {
+                model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
                 throw new WrongChoiceException("WorkerChoice message is not valid! COORDINATES: " +
                         ((SelectWorkerCellChoice) userChoice).x + " " + ((SelectWorkerCellChoice) userChoice).y);
             }
@@ -92,12 +98,14 @@ public class MoveState implements State {
                 }
                 else
                     {
+                        model.notify(new MessageToVirtualView(new SelectWorkerPositionErrorMessage()));
                         throw new MoveErrorException("Selected Worker does not belong to player: "
                                 + actingPlayer.getPlayerName()+"!");
                     }
             }
             else
                 {
+                    model.notify(new MessageToVirtualView(new SelectWorkerPositionErrorMessage()));
                     throw new MoveErrorException("No Worker present in the box selected by "
                             + actingPlayer.getPlayerName()+"!");
                 }
@@ -113,6 +121,7 @@ public class MoveState implements State {
             }
             catch(IndexOutOfBoundsException ex)
             {
+                model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
                 throw new WrongChoiceException("MoveChoice coords are invalid: " + currentChoice.x + "," + currentChoice.y);
             }
 
@@ -211,10 +220,12 @@ public class MoveState implements State {
                 }
                 catch (MoveErrorException ex)
                 {
+                    model.notify(new MessageToVirtualView(new MoveErrorMessage()));
                     System.out.println(ex.getMessage());
                 }
                 catch (NullPointerException ex)
                 {
+                    model.notify(new MessageToVirtualView(new SelectWorkerPositionErrorMessage()));
                     System.out.println("No selected worker!");
                 }
                 finally
@@ -225,12 +236,14 @@ public class MoveState implements State {
             else
                 {
                     //The box is not a valid move
+                    model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
                     throw new MoveErrorException("The move received is unvalid!");
                 }
 
         }
         else
             {
+                model.notify(new MessageToVirtualView(new SentChoiceError()));
                 throw new WrongChoiceException("Wrong choice in MoveState, received: "+ userChoice.toString());
             }
     }

@@ -25,20 +25,22 @@ public class CheckWinConditionState implements State{
         GodsList currentGod = model.getTurn().getCurrentPlayer().getGod();
         if(currentGod == GodsList.PAN)
         {
-            if ()  //TODO: manca il flag per cappire se il worker si è mosso in giù di due livelli
+            //ho commentato se no non compilava
+            /*if ()  //TODO: manca il flag per cappire se il worker si è mosso in giù di due livelli
             {
                model.getTurn().getCurrentPlayer().setHasWon();
-            }
+            }*/
         }
         int playerNumber = model.getTurn().getPlayersList().size();
         for (int i = 0; i< playerNumber; i ++)
         {
             if(model.getTurn().getPlayersList().get(i).getGod() == GodsList.CHRONUS)
             {
-                if() //TODO: manca il flag per vedere se ci sono 5 torri complete sulla Board
+                //commentato causa compilazione
+                /*if() //TODO: manca il flag per vedere se ci sono 5 torri complete sulla Board
                 {
                     model.getTurn().getPlayersList().get(i).setHasWon();
-                }
+                }*/
             }
         }
 
@@ -50,11 +52,11 @@ public class CheckWinConditionState implements State{
         int playerNumber = model.getTurn().getPlayersList().size();
         for (int i = 0; i<playerNumber; i++)
         {
-            if(model.getTurn().getPlayersList().get(i).getHasWon())
-            {
+            //if(model.getTurn().getPlayersList().get(i).getHasWon())
+            //{
                 //the game ends
                 hasFinished = true;
-            }
+            //}
         }
     }
     @Override

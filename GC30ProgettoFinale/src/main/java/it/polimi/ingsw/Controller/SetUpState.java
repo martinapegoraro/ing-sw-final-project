@@ -1,12 +1,11 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.Box;
+import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
 import it.polimi.ingsw.Model.Exceptions.WrongChoiceException;
-import it.polimi.ingsw.Model.GodsList;
-import it.polimi.ingsw.Model.Model;
-import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ErrorMessages.SelectedCellErrorMessage;
+import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 
 import java.util.ArrayList;
@@ -83,11 +82,13 @@ public class SetUpState implements State{
             }
             catch(IndexOutOfBoundsException ex)
             {
+                model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
                 throw new WrongChoiceException("Invalid coordinates for Worker: " + castedChoice.x+","+ castedChoice.y);
             }
 
             if(selectedCell.isOccupied())
             {
+                model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
                 throw new BoxAlreadyOccupiedException("Another worker already occupies this Box!");
             }
             else
@@ -112,6 +113,7 @@ public class SetUpState implements State{
         }
         else
             {
+                model.notify(new MessageToVirtualView(new SentChoiceError()));
                 throw new WrongChoiceException("Wrong Choice Type! Expected: SelectWorkerCellChoice," +
                         "Received: "+ userChoice.toString());
             }
