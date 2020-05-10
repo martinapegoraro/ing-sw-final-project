@@ -6,7 +6,6 @@ import it.polimi.ingsw.Utils.Choice;
 
 public class VirtualView extends Observable<Choice> implements Observer<MessageToVirtualView>{
     private int idPlayer;
-    //?
     private SocketClientConnection connection;
 
     public VirtualView(int idPlayer,SocketClientConnection connection)

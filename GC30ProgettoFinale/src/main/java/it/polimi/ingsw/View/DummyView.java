@@ -1,17 +1,14 @@
 package it.polimi.ingsw.View;
 
-import it.polimi.ingsw.Model.Board;
+import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
-import it.polimi.ingsw.Model.Model;
-import it.polimi.ingsw.Model.ModelRepresentation;
-import it.polimi.ingsw.Model.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 //Dummy view for unpacking ModelRep type messages
-public class DummyView implements Observer<ModelRepresentation> {
+public class DummyView implements Observer<MessageToVirtualView> {
     int[][] workers;
     int[][] towers;
     int[][] activeCells;
@@ -184,7 +181,7 @@ public class DummyView implements Observer<ModelRepresentation> {
     }
 
     @Override
-    public void update(ModelRepresentation message) {
-        showModel(message);
+    public void update(MessageToVirtualView message) {
+        showModel(message.getModelRep());
     }
 }
