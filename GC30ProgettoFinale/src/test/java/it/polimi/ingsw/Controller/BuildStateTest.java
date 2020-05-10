@@ -33,7 +33,7 @@ public class BuildStateTest {
         model.getTurn().getBoardInstance().getBox(2,2).build();
         model.getTurn().getBoardInstance().getBox(2,2).build();
         try {
-            model.getTurn().getBoardInstance().getBox(2, 2).getTower().build(Block.DOME);
+            //model.getTurn().getBoardInstance().getBox(2, 2).getTower().build(Block.DOME);
             model.getTurn().getBoardInstance().getBox(0, 1).getTower().build(Block.LEVEL2);
             model.getTurn().getBoardInstance().getBox(0, 2).getTower().build(Block.LEVEL3);
         } catch (TowerCompleteException e) {
@@ -44,19 +44,19 @@ public class BuildStateTest {
         Box b4=model.getTurn().getBoardInstance().getBox(4,0);
         model.getTurn().getPlayersList().get(1).setWorkersPosition(b3,b4);
         model.updateModelRep();
+
     }
 
     @Before
     public void setUpBuildStates()
     {
-        stateUnderTest1=new BuildState(
-                (ArrayList<Box>)model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition()),
-                (ArrayList<Box>)model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition()),
+        stateUnderTest1=new BuildState(new ArrayList<Box>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
+                new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
                 false,model);
 
         stateUnderTest2=new BuildState(
-                (ArrayList<Box>)model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition()),
-                (ArrayList<Box>)model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition()),
+                new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
+                new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
                 true,model);
     }
 

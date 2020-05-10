@@ -42,6 +42,20 @@ public class ModelTest {
     }
 
     @Test
+    public void hasWonHasLostTest()
+    {
+        modelTest.getTurn().getPlayersList().get(2).setHasLost();
+        modelTest.updateModelRep();
+        ModelRepresentation modelRep=modelTest.getModelRep();
+        assertTrue(modelRep.getHasLost()[2]);
+
+        modelTest.getTurn().getPlayersList().get(0).setHasWon();
+        modelTest.updateModelRep();
+        modelRep=modelTest.getModelRep();
+        assertTrue(modelRep.getHasWon()[0]);
+    }
+
+    @Test
     public void createModelRep()
     {
         assertNotNull(modelTest.getModelRep());

@@ -125,6 +125,16 @@ public class Player {
 
     }
 
+    public boolean getHasWon()
+    {
+        return hasWon;
+    }
+
+    public void setHasWon()
+    {
+        hasWon=true;
+    }
+
     public boolean getHasLost()
     {
         return hasLost;

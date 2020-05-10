@@ -16,6 +16,7 @@ public class ModelRepresentationTest {
 
 
 
+
     @Before
     public void initializeModelRep ()
     {
@@ -40,7 +41,6 @@ public class ModelRepresentationTest {
         instanceBoard.getBox(3,0).build();
         int[][] selectedCells = new int[5][5];
         modelRepresentationTest = new ModelRepresentation(instanceBoard, players, selectedCells);
-
     }
 
     @Test
@@ -69,6 +69,8 @@ public class ModelRepresentationTest {
         assertEquals(-1, towers[2][2]);
         assertEquals(-1, towers[4][0]);
     }
+
+
 
     @Test
     public void testGodList()
