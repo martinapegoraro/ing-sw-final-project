@@ -15,6 +15,9 @@ public class ModelRepresentation implements Serializable {
     //activeCells is used to show clients which moves are possible highlighting the spaces
     //0 means the box is not selected
     public int[][] activeCells;
+    //arrays with players' flags hasWon and hasLost
+    public boolean[] hasWon;
+    public boolean[] hasLost;
 
     public ModelRepresentation(Board instance, List<Player> players, int[][] selectedCells)
     {
@@ -108,6 +111,19 @@ public class ModelRepresentation implements Serializable {
             }
         }
 
+        hasWon = new boolean[playerNum];
+        for (int i = 0; i < players.size(); i ++)
+        {
+            hasWon[i] = players.get(i).getHasWon();
+        }
+
+        hasLost = new boolean[playerNum];
+        for (int i = 0; i < players.size(); i ++)
+        {
+            hasLost[i] = players.get(i).getHasLost();
+        }
+
+
 
     }
 
@@ -145,8 +161,13 @@ public class ModelRepresentation implements Serializable {
     {
         return activeGodsList;
     }
+
     public String[][] getLastBlock()
     {
         return lastBlock;
     }
+
+    public boolean[] getHasWon() { return hasWon;}
+
+    public boolean[] getHasLost() { return hasLost; }
 }
