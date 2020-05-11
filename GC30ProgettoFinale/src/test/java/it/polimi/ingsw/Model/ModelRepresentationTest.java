@@ -110,8 +110,8 @@ public class ModelRepresentationTest {
         String [][] lastBlocks = modelRepresentationTest.getLastBlock();
         assertEquals("Level 2", lastBlocks[1][2]);
         assertEquals("Level 1", lastBlocks[3][0]);
-        assertEquals(null, lastBlocks[1][3]);
-        assertEquals(null,lastBlocks[2][2]);
+        assertNull(lastBlocks[1][3]);
+        assertNull(lastBlocks[2][2]);
 
     }
 

@@ -152,15 +152,6 @@ public class Player {
         deleteWorkers();
     }
 
-    public boolean getHasWon()
-    {
-        return hasWon;
-    }
-
-    public void setHasWon()
-    {
-        hasWon = true;
-    }
 
     private void deleteWorkers()
     {
