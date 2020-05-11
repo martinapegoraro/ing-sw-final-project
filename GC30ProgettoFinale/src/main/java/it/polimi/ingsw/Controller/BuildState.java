@@ -18,13 +18,15 @@ public class BuildState implements State{
     ArrayList<Box> possibleBuildListWorker1;
     ArrayList<Box> possibleBuildListWorker2;
     boolean domeAtAnyLevel;
+    boolean twoBlocksHephaestus;
 
 
-    public BuildState(ArrayList<Box> pBLW1,ArrayList<Box> pBLW2, boolean domeAAL,Model model)
+    public BuildState(ArrayList<Box> pBLW1,ArrayList<Box> pBLW2, boolean domeAAL, boolean twoBlocksBuilt, Model model)
     {
         domeAtAnyLevel = domeAAL;
         possibleBuildListWorker1 = pBLW1;
         possibleBuildListWorker2 = pBLW2;
+        twoBlocksHephaestus = twoBlocksBuilt;
         //If possibleMoves is empty the player has lost
         if(possibleBuildListWorker1.isEmpty() && possibleBuildListWorker2.isEmpty())
         {
@@ -121,16 +123,31 @@ public class BuildState implements State{
             {
                 try
                 {
-                    if(domeAtAnyLevel=false){
-                       b.build();
+                    if(twoBlocksHephaestus){
+                        //Hephaestus can't build domes, so tower must not exist or be at 1st level
+                       if(b.getTower() == null || b.getTower().getHeight() == 1)
+                       {
+                           b.build();
+                           b.build();
+                       }
+                       else
+                           {
+                               //Exceptions in build are already handled by Model
+                               b.build();
+                           }
                     }
-                    else {
+                    else if(domeAtAnyLevel){
                         try {
                             b.getTower().build(Block.DOME);
                         } catch (TowerCompleteException e) {
                             e.printStackTrace();
                         }
                     }
+                    else
+                        {
+                            b.build();
+                        }
+
                     model.updateModelRep();
                     hasFinished = true;
                 }

@@ -31,7 +31,7 @@ public class EndTurnState implements State {
         // HAS TO BE SET IN BEGINTURNSTATE! currentPlayer.changeAthenaCondition(false);
         //Otherwise some players may never be able to use Athena
         currentPlayer.setSelectedWorker(null);
-        currentPlayer.changePanCondition(false);
+        //currentPlayer.changePanCondition(false); This should not be necessary
         List<Player> players = model.getTurn().getPlayersList();
         for (Player player : players)
         {

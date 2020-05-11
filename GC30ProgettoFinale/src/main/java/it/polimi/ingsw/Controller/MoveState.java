@@ -215,8 +215,8 @@ public class MoveState implements State {
                         actingPlayer.changePanCondition (true);
                     }
 
-                    //Check to see if player has won using default rules, moving to third level
-                    if(b.getTower().getHeight() == 3)
+                    //Check to see if player has won using default rules, moving UP to third level
+                    if(b.getTower().getHeight() == 3 && oldBox.getTower().getHeight() == 2)
                     {
                         actingPlayer.setHasWon();
                     }

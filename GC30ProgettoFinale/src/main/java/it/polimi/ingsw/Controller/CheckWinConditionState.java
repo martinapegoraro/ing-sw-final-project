@@ -10,9 +10,17 @@ public class CheckWinConditionState implements State{
     private boolean hasFinished;
     StateEnum stateId;
 
-    public CheckWinConditionState()
+    public CheckWinConditionState(int number)
     {
-        stateId = StateEnum.CheckWinCondition;
+        if(number == 1)
+        {
+            stateId = StateEnum.FirstCheckWinCondition;
+        }
+        else
+            {
+                stateId = StateEnum.SecondCheckWinCondition;
+            }
+
         hasFinished = false;
     }
 

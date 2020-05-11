@@ -4,7 +4,8 @@ public enum StateEnum {
     SetUp,
     BeginTurn,
     ActivationGod,
-    CheckWinCondition,
+    FirstCheckWinCondition,
+    SecondCheckWinCondition,
     Move,
     Build,
     EndTurn

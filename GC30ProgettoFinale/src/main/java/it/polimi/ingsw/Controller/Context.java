@@ -12,6 +12,10 @@ public class Context implements Observer<Choice> {
     private int numberofPlayers;
     private Model contextModel;
     private ArrayList<GodsList> activeGods;
+    private boolean prometheusFlowDeviation;
+    private boolean artemisFlowDeviation;
+    private boolean hephaestusFlowDeviation;
+    private boolean demeterFlowDeviation;
 
     public Context(Model model) throws NullPointerException
     {
@@ -29,12 +33,31 @@ public class Context implements Observer<Choice> {
     //______________________________________State change methods_______________________________________________________
 
 
-
+    /**The method provides a quick way to change to the next state in the State pattern
+     * according to current state and active god cards whom disrupt
+     * the normal state flow
+     * **/
     private void stateChange()
     {
+        //If a god who changes state flow is active the state transition is
+        //handled by the god method
+        if(activeGods.size()>0)
+        {
+            if(activeGods.contains(GodsList.ARTEMIS))
+            {
+                artemisEffect();
+            }
+            else if(activeGods.contains(GodsList.DEMETER))
+            {
+                demeterEffect();
+            }
+            else if(activeGods.contains(GodsList.PROMETHEUS))
+            {
+                prometheusEffect();
+            }
+        }
+
         State newState;
-        //Saves
-        ArrayList<Box> workerPositions = new ArrayList<>();
 
         switch(currentState.getID())
         {
@@ -57,42 +80,33 @@ public class Context implements Observer<Choice> {
                     }
                 }
 
-                //Get worker cells and move boxes
-                workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());
-                workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());
+                if (activeGods.contains(GodsList.PROMETHEUS))
+                {
 
-                ArrayList<Box> possibleMovesWorker0 = new ArrayList<>(getPossibleMoveBoxes(workerPositions.get(0)));
-                ArrayList<Box> possibleMovesWorker1 = new ArrayList<>(getPossibleMoveBoxes(workerPositions.get(1)));
+                }
 
-                //Define god flags to build state
-                boolean pushWorker, swapWorker;
-                pushWorker = false;
-                swapWorker = false;
-                if(activeGods.contains(GodsList.MINOTAUR)) pushWorker = true;
-                if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;
-                newState = new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, contextModel);
+                newState = moveStateConstructor();
                 switchState(newState);
 
-            case CheckWinCondition:
-
             case Move:
+                newState = new CheckWinConditionState(1);
+                switchState(newState);
 
-                //Get worker cells and move boxes
-                workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());
-                workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());
-
-                ArrayList<Box> possibleBuildList0 = getPossibleBuildBoxes(workerPositions.get(0));
-                ArrayList<Box> possibleBuildList1 = getPossibleBuildBoxes(workerPositions.get(1));
-                //Initialize god flags
-                boolean domeAtAnyLevel = false;
-                if(activeGods.contains(GodsList.ATLAS)) domeAtAnyLevel = true;
-
-                newState = new BuildState(possibleBuildList0,possibleBuildList1,domeAtAnyLevel,contextModel);
+            case FirstCheckWinCondition:
+                newState = buildStateConstructor();
                 switchState(newState);
 
             case Build:
+                newState = new CheckWinConditionState(2);
+                switchState(newState);
+
+            case SecondCheckWinCondition:
+                newState = new EndTurnState();
+                switchState(newState);
+
             case EndTurn:
                 newState = new BeginTurnState();
+                activeGods.clear();
                 switchState(newState);
         }
     }
@@ -106,7 +120,9 @@ public class Context implements Observer<Choice> {
 
     //________________________________________MOVE/BUILD METHODS__________________________________________________
 
-
+    /**Returns a List of all the possible Move boxes surrounding
+     * the active player selected worker
+     * taking in consideration active move-affecting gods**/
     private ArrayList<Box> getPossibleMoveBoxes(Box currentCell)
     {
         ArrayList<Box> possibleMoves = (ArrayList<Box>)contextModel.getTurn().getPossibleMoves(currentCell);
@@ -131,13 +147,62 @@ public class Context implements Observer<Choice> {
         return possibleMoves;
     }
 
+    /**Returns a MoveState constructed following the rules for
+     * every active move-affecting god**/
+    private MoveState moveStateConstructor()
+    {
+        ArrayList<Box> workerPositions = new ArrayList<>();
+        //Get worker cells and move boxes
+        workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());
+        workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());
+
+        ArrayList<Box> possibleMovesWorker0 = new ArrayList<>(getPossibleMoveBoxes(workerPositions.get(0)));
+        ArrayList<Box> possibleMovesWorker1 = new ArrayList<>(getPossibleMoveBoxes(workerPositions.get(1)));
+
+        //Define god flags to build state
+        boolean pushWorker, swapWorker;
+        pushWorker = false;
+        swapWorker = false;
+        if(activeGods.contains(GodsList.MINOTAUR)) pushWorker = true;
+        if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;
+
+        return new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, contextModel);
+    }
+
+    /**Returns a BuildState constructed following the rules of
+     * each active build-affecting god**/
+    private BuildState buildStateConstructor()
+    {
+        ArrayList<Box> workerPositions = new ArrayList<>();
+        //Get worker cells and move boxes
+        workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());
+        workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());
+
+        ArrayList<Box> possibleBuildList0 = getPossibleBuildBoxes(workerPositions.get(0));
+        ArrayList<Box> possibleBuildList1 = getPossibleBuildBoxes(workerPositions.get(1));
+        //Initialize god flags
+        boolean domeAtAnyLevel = false;
+        boolean twoBlocksInOneBuild = false;
+        if(activeGods.contains(GodsList.ATLAS)) domeAtAnyLevel = true;
+        if(activeGods.contains(GodsList.HEPHAESTUS)) twoBlocksInOneBuild = true;
+
+        return new BuildState(possibleBuildList0,possibleBuildList1,domeAtAnyLevel, twoBlocksInOneBuild, contextModel);
+    }
+
+
+    /**Returns a List of all the possible Build boxes surrounding
+     * the active player selected worker
+     * taking in consideration active build-affecting gods**/
     private ArrayList<Box> getPossibleBuildBoxes(Box currentCell)
 
     {
         ArrayList<Box> possibleBuildBoxes = (ArrayList<Box>)contextModel.getTurn().getPossibleBuildLocations(currentCell);
 
         //Check god cards to first extend then contract list of boxes
-
+        if(activeGods.contains(GodsList.HEPHAESTUS))
+        {
+            possibleBuildBoxes = hephaestusEffect(possibleBuildBoxes, currentCell);
+        }
 
         return possibleBuildBoxes;
     }
@@ -153,6 +218,7 @@ public class Context implements Observer<Choice> {
         for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {
             if(cell.isOccupied() && cell.isReachable(b))
             {
+                //TODO: CONTROLLARE CONDIZIONE
                 godMoves.add(cell);
             }
         }
@@ -191,9 +257,17 @@ public class Context implements Observer<Choice> {
 
     }
 
-    private void hephaestusEffect()
-    {
+    private ArrayList<Box> hephaestusEffect(ArrayList<Box> basicMoves, Box b) {
+        ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
 
+        for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {
+            if (cell.isOccupied() || (cell.getTower() != null && cell.getTower().getHeight() > 1))
+            {
+                godMoves.remove(cell);
+            }
+
+        }
+        return godMoves;
     }
 
     private ArrayList<Box> minotaurEffect(ArrayList<Box> basicMoves, Box b)
@@ -208,6 +282,11 @@ public class Context implements Observer<Choice> {
         }
 
         return godMoves;
+    }
+
+    private void prometheusEffect()
+    {
+
     }
 
     public void update(Choice userChoice) throws NullPointerException
