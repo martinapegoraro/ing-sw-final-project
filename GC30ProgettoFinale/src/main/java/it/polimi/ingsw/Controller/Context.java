@@ -12,10 +12,12 @@ public class Context implements Observer<Choice> {
     private int numberofPlayers;
     private Model contextModel;
     private ArrayList<GodsList> activeGods;
-    private boolean prometheusFlowDeviation;
-    private boolean artemisFlowDeviation;
-    private boolean hephaestusFlowDeviation;
-    private boolean demeterFlowDeviation;
+
+    //Variables used to apply god effects
+    private boolean prometheusFirstBuild;
+    private boolean artemisFirstMove;
+    private boolean demeterFirstBuild;
+    private Box savedBox; //This Box is used by Artemis and Demeter to save the old player position
 
     public Context(Model model) throws NullPointerException
     {
@@ -80,9 +82,19 @@ public class Context implements Observer<Choice> {
                     }
                 }
 
-                if (activeGods.contains(GodsList.PROMETHEUS))
+                //The check is done again to ensure state switches are handled after ActivatioGodState
+                //without this second check the flow would go directly to MoveState
+                if(activeGods.contains(GodsList.ARTEMIS))
                 {
-
+                    artemisEffect();
+                }
+                else if(activeGods.contains(GodsList.DEMETER))
+                {
+                    demeterEffect();
+                }
+                else if(activeGods.contains(GodsList.PROMETHEUS))
+                {
+                    prometheusEffect();
                 }
 
                 newState = moveStateConstructor();
@@ -147,9 +159,9 @@ public class Context implements Observer<Choice> {
         return possibleMoves;
     }
 
-    /**Returns a MoveState constructed following the rules for
+    /**Returns a State constructed following the rules for
      * every active move-affecting god**/
-    private MoveState moveStateConstructor()
+    private State moveStateConstructor()
     {
         ArrayList<Box> workerPositions = new ArrayList<>();
         //Get worker cells and move boxes
@@ -165,13 +177,24 @@ public class Context implements Observer<Choice> {
         swapWorker = false;
         if(activeGods.contains(GodsList.MINOTAUR)) pushWorker = true;
         if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;
+        if(activeGods.contains(GodsList.ARTEMIS) && !artemisFirstMove)
+        {
+           //TODO: The context cannot know which is the old player position for Artemis
+            //A possible solution is to add this information to the Model
+            if(possibleMovesWorker0.isEmpty() && possibleMovesWorker1.isEmpty())
+            {
+                //Since this move is the second one done by the player it's not mandatory
+                //If no moves are possible the state returned is going to be FirstCheckWinConditionState
+                return new CheckWinConditionState(1);
+            }
+        }
 
         return new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, contextModel);
     }
 
     /**Returns a BuildState constructed following the rules of
      * each active build-affecting god**/
-    private BuildState buildStateConstructor()
+    private State buildStateConstructor()
     {
         ArrayList<Box> workerPositions = new ArrayList<>();
         //Get worker cells and move boxes
@@ -185,6 +208,15 @@ public class Context implements Observer<Choice> {
         boolean twoBlocksInOneBuild = false;
         if(activeGods.contains(GodsList.ATLAS)) domeAtAnyLevel = true;
         if(activeGods.contains(GodsList.HEPHAESTUS)) twoBlocksInOneBuild = true;
+        if(activeGods.contains(GodsList.DEMETER) && !demeterFirstBuild)
+        {
+            //If no second build is possible the next state will be set to SecondCheckWinCondition
+            //Because the player is not bounded to use both the builds
+            if(possibleBuildList0.isEmpty() && possibleBuildList1.isEmpty())
+            {
+                return new CheckWinConditionState(2);
+            }
+        }
 
         return new BuildState(possibleBuildList0,possibleBuildList1,domeAtAnyLevel, twoBlocksInOneBuild, contextModel);
     }
@@ -242,9 +274,51 @@ public class Context implements Observer<Choice> {
         return godMoves;
     }
 
+    /**The method defines state changes during a turn in which
+     * the god card Artemis is played, overruling the
+     * default stateChange() method**/
     private void artemisEffect()
     {
+        State newState;
+        switch(currentState.getID())
+        {
 
+            case ActivationGod:
+                //This move MUST be possible
+                //The flag is used by moveStateConstructor
+                artemisFirstMove = true;
+                newState = moveStateConstructor();
+                switchState(newState);
+
+            case Move:
+                    newState = new CheckWinConditionState(1);
+                    switchState(newState);
+
+            case FirstCheckWinCondition:
+                if(artemisFirstMove)
+                {
+                    artemisFirstMove = false;
+                    newState = moveStateConstructor();
+                }
+                else
+                    {
+                        newState = buildStateConstructor();
+                    }
+                switchState(newState);
+
+            case Build:
+                    newState = new CheckWinConditionState(2);
+                    switchState(newState);
+
+            case SecondCheckWinCondition:
+                newState = new EndTurnState();
+                switchState(newState);
+
+            case EndTurn:
+                newState = new BeginTurnState();
+                activeGods.clear();
+                switchState(newState);
+        }
     }
 
     private ArrayList<Box> atlasEffect(ArrayList<Box> basicBuildBoxes, Box b)
@@ -252,9 +326,48 @@ public class Context implements Observer<Choice> {
         return null;
     }
 
+    /**The method defines state changes during a turn in which
+     * the god card Demeter is played, overruling the
+     * default stateChange() method**/
     private void demeterEffect()
     {
+        State newState;
+        switch(currentState.getID())
+        {
 
+            case ActivationGod:
+                //This build is possible, it has been checked in ActivationGodState
+                newState = buildStateConstructor();
+                prometheusFirstBuild = true;
+                switchState(newState);
+
+            case Build:
+                if(prometheusFirstBuild)
+                {
+                    //The move MUST be possible otherwise the player looses
+                    newState = moveStateConstructor();
+                    switchState(newState);
+                    prometheusFirstBuild = false;
+                }
+                else
+                {
+                    newState = new CheckWinConditionState(2);
+                    switchState(newState);
+                }
+
+            case Move:
+                newState = buildStateConstructor();
+                switchState(newState);
+
+            case SecondCheckWinCondition:
+                newState = new EndTurnState();
+                switchState(newState);
+
+            case EndTurn:
+                newState = new BeginTurnState();
+                activeGods.clear();
+                switchState(newState);
+        }
     }
 
     private ArrayList<Box> hephaestusEffect(ArrayList<Box> basicMoves, Box b) {
@@ -284,9 +397,48 @@ public class Context implements Observer<Choice> {
         return godMoves;
     }
 
+    /**The method defines state changes during a turn in which
+     * the god card Prometheus is played, overruling the
+     * default stateChange() method**/
     private void prometheusEffect()
     {
+        State newState;
+        switch(currentState.getID())
+        {
 
+        case ActivationGod:
+            //This build is possible, it has been checked in ActivationGodState
+        newState = buildStateConstructor();
+        prometheusFirstBuild = true;
+        switchState(newState);
+
+        case Build:
+            if(prometheusFirstBuild)
+            {
+                //The move MUST be possible otherwise the player looses
+                newState = moveStateConstructor();
+                switchState(newState);
+                prometheusFirstBuild = false;
+            }
+            else
+                {
+                    newState = new CheckWinConditionState(2);
+                    switchState(newState);
+                }
+
+        case Move:
+        newState = buildStateConstructor();
+        switchState(newState);
+
+        case SecondCheckWinCondition:
+        newState = new EndTurnState();
+        switchState(newState);
+
+        case EndTurn:
+        newState = new BeginTurnState();
+        activeGods.clear();
+        switchState(newState);
+        }
     }
 
     public void update(Choice userChoice) throws NullPointerException
