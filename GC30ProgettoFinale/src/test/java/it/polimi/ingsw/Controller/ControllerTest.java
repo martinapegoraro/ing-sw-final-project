@@ -2,7 +2,10 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.Exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.Model.Model;
+import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.GodActivationChoice;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,14 @@ public class ControllerTest {
         } catch (WrongNumberOfPlayersException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+
+    public void updateTestGodActivationChoice()
+    {
+        Choice c= new GodActivationChoice(true);
+        controllerUnderTest.update(c);
     }
 
 

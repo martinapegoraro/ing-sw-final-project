@@ -3,6 +3,7 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.Model;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +17,15 @@ public class CheckWinConditionStateTest {
     Board board;
     CheckWinConditionState checkWinConditionStateTest1;
     CheckWinConditionState checkWinConditionStateTest2;
+
+    @After
+    public void clean()
+    {
+        model=null;
+        board=null;
+        checkWinConditionStateTest1=null;
+        checkWinConditionStateTest2=null;
+    }
     @Before
     public void initializeState ()
     {
@@ -47,7 +57,7 @@ public class CheckWinConditionStateTest {
         board.getBox(4,2).build();
         board.getBox(4,2).build();
         board.getBox(4,2).build();
-        board.getBox(4,2).build();
+
     }
     @Test
     public void getID()
@@ -78,10 +88,19 @@ public class CheckWinConditionStateTest {
     }
 
     @Test
-    public  void checkChronusConditionTest ()
+    public  void checkChronusConditionTestPositive ()
+    {
+        model.getTurn().getPlayersList().get(1).setGodCard(GodsList.CHRONUS);
+        board.getBox(4,2).build();
+        checkWinConditionStateTest2.checkChronusCondition(model, board);
+        assertTrue(model.getTurn().getPlayersList().get(1).getHasWon());
+    }
+
+    @Test
+    public  void checkChronusConditionTestNegative ()
     {
         model.getTurn().getPlayersList().get(1).setGodCard(GodsList.CHRONUS);
         checkWinConditionStateTest2.checkChronusCondition(model, board);
-        assertTrue(model.getTurn().getPlayersList().get(1).getHasWon());
+        assertFalse(model.getTurn().getPlayersList().get(1).getHasWon());
     }
 }
