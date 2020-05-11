@@ -17,7 +17,8 @@ public class Context implements Observer<Choice> {
     private boolean prometheusFirstBuild;
     private boolean artemisFirstMove;
     private boolean demeterFirstBuild;
-    private Box savedBox; //This Box is used by Artemis and Demeter to save the old player position
+    private ArrayList<Box> oldWorkerPositions = new ArrayList<>();
+    //Used by Artemis and Demeter to save the old player positions
 
     public Context(Model model) throws NullPointerException
     {
@@ -179,7 +180,6 @@ public class Context implements Observer<Choice> {
         if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;
         if(activeGods.contains(GodsList.ARTEMIS) && !artemisFirstMove)
         {
-           //TODO: The context cannot know which is the old player position for Artemis
             //A possible solution is to add this information to the Model
             if(possibleMovesWorker0.isEmpty() && possibleMovesWorker1.isEmpty())
             {
@@ -192,7 +192,7 @@ public class Context implements Observer<Choice> {
         return new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, contextModel);
     }
 
-    /**Returns a BuildState constructed following the rules of
+    /**Returns a State constructed following the rules of
      * each active build-affecting god**/
     private State buildStateConstructor()
     {
@@ -210,10 +210,11 @@ public class Context implements Observer<Choice> {
         if(activeGods.contains(GodsList.HEPHAESTUS)) twoBlocksInOneBuild = true;
         if(activeGods.contains(GodsList.DEMETER) && !demeterFirstBuild)
         {
-            //If no second build is possible the next state will be set to SecondCheckWinCondition
-            //Because the player is not bounded to use both the builds
+            //TODO: How can we get the Build cell the first time Demeter builds?
             if(possibleBuildList0.isEmpty() && possibleBuildList1.isEmpty())
             {
+                //Since this move is the second one done by the player it's not mandatory
+                //If no moves are possible the state returned is going to be FirstCheckWinConditionState
                 return new CheckWinConditionState(2);
             }
         }
@@ -331,6 +332,7 @@ public class Context implements Observer<Choice> {
      * default stateChange() method**/
     private void demeterEffect()
     {
+        //TODO: Change method state flow to match Demeter
         State newState;
         switch(currentState.getID())
         {
