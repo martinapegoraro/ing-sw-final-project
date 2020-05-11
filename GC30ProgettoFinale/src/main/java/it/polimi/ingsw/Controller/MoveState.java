@@ -209,6 +209,12 @@ public class MoveState implements State {
                         actingPlayer.changeAthenaCondition(true);
                     }
 
+                    //If the player moves down two or more levels the PanCondition is set to true
+                    if ((b.getTower() == null && oldBox.getTower().getHeight()>2) || (b.getTower().getHeight() == 1 && oldBox.getTower().getHeight()>3))
+                    {
+                        actingPlayer.changePanCondition (true);
+                    }
+
                     //Check to see if player has won using default rules, moving to third level
                     if(b.getTower().getHeight() == 3)
                     {

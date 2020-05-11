@@ -25,11 +25,10 @@ public class CheckWinConditionState implements State{
         GodsList currentGod = model.getTurn().getCurrentPlayer().getGod();
         if(currentGod == GodsList.PAN)
         {
-            //ho commentato se no non compilava
-            /*if ()  //TODO: manca il flag per cappire se il worker si è mosso in giù di due livelli
+            if (model.getTurn().getCurrentPlayer().isPanConditionTrue() == true)
             {
                model.getTurn().getCurrentPlayer().setHasWon();
-            }*/
+            }
         }
         int playerNumber = model.getTurn().getPlayersList().size();
         for (int i = 0; i< playerNumber; i ++)

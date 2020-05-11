@@ -13,6 +13,7 @@ public class Player {
     private int idNumber; //Salvo il numero del giocatore per gestire eventuali elementi grafici
     private boolean godActive;
     private boolean athenaCondition;
+    private boolean panCondition;
     private Worker selectedWorker;
     private boolean hasLost;
     private boolean hasWon;
@@ -26,6 +27,7 @@ public class Player {
         workers[1]=null;
         godActive=false;
         athenaCondition=false;
+        panCondition = false;
         isActive=false;
         selectedWorker = null;
         hasLost = false;
@@ -82,6 +84,10 @@ public class Player {
      {
          athenaCondition=active;
      }
+
+     public boolean isPanConditionTrue() {return  panCondition;}
+
+     public void changePanCondition (boolean active) {panCondition = active;}
 
 
     public void setWorkersPosition(Box b1,Box b2)
