@@ -52,12 +52,12 @@ public class BuildStateTest {
     {
         stateUnderTest1=new BuildState(new ArrayList<Box>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
                 new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
-                false,model);
+                false,false,model);
 
         stateUnderTest2=new BuildState(
                 new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
                 new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
-                true,model);
+                true,false,model);
     }
 
     @Test
@@ -165,18 +165,18 @@ public class BuildStateTest {
 
         Choice c=new SelectWorkerCellChoice(4,1);
         try {
-            stateUnderTest1.update(c,model);
+            stateUnderTest2.update(c,model);
         } catch (WrongChoiceException | MoveErrorException | BuildErrorException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException e) {
             e.printStackTrace();
         }
 
         Choice c1=new BuildChoice(3,0);
         try {
-            stateUnderTest1.update(c1,model);
+            stateUnderTest2.update(c1,model);
         } catch (WrongChoiceException | MoveErrorException | BuildErrorException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException e) {
             e.printStackTrace();
         }
-        assertTrue(stateUnderTest1.hasFinished());
+        assertTrue(stateUnderTest2.hasFinished());
 
     }
 
@@ -190,6 +190,51 @@ public class BuildStateTest {
         Choice c=new SelectWorkerCellChoice(0,0);
         stateUnderTest1.update(c,model);
     }
+
+    @Test (expected=IndexOutOfBoundsException.class)
+    public void SelectWorkeroutOfBoundChoiceTest() throws IndexOutOfBoundsException, MoveErrorException, BuildErrorException, GodConditionNotSatisfiedException, WrongChoiceException, BoxAlreadyOccupiedException {
+        Choice c=new SelectWorkerCellChoice(-1,-1);
+        stateUnderTest1.update(c,model);
+    }
+
+    @Test (expected = BuildErrorException.class)
+    public void notBelongingWorkerTest() throws BuildErrorException, MoveErrorException, BoxAlreadyOccupiedException, GodConditionNotSatisfiedException, WrongChoiceException {
+        Choice c =new SelectWorkerCellChoice(4,0);
+        stateUnderTest1.update(c,model);
+    }
+
+    @Test (expected=IndexOutOfBoundsException.class)
+    public void buildOutOfBoundChoiceTest() throws IndexOutOfBoundsException, MoveErrorException, BuildErrorException, GodConditionNotSatisfiedException, WrongChoiceException, BoxAlreadyOccupiedException {
+        Choice c=new BuildChoice(-1,-1);
+        stateUnderTest1.update(c,model);
+    }
+
+
+    @Test
+    public void updateCorrectBuildChoiceHephaestusCondition()
+    {
+
+        stateUnderTest2=new BuildState(
+                new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
+                new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
+                true,true,model);
+        Choice c=new SelectWorkerCellChoice(4,1);
+        try {
+            stateUnderTest2.update(c,model);
+        } catch (WrongChoiceException | MoveErrorException | BuildErrorException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException e) {
+            e.printStackTrace();
+        }
+
+        Choice c1=new BuildChoice(3,0);
+        try {
+            stateUnderTest2.update(c1,model);
+        } catch (WrongChoiceException | MoveErrorException | BuildErrorException | BoxAlreadyOccupiedException | GodConditionNotSatisfiedException e) {
+            e.printStackTrace();
+        }
+        assertTrue(stateUnderTest2.hasFinished());
+
+    }
+
 
 
 

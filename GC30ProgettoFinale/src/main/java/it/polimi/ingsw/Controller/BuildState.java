@@ -66,7 +66,7 @@ public class BuildState implements State{
             catch(IndexOutOfBoundsException ex)
             {
                 model.notify(new MessageToVirtualView(new SelectWorkerPositionErrorMessage()));
-                throw new WrongChoiceException("WorkerChoice message is not valid! COORDINATES: " +
+                throw new IndexOutOfBoundsException("WorkerChoice message is not valid! COORDINATES: " +
                         ((SelectWorkerCellChoice) userChoice).x + " " + ((SelectWorkerCellChoice) userChoice).y);
             }
 
@@ -110,7 +110,7 @@ public class BuildState implements State{
             catch(IndexOutOfBoundsException ex)
             {
                 model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
-                throw new WrongChoiceException("BuildChoice coords are invalid: " + currentChoice.x + "," + currentChoice.y);
+                throw new IndexOutOfBoundsException("BuildChoice coords are invalid: " + currentChoice.x + "," + currentChoice.y);
             }
 
 

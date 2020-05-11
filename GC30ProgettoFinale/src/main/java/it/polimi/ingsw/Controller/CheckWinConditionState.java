@@ -79,11 +79,11 @@ public class CheckWinConditionState implements State{
         int playerNumber = model.getTurn().getPlayersList().size();
         for (int i = 0; i<playerNumber; i++)
         {
-            //if(model.getTurn().getPlayersList().get(i).getHasWon())
-            //{
+            if(model.getTurn().getPlayersList().get(i).getHasWon())
+            {
                 //the game ends
                 hasFinished = true;
-            //}
+            }
         }
     }
     @Override
