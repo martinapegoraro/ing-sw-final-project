@@ -30,17 +30,18 @@ public class CheckWinConditionState implements State{
     }
 
 
-    public void CheckWinConditionState(Model model, Board instance)
+    public void checkPanCondition(Model model)
     {
         GodsList currentGod = model.getTurn().getCurrentPlayer().getGod();
-        if(currentGod == GodsList.PAN)
-        {
-            if (model.getTurn().getCurrentPlayer().isPanConditionTrue())
-            {
-               model.getTurn().getCurrentPlayer().setHasWon();
+        if (currentGod == GodsList.PAN) {
+            if (model.getTurn().getCurrentPlayer().isPanConditionTrue()) {
+                model.getTurn().getCurrentPlayer().setHasWon();
             }
         }
+    }
 
+    public void checkChronusCondition(Model model, Board instance)
+    {
         // checking the number of complete towers on the board to verify whether the effect of Chronus can be applied
         int towerNumber = 0;
 
@@ -70,8 +71,8 @@ public class CheckWinConditionState implements State{
             }
         }
 
-
     }
+
     @Override
     public void startup(Model model)
     {
