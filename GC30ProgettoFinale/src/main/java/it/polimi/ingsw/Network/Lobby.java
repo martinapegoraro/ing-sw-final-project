@@ -60,9 +60,7 @@ public class Lobby {
     {
 
         List<String> nomiGiocatori=new ArrayList<String>(connectionMap.values());
-        System.out.println("sono qui");
         model=new Model(nomiGiocatori);
-        System.out.println("model creato");
     }
 
     private void createController()

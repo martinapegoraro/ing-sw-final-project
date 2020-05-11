@@ -54,10 +54,6 @@ public class Server {
             for (Lobby l:lobbiesList) {
                 if(numberOfPlayer==l.getNumberOfPlayers()) {
                     l.addPlayer(connection, name);
-                    if(l.getNumberOfPlayers()==l.getNumberInTheLobby())
-                        l.startGame();
-                    else
-                        return;
                 }
             }
             lobbiesList.add(new Lobby(connection,name,numberOfPlayer));

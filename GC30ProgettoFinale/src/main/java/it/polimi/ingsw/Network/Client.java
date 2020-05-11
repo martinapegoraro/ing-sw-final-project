@@ -44,7 +44,6 @@ public class Client {
                         MessageToVirtualView messaggio =(MessageToVirtualView) in.readObject();
                         if(messaggio.isModelRep()){
                             //stampa il modello
-                            System.out.println("sono qui");
                         } else {
                             //stampa errore
                         }
