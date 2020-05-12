@@ -3,6 +3,7 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 import it.polimi.ingsw.View.Observer;
 
 import java.util.ArrayList;
@@ -447,6 +448,7 @@ public class Context implements Observer<Choice> {
     {
         if(userChoice == null)
         {
+            contextModel.notify(new MessageToVirtualView(new SentChoiceError()));
             throw new NullPointerException("Null pointer on model or userChoice!");
         }
         /*Player actingPlayer;
@@ -461,10 +463,13 @@ public class Context implements Observer<Choice> {
         }
         catch(WrongChoiceException ex)
         {
-            //TODO: Creare messaggi da resituire al Client
+
+            contextModel.notify(new MessageToVirtualView(new SentChoiceError()));
             System.out.println(ex.getMessage());
         }
         catch (MoveErrorException | BoxAlreadyOccupiedException | BuildErrorException |GodConditionNotSatisfiedException ex) {
+           //Da divire i rami catch così da mandare errori diversi?
+            contextModel.notify(new MessageToVirtualView(new SentChoiceError()));
             ex.printStackTrace();
             System.out.println(ex.getMessage());
         }

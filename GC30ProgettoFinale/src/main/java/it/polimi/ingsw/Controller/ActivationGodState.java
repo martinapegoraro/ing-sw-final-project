@@ -4,6 +4,8 @@ import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.GodConditionNotSatisfiedException;
 import it.polimi.ingsw.Model.Exceptions.WrongChoiceException;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ErrorMessages.GodNotActionableErrorMessage;
+import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 import it.polimi.ingsw.Utils.GodActivationChoice;
 
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ public class ActivationGodState implements State {
         }
         catch(IndexOutOfBoundsException ex)
         {
+            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
             System.out.println("Worker is at the edge of the board, cannot use Minotaur!\n" + ex.getMessage());
             return false;
         }
@@ -105,6 +108,7 @@ public class ActivationGodState implements State {
                         }
                         else
                             {
+                                model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
                                 throw new GodConditionNotSatisfiedException("Apollo can't be activated!");
                             }
 
@@ -118,6 +122,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
                             throw new GodConditionNotSatisfiedException("Athena can't be activated!");
                         }
 
@@ -131,6 +136,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
                             throw new GodConditionNotSatisfiedException("Artemis can't be activated!");
                         }
 
@@ -151,6 +157,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
                             throw new GodConditionNotSatisfiedException("Atlas can't be activated!");
                         }
 
@@ -163,6 +170,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
                             throw new GodConditionNotSatisfiedException("Demeter can't be activated!");
                         }
 
@@ -185,6 +193,7 @@ public class ActivationGodState implements State {
                         }
                         else
                             {
+                                model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
                                 throw new GodConditionNotSatisfiedException("Hephaestus can't be activated!");
                             }
 
@@ -220,6 +229,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
                             throw new GodConditionNotSatisfiedException("Apollo can't be activated!");
                         }
 
@@ -242,6 +252,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
                             throw new GodConditionNotSatisfiedException("Prometheus can't be activated!");
                         }
 
@@ -250,6 +261,7 @@ public class ActivationGodState implements State {
         }
         else
             {
+                model.notify(new MessageToVirtualView(new SentChoiceError()));
                 throw new WrongChoiceException("Wrong Choice, EXPECTED: GodActivation, FOUND: "+ userChoice.toString());
             }
 
