@@ -58,6 +58,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 send(message);
             }
         }).start();

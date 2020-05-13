@@ -64,10 +64,10 @@ public class ModelRepresentationTest {
     {
         int[][] towers = modelRepresentationTest.getTowerPosition();
         assertEquals(2, towers[1][2]);
-        assertEquals(-1, towers[1][1]);
+        assertEquals(0, towers[1][1]);
         assertEquals(1, towers[3][0]);
-        assertEquals(-1, towers[2][2]);
-        assertEquals(-1, towers[4][0]);
+        assertEquals(0, towers[2][2]);
+        assertEquals(0, towers[4][0]);
     }
 
 

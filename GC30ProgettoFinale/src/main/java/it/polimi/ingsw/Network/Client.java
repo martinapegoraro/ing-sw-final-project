@@ -41,11 +41,12 @@ public class Client {
             public void run() {
                 try {
                     while (isActive()) {
+
                         MessageToVirtualView messaggio =(MessageToVirtualView) in.readObject();
                         if(messaggio.isModelRep()){
-                            //stampa il modello
+                            System.out.println(messaggio.getModelRep().playerNum);
                         } else {
-                            //stampa errore
+                            System.out.println(messaggio.getMessage().getMessage());
                         }
                     }
                 } catch (Exception e){
@@ -91,17 +92,20 @@ public class Client {
         t1.join();
         //out.writeObject(c);
         //out.flush();
-        MessageToVirtualView msg;
+        //MessageToVirtualView msg;
         try {
 
 
             while (true) {
-                msg = (MessageToVirtualView)in.readObject();
+                //msg = (MessageToVirtualView)in.readObject();
                 Thread t0 = asyncReadFromSocket(in);
                 t0.join();
+                //t0 = asyncReadFromSocket(in);
+                //t0.join();
+
             }
         }
-        catch(NoSuchElementException | ClassNotFoundException e)
+        catch(NoSuchElementException e)
         {
             System.out.println("connection closed");
         }

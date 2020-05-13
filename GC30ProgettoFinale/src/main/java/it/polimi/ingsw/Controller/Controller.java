@@ -49,7 +49,7 @@ public class Controller implements Observer<Choice> {
 
     }*/
 
-    public void update(Choice userChoice)
+    public synchronized void update(Choice userChoice)
     {
         //context.update(userChoice, modelInstance);
         Player actingPlayer = modelInstance.getTurn().getPlayer(userChoice.getId());
