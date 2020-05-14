@@ -3,6 +3,7 @@ package it.polimi.ingsw.Network;
 import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Network.Server;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ExitChoice;
 import it.polimi.ingsw.Utils.PlayerNumberChoice;
 import it.polimi.ingsw.View.Observable;
 
@@ -82,7 +83,9 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                 Choice read= (Choice)in.readObject();
                 notify(read);
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
+            notify(new ExitChoice());
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

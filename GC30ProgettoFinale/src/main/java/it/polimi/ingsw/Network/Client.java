@@ -100,8 +100,8 @@ public class Client {
                 //msg = (MessageToVirtualView)in.readObject();
                 Thread t0 = asyncReadFromSocket(in);
                 t0.join();
-                //t0 = asyncReadFromSocket(in);
-                //t0.join();
+                t0 = asyncReadFromSocket(in);
+                t0.join();
 
             }
         }

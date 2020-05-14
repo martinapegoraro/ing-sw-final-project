@@ -95,9 +95,11 @@ public class Lobby {
             v.addObservers(controller);
         }
 
+        int i=0;
         for (SocketClientConnection c:connectionMap.keySet() ) {
             c.asyncSend(new MessageToVirtualView(model.getModelRep()));
             //c.run();
+            i++;
         }
 
     }

@@ -2,10 +2,13 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.Exceptions.ImpossibleAddAnotherPlayerException;
 import it.polimi.ingsw.Model.Exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ErrorMessages.ExitErrorMessage;
 import it.polimi.ingsw.Utils.GodActivationChoice;
+import it.polimi.ingsw.View.Observable;
 import it.polimi.ingsw.View.Observer;
 import it.polimi.ingsw.View.VirtualView;
 
@@ -43,33 +46,32 @@ public class Controller implements Observer<Choice> {
     {
 
     }
+    */
+
 
     private void endGame()
     {
+        modelInstance.notify(new MessageToVirtualView(new ExitErrorMessage()));
+    }
 
-    }*/
+    public synchronized void update(Choice userChoice) {
+        if (userChoice.toString().equals("ExitChoice")) {
+            endGame();
+        } else {
+            //context.update(userChoice, modelInstance);
+            Player actingPlayer = modelInstance.getTurn().getPlayer(userChoice.getId());
 
-    public synchronized void update(Choice userChoice)
-    {
-        //context.update(userChoice, modelInstance);
-        Player actingPlayer = modelInstance.getTurn().getPlayer(userChoice.getId());
-
-        //Check if the choice is valid, invalid choices are not passed to Context
-        if(!actingPlayer.getHasLost())
-        {
-            if(actingPlayer.isPlayerActive() || userChoice instanceof GodActivationChoice)
-            {
-                //God choices are in sync for all the players
-                context.update(userChoice);
-            }
-            else
-                {
-                    System.out.println("Choice sent by inactive player, choice type: "+ userChoice.toString());
+            //Check if the choice is valid, invalid choices are not passed to Context
+            if (!actingPlayer.getHasLost()) {
+                if (actingPlayer.isPlayerActive() || userChoice instanceof GodActivationChoice) {
+                    //God choices are in sync for all the players
+                    context.update(userChoice);
+                } else {
+                    System.out.println("Choice sent by inactive player, choice type: " + userChoice.toString());
                 }
-        }
-        else
-            {
+            } else {
                 System.out.println("Choice sent by player who has lost, choice type: " + userChoice.toString());
             }
+        }
     }
 }
