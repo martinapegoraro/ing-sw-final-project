@@ -1,5 +1,9 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Controller.Context;
+import it.polimi.ingsw.Controller.State;
+import it.polimi.ingsw.Controller.StateEnum;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,6 +22,7 @@ public class ModelRepresentation implements Serializable {
     //arrays with players' flags hasWon and hasLost
     public boolean[] hasWon;
     public boolean[] hasLost;
+    public StateEnum currentState;
 
     public ModelRepresentation(Board instance, List<Player> players, int[][] selectedCells)
     {
@@ -124,7 +129,6 @@ public class ModelRepresentation implements Serializable {
         }
 
 
-
     }
 
     public int[][] getWorkerPosition()
@@ -170,4 +174,6 @@ public class ModelRepresentation implements Serializable {
     public boolean[] getHasWon() { return hasWon;}
 
     public boolean[] getHasLost() { return hasLost; }
+
+    public  StateEnum getCurrentState() {return  currentState;}
 }

@@ -2,9 +2,19 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
 
+/**
+ * The following class represents the enumeration of the possible Blocks
+ */
 public enum Block {
     LEVEL1,LEVEL2,LEVEL3,DOME;
 
+    /**
+     * given
+     * @param base
+     * @return the next block of the tower
+     * @throws TowerCompleteException if the @param base is a dome, because that is supposed to be the last block
+     * on a tower nothing can be built over it
+     */
     public static Block getNextBlock(Block base)throws TowerCompleteException
     {
         switch (base){
