@@ -168,6 +168,7 @@ public class MoveState implements State {
                     }
                     else if (pushWorkerBack) {
                         //Minotaur is active
+                        //TODO: This method does not check if the enemy Worker can be pushed!
                         for(Player p : model.getTurn().getPlayersList())
                         {
                             if(p!=actingPlayer)
@@ -201,6 +202,10 @@ public class MoveState implements State {
                             //No special god effects apply
                             actingPlayer.getSelectedWorker().move(b);
                         }
+
+                    //Sets this Box to use in Context for creating Artemis second MoveState
+                    //It saves the position in which actingPlayer moved to, not the old position
+                    actingPlayer.setLastMoveBox(b);
 
                     //If the player moves up his AthenaCondition will be set to true, at the beginning of his next
                     //MoveState it'll be set to false again

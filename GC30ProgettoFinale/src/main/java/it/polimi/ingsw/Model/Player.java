@@ -17,7 +17,41 @@ public class Player {
     private Worker selectedWorker;
     private boolean hasLost;
     private boolean hasWon;
+    private Box lastMoveBox;
+    private Box lastBuildBox;
 
+    /**Getter for lastMoveBox,
+     * lastMoveBox is used by Artemis to prevent the player from moving back
+     * to his old position**/
+    public Box getLastMoveBox() {
+        return lastMoveBox;
+    }
+
+
+    /**Setter for lastMoveBox,
+     * lastMoveBox is used by Artemis to prevent the player from moving back
+     * to his old position**/
+    public void setLastMoveBox(Box lastMoveBox) {
+        this.lastMoveBox = lastMoveBox;
+    }
+
+    /**Getter for lastBuildBox,
+     * lastBuildBox is used by Demeter to prevent the player from building two times
+     * on the same cell**/
+    public Box getLastBuildBox() {
+        return lastBuildBox;
+    }
+
+    /**Setter for lastBuildBox,
+     * lastBuildBox is used by Demeter to prevent the player from building two times
+     * on the same cell**/
+    public void setLastBuildBox(Box lastBuildBox) {
+        this.lastBuildBox = lastBuildBox;
+    }
+
+
+    /**Constructor for Player class, n is the Player ID (unique for each Player)
+     * and name is the username (also unique)**/
     public Player(int n, String name)
     {
         idNumber = n;
@@ -32,16 +66,20 @@ public class Player {
         selectedWorker = null;
         hasLost = false;
         hasWon = false;
+        lastMoveBox = null;
+        lastBuildBox = null;
     }
 
     public boolean isPlayerActive()
     {
         return isActive;
     }
+
     public void setPlayerActive(boolean active)
     {
         isActive=active;
     }
+
     public String getPlayerName()
     {
         return username;
@@ -110,7 +148,6 @@ public class Player {
     public Worker getSelectedWorker()
     {
         return selectedWorker;
-        //TODO: AGGIORNARE UML
     }
 
     public void setSelectedWorker(Worker selected)
@@ -130,6 +167,7 @@ public class Player {
         }
 
     }
+
 
     public boolean getHasWon()
     {

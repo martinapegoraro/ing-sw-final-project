@@ -148,6 +148,8 @@ public class BuildState implements State{
                             b.build();
                         }
 
+                    //This player parameter is used in Context when creating second Build state for Demeter
+                    actingPlayer.setLastBuildBox(b);
                     model.updateModelRep();
                     hasFinished = true;
                 }

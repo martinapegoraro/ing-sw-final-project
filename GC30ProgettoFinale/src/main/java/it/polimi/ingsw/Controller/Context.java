@@ -49,15 +49,15 @@ public class Context implements Observer<Choice> {
         {
             if(activeGods.contains(GodsList.ARTEMIS))
             {
-                artemisEffect();
+                artemisTurnFlow();
             }
             else if(activeGods.contains(GodsList.DEMETER))
             {
-                demeterEffect();
+                demeterTurnFlow();
             }
             else if(activeGods.contains(GodsList.PROMETHEUS))
             {
-                prometheusEffect();
+                prometheusTurnFlow();
             }
         }
 
@@ -88,15 +88,15 @@ public class Context implements Observer<Choice> {
                 //without this second check the flow would go directly to MoveState
                 if(activeGods.contains(GodsList.ARTEMIS))
                 {
-                    artemisEffect();
+                    artemisTurnFlow();
                 }
                 else if(activeGods.contains(GodsList.DEMETER))
                 {
-                    demeterEffect();
+                    demeterTurnFlow();
                 }
                 else if(activeGods.contains(GodsList.PROMETHEUS))
                 {
-                    prometheusEffect();
+                    prometheusTurnFlow();
                 }
 
                 newState = moveStateConstructor();
@@ -152,6 +152,12 @@ public class Context implements Observer<Choice> {
             possibleMoves = minotaurEffect(possibleMoves, currentCell);
         }
 
+        if (activeGods.contains(GodsList.ARTEMIS) && !artemisFirstMove)
+        {
+            //Eliminates from the list of possible moves the last cell where the Player moved to
+            possibleMoves = artemisBoxEffect(possibleMoves);
+        }
+
         //Gods activated by another player
         if(activeGods.contains(GodsList.ATHENA))
         {
@@ -181,7 +187,6 @@ public class Context implements Observer<Choice> {
         if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;
         if(activeGods.contains(GodsList.ARTEMIS) && !artemisFirstMove)
         {
-            //A possible solution is to add this information to the Model
             if(possibleMovesWorker0.isEmpty() && possibleMovesWorker1.isEmpty())
             {
                 //Since this move is the second one done by the player it's not mandatory
@@ -211,11 +216,20 @@ public class Context implements Observer<Choice> {
         if(activeGods.contains(GodsList.HEPHAESTUS)) twoBlocksInOneBuild = true;
         if(activeGods.contains(GodsList.DEMETER) && !demeterFirstBuild)
         {
-            //TODO: How can we get the Build cell the first time Demeter builds?
             if(possibleBuildList0.isEmpty() && possibleBuildList1.isEmpty())
             {
-                //Since this move is the second one done by the player it's not mandatory
-                //If no moves are possible the state returned is going to be FirstCheckWinConditionState
+                //Since this build is the second one done by the player it's not mandatory
+                //If no builds are possible the state returned is going to be SecondCheckWinConditionState
+                return new CheckWinConditionState(2);
+            }
+        }
+
+        if(activeGods.contains(GodsList.PROMETHEUS) && !prometheusFirstBuild)
+        {
+            if(possibleBuildList0.isEmpty() && possibleBuildList1.isEmpty())
+            {
+                //Since this build is the second one done by the player it's not mandatory
+                //If no builds are possible the state returned is going to be SecondCheckWinConditionState
                 return new CheckWinConditionState(2);
             }
         }
@@ -236,6 +250,12 @@ public class Context implements Observer<Choice> {
         if(activeGods.contains(GodsList.HEPHAESTUS))
         {
             possibleBuildBoxes = hephaestusEffect(possibleBuildBoxes, currentCell);
+        }
+
+        if (activeGods.contains(GodsList.DEMETER) && !demeterFirstBuild)
+        {
+            //Eliminates from the list of possible builds the last cell where the Player built
+            possibleBuildBoxes = demeterBoxEffect(possibleBuildBoxes);
         }
 
         return possibleBuildBoxes;
@@ -279,7 +299,7 @@ public class Context implements Observer<Choice> {
     /**The method defines state changes during a turn in which
      * the god card Artemis is played, overruling the
      * default stateChange() method**/
-    private void artemisEffect()
+    private void artemisTurnFlow()
     {
         State newState;
         switch(currentState.getID())
@@ -323,47 +343,54 @@ public class Context implements Observer<Choice> {
         }
     }
 
-    private ArrayList<Box> atlasEffect(ArrayList<Box> basicBuildBoxes, Box b)
+    /**The method removes the box in which the Player moved during his first Artemis move
+     * and returns the new list of possible move boxes**/
+    private ArrayList<Box> artemisBoxEffect(ArrayList<Box> basicMoves)
     {
-        return null;
+        ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
+        godMoves.remove(contextModel.getTurn().getCurrentPlayer().getLastMoveBox());
+        return godMoves;
     }
 
     /**The method defines state changes during a turn in which
      * the god card Demeter is played, overruling the
      * default stateChange() method**/
-    private void demeterEffect()
+    private void demeterTurnFlow()
     {
-        //TODO: Change method state flow to match Demeter
         State newState;
         switch(currentState.getID())
         {
 
             case ActivationGod:
                 //This build is possible, it has been checked in ActivationGodState
+                newState = moveStateConstructor();
+                switchState(newState);
+
+            case Move:
+                newState = new CheckWinConditionState(1);
+                switchState(newState);
+
+            case FirstCheckWinCondition:
+                demeterFirstBuild = true;
                 newState = buildStateConstructor();
-                prometheusFirstBuild = true;
                 switchState(newState);
 
             case Build:
-                if(prometheusFirstBuild)
-                {
-                    //The move MUST be possible otherwise the player looses
-                    newState = moveStateConstructor();
-                    switchState(newState);
-                    prometheusFirstBuild = false;
-                }
-                else
-                {
                     newState = new CheckWinConditionState(2);
                     switchState(newState);
-                }
 
-            case Move:
-                newState = buildStateConstructor();
-                switchState(newState);
 
             case SecondCheckWinCondition:
-                newState = new EndTurnState();
+                if(demeterFirstBuild)
+                {
+                    demeterFirstBuild = false;
+                    newState = buildStateConstructor();
+
+                }
+                else
+                    {
+                        newState = new EndTurnState();
+                    }
                 switchState(newState);
 
             case EndTurn:
@@ -372,6 +399,17 @@ public class Context implements Observer<Choice> {
                 switchState(newState);
         }
     }
+
+    /**The method removes the box in which the Player built during his first Demeter build
+     * and returns the new list of possible build boxes**/
+    private ArrayList<Box> demeterBoxEffect(ArrayList<Box> basicBuilds)
+    {
+        //returns the list without the last box where actingPlayer built
+        ArrayList<Box> godBuilds = new ArrayList<>(basicBuilds);
+        godBuilds.remove(contextModel.getTurn().getCurrentPlayer().getLastBuildBox());
+        return godBuilds;
+    }
+
 
     private ArrayList<Box> hephaestusEffect(ArrayList<Box> basicMoves, Box b) {
         ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
@@ -403,7 +441,7 @@ public class Context implements Observer<Choice> {
     /**The method defines state changes during a turn in which
      * the god card Prometheus is played, overruling the
      * default stateChange() method**/
-    private void prometheusEffect()
+    private void prometheusTurnFlow()
     {
         State newState;
         switch(currentState.getID())
