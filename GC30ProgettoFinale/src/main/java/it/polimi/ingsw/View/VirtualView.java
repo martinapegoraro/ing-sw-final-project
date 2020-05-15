@@ -8,7 +8,8 @@ public class VirtualView extends View {
     private int idPlayer;
     private SocketClientConnection connection;
 
-    private class MessageReciver extends Observable<Choice> implements Observer<Choice> {
+    private class MessageReceiver extends Observable<Choice> implements Observer<Choice> {
+
         public void update(Choice c)
         {
             processChoice(c);
@@ -19,7 +20,7 @@ public class VirtualView extends View {
     {
         this.idPlayer=idPlayer;
         this.connection=connection;
-        connection.addObservers(new MessageReciver());
+        connection.addObservers(new MessageReceiver());
     }
 
     public void notify(Choice click)
@@ -34,5 +35,7 @@ public class VirtualView extends View {
     @Override
     public void update(MessageToVirtualView message) {
         connection.asyncSend(message);
+        //if(!message.isModelRep() && message.getMessage().getMessage().equals("One player left the game"))
+        //    connection.closeConnection();
     }
 }

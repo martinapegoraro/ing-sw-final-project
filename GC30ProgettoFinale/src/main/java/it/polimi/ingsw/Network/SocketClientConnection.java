@@ -84,6 +84,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                 notify(read);
             }
         } catch (IOException e) {
+
             notify(new ExitChoice());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

@@ -18,6 +18,7 @@ public class Client {
     private boolean active = true;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private Socket socket;
 
     public Client(String ip,int port)
     {
@@ -45,7 +46,11 @@ public class Client {
                         MessageToVirtualView messaggio =(MessageToVirtualView) in.readObject();
                         if(messaggio.isModelRep()){
                             System.out.println(messaggio.getModelRep().playerNum);
-                        } else {
+                        } else if(messaggio.getMessage().getMessage().equals("One player left the game")){
+                            System.out.println(messaggio.getMessage().getMessage());
+                            socket.close();
+                        }
+                        else{
                             System.out.println(messaggio.getMessage().getMessage());
                         }
                     }
@@ -79,7 +84,7 @@ public class Client {
 
 
     public void run() throws IOException, InterruptedException {
-        Socket socket=new Socket(ip,port);
+        socket=new Socket(ip,port);
         out =new ObjectOutputStream(socket.getOutputStream());
         in=new ObjectInputStream(socket.getInputStream());
         Scanner stdin=new Scanner(System.in);
