@@ -9,7 +9,7 @@ public enum GodsList {
     APOLLO("Apollo"), ARTEMIS("Artemis"), ATHENA("Athena"),
     ATLAS( "Atlas"), CHRONUS("Chronus"),DEMETER("Demeter"), HEPHAESTUS("Hephaestus"),
     HERA("Hera"), HESTIA("Hestia"),MINOTAUR( "Minotaur"), PAN( "Pan"),
-    PERSEPHONE("Persephone"),PROMETHEUS("Prometheus");
+    PERSEPHONE("Persephone"),PROMETHEUS("Prometheus"),ZEUS("Zeus");
     private String name;
 
     /**

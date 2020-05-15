@@ -119,7 +119,7 @@ public class BuildState implements State{
             if(
                     (possibleBuildListWorker1.contains(b) && actingPlayer.getSelectedWorker() == actingPlayer.getWorkerList().get(0))
                             ||
-                            (possibleBuildListWorker2.contains(b) && actingPlayer.getSelectedWorker() == actingPlayer.getWorkerList().get(1)))
+                    (possibleBuildListWorker2.contains(b) && actingPlayer.getSelectedWorker() == actingPlayer.getWorkerList().get(1)))
             {
                 try
                 {

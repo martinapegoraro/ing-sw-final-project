@@ -234,6 +234,19 @@ public class Context implements Observer<Choice> {
             }
         }
 
+        if(activeGods.contains(GodsList.ZEUS))
+        {
+            if(workerPositions.get(0).getTower().getHeight()<=2&& workerPositions.get(0).getTower().getPieces().contains(Block.DOME))
+                possibleBuildList0.add(workerPositions.get(0));
+            else
+                possibleBuildList0=new ArrayList<>();
+            if(workerPositions.get(1).getTower().getHeight()<=2&& workerPositions.get(1).getTower().getPieces().contains(Block.DOME))
+                possibleBuildList1.add(workerPositions.get(1));
+            else
+                possibleBuildList1=new ArrayList<>();
+        }
+
+
         return new BuildState(possibleBuildList0,possibleBuildList1,domeAtAnyLevel, twoBlocksInOneBuild, contextModel);
     }
 

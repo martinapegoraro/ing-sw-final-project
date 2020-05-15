@@ -255,6 +255,18 @@ public class ActivationGodState implements State {
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
                             throw new GodConditionNotSatisfiedException("Prometheus can't be activated!");
                         }
+                    case ZEUS:
+                       if((!firstWorkerBox.getTower().getPieces().contains(Block.DOME)&&firstWorkerBox.getTower().getHeight()<=2)
+                           ||(!secondWorkerBox.getTower().getPieces().contains(Block.DOME)&&secondWorkerBox.getTower().getHeight()<=2))
+                       {
+                           actingPlayer.setGodActive(true);
+                       }
+                       else
+                       {
+                           model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                           throw new GodConditionNotSatisfiedException("Prometheus can't be activated!");
+                       }
+
 
                 }
             }
