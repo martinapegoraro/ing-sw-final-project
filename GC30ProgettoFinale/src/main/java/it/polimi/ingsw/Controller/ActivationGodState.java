@@ -139,6 +139,15 @@ public class ActivationGodState implements State {
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
                             throw new GodConditionNotSatisfiedException("Artemis can't be activated!");
                         }
+                    case HESTIA:
+                        if(actingPlayer.isPlayerActive())
+                        {
+                            actingPlayer.setGodActive(true);
+                        }
+                        else{
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                            throw new GodConditionNotSatisfiedException("Artemis can't be activated!");
+                        }
 
                     case ATLAS:
                         //There has to be at least one free Tower near a player's worker, Domes cannot be built on level 0

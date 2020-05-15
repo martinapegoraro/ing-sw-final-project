@@ -142,9 +142,9 @@ public class Box {
      * return true if the given box is a border box
      * else return false
      */
-    public boolean isBorder(Box b)
+    public boolean isBorder()
     {
-        if(b.getCoord()[0]==0|| b.getCoord()[1]==0)
+        if(x==0|| y==0)
             return true;
         else
             return false;

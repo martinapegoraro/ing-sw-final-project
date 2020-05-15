@@ -18,6 +18,7 @@ public class Context implements Observer<Choice> {
     private boolean prometheusFirstBuild;
     private boolean artemisFirstMove;
     private boolean demeterFirstBuild;
+    private boolean hestiaSecondBuild;
     private ArrayList<Box> oldWorkerPositions = new ArrayList<>();
     //Used by Artemis and Demeter to save the old player positions
 
@@ -31,6 +32,7 @@ public class Context implements Observer<Choice> {
         numberofPlayers = 0;
         contextModel = model;
         activeGods = new ArrayList<>();
+        hestiaSecondBuild=false;
     }
 
 
@@ -58,6 +60,10 @@ public class Context implements Observer<Choice> {
             else if(activeGods.contains(GodsList.PROMETHEUS))
             {
                 prometheusTurnFlow();
+            }
+            else if(activeGods.contains(GodsList.HESTIA))
+            {
+                hestiaTurnFlow();
             }
         }
 
@@ -246,7 +252,21 @@ public class Context implements Observer<Choice> {
                 possibleBuildList1=new ArrayList<>();
         }
 
-
+        if(hestiaSecondBuild)
+        {
+            ArrayList<Box> temp1=getPossibleMoveBoxes(workerPositions.get(0));
+            possibleBuildList0=new ArrayList<Box>();
+            for (Box b:temp1) {
+                if(!b.isBorder())
+                    possibleBuildList0.add(b);
+            }
+            temp1=getPossibleMoveBoxes(workerPositions.get(1));
+            possibleBuildList1=new ArrayList<Box>();
+            for (Box b:temp1) {
+                if(!b.isBorder())
+                    possibleBuildList1.add(b);
+            }
+        }
         return new BuildState(possibleBuildList0,possibleBuildList1,domeAtAnyLevel, twoBlocksInOneBuild, contextModel);
     }
 
@@ -492,6 +512,36 @@ public class Context implements Observer<Choice> {
         newState = new BeginTurnState();
         activeGods.clear();
         switchState(newState);
+        }
+    }
+
+    public void hestiaTurnFlow() {
+        State newState;
+        switch (currentState.getID()) {
+            case ActivationGod:
+                newState = moveStateConstructor();
+                switchState(newState);
+            case FirstCheckWinCondition:
+                newState = buildStateConstructor();
+                switchState(newState);
+
+            case Build:
+                if (!hestiaSecondBuild) {
+                    newState = buildStateConstructor();
+                    hestiaSecondBuild = true;
+                    switchState(newState);
+                } else {
+                    newState = new CheckWinConditionState(2);
+                    switchState(newState);
+                }
+            case SecondCheckWinCondition:
+                newState = new EndTurnState();
+                switchState(newState);
+
+            case EndTurn:
+                newState = new BeginTurnState();
+                activeGods.clear();
+                switchState(newState);
         }
     }
 
