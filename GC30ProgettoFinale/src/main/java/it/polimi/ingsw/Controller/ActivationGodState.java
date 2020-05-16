@@ -146,7 +146,7 @@ public class ActivationGodState implements State {
                         }
                         else{
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
-                            throw new GodConditionNotSatisfiedException("Artemis can't be activated!");
+                            throw new GodConditionNotSatisfiedException("Hestia can't be activated!");
                         }
 
                     case ATLAS:
@@ -273,7 +273,7 @@ public class ActivationGodState implements State {
                        else
                        {
                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
-                           throw new GodConditionNotSatisfiedException("Prometheus can't be activated!");
+                           throw new GodConditionNotSatisfiedException("Zeus can't be activated!");
                        }
 
 
