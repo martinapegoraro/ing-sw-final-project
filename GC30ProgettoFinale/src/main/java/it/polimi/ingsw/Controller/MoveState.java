@@ -1,12 +1,8 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.Box;
+import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
 import it.polimi.ingsw.Model.Exceptions.WrongChoiceException;
-import it.polimi.ingsw.Model.MessageToVirtualView;
-import it.polimi.ingsw.Model.Model;
-import it.polimi.ingsw.Model.Player;
-import it.polimi.ingsw.Model.Worker;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.ErrorMessages.MoveErrorMessage;
 import it.polimi.ingsw.Utils.ErrorMessages.SelectWorkerPositionErrorMessage;
@@ -24,8 +20,9 @@ public class MoveState implements State {
     private boolean swapWorkerPosition;
     private boolean pushWorkerBack;
     private boolean hasFinished;
+    private boolean heraIsActive;
 
-    public MoveState(ArrayList<Box> possibleMovesby0,ArrayList<Box> possibleMovesby1, boolean pushWorker, boolean swapWorker, Model model)
+    public MoveState(ArrayList<Box> possibleMovesby0,ArrayList<Box> possibleMovesby1, boolean pushWorker, boolean swapWorker, boolean heraIsActive, Model model)
     {
         //If possibleMoves is empty the player has lost
         if(possibleMovesby0.isEmpty() && possibleMovesby1.isEmpty())
@@ -38,6 +35,8 @@ public class MoveState implements State {
         pushWorkerBack = pushWorker;
         swapWorkerPosition = swapWorker;
         hasFinished = false;
+        this.heraIsActive = heraIsActive;
+
         stateID = StateEnum.Move;
     }
 
@@ -115,6 +114,7 @@ public class MoveState implements State {
             MoveChoice currentChoice;
             currentChoice = (MoveChoice)userChoice;
             Box b;
+
             try
             {
                 b = model.getTurn().getBoardInstance().getBox(currentChoice.x,currentChoice.y);
@@ -125,7 +125,14 @@ public class MoveState implements State {
                 throw new WrongChoiceException("MoveChoice coords are invalid: " + currentChoice.x + "," + currentChoice.y);
             }
 
-            //Check which worker is currently active and if selected cell is compatible with worker
+            //Checks if a worker has already been selected
+            if(actingPlayer.getSelectedWorker() == null)
+            {
+                model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
+                throw new MoveErrorException("No worker has been selected for the move!");
+            }
+
+            //Checks which worker is currently active and if selected cell is compatible with worker
             //Otherwise ignores the choice
             if(
                     (possibleMovesWorker0.contains(b) && actingPlayer.getSelectedWorker() == actingPlayer.getWorkerList().get(0))
@@ -221,10 +228,18 @@ public class MoveState implements State {
                     }
 
                     //Check to see if player has won using default rules, moving UP to third level
-                    if(b.getTower().getHeight() == 3 && oldBox.getTower().getHeight() == 2)
+                    if(b.getTower().getHeight() == 3 && oldBox.getTower().getHeight() == 2 &&
+                            (!heraIsActive || !b.isBorder()))
                     {
+                        //If Hera is active the player can't win on a border Box
+                        //The flag heraIsActive is set only for opponent's turn
+                        //Nobody can play Hera card in it's turn
                         actingPlayer.setHasWon();
                     }
+
+                    if(heraIsActive && !b.isBorder())
+
+
 
                     model.updateModelRep();
                     hasFinished = true;

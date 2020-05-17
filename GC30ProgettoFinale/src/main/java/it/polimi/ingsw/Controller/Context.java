@@ -186,11 +186,13 @@ public class Context implements Observer<Choice> {
         ArrayList<Box> possibleMovesWorker1 = new ArrayList<>(getPossibleMoveBoxes(workerPositions.get(1)));
 
         //Define god flags to build state
-        boolean pushWorker, swapWorker;
+        boolean pushWorker, swapWorker, heraActive;
         pushWorker = false;
         swapWorker = false;
+        heraActive = false;
         if(activeGods.contains(GodsList.MINOTAUR)) pushWorker = true;
         if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;
+        if(activeGods.contains(GodsList.HERA)) heraActive = true;
         if(activeGods.contains(GodsList.ARTEMIS) && !artemisFirstMove)
         {
             if(possibleMovesWorker0.isEmpty() && possibleMovesWorker1.isEmpty())
@@ -201,7 +203,7 @@ public class Context implements Observer<Choice> {
             }
         }
 
-        return new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, contextModel);
+        return new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, heraActive, contextModel);
     }
 
     /**Returns a State constructed following the rules of
@@ -242,6 +244,8 @@ public class Context implements Observer<Choice> {
 
         if(activeGods.contains(GodsList.ZEUS))
         {
+            //possibleBuildList empties if the worker can't build under itself
+            //Zeus chooses only god effect cards
             if(workerPositions.get(0).getTower().getHeight()<=2&& workerPositions.get(0).getTower().getPieces().contains(Block.DOME))
                 possibleBuildList0.add(workerPositions.get(0));
             else
@@ -255,13 +259,13 @@ public class Context implements Observer<Choice> {
         if(hestiaSecondBuild)
         {
             ArrayList<Box> temp1=getPossibleMoveBoxes(workerPositions.get(0));
-            possibleBuildList0=new ArrayList<Box>();
+            possibleBuildList0=new ArrayList<>();
             for (Box b:temp1) {
                 if(!b.isBorder())
                     possibleBuildList0.add(b);
             }
             temp1=getPossibleMoveBoxes(workerPositions.get(1));
-            possibleBuildList1=new ArrayList<Box>();
+            possibleBuildList1=new ArrayList<>();
             for (Box b:temp1) {
                 if(!b.isBorder())
                     possibleBuildList1.add(b);

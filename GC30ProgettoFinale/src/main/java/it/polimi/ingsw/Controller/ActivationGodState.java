@@ -140,6 +140,7 @@ public class ActivationGodState implements State {
                             throw new GodConditionNotSatisfiedException("Artemis can't be activated!");
                         }
                     case HESTIA:
+                        //Check it's player's turn
                         if(actingPlayer.isPlayerActive())
                         {
                             actingPlayer.setGodActive(true);
@@ -206,6 +207,18 @@ public class ActivationGodState implements State {
                                 throw new GodConditionNotSatisfiedException("Hephaestus can't be activated!");
                             }
 
+                    case HERA:
+                        //Check that it's not the actingPlayer's turn
+                        if(!actingPlayer.isPlayerActive())
+                        {
+                            actingPlayer.setGodActive(true);
+                        }
+                        else
+                            {
+                                model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                                throw new GodConditionNotSatisfiedException("Hera can't be activated!");
+                            }
+
                     case MINOTAUR:
                         //Like Apollo condition but for every OPPONENT worker the space behind it must be free
                         //To check if worker belongs to opponent I just check it's not mine
@@ -265,8 +278,16 @@ public class ActivationGodState implements State {
                             throw new GodConditionNotSatisfiedException("Prometheus can't be activated!");
                         }
                     case ZEUS:
+                        //Checks at least one of the player's workers can build under itself
+                        //And checks it player's turn
+                        boolean zeusCondition = false;
                        if((!firstWorkerBox.getTower().getPieces().contains(Block.DOME)&&firstWorkerBox.getTower().getHeight()<=2)
                            ||(!secondWorkerBox.getTower().getPieces().contains(Block.DOME)&&secondWorkerBox.getTower().getHeight()<=2))
+                       {
+                           zeusCondition = true;
+                       }
+
+                       if(actingPlayer.isPlayerActive() && zeusCondition)
                        {
                            actingPlayer.setGodActive(true);
                        }

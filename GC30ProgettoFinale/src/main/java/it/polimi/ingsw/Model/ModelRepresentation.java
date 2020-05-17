@@ -29,7 +29,9 @@ public class ModelRepresentation implements Serializable {
         playerNum = players.size();
 
         activeCells = selectedCells.clone();
-        workerposition = new int [5][5]; //matrix contains -1 when no worker is present, 0 when a worker is present
+        workerposition = new int [5][5];
+        //matrix contains -1 when no worker is present
+        // or a player's ID when a worker is present
         for (int i = 0; i<=4; i++)
         {
             for (int k = 0; k<=4; k++)
@@ -45,7 +47,7 @@ public class ModelRepresentation implements Serializable {
                 //so the worker position matrix remains of all -1
                 if(worker!=null) {
                     int[] casella = worker.getPosition().getCoord();
-                    workerposition[casella[0]][casella[1]] = 0;
+                    workerposition[casella[0]][casella[1]] = player.getNumber();
                 }
 
             }
