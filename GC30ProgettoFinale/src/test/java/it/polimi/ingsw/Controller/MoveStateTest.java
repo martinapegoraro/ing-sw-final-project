@@ -38,16 +38,17 @@ public class MoveStateTest {
     @Before
     public void correctMoveStateSetUp()
     {
+        //TODO: Test Gods special conditions are correctly applied
        stateUnderTest=new MoveState(
                (ArrayList<Box>)model.getTurn().getPossibleMoves( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition()),
                (ArrayList<Box>)model.getTurn().getPossibleMoves( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition()),
-               false,false,model);
+               false,false, false, model);
     }
 
     @Test
     public void emptyPossibleMovesListTest(){
         ArrayList<Box> listaVuota=new ArrayList<>();
-        State s=new MoveState(listaVuota,listaVuota,false,false,model);
+        State s=new MoveState(listaVuota,listaVuota,false,false, false, model);
         assertTrue(model.getTurn().getCurrentPlayer().getHasLost());
     }
 
