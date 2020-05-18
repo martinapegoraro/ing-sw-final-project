@@ -237,10 +237,6 @@ public class MoveState implements State {
                         actingPlayer.setHasWon();
                     }
 
-                    if(heraIsActive && !b.isBorder())
-
-
-
                     model.updateModelRep();
                     hasFinished = true;
                 }

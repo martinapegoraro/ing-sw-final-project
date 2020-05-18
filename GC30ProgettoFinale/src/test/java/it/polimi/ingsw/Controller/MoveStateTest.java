@@ -3,6 +3,7 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.Box;
 import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Model.Model;
+import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.MoveChoice;
 import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
@@ -18,6 +19,27 @@ public class MoveStateTest {
     Model model;
     State stateUnderTest;
 
+    /**MODEL SETUP:
+     * Player0: Pippo       Player1: Pluto
+     *
+     *    0     1     2     3     4
+     *       |     |     |     |
+     * 0  -  |  -  |  -  |  -  |  -
+     *  _____|_____|_____|_____|_____
+     *       |     |     |     |
+     * 1  -  |  W0 |  -  |  -  |  -
+     *  _____|_____|_____|_____|_____
+     *       |     |     |     |
+     * 2  -  |  -  |  -  |  W1 |  -
+     *  _____|_____|_____|_____|_____
+     *       |     |     |     |
+     * 3  -  |  -  |  -  |  -  |  -
+     *  _____|_____|_____|_____|_____
+     *       |     |     |     |
+     * 4  W1 |  W0 |  -  |  -  |  -
+     *       |     |     |     |
+     *
+     *       **/
     @Before
     public void modelSetUp()
     {
@@ -99,5 +121,129 @@ public class MoveStateTest {
         assertTrue(stateUnderTest.hasFinished());
     }
 
+    @Test
+    public void heraWinConditionTest()
+    {
+        //Moves a worker from 2nd level to 3rd (on board edge), but since Hera is active player shouldn't win
 
+        Player actingPlayer = model.getTurn().getCurrentPlayer();
+        State s = new MoveState(
+                (ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(0).getPosition()),
+                (ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(1).getPosition()),
+                false,false, true, model);
+
+        //Builds a two floor tower where the player's worker stands
+        Box moveFromBox = model.getTurn().getBoardInstance().getBox(1,1);
+        moveFromBox.build();
+        moveFromBox.build();
+
+        //Builds a three floor tower where the player's worker moves
+        Box moveToBox = model.getTurn().getBoardInstance().getBox(1,0);
+        moveToBox.build();
+        moveToBox.build();
+        moveToBox.build();
+
+
+        Choice c = new SelectWorkerCellChoice(1,1);
+        try {
+            s.update(c, model);
+        }
+        catch (BuildErrorException | BoxAlreadyOccupiedException | WrongChoiceException |
+                MoveErrorException | GodConditionNotSatisfiedException e) {
+            e.printStackTrace();
+        }
+        c = new MoveChoice(1,0);
+        try {
+            s.update(c, model);
+        }
+        catch (BuildErrorException | BoxAlreadyOccupiedException | WrongChoiceException |
+                MoveErrorException | GodConditionNotSatisfiedException e) {
+            e.printStackTrace();
+        }
+
+        assertFalse(actingPlayer.getHasWon());
+    }
+
+    @Test
+    public void normalWinConditionTest()
+    {
+        //Moves a worker from 2nd level to 3rd (on board edge), since Hera isn't active player should win
+
+        Player actingPlayer = model.getTurn().getCurrentPlayer();
+        State s = new MoveState(
+                (ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(0).getPosition()),
+                (ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(1).getPosition()),
+                false,false, false, model);
+
+        //Builds a two floor tower where the player's worker stands
+        Box moveFromBox = model.getTurn().getBoardInstance().getBox(1,1);
+        moveFromBox.build();
+        moveFromBox.build();
+
+        //Builds a three floor tower where the player's worker moves
+        Box moveToBox = model.getTurn().getBoardInstance().getBox(1,0);
+        moveToBox.build();
+        moveToBox.build();
+        moveToBox.build();
+
+
+        Choice c = new SelectWorkerCellChoice(1,1);
+        try {
+            s.update(c, model);
+        }
+        catch (BuildErrorException | BoxAlreadyOccupiedException | WrongChoiceException |
+                MoveErrorException | GodConditionNotSatisfiedException e) {
+            e.printStackTrace();
+        }
+        c = new MoveChoice(1,0);
+        try {
+            s.update(c, model);
+        }
+        catch (BuildErrorException | BoxAlreadyOccupiedException | WrongChoiceException |
+                MoveErrorException | GodConditionNotSatisfiedException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(actingPlayer.getHasWon());
+    }
+
+    @Test
+
+    public void apolloSwapTest()
+    {
+        //Test to check if Apollo correctly swaps two workers
+        Player actingPlayer = model.getTurn().getCurrentPlayer();
+        ArrayList<Box> possibleMoveList1 = (ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(1).getPosition());
+
+        //Adds Worker box to possibleMoveList, this is done because getPossibleMoves does not add worker boxes
+        Box addedBox = model.getTurn().getBoardInstance().getBox(4,0);
+        possibleMoveList1.add(addedBox);
+
+        State s = new MoveState((ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(0).getPosition())
+                , possibleMoveList1,
+                false,true, false, model);
+
+        Choice c = new SelectWorkerCellChoice(4,1);
+        try {
+            s.update(c, model);
+        }
+        catch (BuildErrorException | BoxAlreadyOccupiedException | WrongChoiceException |
+                MoveErrorException | GodConditionNotSatisfiedException e) {
+            e.printStackTrace();
+        }
+        c = new MoveChoice(4,0);
+        try {
+            s.update(c, model);
+        }
+        catch (BuildErrorException | BoxAlreadyOccupiedException | WrongChoiceException |
+                MoveErrorException | GodConditionNotSatisfiedException e) {
+            e.printStackTrace();
+        }
+
+        //worker box after swap
+        Box playerWorkerBox = model.getTurn().getBoardInstance().getBox(4,0);
+
+        assertSame(actingPlayer.getSelectedWorker().getPosition(), playerWorkerBox);
+
+    }
 }
