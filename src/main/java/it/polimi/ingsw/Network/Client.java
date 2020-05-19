@@ -2,12 +2,12 @@ package it.polimi.ingsw.Network;
 
 import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.PingChoice;
 import it.polimi.ingsw.Utils.PlayerNumberChoice;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -51,7 +51,16 @@ public class Client {
                             socket.close();
                         }
                         else{
-                            System.out.println(messaggio.getMessage().getMessage());
+
+                            if(!messaggio.getMessage().getMessage().equals("ping"))
+                            {
+                                System.out.println(messaggio.getMessage().getMessage());
+                            }
+                            else
+                            {
+                                Thread t1 = asyncWriteToSocket(new PingChoice(), out);
+                                t1.join();
+                            }
                         }
                     }
                 } catch (Exception e){

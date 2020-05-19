@@ -5,6 +5,7 @@ import it.polimi.ingsw.Model.Exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Network.SocketClientConnection;
+import it.polimi.ingsw.Utils.ErrorMessages.PlayerNameErrorMessage;
 import it.polimi.ingsw.View.VirtualView;
 
 import javax.crypto.MacSpi;
@@ -33,9 +34,15 @@ public class Lobby {
 
     public synchronized void  addPlayer(SocketClientConnection conn,String name)
     {
-        connectionMap.put(conn, name);
-        if(connectionMap.size()==numberOfPlayers)
-            startGame();
+        if(!connectionMap.containsValue(name)) {
+            connectionMap.put(conn, name);
+            if (connectionMap.size() == numberOfPlayers)
+                startGame();
+        }
+        else
+        {
+            conn.asyncSend(new MessageToVirtualView(new PlayerNameErrorMessage()));
+        }
 
     }
     public int getNumberInTheLobby()
