@@ -25,6 +25,7 @@ public class ControllerTest {
         listaNomi.add("pluto");
         listaNomi.add("topolino");
         model=new Model(listaNomi);
+        model.getTurn().getBoardInstance().newBoard();
     }
 
     @Before

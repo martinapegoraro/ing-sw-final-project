@@ -18,11 +18,11 @@ public class CheckWinConditionStateTest {
     CheckWinConditionState checkWinConditionStateTest1;
     CheckWinConditionState checkWinConditionStateTest2;
 
-    @After
+   @After
     public void clean()
     {
         model=null;
-        board=null;
+        board = null;
         checkWinConditionStateTest1=null;
         checkWinConditionStateTest2=null;
     }
@@ -30,6 +30,7 @@ public class CheckWinConditionStateTest {
     public void initializeState ()
     {
         board = Board.getInstance();
+        board.newBoard();
         List<String> listaNomi=new ArrayList<String>();
         listaNomi.add("pippo");
         listaNomi.add("pluto");

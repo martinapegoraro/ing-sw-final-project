@@ -1,10 +1,7 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.Box;
+import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.*;
-import it.polimi.ingsw.Model.Model;
-import it.polimi.ingsw.Model.Player;
-import it.polimi.ingsw.Model.Worker;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.MoveChoice;
 import it.polimi.ingsw.Utils.SelectWorkerCellChoice;

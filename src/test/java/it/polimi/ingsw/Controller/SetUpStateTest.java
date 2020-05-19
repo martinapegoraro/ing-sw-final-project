@@ -29,6 +29,7 @@ public class SetUpStateTest {
         listaNomi.add("pluto");
         listaNomi.add("paperino");
         model=new Model(listaNomi);
+        model.getTurn().getBoardInstance().newBoard();
         stateUnderTest=new SetUpState(model);
     }
 

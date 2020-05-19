@@ -21,6 +21,7 @@ public class BeginTurnStateTest {
         listaNomi.add("pluto");
         listaNomi.add ("paperino");
         model=new Model(listaNomi);
+        model.getTurn().getBoardInstance().newBoard();
         beginTurnStateTest = new BeginTurnState();
     }
 
