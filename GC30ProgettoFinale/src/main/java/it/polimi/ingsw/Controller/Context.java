@@ -3,6 +3,8 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ErrorMessages.GodNotActionableErrorMessage;
+import it.polimi.ingsw.Utils.ErrorMessages.SelectedCellErrorMessage;
 import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 import it.polimi.ingsw.View.Observer;
 
@@ -148,7 +150,7 @@ public class Context implements Observer<Choice> {
         ArrayList<Box> possibleMoves = (ArrayList<Box>)contextModel.getTurn().getPossibleMoves(currentCell);
 
         //Check god cards to first extend then contract list of boxes
-        //Gods activated by the active player
+        //Gods activated by the current player expanding the list of move boxes
         if(activeGods.contains(GodsList.APOLLO))
         {
             possibleMoves = apolloEffect(possibleMoves, currentCell);
@@ -158,13 +160,18 @@ public class Context implements Observer<Choice> {
             possibleMoves = minotaurEffect(possibleMoves, currentCell);
         }
 
+        //Gods activated by the current player contracting the list of move boxes
         if (activeGods.contains(GodsList.ARTEMIS) && !artemisFirstMove)
         {
             //Eliminates from the list of possible moves the last cell where the Player moved to
             possibleMoves = artemisBoxEffect(possibleMoves);
         }
+        else if(activeGods.contains(GodsList.PROMETHEUS))
+        {
+            possibleMoves = prometheusMoveEffect(possibleMoves, currentCell);
+        }
 
-        //Gods activated by another player
+        //Gods activated by another player contracting the list of move boxes
         if(activeGods.contains(GodsList.ATHENA))
         {
             possibleMoves = athenaEffect(possibleMoves, currentCell);
@@ -206,7 +213,7 @@ public class Context implements Observer<Choice> {
         return new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, heraActive, contextModel);
     }
 
-    /**Returns a State constructed following the rules of
+    /**@return a State constructed following the rules of
      * each active build-affecting god**/
     private State buildStateConstructor()
     {
@@ -232,14 +239,57 @@ public class Context implements Observer<Choice> {
             }
         }
 
-        if(activeGods.contains(GodsList.PROMETHEUS) && !prometheusFirstBuild)
+        if(activeGods.contains(GodsList.PROMETHEUS))
         {
-            if(possibleBuildList0.isEmpty() && possibleBuildList1.isEmpty())
+            if(prometheusFirstBuild)
             {
-                //Since this build is the second one done by the player it's not mandatory
-                //If no builds are possible the state returned is going to be SecondCheckWinConditionState
-                return new CheckWinConditionState(2);
+                //Saves the possible moves of both workers
+                ArrayList<Box> possiblePrometheusMoves0 = new ArrayList<>(getPossibleMoveBoxes(workerPositions.get(0)));
+                ArrayList<Box> possiblePrometheusMoves1 = new ArrayList<>(getPossibleMoveBoxes(workerPositions.get(1)));
+
+                //Since it's prometheus first build the player can't trap himself
+                //Checks if after the build the player can move, if not it eliminates the build cell
+                //If after the elimination of said build cells no cell is left or no move cell
+                //was present from the beginning
+                //I deactivate prometheus and proceed with a default turn
+
+                if(possiblePrometheusMoves0.size() == 1)
+                {
+                    //By building I could remove my only possible move if cellHeight + 1 > workerCellHeight
+                    if(possiblePrometheusMoves0.get(0).getTower().getHeight() + 1 > workerPositions.get(0).getTower().getHeight())
+                    {
+                        possibleBuildList0.remove(possiblePrometheusMoves0.get(0));
+                    }
+                }
+
+                if(possiblePrometheusMoves1.size() == 1)
+                {
+                    //By building I could remove my only possible move if cellHeight + 1 > workerCellHeight
+                    if(possiblePrometheusMoves1.get(0).getTower().getHeight() + 1 > workerPositions.get(1).getTower().getHeight())
+                    {
+                        possibleBuildList1.remove(possiblePrometheusMoves1.get(0));
+                    }
+                }
+
+                //No build/move cells are left after the check, prometheus is deactivated
+                if((possibleBuildList0.isEmpty() && possibleBuildList1.isEmpty())
+                        || (possiblePrometheusMoves0.isEmpty() && possiblePrometheusMoves1.isEmpty()))
+                {
+                    activeGods.remove(GodsList.PROMETHEUS);
+                    contextModel.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                    return moveStateConstructor();
+                }
+
             }
+            else
+                {
+                    if(possibleBuildList0.isEmpty() && possibleBuildList1.isEmpty())
+                    {
+                        //Since this build is the second one done by the player it's not mandatory
+                        //If no builds are possible the state returned is going to be SecondCheckWinConditionState
+                        return new CheckWinConditionState(2);
+                    }
+                }
         }
 
         if(activeGods.contains(GodsList.ZEUS))
@@ -275,7 +325,9 @@ public class Context implements Observer<Choice> {
     }
 
 
-    /**Returns a List of all the possible Build boxes surrounding
+    /**
+     * @param currentCell the building worker's cell
+     * @return  a List of all the possible Build boxes surrounding
      * the active player selected worker
      * taking in consideration active build-affecting gods**/
     private ArrayList<Box> getPossibleBuildBoxes(Box currentCell)
@@ -475,6 +527,28 @@ public class Context implements Observer<Choice> {
         return godMoves;
     }
 
+    /**@param basicMoves contains the list of basic move boxes to modify
+     * @return list of move boxes on the same level as the worker**/
+    public ArrayList<Box> prometheusMoveEffect(ArrayList<Box> basicMoves, Box workerBox)
+    {
+        ArrayList<Box> prometheusMoves = new ArrayList<>(basicMoves);
+        for(Box b : contextModel.getTurn().getBoardInstance().getBorderBoxes(workerBox))
+        {
+            //If the cell is higher than the worker cell I remove it from possible moves
+            if(b.getTower() != null && workerBox.getTower() != null
+                    && b.getTower().getHeight() > workerBox.getTower().getHeight())
+            {
+                prometheusMoves.remove(b);
+            }
+            else if(workerBox.getTower() == null && b.getTower() != null)
+            {
+                prometheusMoves.remove(b);
+            }
+        }
+
+        return prometheusMoves;
+    }
+
     /**The method defines state changes during a turn in which
      * the god card Prometheus is played, overruling the
      * default stateChange() method**/
@@ -533,11 +607,11 @@ public class Context implements Observer<Choice> {
                 if (!hestiaSecondBuild) {
                     newState = buildStateConstructor();
                     hestiaSecondBuild = true;
-                    switchState(newState);
                 } else {
                     newState = new CheckWinConditionState(2);
-                    switchState(newState);
                 }
+                switchState(newState);
+
             case SecondCheckWinCondition:
                 newState = new EndTurnState();
                 switchState(newState);

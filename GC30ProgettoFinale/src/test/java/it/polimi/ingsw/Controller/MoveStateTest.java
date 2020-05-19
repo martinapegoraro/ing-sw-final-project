@@ -44,7 +44,7 @@ public class MoveStateTest {
     @Before
     public void modelSetUp()
     {
-        List<String> listaNomi=new ArrayList<String>();
+        List<String> listaNomi=new ArrayList<>();
         listaNomi.add("pippo");
         listaNomi.add("pluto");
         model=new Model(listaNomi);
@@ -232,6 +232,8 @@ public class MoveStateTest {
                 MoveErrorException | GodConditionNotSatisfiedException e) {
             e.printStackTrace();
         }
+
+        //selectedWorker is turned to null after player move, so I have to retreive it before
         Worker workerToCheck = actingPlayer.getSelectedWorker();
         c = new MoveChoice(4,0);
         try {
