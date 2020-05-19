@@ -276,7 +276,7 @@ public class Context implements Observer<Choice> {
                         || (possiblePrometheusMoves0.isEmpty() && possiblePrometheusMoves1.isEmpty()))
                 {
                     activeGods.remove(GodsList.PROMETHEUS);
-                    contextModel.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                    contextModel.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), contextModel.getTurn().getCurrentPlayer()));
                     return moveStateConstructor();
                 }
 

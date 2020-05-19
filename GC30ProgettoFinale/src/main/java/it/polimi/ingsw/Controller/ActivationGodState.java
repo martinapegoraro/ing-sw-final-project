@@ -52,7 +52,7 @@ public class ActivationGodState implements State {
         }
         catch(IndexOutOfBoundsException ex)
         {
-            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), model.getTurn().getCurrentPlayer()));
             System.out.println("Worker is at the edge of the board, cannot use Minotaur!\n" + ex.getMessage());
             return false;
         }
@@ -65,12 +65,13 @@ public class ActivationGodState implements State {
     @Override
     public void update(Choice userChoice, Model model) throws WrongChoiceException, GodConditionNotSatisfiedException
     {
+        Player actingPlayer;
+        ArrayList<Player> playerList = (ArrayList<Player>) model.getTurn().getPlayersList();
+        actingPlayer = playerList.get(userChoice.getId());
         if(userChoice instanceof GodActivationChoice)
         {
-            Player actingPlayer;
+
             GodActivationChoice castedChoice = (GodActivationChoice)userChoice;
-            ArrayList<Player> playerList = (ArrayList<Player>) model.getTurn().getPlayersList();
-            actingPlayer = playerList.get(userChoice.getId());
 
             if(castedChoice.godActive)
             {
@@ -108,7 +109,7 @@ public class ActivationGodState implements State {
                         }
                         else
                             {
-                                model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                                model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                                 throw new GodConditionNotSatisfiedException("Apollo can't be activated!");
                             }
 
@@ -122,7 +123,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
-                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Athena can't be activated!");
                         }
 
@@ -136,7 +137,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
-                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Artemis can't be activated!");
                         }
                     case HESTIA:
@@ -146,7 +147,7 @@ public class ActivationGodState implements State {
                             actingPlayer.setGodActive(true);
                         }
                         else{
-                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Hestia can't be activated!");
                         }
 
@@ -167,7 +168,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
-                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Atlas can't be activated!");
                         }
 
@@ -180,7 +181,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
-                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Demeter can't be activated!");
                         }
 
@@ -203,7 +204,7 @@ public class ActivationGodState implements State {
                         }
                         else
                             {
-                                model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                                model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                                 throw new GodConditionNotSatisfiedException("Hephaestus can't be activated!");
                             }
 
@@ -215,7 +216,7 @@ public class ActivationGodState implements State {
                         }
                         else
                             {
-                                model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                                model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                                 throw new GodConditionNotSatisfiedException("Hera can't be activated!");
                             }
 
@@ -251,7 +252,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
-                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Apollo can't be activated!");
                         }
 
@@ -274,7 +275,7 @@ public class ActivationGodState implements State {
                         }
                         else
                         {
-                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Prometheus can't be activated!");
                         }
                     case ZEUS:
@@ -293,7 +294,7 @@ public class ActivationGodState implements State {
                        }
                        else
                        {
-                           model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage()));
+                           model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                            throw new GodConditionNotSatisfiedException("Zeus can't be activated!");
                        }
 
@@ -303,7 +304,7 @@ public class ActivationGodState implements State {
         }
         else
             {
-                model.notify(new MessageToVirtualView(new SentChoiceError()));
+                model.notify(new MessageToVirtualView(new SentChoiceError(), actingPlayer));
                 throw new WrongChoiceException("Wrong Choice, EXPECTED: GodActivation, FOUND: "+ userChoice.toString());
             }
 

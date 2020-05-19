@@ -29,23 +29,36 @@ public class MessageToVirtualView implements Serializable {
 
     /**
      * creates a MessageToVirtualView addressed to a single player
-     * @param modelRep contains model representation**/
-    public MessageToVirtualView(ModelRepresentation modelRep, String username)
+     * @param modelRep contains model representation
+     * @param messageTo contains the Player recipient of the message**/
+    public MessageToVirtualView(ModelRepresentation modelRep, Player messageTo)
     {
         this.modelRep = modelRep;
         errorMsg = null;
-        playerName = username;
+        playerName = messageTo.getPlayerName();
     }
 
     /**
      * creates a Message To Virtual view containing an error message
-     * @param errorMsg
+     * @param errorMsg contains the error
+     * @param messageTo contains the Player recipient of the message
      */
-    public  MessageToVirtualView(ErrorMessage errorMsg, String username)
+    public  MessageToVirtualView(ErrorMessage errorMsg, Player messageTo)
     {
         modelRep=null;
         this.errorMsg=errorMsg;
-        playerName = username;
+        playerName = messageTo.getPlayerName();
+    }
+
+    /**
+     * creates a Message To Virtual view containing an error message
+     * @param errorMsg contains the error
+     */
+    public  MessageToVirtualView(ErrorMessage errorMsg)
+    {
+        modelRep=null;
+        this.errorMsg=errorMsg;
+        playerName = null;
     }
 
     /**
