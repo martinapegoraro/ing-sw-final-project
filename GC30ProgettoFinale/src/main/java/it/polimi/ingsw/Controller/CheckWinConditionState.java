@@ -76,6 +76,9 @@ public class CheckWinConditionState implements State{
     @Override
     public void startup(Model model)
     {
+        Board instance = Board.getInstance();
+        checkPanCondition(model);
+        checkChronusCondition(model, instance);
         int playerNumber = model.getTurn().getPlayersList().size();
         for (int i = 0; i<playerNumber; i++)
         {
