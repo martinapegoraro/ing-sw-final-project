@@ -14,25 +14,38 @@ import java.io.Serializable;
 public class MessageToVirtualView implements Serializable {
     private  ModelRepresentation modelRep;
     private  ErrorMessage errorMsg;
+    private String playerName;
 
     /**
      * creates a MessageToVirtualView containing a ModelRepresentation
-     * @param modelRep
+     * @param modelRep contains model representation
      */
     public  MessageToVirtualView(ModelRepresentation modelRep)
     {
         this.modelRep=modelRep;
         errorMsg=null;
+        playerName = null;
+    }
+
+    /**
+     * creates a MessageToVirtualView addressed to a single player
+     * @param modelRep contains model representation**/
+    public MessageToVirtualView(ModelRepresentation modelRep, String username)
+    {
+        this.modelRep = modelRep;
+        errorMsg = null;
+        playerName = username;
     }
 
     /**
      * creates a Message To Virtual view containing an error message
      * @param errorMsg
      */
-    public  MessageToVirtualView(ErrorMessage errorMsg)
+    public  MessageToVirtualView(ErrorMessage errorMsg, String username)
     {
         modelRep=null;
         this.errorMsg=errorMsg;
+        playerName = username;
     }
 
     /**
@@ -41,10 +54,7 @@ public class MessageToVirtualView implements Serializable {
      */
     public boolean isModelRep()
     {
-        if(modelRep!=null)
-            return true;
-        else
-            return false;
+        return modelRep != null;
     }
 
     /**
