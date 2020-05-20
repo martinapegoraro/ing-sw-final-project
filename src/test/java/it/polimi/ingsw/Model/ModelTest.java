@@ -19,12 +19,14 @@ public class ModelTest {
 
     public void initializeModel ()
     {
-        instanceBoard = Board.getInstance();
         List<String> listaNomi=new ArrayList<>();
         listaNomi.add("pippo");
         listaNomi.add("pluto");
         listaNomi.add("paperino");
         modelTest =new Model(listaNomi);
+        instanceBoard = modelTest.getTurn().getBoardInstance();
+        //FIXME: This could be a problem of dangling reference! Careful when declaring board objects
+        instanceBoard.newBoard();
         beginTurnState = new BeginTurnState();
         b1 = instanceBoard.getBox(1,2);
         b2 = instanceBoard.getBox(0,3);
@@ -78,16 +80,16 @@ public class ModelTest {
 
         int [][] workers = modelTest.getModelRep().getWorkerPosition();
 
-        assertEquals(0, workers[1][2]);
+        assertEquals(2, workers[1][2]);
         assertEquals(-1, workers[0][2]);
-        assertEquals(0, workers[0][3]);
+        assertEquals(2, workers[0][3]);
 
-        modelTest.getTurn().getPlayersList().get(2).setWorkersPosition(b3,b4);
+        modelTest.getTurn().getPlayersList().get(1).setWorkersPosition(b3,b4);
         modelTest.updateModelRep();
         int [][] workers1 = modelTest.getModelRep().getWorkerPosition();
 
-        assertEquals(0, workers1[2][2]);
-        assertEquals(0, workers1 [3][1]);
+        assertEquals(1, workers1[2][2]);
+        assertEquals(1, workers1 [3][1]);
         assertEquals(-1, workers1 [1][1]);
 
         b5.build();

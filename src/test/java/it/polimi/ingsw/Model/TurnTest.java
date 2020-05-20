@@ -15,10 +15,12 @@ public class TurnTest {
     @Before
     public void instantiateTurn()
     {
+
         ArrayList<String> l =new ArrayList<String>();
         l.add("pippo");
         l.add("pluto");
         turnTest=new Turn(l);
+        turnTest.getBoardInstance().newBoard();
     }
 
     @Test
@@ -46,14 +48,14 @@ public class TurnTest {
     public void getPossibleMovesTest()
     {
         assertEquals(8,turnTest.getPossibleMoves(new Box(2,3)).size());
-        //bisogna aggiungere torri e ostacoli così da testare meglio la lista
+        //TODO: bisogna aggiungere torri e ostacoli così da testare meglio la lista
     }
 
     @Test
     public void getPossibleBuildLocationTest()
     {
         assertEquals(3,turnTest.getPossibleBuildLocations(new Box(4,4)).size());
-        //bisogna aggiungere torri e ostacoli così da testare meglio la lista
+        //TODO: bisogna aggiungere torri e ostacoli così da testare meglio la lista
     }
 
     @Test

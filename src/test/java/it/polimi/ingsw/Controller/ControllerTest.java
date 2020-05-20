@@ -46,6 +46,8 @@ public class ControllerTest {
         controllerUnderTest.update(c);
     }
 
+    //TODO: Check right Controller transitions, GodActivationChoice can't be sent as first
+
 
 
 }
