@@ -21,6 +21,7 @@ public class ModelRepresentationTest {
     public void initializeModelRep ()
     {
         instanceBoard = Board.getInstance();
+        instanceBoard.newBoard();
         player1 = new Player(1, "Anna");
         player2 = new Player (2, "Marco");
         List<Player> players = new ArrayList<>();
@@ -49,11 +50,11 @@ public class ModelRepresentationTest {
     {
         int [][] workers = modelRepresentationTest.getWorkerPosition();
         assertEquals(-1, workers[1][1] );
-        assertEquals(0, workers[0][1]);
-        assertEquals(0, workers[1][4]);
+        assertEquals(1, workers[0][1]);
+        assertEquals(2, workers[1][4]);
         assertEquals(-1, workers[3][2]);
-        assertEquals(0,workers[2][2]);
-        assertEquals(0,workers[4][0]);
+        assertEquals(1,workers[2][2]);
+        assertEquals(2,workers[4][0]);
         assertEquals(-1, workers[2][1]);
         assertEquals(-1, workers[3][0]);
 
