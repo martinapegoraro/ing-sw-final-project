@@ -4,6 +4,9 @@ import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.PingChoice;
 import it.polimi.ingsw.Utils.PlayerNumberChoice;
+import it.polimi.ingsw.View.Observer;
+import it.polimi.ingsw.View.View;
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,18 +15,21 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Client {
+public class Client implements Observer<Choice> {
     private String ip;
     private int port;
     private boolean active = true;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private Socket socket;
+    private View view;
 
     public Client(String ip,int port)
     {
         this.ip=ip;
         this.port=port;
+        view=new View();
+        view.addObservers(this);
     }
 
 
@@ -128,5 +134,10 @@ public class Client {
 
             socket.close();
         }
+    }
+
+    @Override
+    public void update(Choice c) {
+        asyncWriteToSocket(c,out);
     }
 }
