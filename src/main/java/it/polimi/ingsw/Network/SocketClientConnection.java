@@ -13,7 +13,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.Time;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
@@ -23,8 +26,17 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     private boolean active;
     private Server server;
     private boolean connectionPing;
-    ObjectOutputStream out;
-    ObjectInputStream in;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+    private Timer timer;
+    TimerTask task=new TimerTask() {
+        @Override
+        public void run() {
+            close();
+        }
+    };
+
+
 
 
     public SocketClientConnection(Socket socket,Server server) throws IOException {
@@ -34,6 +46,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         out =new ObjectOutputStream(socket.getOutputStream());
         in=new ObjectInputStream(socket.getInputStream());
         connectionPing=true;
+        timer=new Timer();
         ping();
 
     }
@@ -63,6 +76,8 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                        e.printStackTrace();
                    }
                    send(new MessageToVirtualView(new PingMessage()));
+                   timer=new Timer();
+                   timer.schedule(task,4000);
                }
             }
         }).start();
@@ -92,6 +107,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     private void close()
     {
         connectionPing=false;
+        notify(new ExitChoice());
         closeConnection();
         System.out.println("Deregistering client...");
         server.deregisterConnection(this);
@@ -108,9 +124,12 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                 Choice read= (Choice)in.readObject();
                 if(!read.toString().equals("ping"))
                     notify(read);
+                else if (timer!=null)
+                {
+                    timer=null;
+                }
             }
         } catch (IOException e) {
-            notify(new ExitChoice());
             close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
