@@ -1,17 +1,19 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 
 public class BeginTurnState implements State {
     private StateEnum stateID;
     private boolean hasFinished;
 
-    public BeginTurnState()
+    public BeginTurnState(Model model)
     {
-
         stateID = StateEnum.BeginTurn;
         hasFinished = false;
+        startup(model);
     }
 
     @Override
@@ -44,7 +46,8 @@ public class BeginTurnState implements State {
     @Override
     public void update(Choice userChoice, Model model)
     {
-
+        model.notify(new MessageToVirtualView(new SentChoiceError()));
+        System.out.println("No choice can be received in BeginTurnState! RECEIVED: " + userChoice.toString());
     }
 
     @Override

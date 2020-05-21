@@ -28,7 +28,7 @@ public class Board {
             }
         }
 
-        singletonBoard=null;
+        //singletonBoard=null;
     }
 
     /**
@@ -44,9 +44,8 @@ public class Board {
 
     /**
      * given
-     * @param riga
-     * @param col
-     * whuch define the position of the box wanted
+     * @param riga row of the box
+     * @param col column of the box
      * @return the required box
      * @throws IndexOutOfBoundsException if the two parameters given do not correspond to an existing box
      */
@@ -63,8 +62,9 @@ public class Board {
      */
     public List<Box> getBorderBoxes(Box b)
     {
-        List<Box> lista=new ArrayList<Box>();
-        int i=-1,j=-1;
+        List<Box> lista=new ArrayList<>();
+        int i=-1;
+        int j;
         while(i<2)
         {
             j=-1;

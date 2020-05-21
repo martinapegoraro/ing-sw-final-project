@@ -105,8 +105,11 @@ public class SetUpState implements State{
                 {
                     hasFinished = true;
                 }
+                else
+                    {
+                        model.getTurn().setNextPlayer();
+                    }
 
-                model.getTurn().setNextPlayer();
                 model.updateModelRep();
 
             }

@@ -16,13 +16,13 @@ public class BeginTurnStateTest {
     @Before
     public void initializeState()
     {
-        List<String> listaNomi=new ArrayList<String>();
+        List<String> listaNomi=new ArrayList<>();
         listaNomi.add("pippo");
         listaNomi.add("pluto");
         listaNomi.add ("paperino");
         model=new Model(listaNomi);
         model.getTurn().getBoardInstance().newBoard();
-        beginTurnStateTest = new BeginTurnState();
+        beginTurnStateTest = new BeginTurnState(model);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class BeginTurnStateTest {
         beginTurnStateTest.startup(model);
         assertEquals (players.get(0), model.getTurn().getCurrentPlayer());
         beginTurnStateTest.startup(model);
-        assertEquals(true, beginTurnStateTest.hasFinished());
+        assertTrue(beginTurnStateTest.hasFinished());
 
     }
 }

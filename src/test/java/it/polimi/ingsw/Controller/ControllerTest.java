@@ -4,7 +4,9 @@ import it.polimi.ingsw.Model.Exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.GodActivationChoice;
+import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -20,10 +22,9 @@ public class ControllerTest {
     @Before
     public void modelSetUp()
     {
-        List<String> listaNomi=new ArrayList<String>();
+        List<String> listaNomi=new ArrayList<>();
         listaNomi.add("pippo");
         listaNomi.add("pluto");
-        listaNomi.add("topolino");
         model=new Model(listaNomi);
         model.getTurn().getBoardInstance().newBoard();
     }
@@ -32,21 +33,47 @@ public class ControllerTest {
     public void controllerSetUp()
     {
         try {
-            controllerUnderTest=new Controller(model,3);
+            controllerUnderTest=new Controller(model,2);
         } catch (WrongNumberOfPlayersException e) {
             e.printStackTrace();
         }
     }
 
+    /**Short simulation for turnFlow**/
     @Test
-
-    public void updateTestGodActivationChoice()
+    public void normalTurnFlowTest()
     {
-        Choice c= new GodActivationChoice(true);
+        //Players place setup workers
+        Choice c= new SelectWorkerCellChoice(0,0);
+        c.setId(0);
         controllerUnderTest.update(c);
+        c= new SelectWorkerCellChoice(1,1);
+        c.setId(0);
+        controllerUnderTest.update(c);
+        c= new SelectWorkerCellChoice(2,2);
+        c.setId(1);
+        controllerUnderTest.update(c);
+        c= new SelectWorkerCellChoice(3,3);
+        c.setId(1);
+        controllerUnderTest.update(c);
+
+        //Now the standard turn should begin for Pippo (P1)
+
+        //Tries a choice from Pluto(P2), should be ignored
+        c= new SelectWorkerCellChoice(0,0);
+        c.setId(1);
+        controllerUnderTest.update(c);
+
+        c= new GodActivationChoice(false);
+        c.setId(0);
+        controllerUnderTest.update(c);
+
+        c= new GodActivationChoice(false);
+        c.setId(1);
+        controllerUnderTest.update(c);
+
     }
 
-    //TODO: Check right Controller transitions, GodActivationChoice can't be sent as first
 
 
 

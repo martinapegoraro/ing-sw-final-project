@@ -74,13 +74,14 @@ public class Context implements Observer<Choice> {
         switch(currentState.getID())
         {
             case SetUp:
-                newState = new BeginTurnState();
+                newState = new BeginTurnState(contextModel);
                 switchState(newState);
+                break;
 
             case BeginTurn:
                 newState = new ActivationGodState();
                 switchState(newState);
-
+                break;
             case ActivationGod:
                 //I save the active Gods for this turn for easier access later
                 ArrayList<Player> playersList = (ArrayList<Player>)contextModel.getTurn().getPlayersList();
@@ -109,14 +110,17 @@ public class Context implements Observer<Choice> {
 
                 newState = moveStateConstructor();
                 switchState(newState);
+                break;
 
             case Move:
                 newState = new CheckWinConditionState(1);
                 switchState(newState);
+                break;
 
             case FirstCheckWinCondition:
                 newState = buildStateConstructor();
                 switchState(newState);
+                break;
 
             case Build:
                 newState = new CheckWinConditionState(2);
@@ -125,11 +129,13 @@ public class Context implements Observer<Choice> {
             case SecondCheckWinCondition:
                 newState = new EndTurnState();
                 switchState(newState);
+                break;
 
             case EndTurn:
-                newState = new BeginTurnState();
+                newState = new BeginTurnState(contextModel);
                 activeGods.clear();
                 switchState(newState);
+                break;
         }
     }
 
@@ -400,10 +406,12 @@ public class Context implements Observer<Choice> {
                 artemisFirstMove = true;
                 newState = moveStateConstructor();
                 switchState(newState);
+                break;
 
             case Move:
                     newState = new CheckWinConditionState(1);
                     switchState(newState);
+                    break;
 
             case FirstCheckWinCondition:
                 if(artemisFirstMove)
@@ -416,19 +424,23 @@ public class Context implements Observer<Choice> {
                         newState = buildStateConstructor();
                     }
                 switchState(newState);
+                break;
 
             case Build:
                     newState = new CheckWinConditionState(2);
                     switchState(newState);
+                    break;
 
             case SecondCheckWinCondition:
                 newState = new EndTurnState();
                 switchState(newState);
+                break;
 
             case EndTurn:
-                newState = new BeginTurnState();
+                newState = new BeginTurnState(contextModel);
                 activeGods.clear();
                 switchState(newState);
+                break;
         }
     }
 
@@ -454,20 +466,23 @@ public class Context implements Observer<Choice> {
                 //This build is possible, it has been checked in ActivationGodState
                 newState = moveStateConstructor();
                 switchState(newState);
+                break;
 
             case Move:
                 newState = new CheckWinConditionState(1);
                 switchState(newState);
+                break;
 
             case FirstCheckWinCondition:
                 demeterFirstBuild = true;
                 newState = buildStateConstructor();
                 switchState(newState);
+                break;
 
             case Build:
                     newState = new CheckWinConditionState(2);
                     switchState(newState);
-
+                    break;
 
             case SecondCheckWinCondition:
                 if(demeterFirstBuild)
@@ -481,11 +496,13 @@ public class Context implements Observer<Choice> {
                         newState = new EndTurnState();
                     }
                 switchState(newState);
+                break;
 
             case EndTurn:
-                newState = new BeginTurnState();
+                newState = new BeginTurnState(contextModel);
                 activeGods.clear();
                 switchState(newState);
+                break;
         }
     }
 
@@ -563,6 +580,7 @@ public class Context implements Observer<Choice> {
         newState = buildStateConstructor();
         prometheusFirstBuild = true;
         switchState(newState);
+        break;
 
         case Build:
             if(prometheusFirstBuild)
@@ -577,19 +595,23 @@ public class Context implements Observer<Choice> {
                     newState = new CheckWinConditionState(2);
                     switchState(newState);
                 }
+            break;
 
         case Move:
         newState = buildStateConstructor();
         switchState(newState);
+        break;
 
         case SecondCheckWinCondition:
         newState = new EndTurnState();
         switchState(newState);
+        break;
 
         case EndTurn:
-        newState = new BeginTurnState();
+        newState = new BeginTurnState(contextModel);
         activeGods.clear();
         switchState(newState);
+        break;
         }
     }
 
@@ -599,9 +621,12 @@ public class Context implements Observer<Choice> {
             case ActivationGod:
                 newState = moveStateConstructor();
                 switchState(newState);
+                break;
+
             case FirstCheckWinCondition:
                 newState = buildStateConstructor();
                 switchState(newState);
+                break;
 
             case Build:
                 if (!hestiaSecondBuild) {
@@ -611,15 +636,18 @@ public class Context implements Observer<Choice> {
                     newState = new CheckWinConditionState(2);
                 }
                 switchState(newState);
+                break;
 
             case SecondCheckWinCondition:
                 newState = new EndTurnState();
                 switchState(newState);
+                break;
 
             case EndTurn:
-                newState = new BeginTurnState();
+                newState = new BeginTurnState(contextModel);
                 activeGods.clear();
                 switchState(newState);
+                break;
         }
     }
 
@@ -653,8 +681,8 @@ public class Context implements Observer<Choice> {
             System.out.println(ex.getMessage());
         }
 
-        //Check if the state has completed it's task
-        if(currentState.hasFinished())
+        //Check if the state has completed it's task, skips states that perform tasks only on startup method
+        while(currentState.hasFinished())
         {
             stateChange();
         }

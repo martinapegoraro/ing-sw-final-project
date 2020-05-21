@@ -1,10 +1,8 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.Block;
-import it.polimi.ingsw.Model.Board;
-import it.polimi.ingsw.Model.GodsList;
-import it.polimi.ingsw.Model.Model;
+import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 
 public class CheckWinConditionState implements State{
     private boolean hasFinished;
@@ -76,7 +74,7 @@ public class CheckWinConditionState implements State{
     @Override
     public void startup(Model model)
     {
-        Board instance = Board.getInstance();
+        Board instance = model.getTurn().getBoardInstance();
         checkPanCondition(model);
         checkChronusCondition(model, instance);
         int playerNumber = model.getTurn().getPlayersList().size();
@@ -86,13 +84,14 @@ public class CheckWinConditionState implements State{
             {
                 //the game ends
                 model.getTurn().getBoardInstance().newBoard();
-                hasFinished = true;
             }
         }
+        hasFinished = true;
     }
     @Override
     public void update(Choice userChoice, Model model) {
-
+        model.notify(new MessageToVirtualView(new SentChoiceError()));
+        System.out.println("No choice can be received in CheckWinConditionState! RECEIVED: " + userChoice.toString());
     }
 
     @Override
