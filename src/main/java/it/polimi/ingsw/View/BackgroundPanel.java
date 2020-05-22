@@ -6,10 +6,10 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class BackGroundPanel extends JPanel {
+public class BackgroundPanel extends JPanel {
     Image img;
 
-    public BackGroundPanel(String path)
+    public BackgroundPanel(String path)
     {
         try{
             img= ImageIO.read(new File(path));

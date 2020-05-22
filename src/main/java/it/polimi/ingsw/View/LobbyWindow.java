@@ -1,6 +1,5 @@
 package it.polimi.ingsw.View;
 
-import it.polimi.ingsw.Network.Client;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.PlayerNumberChoice;
 
@@ -14,7 +13,7 @@ import java.io.IOException;
 public class LobbyWindow extends JFrame {
     private JFrame lobbyWindowFrame;
 
-    private BackGroundPanel backgroundPanel;
+    private BackgroundPanel backgroundPanel;
     private JPanel mainPanel;
     private JPanel fieldsPanel;
     private JPanel buttonPanel;
@@ -32,7 +31,7 @@ public class LobbyWindow extends JFrame {
     public LobbyWindow() throws IOException {
         lobbyWindowFrame = new JFrame("Santorini");
         lobbyWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        backgroundPanel = new BackGroundPanel("resources/background.png");
+        backgroundPanel = new BackgroundPanel("resources/background.png");
         backgroundPanel.setLayout(new GridLayout(1, 1, -1, -1));
         //da settare L'immagine di background
         lobbyWindowFrame.add(backgroundPanel);
