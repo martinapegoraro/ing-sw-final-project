@@ -28,7 +28,6 @@ public class ActivationGodState implements State {
 
     @Override
     public void startup(Model model) {
-        //TODO: Setting the flag for each player to decide if he can activate his god card
     }
 
     /**Called when activating Minotaur card, checks if the opponent worker has a free cell
@@ -112,6 +111,7 @@ public class ActivationGodState implements State {
                                 model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                                 throw new GodConditionNotSatisfiedException("Apollo can't be activated!");
                             }
+                        break;
 
                     case ATHENA:
                         //Check if player in his last Move has satisfied  AthenaCondition, which is resetted if it's the
@@ -126,6 +126,7 @@ public class ActivationGodState implements State {
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Athena can't be activated!");
                         }
+                        break;
 
                     case ARTEMIS:
                         //Check it's player's turn
@@ -140,6 +141,8 @@ public class ActivationGodState implements State {
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Artemis can't be activated!");
                         }
+                        break;
+
                     case HESTIA:
                         //Check it's player's turn
                         if(actingPlayer.isPlayerActive())
@@ -150,6 +153,7 @@ public class ActivationGodState implements State {
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Hestia can't be activated!");
                         }
+                        break;
 
                     case ATLAS:
                         //There has to be at least one free Tower near a player's worker, Domes cannot be built on level 0
@@ -171,6 +175,7 @@ public class ActivationGodState implements State {
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Atlas can't be activated!");
                         }
+                        break;
 
                     case DEMETER:
                         //Checks if it's player turn
@@ -184,6 +189,7 @@ public class ActivationGodState implements State {
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Demeter can't be activated!");
                         }
+                        break;
 
 
                     case HEPHAESTUS:
@@ -207,6 +213,7 @@ public class ActivationGodState implements State {
                                 model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                                 throw new GodConditionNotSatisfiedException("Hephaestus can't be activated!");
                             }
+                        break;
 
                     case HERA:
                         //Check that it's not the actingPlayer's turn
@@ -219,6 +226,7 @@ public class ActivationGodState implements State {
                                 model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                                 throw new GodConditionNotSatisfiedException("Hera can't be activated!");
                             }
+                        break;
 
                     case MINOTAUR:
                         //Like Apollo condition but for every OPPONENT worker the space behind it must be free
@@ -227,8 +235,11 @@ public class ActivationGodState implements State {
 
                         for(Box b : neighborBoxes)
                         {
-                            if(b.isOccupied() && (b.getTower() == null || !b.getTower().getPieces().contains(Block.DOME)))
+                            if(b.isOccupied() &&
+                                    (b.getTower() == null || !b.getTower().getPieces().contains(Block.DOME)))
                             {
+                                //FIXME: This check is not exactly done as rules specify, should check if the worker can move in the cell
+                                //This is not a big problem though because the check is done later in the Context (minotaurEffect)
                                 //Flag isOccupied is used both with domes and workers
                                 //This part calculates the cell opposite to workerCell with center in b
                                 //The boxes have to be bounded to board (no out of bounds)
@@ -255,6 +266,7 @@ public class ActivationGodState implements State {
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Apollo can't be activated!");
                         }
+                        break;
 
                     case PROMETHEUS:
                         //Player's turn and Must be able to build before moving
@@ -278,6 +290,8 @@ public class ActivationGodState implements State {
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                             throw new GodConditionNotSatisfiedException("Prometheus can't be activated!");
                         }
+                        break;
+
                     case ZEUS:
                         //Checks at least one of the player's workers can build under itself
                         //And checks it player's turn
@@ -297,6 +311,7 @@ public class ActivationGodState implements State {
                            model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
                            throw new GodConditionNotSatisfiedException("Zeus can't be activated!");
                        }
+                       break;
 
 
                 }

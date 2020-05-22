@@ -359,15 +359,16 @@ public class Context implements Observer<Choice> {
 
     //______________________________________________GOD EFFECTS METHODS_______________________________________________
 
-
+/**@param basicMoves basic list of move boxes (without god effects applied)
+ * @param b box where the player's worker is at
+ * @return list of possible move boxes including Apollo special effect moves**/
     private ArrayList<Box> apolloEffect(ArrayList<Box> basicMoves, Box b)
     {
         ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
         
         for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {
-            if(cell.isOccupied() && cell.isReachable(b))
+            if(cell.isOccupied() && cell.isReachable(b) && (b.getTower() == null || !b.getTower().getPieces().contains(Block.DOME)))
             {
-                //TODO: CONTROLLARE CONDIZIONE
                 godMoves.add(cell);
             }
         }
@@ -530,14 +531,44 @@ public class Context implements Observer<Choice> {
         return godMoves;
     }
 
-    private ArrayList<Box> minotaurEffect(ArrayList<Box> basicMoves, Box b)
+    /**@param basicMoves basic list of move boxes (without god effects applied)
+     * @param playerWorkerBox selected worker Box
+     * @return a list of boxes containing also special move Boxes permitted by Minotaur**/
+    private ArrayList<Box> minotaurEffect(ArrayList<Box> basicMoves, Box playerWorkerBox)
     {
         ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
-        
-        for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {
-            if(cell.isOccupied() && cell.isReachable(b))
+        int x1,x2,y1,y2;
+        int xBehind, yBehind;
+
+        x2 = playerWorkerBox.getCoord()[0];
+        y2 = playerWorkerBox.getCoord()[1];
+
+        for (Box opponentWorkerBox : contextModel.getTurn().getBoardInstance().getBorderBoxes(playerWorkerBox)) {
+            //Check if the cell is occupied by a worker and is reachable
+            if(opponentWorkerBox.isOccupied() && opponentWorkerBox.isReachable(playerWorkerBox)
+                    && (opponentWorkerBox.getTower() == null || !opponentWorkerBox.getTower().getPieces().contains(Block.DOME)))
             {
-                godMoves.add(cell);
+
+                x1 = opponentWorkerBox.getCoord()[0];
+                y1 = opponentWorkerBox.getCoord()[1];
+                xBehind = x1 + (x1-x2);
+                yBehind = y1 + (y1-y2);
+                //Checks if the worker can be pushed back
+                try
+                {
+                    Box behindBox = contextModel.getTurn().getBoardInstance().getBox(xBehind, yBehind);
+
+                    if(!behindBox.isOccupied())
+                    {
+                        //the box behind opponent's worker is free
+                        godMoves.add(opponentWorkerBox);
+                    }
+                }
+                catch(IndexOutOfBoundsException ex)
+                {
+                    contextModel.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), contextModel.getTurn().getCurrentPlayer()));
+                    System.out.println("Worker is at the edge of the board, cannot use Minotaur!\n" + ex.getMessage());
+                }
             }
         }
 
@@ -718,6 +749,5 @@ public class Context implements Observer<Choice> {
         }
 
  */
-        //TODO: Impostare l'active worker con la WorkerSelectChoice
     }
 }
