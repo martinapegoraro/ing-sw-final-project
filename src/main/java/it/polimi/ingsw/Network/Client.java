@@ -4,6 +4,7 @@ import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.PingChoice;
 import it.polimi.ingsw.Utils.PlayerNumberChoice;
+import it.polimi.ingsw.View.LobbyWindow;
 import it.polimi.ingsw.View.Observer;
 import it.polimi.ingsw.View.View;
 
@@ -23,6 +24,7 @@ public class Client implements Observer<Choice> {
     private ObjectInputStream in;
     private Socket socket;
     private View view;
+    private LobbyWindow lobbyWindow;
 
     public Client(String ip,int port)
     {
@@ -30,6 +32,13 @@ public class Client implements Observer<Choice> {
         this.port=port;
         view=new View();
         view.addObservers(this);
+        try {
+            lobbyWindow=new LobbyWindow();
+            lobbyWindow.getSubmitButtonListenerListener().addObservers(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -86,7 +95,7 @@ public class Client implements Observer<Choice> {
                     //while (isActive()) {
 
                         out.writeObject(c);
-                        out.flush();
+                        out.reset();
                     //}
                 }catch(Exception e){
                     setActive(false);
@@ -103,16 +112,17 @@ public class Client implements Observer<Choice> {
         out =new ObjectOutputStream(socket.getOutputStream());
         in=new ObjectInputStream(socket.getInputStream());
         Scanner stdin=new Scanner(System.in);
-        System.out.println("scrivi il tuo nome");
+        /*System.out.println("scrivi il tuo nome");
         String name=stdin.nextLine();
         System.out.println("scrivi con quanti vuoi giocare");
-        int num=stdin.nextInt();
-        Choice c=new PlayerNumberChoice(name,num);
+        int num=stdin.nextInt();*/
+        /*Choice c=new PlayerNumberChoice(name,num);
         Thread t1 = asyncWriteToSocket(c, out);
         t1.join();
         //out.writeObject(c);
         //out.flush();
-        //MessageToVirtualView msg;
+        //MessageToVirtualView msg;*/
+        lobbyWindow.visible();
         try {
 
 
