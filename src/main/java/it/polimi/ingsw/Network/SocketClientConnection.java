@@ -28,13 +28,13 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     private boolean connectionPing;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private Timer timer;
-    TimerTask task=new TimerTask() {
+    //private Timer timer;
+    /*TimerTask task=new TimerTask() {
         @Override
         public void run() {
             close();
         }
-    };
+    };*/
 
 
 
@@ -46,7 +46,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         out =new ObjectOutputStream(socket.getOutputStream());
         in=new ObjectInputStream(socket.getInputStream());
         connectionPing=true;
-        timer=new Timer();
+        //timer=new Timer();
         ping();
 
     }
@@ -76,8 +76,8 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                        e.printStackTrace();
                    }
                    send(new MessageToVirtualView(new PingMessage()));
-                   timer=new Timer();
-                   timer.schedule(task,4000);
+                   //timer=new Timer();
+                   //timer.schedule(task,4000);
                }
             }
         }).start();
@@ -87,7 +87,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         try {
             out.reset();
             out.writeObject(message);
-            out.flush();
+            out.reset();
         } catch(IOException e){
             System.err.println(e.getMessage());
         }
@@ -124,10 +124,10 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                 Choice read= (Choice)in.readObject();
                 if(!read.toString().equals("ping"))
                     notify(read);
-                else if (timer!=null)
-                {
-                    timer=null;
-                }
+                //else if (timer!=null)
+                //{
+                  //  timer=null;
+                //}
             }
         } catch (IOException e) {
             close();
