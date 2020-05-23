@@ -117,17 +117,19 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     public void run()
     {
         try{
-            PlayerNumberChoice nameNPChoice= (PlayerNumberChoice)in.readObject();
-            server.addToLobby(this, nameNPChoice.name,nameNPChoice.playerNumber);
             while(isActive())
             {
                 Choice read= (Choice)in.readObject();
                 if(!read.toString().equals("ping"))
-                    notify(read);
-                //else if (timer!=null)
-                //{
-                  //  timer=null;
-                //}
+                {
+                    if(read.toString().equals("PlayerNumberChoice"))
+                    {
+                        PlayerNumberChoice np=(PlayerNumberChoice)read;
+                        server.addToLobby(this, np.name,np.playerNumber);
+                    }
+                    else
+                        notify(read);
+                }
             }
         } catch (IOException e) {
             close();

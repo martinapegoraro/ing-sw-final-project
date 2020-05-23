@@ -60,7 +60,9 @@ public class Client implements Observer<Choice> {
 
                         MessageToVirtualView messaggio =(MessageToVirtualView) in.readObject();
                         if(messaggio.isModelRep()){
-                            System.out.println(messaggio.getModelRep().playerNum);
+                            System.out.println("sono qui");
+                            lobbyWindow.setNotVisible();
+
                         } else if(messaggio.getMessage().getMessage().equals("One player left the game")){
                             System.out.println(messaggio.getMessage().getMessage());
                             socket.close();
@@ -123,13 +125,15 @@ public class Client implements Observer<Choice> {
         //out.flush();
         //MessageToVirtualView msg;*/
         lobbyWindow.visible();
+        Thread t0 = asyncReadFromSocket(in);
+        t0.join();
+
         try {
 
 
             while (true) {
                 //msg = (MessageToVirtualView)in.readObject();
-                Thread t0 = asyncReadFromSocket(in);
-                t0.join();
+
                 t0 = asyncReadFromSocket(in);
                 t0.join();
 
@@ -148,6 +152,11 @@ public class Client implements Observer<Choice> {
 
     @Override
     public void update(Choice c) {
-        asyncWriteToSocket(c,out);
+        Thread t1 = asyncWriteToSocket(c, out);
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
