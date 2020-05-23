@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Controller.StateEnum;
 import it.polimi.ingsw.View.Observable;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Model extends Observable<MessageToVirtualView> {
         turn=new Turn(playersNamesList);
         playerNum=playersNamesList.size();
         //I create a new modelRep based on the current status of the model
-        updateModelRep();
+        updateModelRep(modelRep.currentState);
     }
     public Turn getTurn()
     {
@@ -27,11 +28,12 @@ public class Model extends Observable<MessageToVirtualView> {
         return modelRep;
     }
 
-    public void updateModelRep()
+    public void updateModelRep (StateEnum currentState)
     {
         //I initialize mi matrix with just zeroes (java default value for int)
         int [][] selectedCells = new int[5][5];
         modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList(),selectedCells);
+        modelRep.currentState = currentState;
         notify(new MessageToVirtualView(modelRep));
     }
 
@@ -45,6 +47,7 @@ public class Model extends Observable<MessageToVirtualView> {
             selectedCells[coordinates[0]][coordinates[1]] = 1;
         }
         modelRep = new ModelRepresentation(turn.getBoardInstance(), turn.getPlayersList(), selectedCells);
+
         notify(new MessageToVirtualView(modelRep));
     }
 

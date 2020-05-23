@@ -46,7 +46,7 @@ public class SetUpState implements State{
         playerList.get(0).setPlayerActive(true);
 
         //Notify VirtualView
-        model.updateModelRep();
+        model.updateModelRep(StateEnum.SetUp);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class SetUpState implements State{
                         model.getTurn().setNextPlayer();
                     }
 
-                model.updateModelRep();
+                model.updateModelRep(StateEnum.SetUp);
 
             }
         }

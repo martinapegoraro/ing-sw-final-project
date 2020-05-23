@@ -33,7 +33,7 @@ public class ContextTest {
         Box b3=model.getTurn().getBoardInstance().getBox(2,3);
         Box b4=model.getTurn().getBoardInstance().getBox(4,0);
         model.getTurn().getPlayersList().get(1).setWorkersPosition(b3,b4);
-        model.updateModelRep();
+        model.updateModelRep(model.getModelRep().currentState);
     }
 
     @Before

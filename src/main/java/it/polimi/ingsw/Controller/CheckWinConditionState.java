@@ -74,6 +74,8 @@ public class CheckWinConditionState implements State{
     @Override
     public void startup(Model model)
     {
+        if (stateId == StateEnum.FirstCheckWinCondition){model.updateModelRep(StateEnum.FirstCheckWinCondition);}
+        if (stateId == StateEnum.SecondCheckWinCondition){model.updateModelRep(StateEnum.SecondCheckWinCondition);}
         Board instance = model.getTurn().getBoardInstance();
         checkPanCondition(model);
         checkChronusCondition(model, instance);

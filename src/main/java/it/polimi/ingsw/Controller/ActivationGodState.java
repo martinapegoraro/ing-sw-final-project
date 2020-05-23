@@ -27,7 +27,9 @@ public class ActivationGodState implements State {
     }
 
     @Override
-    public void startup(Model model) {
+    public void startup(Model model)
+    {
+        model.updateModelRep(StateEnum.ActivationGod);
     }
 
     /**Called when activating Minotaur card, checks if the opponent worker has a free cell

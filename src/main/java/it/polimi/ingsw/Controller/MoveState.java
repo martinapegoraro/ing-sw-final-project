@@ -237,7 +237,7 @@ public class MoveState implements State {
                         actingPlayer.setHasWon();
                     }
 
-                    model.updateModelRep();
+                    model.updateModelRep(StateEnum.Move);
                     hasFinished = true;
                 }
                 catch (MoveErrorException ex)

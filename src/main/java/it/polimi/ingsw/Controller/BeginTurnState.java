@@ -36,7 +36,7 @@ public class BeginTurnState implements State {
         }
         else
             {
-                model.updateModelRep();
+                model.updateModelRep(StateEnum.BeginTurn);
                 hasFinished = true;
             }
 

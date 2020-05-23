@@ -45,7 +45,7 @@ public class DummyView implements Observer<MessageToVirtualView> {
         System.out.println("Colonna casella del worker: ");
         y2 = commandLine.nextInt();
         Mario.setWorkersPosition(Board.getInstance().getBox(x,y), Board.getInstance().getBox(x2,y2));
-        model.updateModelRep();
+        model.updateModelRep(model.getModelRep().currentState);
 
         System.out.println("--------PLAYER LUIGI--------");
         System.out.println("Riga casella del worker: ");
@@ -57,7 +57,7 @@ public class DummyView implements Observer<MessageToVirtualView> {
         System.out.println("Colonna casella del worker: ");
         y2 = commandLine.nextInt();
         Luigi.setWorkersPosition(Board.getInstance().getBox(x,y), Board.getInstance().getBox(x2,y2));
-        model.updateModelRep();
+        model.updateModelRep(model.getModelRep().currentState);
 
         //Implementing a basic user interface for using the Model
         while(!exitFlag)

@@ -47,12 +47,12 @@ public class ModelTest {
     public void hasWonHasLostTest()
     {
         modelTest.getTurn().getPlayersList().get(2).setHasLost();
-        modelTest.updateModelRep();
+        modelTest.updateModelRep(modelTest.getModelRep().currentState);
         ModelRepresentation modelRep=modelTest.getModelRep();
         assertTrue(modelRep.getHasLost()[2]);
 
         modelTest.getTurn().getPlayersList().get(0).setHasWon();
-        modelTest.updateModelRep();
+        modelTest.updateModelRep(modelTest.getModelRep().currentState);
         modelRep=modelTest.getModelRep();
         assertTrue(modelRep.getHasWon()[0]);
     }
@@ -76,7 +76,7 @@ public class ModelTest {
 
 
         modelTest.getTurn().getPlayersList().get(2).setWorkersPosition(b1,b2);
-        modelTest.updateModelRep();
+        modelTest.updateModelRep(modelTest.getModelRep().currentState);
 
         int [][] workers = modelTest.getModelRep().getWorkerPosition();
 
@@ -85,7 +85,7 @@ public class ModelTest {
         assertEquals(2, workers[0][3]);
 
         modelTest.getTurn().getPlayersList().get(1).setWorkersPosition(b3,b4);
-        modelTest.updateModelRep();
+        modelTest.updateModelRep(modelTest.getModelRep().currentState);
         int [][] workers1 = modelTest.getModelRep().getWorkerPosition();
 
         assertEquals(1, workers1[2][2]);
@@ -93,7 +93,7 @@ public class ModelTest {
         assertEquals(-1, workers1 [1][1]);
 
         b5.build();
-        modelTest.updateModelRep();
+        modelTest.updateModelRep(modelTest.getModelRep().currentState);
         int [][] towers = modelTest.getModelRep().getTowerPosition();
         assertEquals(1, towers[4][1]);
 
