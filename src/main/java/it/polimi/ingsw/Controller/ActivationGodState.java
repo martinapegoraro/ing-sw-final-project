@@ -93,7 +93,7 @@ public class ActivationGodState implements State {
 
                         for(Box b : neighborBoxes)
                         {
-                            if(b.isOccupied() && (b.getTower() == null || !b.getTower().getPieces().contains(Block.DOME)))
+                            if(b.isOccupied() && !b.getTower().getPieces().contains(Block.DOME))
                             {
                                 //Flag isOccupied is used both with domes and workers
                                 if(b != firstWorkerBox && b != secondWorkerBox)
@@ -161,7 +161,7 @@ public class ActivationGodState implements State {
                         boolean atlasCondition = false;
                         for(Box b : neighborBoxes)
                         {
-                            if(!b.isOccupied() && !(b.getTower() == null))
+                            if(!b.isOccupied() && !(b.getTower().getHeight() == 0))
                             {
                                 //Flag isOccupied is used both with domes and workers
                                 atlasCondition = true;
@@ -199,7 +199,7 @@ public class ActivationGodState implements State {
 
                         for(Box b : neighborBoxes)
                         {
-                            if(b.getTower() == null || (!b.getTower().getPieces().contains(Block.DOME) && b.getTower().getHeight() == 1))
+                            if(!b.getTower().getPieces().contains(Block.DOME) && b.getTower().getHeight() <= 1)
                             {
                                 //Domes should not be on ground, it's just a safety check
                                 hephaestusCondition = true;
