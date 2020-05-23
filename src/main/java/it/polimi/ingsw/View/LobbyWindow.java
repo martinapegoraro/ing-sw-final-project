@@ -96,20 +96,26 @@ public class LobbyWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             String playerName=nameTextField.getText();
-            int playerNumber=Integer.parseInt(numberTextField.getText());
-            if(playerName==null )
+            String playerNumber=numberTextField.getText();
+            String message="";
+
+            if(playerName.equals(""))
             {
-                JOptionPane.showMessageDialog(lobbyWindowFrame,"you have put your name");
+                message="you have put your name \n";
             }
-            else if(playerNumber!=2&&playerNumber!=3)
+            if(playerNumber.equals("")||(Integer.parseInt(playerNumber)!=2&&(Integer.parseInt(playerNumber))!=3))
             {
-                JOptionPane.showMessageDialog(lobbyWindowFrame,"a game is composed by 2 or 3 players");
+                message+="Remember a game is composed by 2 or 3 players";
+            }
+            if (message.equals(""))
+            {
+                Choice c=new PlayerNumberChoice(playerName,Integer.parseInt(playerNumber));
+                notify(c);
+
             }
             else
             {
-                Choice c=new PlayerNumberChoice(playerName,playerNumber);
-                notify(c);
-                System.out.println("sono qui");
+                JOptionPane.showMessageDialog(lobbyWindowFrame,message);
             }
         }
 
