@@ -8,7 +8,7 @@ public class CheckWinConditionState implements State{
     private boolean hasFinished;
     StateEnum stateId;
 
-    public CheckWinConditionState(int number)
+    public CheckWinConditionState(int number,Model model)
     {
         if(number == 1)
         {
@@ -20,6 +20,7 @@ public class CheckWinConditionState implements State{
             }
 
         hasFinished = false;
+        startup(model);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class CheckWinConditionState implements State{
             if(model.getTurn().getPlayersList().get(i).getHasWon())
             {
                 //the game ends
-                model.getTurn().getBoardInstance().newBoard();
+                Board.newBoard();
             }
         }
         hasFinished = true;

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class ActivationGodState implements State {
     StateEnum stateID;
     private boolean hasFinished;
+    ArrayList<Player> playerHaveSelected = new ArrayList<>();
 
     public ActivationGodState()
     {
@@ -315,6 +316,13 @@ public class ActivationGodState implements State {
 
 
                 }
+            }
+
+            //If all players have made the activation choice the state has finished
+            playerHaveSelected.add(actingPlayer);
+            if(playerHaveSelected.size() == playerList.size())
+            {
+                hasFinished = true;
             }
         }
         else
