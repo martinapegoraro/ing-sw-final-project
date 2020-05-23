@@ -1,12 +1,12 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.Exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.Model.Model;
-import it.polimi.ingsw.Utils.Choice;
-import it.polimi.ingsw.Utils.GodActivationChoice;
-import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
+import it.polimi.ingsw.Utils.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class ControllerTest {
         listaNomi.add("pippo");
         listaNomi.add("pluto");
         model=new Model(listaNomi);
-        model.getTurn().getBoardInstance().newBoard();
+        Board.newBoard();
     }
 
     @Before
@@ -56,6 +56,27 @@ public class ControllerTest {
         c= new SelectWorkerCellChoice(3,3);
         c.setId(1);
         controllerUnderTest.update(c);
+        /*SETUP:
+         * Player0: Pippo       Player1: Pluto
+         *
+         *    0     1     2     3     4
+         *       |     |     |     |
+         * 0  W0 |  -  |  -  |  -  |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 1  -  |  W0 |  -  |  -  |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 2  -  |  -  |  W1 |  -  |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 3  -  |  -  |  -  |  W1 |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 4  -  |  -  |  -  |  -  |  -
+         *       |     |     |     |
+         *
+         *       */
 
         //Now the standard turn should begin for Pippo (P1)
 
@@ -71,6 +92,94 @@ public class ControllerTest {
         c= new GodActivationChoice(false);
         c.setId(1);
         controllerUnderTest.update(c);
+
+        //Pippo performs a move
+        /*MOVE BY PIPPO:
+         * Player0: Pippo       Player1: Pluto
+         *
+         *    0     1     2     3     4
+         *       |     |     |     |
+         * 0  ----> W0 |  -  |  -  |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 1  -  |  W0 |  -  |  -  |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 2  -  |  -  |  W1 |  -  |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 3  -  |  -  |  -  |  W1 |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 4  -  |  -  |  -  |  -  |  -
+         *       |     |     |     |
+         *
+         *       */
+        c= new SelectWorkerCellChoice(0,0);
+        c.setId(0);
+        controllerUnderTest.update(c);
+
+        //A wrong move is passed, should be rejected
+        c= new MoveChoice(1,1);
+        c.setId(0);
+        controllerUnderTest.update(c);
+
+        //Valid move is now passed
+        c = new MoveChoice(0,1);
+        controllerUnderTest.update(c);
+
+        //worker has moved
+        assertFalse(model.getTurn().getBoardInstance().getBox(0,0).isOccupied());
+        assertTrue(model.getTurn().getBoardInstance().getBox(0,1).isOccupied());
+
+        //the worker now builds
+        /*MOVE BY PIPPO:
+         * Player0: Pippo       Player1: Pluto
+         *
+         *    0     1     2     3     4
+         *       |     | L1  |     |
+         * 0  ----> W0 |  ^  |  -  |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 1  -  |  W0 |  -  |  -  |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 2  -  |  -  |  W1 |  -  |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 3  -  |  -  |  -  |  W1 |  -
+         *  _____|_____|_____|_____|_____
+         *       |     |     |     |
+         * 4  -  |  -  |  -  |  -  |  -
+         *       |     |     |     |
+         *
+         *       */
+
+        //First a wrong worker cell is passed
+        c= new SelectWorkerCellChoice(0,0);
+        c.setId(0);
+        controllerUnderTest.update(c);
+
+        //Now the correct one
+        c= new SelectWorkerCellChoice(0,1);
+        c.setId(0);
+        controllerUnderTest.update(c);
+
+        //then a wrong build cell is passed
+        c= new BuildChoice(1,1);
+        c.setId(0);
+        controllerUnderTest.update(c);
+
+        //finally the right build cell is passed
+        c= new BuildChoice(0,2);
+        c.setId(0);
+        controllerUnderTest.update(c);
+
+        assertEquals(1, model.getTurn().getBoardInstance().getBox(0, 2).getTower().getHeight());
+        //FIXME: Towers must be fixed, some are set to null and some have height 0
+        //have to look at getTower usages and fix
+        assertNull(model.getTurn().getBoardInstance().getBox(1, 1).getTower());
+
 
     }
 

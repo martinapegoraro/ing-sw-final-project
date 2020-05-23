@@ -22,7 +22,7 @@ public class Box {
     public Box(int coordX, int coordY)
     {
         occupied=false;
-        tower=null;
+        tower=getTower();
         x = coordX;
         y = coordY;
     }
@@ -57,8 +57,10 @@ public class Box {
      */
     public Tower getTower()
     {
-       if (tower==null)
-           tower=new Tower();
+        //Just a safety check, should not be needed
+       //if (tower==null)
+           //tower=new Tower();
+
         return tower;
     }
 
@@ -72,8 +74,9 @@ public class Box {
      */
     public void build()
     {
-        if(tower==null)
-            tower=new Tower();
+        //This check too shouldn't be needed
+        //if(tower==null)
+            //tower=new Tower();
         try {
             tower.build();
         } catch (TowerCompleteException e) {

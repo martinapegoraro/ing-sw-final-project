@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Context implements Observer<Choice> {
     private State currentState;
-    private int numberofPlayers;
+    //private int numberofPlayers;
     private Model contextModel;
     private ArrayList<GodsList> activeGods;
 
@@ -31,7 +31,7 @@ public class Context implements Observer<Choice> {
             throw new NullPointerException("Model can't be null when linking Context!");
         }
         currentState = new SetUpState(model);
-        numberofPlayers = 0;
+        //numberofPlayers = 0;
         contextModel = model;
         activeGods = new ArrayList<>();
         hestiaSecondBuild=false;
@@ -113,7 +113,7 @@ public class Context implements Observer<Choice> {
                 break;
 
             case Move:
-                newState = new CheckWinConditionState(1);
+                newState = new CheckWinConditionState(1, contextModel);
                 switchState(newState);
                 break;
 
@@ -123,7 +123,7 @@ public class Context implements Observer<Choice> {
                 break;
 
             case Build:
-                newState = new CheckWinConditionState(2);
+                newState = new CheckWinConditionState(2, contextModel);
                 switchState(newState);
 
             case SecondCheckWinCondition:
@@ -212,7 +212,7 @@ public class Context implements Observer<Choice> {
             {
                 //Since this move is the second one done by the player it's not mandatory
                 //If no moves are possible the state returned is going to be FirstCheckWinConditionState
-                return new CheckWinConditionState(1);
+                return new CheckWinConditionState(1, contextModel);
             }
         }
 
@@ -241,7 +241,7 @@ public class Context implements Observer<Choice> {
             {
                 //Since this build is the second one done by the player it's not mandatory
                 //If no builds are possible the state returned is going to be SecondCheckWinConditionState
-                return new CheckWinConditionState(2);
+                return new CheckWinConditionState(2, contextModel);
             }
         }
 
@@ -293,7 +293,7 @@ public class Context implements Observer<Choice> {
                     {
                         //Since this build is the second one done by the player it's not mandatory
                         //If no builds are possible the state returned is going to be SecondCheckWinConditionState
-                        return new CheckWinConditionState(2);
+                        return new CheckWinConditionState(2, contextModel);
                     }
                 }
         }
@@ -410,7 +410,7 @@ public class Context implements Observer<Choice> {
                 break;
 
             case Move:
-                    newState = new CheckWinConditionState(1);
+                    newState = new CheckWinConditionState(1, contextModel);
                     switchState(newState);
                     break;
 
@@ -428,7 +428,7 @@ public class Context implements Observer<Choice> {
                 break;
 
             case Build:
-                    newState = new CheckWinConditionState(2);
+                    newState = new CheckWinConditionState(2, contextModel);
                     switchState(newState);
                     break;
 
@@ -470,7 +470,7 @@ public class Context implements Observer<Choice> {
                 break;
 
             case Move:
-                newState = new CheckWinConditionState(1);
+                newState = new CheckWinConditionState(1, contextModel);
                 switchState(newState);
                 break;
 
@@ -481,7 +481,7 @@ public class Context implements Observer<Choice> {
                 break;
 
             case Build:
-                    newState = new CheckWinConditionState(2);
+                    newState = new CheckWinConditionState(2, contextModel);
                     switchState(newState);
                     break;
 
@@ -577,7 +577,7 @@ public class Context implements Observer<Choice> {
 
     /**@param basicMoves contains the list of basic move boxes to modify
      * @return list of move boxes on the same level as the worker**/
-    public ArrayList<Box> prometheusMoveEffect(ArrayList<Box> basicMoves, Box workerBox)
+    private ArrayList<Box> prometheusMoveEffect(ArrayList<Box> basicMoves, Box workerBox)
     {
         ArrayList<Box> prometheusMoves = new ArrayList<>(basicMoves);
         for(Box b : contextModel.getTurn().getBoardInstance().getBorderBoxes(workerBox))
@@ -623,7 +623,7 @@ public class Context implements Observer<Choice> {
             }
             else
                 {
-                    newState = new CheckWinConditionState(2);
+                    newState = new CheckWinConditionState(2, contextModel);
                     switchState(newState);
                 }
             break;
@@ -664,7 +664,7 @@ public class Context implements Observer<Choice> {
                     newState = buildStateConstructor();
                     hestiaSecondBuild = true;
                 } else {
-                    newState = new CheckWinConditionState(2);
+                    newState = new CheckWinConditionState(2, contextModel);
                 }
                 switchState(newState);
                 break;

@@ -7,12 +7,11 @@ import java.util.List;
  * The following class represents a Board
  */
 public class Board {
-    private Box[][] board;
-    private static Board singletonBoard;
+    private static Box[][] board;
+    private static Board singletonBoard = null;
 
     /**
-     * builds an instance of board, initially composed by 25 empty boxes
-     * the singletonBoard is still set as null to make sure that this instance of board remains unique
+     * builds an instance of board, initially composed by 25 empty Box objects
      */
     private Board()
     {
@@ -28,7 +27,7 @@ public class Board {
             }
         }
 
-        //singletonBoard=null;
+        //singletonBoard=null since singletonBoard is static this deletes access to all the referenced boards
     }
 
     /**
@@ -84,8 +83,17 @@ public class Board {
      * this method creates a new singletonBoard, it is going to be used when a new match is started
      * in order to create an empty board
      */
-    public void newBoard()
+    public static void newBoard()
     {
-        singletonBoard = new Board();
+        //Inizializzo i puntatori senza aver assegnato alcuna Box
+        board=new Box[5][5];
+
+        for(int i = 0; i < 5; i++)
+        {
+            for(int k = 0; k < 5; k++)
+            {
+                board[i][k] = new Box(i, k);
+            }
+        }
     }
 }

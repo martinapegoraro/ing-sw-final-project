@@ -30,14 +30,14 @@ public class CheckWinConditionStateTest {
     public void initializeState ()
     {
         board = Board.getInstance();
-        board.newBoard();
+        Board.newBoard();
         List<String> listaNomi=new ArrayList<String>();
         listaNomi.add("pippo");
         listaNomi.add("pluto");
         listaNomi.add ("paperino");
         model=new Model(listaNomi);
-        checkWinConditionStateTest1 = new CheckWinConditionState(1);
-        checkWinConditionStateTest2 = new CheckWinConditionState(2);
+        checkWinConditionStateTest1 = new CheckWinConditionState(1, model);
+        checkWinConditionStateTest2 = new CheckWinConditionState(2, model);
         board.getBox(1,2).build();
         board.getBox(1,2).build();
         board.getBox(1,2).build();
