@@ -62,6 +62,7 @@ public class Client implements Observer<Choice> {
                         if(messaggio.isModelRep()){
                             System.out.println("sono qui");
                             lobbyWindow.setNotVisible();
+                            view.setGameWindowVisible();
 
                         } else if(messaggio.getMessage().getMessage().equals("One player left the game")){
                             System.out.println(messaggio.getMessage().getMessage());

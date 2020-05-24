@@ -9,10 +9,18 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
     private ViewState currentState;
     //TODO: create a GameWindow
 
+    private GameWindow gameWindow;
+
 
     public View()
     {
         currentState=null;
+        gameWindow=new GameWindow();
+    }
+
+    public void setGameWindowVisible()
+    {
+        gameWindow.visible();
     }
 
     public View(ViewState state,ModelRepresentation modelRep)
