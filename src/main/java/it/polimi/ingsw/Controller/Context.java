@@ -367,7 +367,7 @@ public class Context implements Observer<Choice> {
         ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
         
         for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {
-            if(cell.isOccupied() && cell.isReachable(b) && (b.getTower() == null || !b.getTower().getPieces().contains(Block.DOME)))
+            if(cell.isOccupied() && cell.isReachable(b) && (!b.getTower().getPieces().contains(Block.DOME)))
             {
                 godMoves.add(cell);
             }
@@ -522,7 +522,7 @@ public class Context implements Observer<Choice> {
         ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
 
         for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {
-            if (cell.isOccupied() || (cell.getTower() != null && cell.getTower().getHeight() > 1))
+            if (cell.isOccupied() || (cell.getTower().getHeight() > 1))
             {
                 godMoves.remove(cell);
             }
@@ -546,7 +546,7 @@ public class Context implements Observer<Choice> {
         for (Box opponentWorkerBox : contextModel.getTurn().getBoardInstance().getBorderBoxes(playerWorkerBox)) {
             //Check if the cell is occupied by a worker and is reachable
             if(opponentWorkerBox.isOccupied() && opponentWorkerBox.isReachable(playerWorkerBox)
-                    && (opponentWorkerBox.getTower() == null || !opponentWorkerBox.getTower().getPieces().contains(Block.DOME)))
+                    && (!opponentWorkerBox.getTower().getPieces().contains(Block.DOME)))
             {
 
                 x1 = opponentWorkerBox.getCoord()[0];
@@ -583,12 +583,8 @@ public class Context implements Observer<Choice> {
         for(Box b : contextModel.getTurn().getBoardInstance().getBorderBoxes(workerBox))
         {
             //If the cell is higher than the worker cell I remove it from possible moves
-            if(b.getTower() != null && workerBox.getTower() != null
+            if(workerBox.getTower() != null
                     && b.getTower().getHeight() > workerBox.getTower().getHeight())
-            {
-                prometheusMoves.remove(b);
-            }
-            else if(workerBox.getTower() == null && b.getTower() != null)
             {
                 prometheusMoves.remove(b);
             }

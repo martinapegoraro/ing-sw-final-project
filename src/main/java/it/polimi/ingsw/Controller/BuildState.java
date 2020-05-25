@@ -125,7 +125,7 @@ public class BuildState implements State{
                 {
                     if(twoBlocksHephaestus){
                         //Hephaestus can't build domes, so tower must not exist or be at 1st level
-                       if(b.getTower() == null || b.getTower().getHeight() == 1)
+                       if(b.getTower().getHeight() <= 1)
                        {
                            b.build();
                            b.build();

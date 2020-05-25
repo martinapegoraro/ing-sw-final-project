@@ -59,11 +59,7 @@ public class ModelRepresentation implements Serializable {
         {
             for (int k = 0; k<=4; k++)
             {
-                if (instance.getBox(i,k).getTower() !=  null )
-                {
                     towerposition [i][k] = instance.getBox(i,k).getTower().getHeight();
-                }
-                else towerposition[i][k] = -1;
 
             }
         }
@@ -105,15 +101,11 @@ public class ModelRepresentation implements Serializable {
         {
             for (int k = 0; k<=4; k++)
             {
-                if (instance.getBox(i,k).getTower() !=  null )
-                {
                     if (instance.getBox(i,k).getTower().getHeight() == 1) {lastBlock[i][k] = "Level 1";}
                     if (instance.getBox(i,k).getTower().getHeight() == 2) {lastBlock[i][k] = "Level 2";}
                     if (instance.getBox(i,k).getTower().getHeight() == 3) {lastBlock[i][k] = "Level 3";}
                     if (instance.getBox(i,k).getTower().getHeight() == 4) {lastBlock[i][k] = "Dome";}
-
-                }
-                else lastBlock[i][k] = null;
+                    else lastBlock[i][k] = "Ground";
 
             }
         }

@@ -239,7 +239,7 @@ public class ActivationGodState implements State {
                         for(Box b : neighborBoxes)
                         {
                             if(b.isOccupied() &&
-                                    (b.getTower() == null || !b.getTower().getPieces().contains(Block.DOME)))
+                                    (!b.getTower().getPieces().contains(Block.DOME)))
                             {
                                 //FIXME: This check is not exactly done as rules specify, should check if the worker can move in the cell
                                 //This is not a big problem though because the check is done later in the Context (minotaurEffect)

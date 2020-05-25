@@ -73,10 +73,7 @@ public class Worker{
     {
         posX=position.getCoord()[0];
         posY=position.getCoord()[1];
-        if(position.getTower()!=null)
-            height=position.getTower().getHeight();
-        else
-            height=0;
+        height=position.getTower().getHeight();
     }
     public void build(Box where)
     {

@@ -222,7 +222,7 @@ public class MoveState implements State {
                     }
 
                     //If the player moves down two or more levels the PanCondition is set to true
-                    if ((b.getTower() == null && oldBox.getTower().getHeight()>2) || (b.getTower().getHeight() == 1 && oldBox.getTower().getHeight()>3))
+                    if (oldBox.getTower().getHeight() - b.getTower().getHeight() >= 2)
                     {
                         actingPlayer.changePanCondition (true);
                     }
