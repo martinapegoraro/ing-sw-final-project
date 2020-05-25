@@ -1,5 +1,8 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Model.Model;
+import it.polimi.ingsw.Model.ModelRepresentation;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,14 +38,21 @@ public class GameWindow extends JFrame {
         gamePanel.add(godsPanel);
 
         godPanelList = new ArrayList<BackgroundPanel>();
-        //godPanelList.add(new BackgroundPanel("resources/02.png"));
-        //godPanelList.add(new BackgroundPanel("resources/03.png"));
-        //godPanelList.add(new BackgroundPanel("resources/08.png"));
 
+
+        gameWindowFrame.add(mainPanel);
+        gameWindowFrame.pack();
+
+    }
+
+    public void updateGodsPanel(ModelRepresentation modelRep)
+    {
+        for (String god:modelRep.getGodList()) {
+            godPanelList.add(new BackgroundPanel("resources/"+god+".png"));
+        }
         for (BackgroundPanel b : godPanelList) {
             godsPanel.add(b);
         }
-        gameWindowFrame.add(mainPanel);
         gameWindowFrame.pack();
 
     }

@@ -10,13 +10,13 @@ import java.util.*;
  */
 public enum ViewState {
 
-    SETUPSTATE(new String[]{"SelectWorkerCellChoice"}),
-    BEGINTURNSTATE(new String[]{}),
-    ACTIVATIONGODSTATE(new String[]{"GodActivationChoice"}),
-    MOVESTATE(new String[]{"SelectWorkerCellChoice","MoveChoice"}),
-    CHECKWINCONDITIONSTATE(new String[]{}),
-    BUILDSTATE(new String[]{"SelectWorkerCellChoice","BuildChoice"}),
-    ENDTURNSTATE(new String[]{});
+    SetUpState(new String[]{"SelectWorkerCellChoice"}),
+    BeginTurnState(new String[]{}),
+    ActivationGodState(new String[]{"GodActivationChoice"}),
+    MoveState(new String[]{"SelectWorkerCellChoice","MoveChoice"}),
+    CheckWinConditionState(new String[]{}),
+    BuildState(new String[]{"SelectWorkerCellChoice","BuildChoice"}),
+    EndTurnState(new String[]{});
 
 
     /**
@@ -39,5 +39,27 @@ public enum ViewState {
         return Arrays.asList(state.possibleChoices);
     }
 
+    public static ViewState getState(String state)
+    {
+        switch (state){
+            case "SetUp":
+                return ViewState.SetUpState;
+            case "BeginTurn":
+                return ViewState.BeginTurnState;
+            case "ActivationGod":
+                return ViewState.ActivationGodState;
+            case "Move":
+                return ViewState.MoveState;
+            case "FirstCheckWinCondition":
+            case "SecondCheckWinCondition":
+                return ViewState.CheckWinConditionState;
+            case "Build":
+                return ViewState.BuildState;
+            case "EndTurn":
+                return ViewState.EndTurnState;
+            default:
+                return null;
+        }
+    }
 
 }

@@ -23,20 +23,22 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
         gameWindow.visible();
     }
 
-    public View(ViewState state,ModelRepresentation modelRep)
+    /*public View(ModelRepresentation modelRep)
     {
         setView(state,modelRep);
-    }
+    }*/
 
     /**
      * the setView is used to initialize the attributes of the class
      * I imagine that an instance of a view is present at the beginning of the game but for example the gameWindow is disabled and
      * not even
      */
-    public void setView(ViewState state,ModelRepresentation modelRep)
+    public void setView(ModelRepresentation modelRep)
     {
-        currentState=state;
+        //currentState=ViewState.getState(modelRep.currentState.toString());
         //set the game window with the model rep
+        gameWindow.updateGodsPanel(modelRep);
+        setGameWindowVisible();
     }
 
     public ViewState getCurrentState() {
