@@ -25,8 +25,7 @@ public class ModelTest {
         listaNomi.add("paperino");
         modelTest =new Model(listaNomi);
         instanceBoard = modelTest.getTurn().getBoardInstance();
-        //FIXME: This could be a problem of dangling reference! Careful when declaring board objects
-        instanceBoard.newBoard();
+        Board.newBoard();
         beginTurnState = new BeginTurnState(modelTest);
         b1 = instanceBoard.getBox(1,2);
         b2 = instanceBoard.getBox(0,3);

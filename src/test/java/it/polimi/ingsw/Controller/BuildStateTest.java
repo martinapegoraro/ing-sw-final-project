@@ -49,7 +49,7 @@ public class BuildStateTest {
     }
 
     @Before
-    public void setUpBuildStates()     //TODO: Test da sistemare dopo le modifiche allo stato
+    public void setUpBuildStates()
     {
         stateUnderTest1=new BuildState(new ArrayList<Box>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
                 new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
