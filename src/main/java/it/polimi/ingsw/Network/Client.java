@@ -60,7 +60,6 @@ public class Client implements Observer<Choice> {
 
                         MessageToVirtualView messaggio =(MessageToVirtualView) in.readObject();
                         if(messaggio.isModelRep()){
-                            System.out.println("sono qui");
                             lobbyWindow.setNotVisible();
                             view.setView(messaggio.getModelRep());
 

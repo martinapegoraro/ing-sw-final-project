@@ -35,9 +35,9 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
      */
     public void setView(ModelRepresentation modelRep)
     {
-        //currentState=ViewState.getState(modelRep.currentState.toString());
-        //set the game window with the model rep
+        currentState=ViewState.getState(modelRep.currentState.toString());
         gameWindow.updateGodsPanel(modelRep);
+        gameWindow.updateInfoPanel(modelRep);
         setGameWindowVisible();
     }
 

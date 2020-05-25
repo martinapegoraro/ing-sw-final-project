@@ -91,11 +91,14 @@ public class Lobby {
 
     public void startGame()
     {
-        System.out.println("starting the game");
+
 
         instantiateModel();
+
         createController();
+
         createVirtualView();
+
 
         for (VirtualView v:virtualViewList) {
             model.addObservers(v);

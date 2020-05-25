@@ -14,6 +14,12 @@ public class GameWindow extends JFrame {
     private JPanel gamePanel;
     private BoardPanel fieldPanel;
     private JPanel godsPanel;
+    private JLabel playerListLabel;
+    private JLabel currentPlayerLabel;
+    private JLabel currentStateLabel;
+    private JList<String> playersList;
+    private JTextField currentStateTextField;
+    private JTextField currentPlayerTextField;
     private JButton[][] buttonsGrid;
     private ArrayList<BackgroundPanel> godPanelList;
 
@@ -25,24 +31,49 @@ public class GameWindow extends JFrame {
         gameWindowFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1, 2, -1, -1));
+
+        //creation infoPanel
         infoPanel = new JPanel();
         infoPanel.setLayout(new GridLayout(3, 2, -1, -1));
+        playerListLabel=new JLabel("players list:");
+        infoPanel.add(playerListLabel);
+        //da aggiornare quando arriva il modeRep
+        playersList=new JList<String>();
+        infoPanel.add(playersList);
+        currentPlayerLabel=new JLabel("current Player:");
+        infoPanel.add(currentPlayerLabel);
+        currentPlayerTextField=new JTextField();
+        infoPanel.add(currentPlayerTextField);
+        currentStateLabel=new JLabel("state of the game");
+        infoPanel.add(currentStateLabel);
+        currentStateTextField=new JTextField();
+        infoPanel.add(currentStateTextField);
         mainPanel.add(infoPanel);
+        //gamePanel creation
         gamePanel = new JPanel();
         gamePanel.setLayout(new GridLayout(2, 1, -1, -1));
         mainPanel.add(gamePanel);
+        //creation of the fieldPanel
         fieldPanel = new BoardPanel();
         gamePanel.add(fieldPanel);
         godsPanel = new JPanel();
+        //GodsPanel Creation
         godsPanel.setLayout(new GridLayout(1, 3, -1, -1));
         gamePanel.add(godsPanel);
-
         godPanelList = new ArrayList<BackgroundPanel>();
-
-
         gameWindowFrame.add(mainPanel);
         gameWindowFrame.pack();
 
+    }
+
+    public void updateInfoPanel(ModelRepresentation modelRep)
+    {
+        //todo to fix the list of the current players;
+        playersList=new JList<String>(modelRep.playersName);
+
+        currentPlayerTextField.setText(modelRep.playersName[modelRep.activePlayer]);
+        currentStateTextField.setText(modelRep.currentState.toString());
+        gameWindowFrame.pack();
     }
 
     public void updateGodsPanel(ModelRepresentation modelRep)

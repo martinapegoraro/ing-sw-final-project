@@ -46,7 +46,7 @@ public class SetUpState implements State{
         playerList.get(0).setPlayerActive(true);
 
         //Notify VirtualView
-        model.updateModelRep(StateEnum.SetUp);
+        model.updateModelRep(stateID);
     }
 
     @Override
