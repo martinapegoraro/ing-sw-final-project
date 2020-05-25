@@ -182,6 +182,15 @@ public class Context implements Observer<Choice> {
         {
             possibleMoves = athenaEffect(possibleMoves, currentCell);
         }
+        else if (activeGods.contains(GodsList.PERSEPHONE))
+        {
+            //If the player can move up then the choice is forced, if not the card has no effect
+            ArrayList<Box> godMoves = persephoneEffect(possibleMoves, currentCell);
+            if(!godMoves.isEmpty())
+            {
+                possibleMoves = godMoves;
+            }
+        }
 
         return possibleMoves;
     }
@@ -573,6 +582,23 @@ public class Context implements Observer<Choice> {
         }
 
         return godMoves;
+    }
+
+    /**
+     * @param basicMoves  contains the list of basic move boxes to modify
+     * @return list of move boxes higher than the player**/
+    private ArrayList<Box> persephoneEffect(ArrayList<Box> basicMoves, Box workerBox)
+    {
+        ArrayList<Box> persephoneMoves = new ArrayList<>();
+        for(Box b : basicMoves)
+        {
+            if(b.getTower().getHeight() > workerBox.getTower().getHeight())
+            {
+                persephoneMoves.add(b);
+            }
+        }
+
+        return persephoneMoves;
     }
 
     /**@param basicMoves contains the list of basic move boxes to modify

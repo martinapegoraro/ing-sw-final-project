@@ -271,6 +271,19 @@ public class ActivationGodState implements State {
                         }
                         break;
 
+                    case PERSEPHONE:
+                        //Opponent's turn
+                        if(!actingPlayer.isPlayerActive())
+                        {
+                            actingPlayer.setGodActive(true);
+                        }
+                        else
+                            {
+                                model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
+                                throw new GodConditionNotSatisfiedException("Persephone can't be activated on player's turn!");
+                            }
+                        break;
+
                     case PROMETHEUS:
                         //Player's turn and Must be able to build before moving
                         boolean prometheusCondition = false;
