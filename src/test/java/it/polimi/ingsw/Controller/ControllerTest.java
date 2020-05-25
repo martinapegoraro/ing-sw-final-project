@@ -176,9 +176,8 @@ public class ControllerTest {
         controllerUnderTest.update(c);
 
         assertEquals(1, model.getTurn().getBoardInstance().getBox(0, 2).getTower().getHeight());
-        //FIXME: Towers must be fixed, some are set to null and some have height 0
         //have to look at getTower usages and fix
-        assertNull(model.getTurn().getBoardInstance().getBox(1, 1).getTower());
+        assertEquals(0, model.getTurn().getBoardInstance().getBox(1, 1).getTower().getHeight());
 
 
     }

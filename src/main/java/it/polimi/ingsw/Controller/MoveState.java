@@ -175,7 +175,6 @@ public class MoveState implements State {
                     }
                     else if (pushWorkerBack) {
                         //Minotaur is active
-                        //TODO: This method does not check if the enemy Worker can be pushed!
                         for(Player p : model.getTurn().getPlayersList())
                         {
                             if(p!=actingPlayer)

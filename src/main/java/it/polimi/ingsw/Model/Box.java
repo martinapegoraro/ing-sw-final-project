@@ -22,7 +22,7 @@ public class Box {
     public Box(int coordX, int coordY)
     {
         occupied=false;
-        tower=getTower();
+        tower=new Tower();
         x = coordX;
         y = coordY;
     }
@@ -147,10 +147,7 @@ public class Box {
      */
     public boolean isBorder()
     {
-        if(x==0|| y==0)
-            return true;
-        else
-            return false;
+        return x == 0 || y == 0 || x == 4 || y == 4;
     }
 
 }
