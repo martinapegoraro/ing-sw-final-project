@@ -14,8 +14,8 @@ public class Box {
 
     /**
      * given
-     * @param coordX
-     * @param coordY
+     * @param coordX X coordinate on the board of the box
+     * @param coordY Y coordinate on the board of the box
      * build an instance of a Box which contains also a
      * Tower instance initially set as null and an occupied flag
      */
