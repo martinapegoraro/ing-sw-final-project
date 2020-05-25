@@ -9,7 +9,7 @@ import java.io.IOException;
 public class BoardPanel extends JPanel {
 
     private Image img;
-    private JButton[][] buttonsGrid;
+    private ViewBox[][] buttonsGrid;
 
     public BoardPanel()
     {
@@ -20,13 +20,13 @@ public class BoardPanel extends JPanel {
             ex.printStackTrace();
         }
 
-        buttonsGrid=new JButton[5][5];
+        buttonsGrid=new ViewBox[5][5];
         this.setLayout(new GridLayout(5,5,-1,-1));
         for(int i=0;i<5;i++)
         {
             for(int j=0;j<5;j++)
             {
-                buttonsGrid[i][j]=new JButton();
+                buttonsGrid[i][j]=new ViewBox(i,j);
                 buttonsGrid[i][j].setOpaque(false);
                 buttonsGrid[i][j].setContentAreaFilled(false);
                 this.add(buttonsGrid[i][j]);
@@ -41,5 +41,10 @@ public class BoardPanel extends JPanel {
         if(img!=null) {
             g.drawImage(img, 0, 0,this.getWidth(),this.getHeight(), null);
         }
+    }
+
+    public ViewBox getBox(int x,int y)
+    {
+        return buttonsGrid[x][y];
     }
 }
