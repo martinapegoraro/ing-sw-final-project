@@ -61,6 +61,9 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
      */
     @Override
     public void update(MessageToVirtualView message) {
+        //I call the gameWindow methods
+        //they will be called depending on the modelRep state
+        setView(message.getModelRep());
     }
 
     /**

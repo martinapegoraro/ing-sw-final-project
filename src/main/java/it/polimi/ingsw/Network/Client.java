@@ -60,8 +60,12 @@ public class Client implements Observer<Choice> {
 
                         MessageToVirtualView messaggio =(MessageToVirtualView) in.readObject();
                         if(messaggio.isModelRep()){
-                            lobbyWindow.setNotVisible();
-                            view.setView(messaggio.getModelRep());
+                           if(messaggio.getModelRep().currentState.toString().equals("SetUp"));
+                            {
+                                lobbyWindow.setNotVisible();
+                            }
+                              view.update(messaggio);
+                            //view.setView(messaggio.getModelRep());
 
                         } else if(messaggio.getMessage().getMessage().equals("One player left the game")){
                             System.out.println(messaggio.getMessage().getMessage());
