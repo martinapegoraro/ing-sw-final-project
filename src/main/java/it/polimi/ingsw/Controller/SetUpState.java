@@ -111,6 +111,7 @@ public class SetUpState implements State{
                     }
 
                 model.updateModelRep(StateEnum.SetUp);
+                //FIXME: This call was created because the default method with updateModelRep sets the current State to null
 
             }
         }

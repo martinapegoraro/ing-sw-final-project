@@ -10,11 +10,12 @@ public class EndTurnState implements State {
     private StateEnum stateID;
     private boolean hasFinished;
 
-    public EndTurnState()
+    public EndTurnState(Model model)
     {
 
         stateID = StateEnum.EndTurn;
         hasFinished = false;
+        startup(model);
     }
 
     @Override

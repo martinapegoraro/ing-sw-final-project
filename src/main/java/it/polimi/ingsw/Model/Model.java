@@ -34,7 +34,7 @@ public class Model extends Observable<MessageToVirtualView> {
         //I initialize mi matrix with just zeroes (java default value for int)
         int [][] selectedCells = new int[5][5];
         modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList(),selectedCells);
-        modelRep.currentState = null;
+        //modelRep.currentState = null; This is not necessary, moved in ModelRep constructor
         notify(new MessageToVirtualView(modelRep));
     }
 
@@ -56,7 +56,10 @@ public class Model extends Observable<MessageToVirtualView> {
             int[] coordinates = b.getCoord();
             selectedCells[coordinates[0]][coordinates[1]] = 1;
         }
+        //This method should never be called in a state Change, it's safe to save the currentState
+        StateEnum oldState = modelRep.currentState;
         modelRep = new ModelRepresentation(turn.getBoardInstance(), turn.getPlayersList(), selectedCells);
+        modelRep.currentState = oldState;
 
         notify(new MessageToVirtualView(modelRep));
     }

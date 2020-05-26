@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Model.Player;
 import org.junit.Before;
@@ -21,7 +22,7 @@ public class BeginTurnStateTest {
         listaNomi.add("pluto");
         listaNomi.add ("paperino");
         model=new Model(listaNomi);
-        model.getTurn().getBoardInstance().newBoard();
+        Board.newBoard();
         beginTurnStateTest = new BeginTurnState(model);
     }
 

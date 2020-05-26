@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.Block;
+import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.Choice;
@@ -29,7 +30,7 @@ public class SetUpStateTest {
         listaNomi.add("pluto");
         listaNomi.add("paperino");
         model=new Model(listaNomi);
-        model.getTurn().getBoardInstance().newBoard();
+        Board.newBoard();
         stateUnderTest=new SetUpState(model);
     }
 

@@ -21,7 +21,7 @@ public class ModelRepresentationTest {
     public void initializeModelRep ()
     {
         instanceBoard = Board.getInstance();
-        instanceBoard.newBoard();
+        Board.newBoard();
         player1 = new Player(1, "Anna");
         player2 = new Player (2, "Marco");
         List<Player> players = new ArrayList<>();

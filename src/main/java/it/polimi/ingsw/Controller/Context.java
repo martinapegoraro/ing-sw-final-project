@@ -79,7 +79,7 @@ public class Context implements Observer<Choice> {
                 break;
 
             case BeginTurn:
-                newState = new ActivationGodState();
+                newState = new ActivationGodState(contextModel);
                 switchState(newState);
                 break;
             case ActivationGod:
@@ -127,7 +127,7 @@ public class Context implements Observer<Choice> {
                 switchState(newState);
 
             case SecondCheckWinCondition:
-                newState = new EndTurnState();
+                newState = new EndTurnState(contextModel);
                 switchState(newState);
                 break;
 
@@ -442,7 +442,7 @@ public class Context implements Observer<Choice> {
                     break;
 
             case SecondCheckWinCondition:
-                newState = new EndTurnState();
+                newState = new EndTurnState(contextModel);
                 switchState(newState);
                 break;
 
@@ -503,7 +503,7 @@ public class Context implements Observer<Choice> {
                 }
                 else
                     {
-                        newState = new EndTurnState();
+                        newState = new EndTurnState(contextModel);
                     }
                 switchState(newState);
                 break;
@@ -656,7 +656,7 @@ public class Context implements Observer<Choice> {
         break;
 
         case SecondCheckWinCondition:
-        newState = new EndTurnState();
+        newState = new EndTurnState(contextModel);
         switchState(newState);
         break;
 
@@ -668,7 +668,7 @@ public class Context implements Observer<Choice> {
         }
     }
 
-    public void hestiaTurnFlow() {
+    private void hestiaTurnFlow() {
         State newState;
         switch (currentState.getID()) {
             case ActivationGod:
@@ -692,7 +692,7 @@ public class Context implements Observer<Choice> {
                 break;
 
             case SecondCheckWinCondition:
-                newState = new EndTurnState();
+                newState = new EndTurnState(contextModel);
                 switchState(newState);
                 break;
 

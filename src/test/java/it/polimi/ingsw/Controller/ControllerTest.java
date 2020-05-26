@@ -79,11 +79,13 @@ public class ControllerTest {
          *       */
 
         //Now the standard turn should begin for Pippo (P1)
-
+        //assertEquals(StateEnum.ActivationGod, model.getModelRep().currentState);
         //Tries a choice from Pluto(P2), should be ignored
         c= new SelectWorkerCellChoice(0,0);
         c.setId(1);
         controllerUnderTest.update(c);
+
+        //assertEquals(StateEnum.ActivationGod, model.getModelRep().currentState);
 
         c= new GodActivationChoice(false);
         c.setId(0);
@@ -115,6 +117,8 @@ public class ControllerTest {
          *       |     |     |     |
          *
          *       */
+
+        assertEquals(StateEnum.Move,model.getModelRep().currentState);
         c= new SelectWorkerCellChoice(0,0);
         c.setId(0);
         controllerUnderTest.update(c);
@@ -155,6 +159,7 @@ public class ControllerTest {
          *
          *       */
 
+        assertEquals(model.getModelRep().currentState, StateEnum.Build);
         //First a wrong worker cell is passed
         c= new SelectWorkerCellChoice(0,0);
         c.setId(0);

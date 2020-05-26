@@ -15,10 +15,11 @@ public class ActivationGodState implements State {
     private boolean hasFinished;
     ArrayList<Player> playerHaveSelected = new ArrayList<>();
 
-    public ActivationGodState()
+    public ActivationGodState(Model model)
     {
         stateID = StateEnum.ActivationGod;
         hasFinished = false;
+        startup(model);
     }
 
     @Override

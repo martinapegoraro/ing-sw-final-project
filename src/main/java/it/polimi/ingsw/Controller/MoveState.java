@@ -38,6 +38,7 @@ public class MoveState implements State {
         this.heraIsActive = heraIsActive;
 
         stateID = StateEnum.Move;
+        startup(model);
     }
 
     @Override
@@ -48,6 +49,7 @@ public class MoveState implements State {
 
     @Override
     public void startup(Model model) {
+        model.updateModelRep(StateEnum.Move);
     }
 
     private void playerHasLost(Model model)

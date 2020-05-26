@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.Box;
 import it.polimi.ingsw.Model.Model;
 import org.junit.Before;
@@ -14,20 +15,17 @@ public class EndTurnStateTest {
 
     State stateUnderTest;
     Model model;
-    @Before
-    public void setUpState()
-    {
-        stateUnderTest=new EndTurnState();
-    }
+
 
     @Before
     public void modelSetUp()
     {
-        List<String> listaNomi=new ArrayList<String>();
+        List<String> listaNomi= new ArrayList<>();
         listaNomi.add("pippo");
         listaNomi.add("pluto");
         model=new Model(listaNomi);
-        model.getTurn().getBoardInstance().newBoard();
+        stateUnderTest=new EndTurnState(model);
+        Board.newBoard();
         Box b1=model.getTurn().getBoardInstance().getBox(1,1);
         Box b2=model.getTurn().getBoardInstance().getBox(4,1);
         model.getTurn().getPlayersList().get(0).setWorkersPosition(b1,b2);

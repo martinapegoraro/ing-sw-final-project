@@ -26,6 +26,7 @@ public class ModelRepresentation implements Serializable {
 
     public ModelRepresentation(Board instance, List<Player> players, int[][] selectedCells)
     {
+        currentState = null;
         playerNum = players.size();
 
         activeCells = selectedCells.clone();

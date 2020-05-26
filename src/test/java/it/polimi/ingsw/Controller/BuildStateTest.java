@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.Block;
+import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.Box;
 import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Model.Model;
@@ -24,11 +25,11 @@ public class BuildStateTest {
     @Before
     public void modelSetUp()
     {
-        List<String> listaNomi=new ArrayList<String>();
+        List<String> listaNomi= new ArrayList<>();
         listaNomi.add("pippo");
         listaNomi.add("pluto");
         model=new Model(listaNomi);
-        model.getTurn().getBoardInstance().newBoard();
+        Board.newBoard();
         Box b1=model.getTurn().getBoardInstance().getBox(1,1);
         Box b2=model.getTurn().getBoardInstance().getBox(4,1);
         model.getTurn().getBoardInstance().getBox(2,2).build();
@@ -51,13 +52,13 @@ public class BuildStateTest {
     @Before
     public void setUpBuildStates()
     {
-        stateUnderTest1=new BuildState(new ArrayList<Box>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
-                new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
+        stateUnderTest1=new BuildState(new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
+                new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
                 false,false,model);
 
         stateUnderTest2=new BuildState(
-                new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
-                new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
+                new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
+                new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
                 true,false,model);
     }
 
@@ -216,8 +217,8 @@ public class BuildStateTest {
     {
 
         stateUnderTest2=new BuildState(
-                new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
-                new ArrayList<Box>(model.getTurn().getPossibleBuildLocations( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
+                new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
+                new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
                 true,true,model);
         Choice c=new SelectWorkerCellChoice(4,1);
         try {

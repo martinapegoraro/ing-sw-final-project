@@ -23,7 +23,7 @@ public class ContextTest {
     @Before
     public void modelSetUp()
     {
-        List<String> listaNomi=new ArrayList<String>();
+        List<String> listaNomi= new ArrayList<>();
         listaNomi.add("pippo");
         listaNomi.add("pluto");
         model=new Model(listaNomi);
@@ -38,7 +38,7 @@ public class ContextTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         contextUnderTest=new Context(model);
     }
 
@@ -48,8 +48,7 @@ public class ContextTest {
         contextUnderTest.update(null);
     }
 
-
-
+    //TODO: Add tests for turn-flow god effects
 
 
 

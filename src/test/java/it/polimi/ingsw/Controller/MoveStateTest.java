@@ -45,7 +45,7 @@ public class MoveStateTest {
         listaNomi.add("pippo");
         listaNomi.add("pluto");
         model=new Model(listaNomi);
-        model.getTurn().getBoardInstance().newBoard();
+        Board.newBoard();
         Box b1=model.getTurn().getBoardInstance().getBox(1,1);
         Box b2=model.getTurn().getBoardInstance().getBox(4,1);
         model.getTurn().getPlayersList().get(0).setWorkersPosition(b1,b2);
@@ -247,4 +247,6 @@ public class MoveStateTest {
         assertSame(workerToCheck.getPosition(), playerWorkerBox);
 
     }
+
+    //TODO: Add Minotaur test, add Persephone test
 }

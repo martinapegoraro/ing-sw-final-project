@@ -33,6 +33,7 @@ public class BuildState implements State{
             playerHasLost(model);
         }
         hasFinished=false;
+        startup(model);
     }
 
     private void playerHasLost(Model model)
@@ -47,7 +48,7 @@ public class BuildState implements State{
 
     @Override
     public void startup(Model model) {
-
+        model.updateModelRep(StateEnum.Build);
     }
 
 
