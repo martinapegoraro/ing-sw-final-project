@@ -33,7 +33,7 @@ public enum GodsList {
      * @return the right element of the enumeration
      * @throws NotExistingGodException if the given string (godName) does not correspond to any of the existing Gods
      */
-    public GodsList getGod(String godName) throws NotExistingGodException
+    public static GodsList getGod(String godName) throws NotExistingGodException
     {
         for (GodsList god:GodsList.values()) {
             if(godName.equals(god.name))
