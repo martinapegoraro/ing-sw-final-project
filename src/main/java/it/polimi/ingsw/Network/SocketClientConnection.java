@@ -30,6 +30,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     private ObjectInputStream in;
     private Timer timer;
     private TimerTask task;
+    private int pingCounter;
 
 
 
@@ -42,6 +43,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         out =new ObjectOutputStream(socket.getOutputStream());
         in=new ObjectInputStream(socket.getInputStream());
         connectionPing=true;
+        pingCounter=0;
         ping();
     }
 
@@ -120,7 +122,8 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
             while(isActive()) {
                 Choice read = (Choice) in.readObject();
                 if (!read.toString().equals("ping")) {
-                        if (read.toString().equals("PlayerNumberChoice")) {
+                    pingCounter=0;
+                    if (read.toString().equals("PlayerNumberChoice")) {
                         PlayerNumberChoice np = (PlayerNumberChoice) read;
                         server.addToLobby(this, np.name, np.playerNumber);
                     } else
@@ -128,6 +131,9 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                 }
                 else
                 {
+                    pingCounter++;
+                    if(pingCounter==4)
+                        close();
                     task.cancel();
                 }
             }
