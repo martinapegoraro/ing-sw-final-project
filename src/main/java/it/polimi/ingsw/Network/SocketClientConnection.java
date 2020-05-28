@@ -28,13 +28,13 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     private boolean connectionPing;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    //private Timer timer;
-    /*TimerTask task=new TimerTask() {
+    private Timer timer;
+    TimerTask task=new TimerTask() {
         @Override
         public void run() {
             close();
         }
-    };*/
+    };
 
 
 
@@ -46,7 +46,10 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         out =new ObjectOutputStream(socket.getOutputStream());
         in=new ObjectInputStream(socket.getInputStream());
         connectionPing=true;
-        //timer=new Timer();
+        timer=new Timer();
+        TimerTask tTemp =task;
+        timer.schedule(tTemp,60000);
+        System.out.println("timer partito");
         ping();
 
     }
@@ -76,8 +79,6 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                        e.printStackTrace();
                    }
                    send(new MessageToVirtualView(new PingMessage()));
-                   //timer=new Timer();
-                   //timer.schedule(task,4000);
                }
             }
         }).start();
@@ -117,18 +118,23 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     public void run()
     {
         try{
-            while(isActive())
-            {
-                Choice read= (Choice)in.readObject();
-                if(!read.toString().equals("ping"))
-                {
-                    if(read.toString().equals("PlayerNumberChoice"))
-                    {
-                        PlayerNumberChoice np=(PlayerNumberChoice)read;
-                        server.addToLobby(this, np.name,np.playerNumber);
-                    }
-                    else
+            while(isActive()) {
+                Choice read = (Choice) in.readObject();
+                if (!read.toString().equals("ping")) {
+                    timer.cancel();
+                    task.cancel();
+                    timer.purge();
+                    System.out.println("timer reset");
+                    if (read.toString().equals("PlayerNumberChoice")) {
+                        PlayerNumberChoice np = (PlayerNumberChoice) read;
+                        server.addToLobby(this, np.name, np.playerNumber);
+                    } else
                         notify(read);
+
+                    /*timer = new Timer();
+                    TimerTask tTemp =task;
+                    timer.schedule(tTemp,60000);*/
+
                 }
             }
         } catch (IOException e) {

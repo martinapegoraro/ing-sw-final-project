@@ -66,7 +66,7 @@ public class Server {
             if(l.isInInTheLobby(c))
                 l.removePlayer(c);
         }
-        //TODO: to handle whats append to the game connection when i close one.
+
     }
     public synchronized void printLobbiesList()
     {
