@@ -72,8 +72,8 @@ public class CheckWinConditionStateTest {
     @Test
     public void hasFinished()
     {
-        assertFalse(checkWinConditionStateTest1.hasFinished());
-        assertFalse(checkWinConditionStateTest2.hasFinished());
+        assertTrue(checkWinConditionStateTest1.hasFinished());
+        assertTrue(checkWinConditionStateTest2.hasFinished());
     }
 
 

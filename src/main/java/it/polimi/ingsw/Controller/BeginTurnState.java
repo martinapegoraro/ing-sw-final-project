@@ -25,7 +25,7 @@ public class BeginTurnState implements State {
     @Override
     public void startup(Model model)
     {
-        model.getTurn().setNextPlayer();
+
         //Athena condition is resetted at the start of a players turn
         model.getTurn().getCurrentPlayer().changeAthenaCondition(false);
 
@@ -36,7 +36,7 @@ public class BeginTurnState implements State {
         }
         else
             {
-                model.updateModelRep(StateEnum.BeginTurn);
+                model.updateModelRep(stateID);
                 hasFinished = true;
             }
 

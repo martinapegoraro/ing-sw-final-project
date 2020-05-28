@@ -39,7 +39,8 @@ public class EndTurnState implements State {
             player.setGodActive(false);
         }
 
-        model.updateModelRep(StateEnum.EndTurn);
+        model.getTurn().setNextPlayer();
+        model.updateModelRep(stateID);
         hasFinished = true;
     }
 

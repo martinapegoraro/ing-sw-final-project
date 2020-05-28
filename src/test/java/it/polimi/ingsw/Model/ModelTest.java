@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Controller.BeginTurnState;
+import it.polimi.ingsw.Controller.EndTurnState;
+import it.polimi.ingsw.Controller.State;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,9 +70,12 @@ public class ModelTest {
     @Test
     public void updateModelRep()
     {
+        State end=null;
         beginTurnState.startup(modelTest);
+        end=new EndTurnState(modelTest);
         assertEquals(1, modelTest.getModelRep().getActivePlayer());
         beginTurnState.startup(modelTest);
+        end=new EndTurnState(modelTest);
         assertEquals (2, modelTest.getModelRep().getActivePlayer());
 
 

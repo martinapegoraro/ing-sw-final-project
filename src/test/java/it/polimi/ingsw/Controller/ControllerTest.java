@@ -78,6 +78,14 @@ public class ControllerTest {
          *
          *       */
 
+        c= new GodActivationChoice(false);
+        c.setId(0);
+        controllerUnderTest.update(c);
+
+        c= new GodActivationChoice(false);
+        c.setId(1);
+        controllerUnderTest.update(c);
+
         //Now the standard turn should begin for Pippo (P1)
         //assertEquals(StateEnum.ActivationGod, model.getModelRep().currentState);
         //Tries a choice from Pluto(P2), should be ignored
@@ -87,13 +95,7 @@ public class ControllerTest {
 
         //assertEquals(StateEnum.ActivationGod, model.getModelRep().currentState);
 
-        c= new GodActivationChoice(false);
-        c.setId(0);
-        controllerUnderTest.update(c);
 
-        c= new GodActivationChoice(false);
-        c.setId(1);
-        controllerUnderTest.update(c);
 
         //Pippo performs a move
         /*MOVE BY PIPPO:

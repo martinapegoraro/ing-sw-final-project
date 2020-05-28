@@ -50,6 +50,6 @@ public class EndTurnStateTest {
 
     @Test
     public void hasFinished() {
-        assertFalse(stateUnderTest.hasFinished());
+        assertTrue(stateUnderTest.hasFinished());
     }
 }

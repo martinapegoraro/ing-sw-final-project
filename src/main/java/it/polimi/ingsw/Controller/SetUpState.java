@@ -71,7 +71,7 @@ public class SetUpState implements State{
         ArrayList<Player> playerList = (ArrayList<Player>) model.getTurn().getPlayersList();
         actingPlayer = playerList.get(userChoice.getId());
 
-        if(userChoice instanceof SelectWorkerCellChoice)
+        if(userChoice.toString().equals("SelectWorkerCellChoice"))
         {
             castedChoice = (SelectWorkerCellChoice)userChoice;
             Box selectedCell;
@@ -105,12 +105,10 @@ public class SetUpState implements State{
                 {
                     hasFinished = true;
                 }
-                else
-                    {
-                        model.getTurn().setNextPlayer();
-                    }
-
-                model.updateModelRep(StateEnum.SetUp);
+                //the set next player doesn't go in the else branch because it has to be done in any case otherwise after the
+                //positioning oth the last player's worker the current player it's not updated but remains the last;
+                model.getTurn().setNextPlayer();
+                model.updateModelRep(stateID);
                 //FIXME: This call was created because the default method with updateModelRep sets the current State to null
 
             }

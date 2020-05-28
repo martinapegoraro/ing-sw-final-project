@@ -9,10 +9,10 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 public class ModelRepresentationTest {
-    ModelRepresentation modelRepresentationTest;
-    Board instanceBoard;
-    Player player1, player2;
-    Box b1,b2,b3,b4;
+    private ModelRepresentation modelRepresentationTest;
+    private Board instanceBoard;
+    private Player player1, player2;
+    private Box b1,b2,b3,b4;
 
 
 
@@ -111,8 +111,8 @@ public class ModelRepresentationTest {
         String [][] lastBlocks = modelRepresentationTest.getLastBlock();
         assertEquals("Level 2", lastBlocks[1][2]);
         assertEquals("Level 1", lastBlocks[3][0]);
-        assertNull(lastBlocks[1][3]);
-        assertNull(lastBlocks[2][2]);
+        assertEquals("Ground", lastBlocks[1][3]);
+        assertEquals("Ground", lastBlocks[2][2]);
 
     }
 

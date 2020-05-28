@@ -37,20 +37,24 @@ public class BeginTurnStateTest {
     @Test
     public void hasFinished()
     {
-        assertFalse(beginTurnStateTest.hasFinished());
+        assertTrue(beginTurnStateTest.hasFinished());
     }
 
     @Test
      public void startup()
     {
+        State endTurnState=null;
         List<Player> players = model.getTurn().getPlayersList();
         assertEquals(players.get(0), model.getTurn().getCurrentPlayer());
         beginTurnStateTest.startup(model);
+        endTurnState=new EndTurnState(model);
         assertEquals(players.get(1), model.getTurn().getCurrentPlayer());
+
         model.getTurn().getPlayersList().get(2).setHasLost();
+        endTurnState=new EndTurnState(model);
         beginTurnStateTest.startup(model);
         assertEquals (players.get(0), model.getTurn().getCurrentPlayer());
-        beginTurnStateTest.startup(model);
+        //beginTurnStateTest.startup(model);
         assertTrue(beginTurnStateTest.hasFinished());
 
     }

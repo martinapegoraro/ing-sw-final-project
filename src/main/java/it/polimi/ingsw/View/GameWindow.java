@@ -35,15 +35,18 @@ public class GameWindow extends JFrame {
         //creation infoPanel
         infoPanel = new JPanel();
         infoPanel.setLayout(new GridLayout(3, 2, -1, -1));
+
+        currentPlayerLabel=new JLabel("current Player:");
+        infoPanel.add(currentPlayerLabel);
+        currentPlayerTextField=new JTextField();
+        infoPanel.add(currentPlayerTextField);
+
         playerListLabel=new JLabel("players list:");
         infoPanel.add(playerListLabel);
         //da aggiornare quando arriva il modeRep
         playersList=new JList();
         infoPanel.add(playersList);
-        currentPlayerLabel=new JLabel("current Player:");
-        infoPanel.add(currentPlayerLabel);
-        currentPlayerTextField=new JTextField();
-        infoPanel.add(currentPlayerTextField);
+
         currentStateLabel=new JLabel("state of the game");
         infoPanel.add(currentStateLabel);
         currentStateTextField=new JTextField();
@@ -68,12 +71,8 @@ public class GameWindow extends JFrame {
 
     public void updateInfoPanel(ModelRepresentation modelRep)
     {
-        //todo to fix the list of the current players;
-        DefaultListModel<String> tempList=new DefaultListModel<String>();
-        for(String s:modelRep.playersName)
-            tempList.addElement(s);
-        playersList=new JList(tempList);
 
+        playersList=new JList(modelRep.playersName.clone());
         currentPlayerTextField.setText(modelRep.playersName[modelRep.activePlayer]);
         currentStateTextField.setText(modelRep.currentState.toString());
         fieldPanel.getBox(2,2).setImage();

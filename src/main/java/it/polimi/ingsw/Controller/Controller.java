@@ -63,7 +63,7 @@ public class Controller implements Observer<Choice> {
 
             //Check if the choice is valid, invalid choices are not passed to Context
             if (!actingPlayer.getHasLost()) {
-                if (actingPlayer.isPlayerActive() || userChoice instanceof GodActivationChoice) {
+                if (actingPlayer.isPlayerActive() || userChoice.toString().equals("GodActivationChoice")) {
                     //God choices are in sync for all the players
                     context.update(userChoice);
                 } else {
