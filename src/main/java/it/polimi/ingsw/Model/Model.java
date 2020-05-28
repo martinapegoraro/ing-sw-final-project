@@ -47,6 +47,15 @@ public class Model extends Observable<MessageToVirtualView> {
         notify(new MessageToVirtualView(modelRep));
     }
 
+    public void updateModelRep(GodsList god)
+    {
+        //I initialize mi matrix with just zeroes (java default value for int)
+        int [][] selectedCells = new int[5][5];
+        modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList(),selectedCells);
+        modelRep.gods.add(god);
+        notify(new MessageToVirtualView(modelRep));
+    }
+
     public void updateModelRep(ArrayList<Box> selectedWorkerCells)
     {
         int[][] selectedCells = new int[5][5];

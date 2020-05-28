@@ -10,6 +10,7 @@ import java.util.List;
 public class ModelRepresentation implements Serializable {
     public int[][] workerposition;
     public int[][] towerposition;
+    public List<GodsList> gods;
     public String[] godList;
     public String[] playersName;
     public int playerNum;
@@ -181,4 +182,6 @@ public class ModelRepresentation implements Serializable {
     public boolean[] getHasLost() { return hasLost; }
 
     public  StateEnum getCurrentState() {return  currentState;}
+
+    public List<GodsList> getGods() { return gods; }
 }
