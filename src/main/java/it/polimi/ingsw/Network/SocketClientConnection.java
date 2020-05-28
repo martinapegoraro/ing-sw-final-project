@@ -29,12 +29,8 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private Timer timer;
-    TimerTask task=new TimerTask() {
-        @Override
-        public void run() {
-            close();
-        }
-    };
+    private TimerTask task;
+
 
 
 
@@ -46,13 +42,9 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         out =new ObjectOutputStream(socket.getOutputStream());
         in=new ObjectInputStream(socket.getInputStream());
         connectionPing=true;
-        timer=new Timer();
-        TimerTask tTemp =task;
-        timer.schedule(tTemp,60000);
-        System.out.println("timer partito");
         ping();
-
     }
+
     private synchronized boolean isActive()
     {
         return active;
@@ -79,6 +71,14 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                        e.printStackTrace();
                    }
                    send(new MessageToVirtualView(new PingMessage()));
+                   timer=new Timer();
+                   task=new TimerTask() {
+                       @Override
+                       public void run() {
+                           close();
+                       };
+                   };
+                   timer.schedule(task,4000);
                }
             }
         }).start();
@@ -99,7 +99,6 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 send(message);
             }
         }).start();
@@ -121,20 +120,15 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
             while(isActive()) {
                 Choice read = (Choice) in.readObject();
                 if (!read.toString().equals("ping")) {
-                    timer.cancel();
-                    task.cancel();
-                    timer.purge();
-                    System.out.println("timer reset");
-                    if (read.toString().equals("PlayerNumberChoice")) {
+                        if (read.toString().equals("PlayerNumberChoice")) {
                         PlayerNumberChoice np = (PlayerNumberChoice) read;
                         server.addToLobby(this, np.name, np.playerNumber);
                     } else
                         notify(read);
-
-                    /*timer = new Timer();
-                    TimerTask tTemp =task;
-                    timer.schedule(tTemp,60000);*/
-
+                }
+                else
+                {
+                    task.cancel();
                 }
             }
         } catch (IOException e) {
