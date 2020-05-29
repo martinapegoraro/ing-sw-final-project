@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class BuildState implements State{
     private boolean hasFinished;
+    private StateEnum stateID;
     ArrayList<Box> possibleBuildListWorker1;
     ArrayList<Box> possibleBuildListWorker2;
     boolean domeAtAnyLevel;
@@ -27,6 +28,7 @@ public class BuildState implements State{
         possibleBuildListWorker1 = pBLW1;
         possibleBuildListWorker2 = pBLW2;
         twoBlocksHephaestus = twoBlocksBuilt;
+        stateID=StateEnum.Build;
         //If possibleMoves is empty the player has lost
         if(possibleBuildListWorker1.isEmpty() && possibleBuildListWorker2.isEmpty())
         {
@@ -151,7 +153,7 @@ public class BuildState implements State{
 
                     //This player parameter is used in Context when creating second Build state for Demeter
                     actingPlayer.setLastBuildBox(b);
-                    model.updateModelRep(StateEnum.Build);
+                    model.updateModelRep(stateID);
                     hasFinished = true;
                 }
                 //catch (BuildErrorException ex)

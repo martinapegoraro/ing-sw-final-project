@@ -54,18 +54,22 @@ public class Context implements Observer<Choice> {
             if(activeGods.contains(GodsList.ARTEMIS))
             {
                 artemisTurnFlow();
+                return;
             }
             else if(activeGods.contains(GodsList.DEMETER))
             {
                 demeterTurnFlow();
+                return;
             }
             else if(activeGods.contains(GodsList.PROMETHEUS))
             {
                 prometheusTurnFlow();
+                return;
             }
             else if(activeGods.contains(GodsList.HESTIA))
             {
                 hestiaTurnFlow();
+                return;
             }
         }
 
@@ -98,14 +102,23 @@ public class Context implements Observer<Choice> {
                 if(activeGods.contains(GodsList.ARTEMIS))
                 {
                     artemisTurnFlow();
+                    break;
                 }
                 else if(activeGods.contains(GodsList.DEMETER))
                 {
                     demeterTurnFlow();
+                    break;
                 }
                 else if(activeGods.contains(GodsList.PROMETHEUS))
                 {
                     prometheusTurnFlow();
+
+                    break;
+                }
+                else if(activeGods.contains(GodsList.HESTIA))
+                {
+                    hestiaTurnFlow();
+                    break;
                 }
 
                 newState = moveStateConstructor();
@@ -673,6 +686,11 @@ public class Context implements Observer<Choice> {
         switch (currentState.getID()) {
             case ActivationGod:
                 newState = moveStateConstructor();
+                switchState(newState);
+                break;
+
+            case Move:
+                newState = buildStateConstructor();
                 switchState(newState);
                 break;
 
