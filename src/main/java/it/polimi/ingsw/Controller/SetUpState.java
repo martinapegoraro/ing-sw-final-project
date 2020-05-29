@@ -109,7 +109,7 @@ public class SetUpState implements State{
                 //positioning oth the last player's worker the current player it's not updated but remains the last;
                 model.getTurn().setNextPlayer();
                 model.updateModelRep(stateID);
-                //FIXME: This call was created because the default method with updateModelRep sets the current State to null
+
 
             }
         }

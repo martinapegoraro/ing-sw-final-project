@@ -3,6 +3,7 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.GodActivationChoice;
 import it.polimi.ingsw.Utils.MoveChoice;
 import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 import org.junit.Before;

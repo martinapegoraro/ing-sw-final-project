@@ -31,7 +31,7 @@ public class ActivationGodState implements State {
     @Override
     public void startup(Model model)
     {
-        model.updateModelRep(StateEnum.ActivationGod);
+        model.updateModelRep(stateID);
     }
 
     /**Called when activating Minotaur card, checks if the opponent worker has a free cell
@@ -339,6 +339,7 @@ public class ActivationGodState implements State {
             if(playerHaveSelected.size() == playerList.size())
             {
                 hasFinished = true;
+                model.updateModelRep(stateID);
             }
         }
         else

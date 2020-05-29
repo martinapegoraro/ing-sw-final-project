@@ -49,7 +49,7 @@ public class MoveState implements State {
 
     @Override
     public void startup(Model model) {
-        model.updateModelRep(StateEnum.Move);
+        model.updateModelRep(stateID);
     }
 
     private void playerHasLost(Model model)
@@ -67,7 +67,7 @@ public class MoveState implements State {
     public void update(Choice userChoice, Model model) throws WrongChoiceException, MoveErrorException
     {
         Player actingPlayer = model.getTurn().getPlayer(userChoice.getId());
-        if(userChoice instanceof SelectWorkerCellChoice)
+        if(userChoice.toString().equals("SelectWorkerCellChoice"))
         {
             //Cannot assume the choice message is valid!
             Box workerBox;
@@ -111,7 +111,7 @@ public class MoveState implements State {
                             + actingPlayer.getPlayerName()+"!");
                 }
         }
-        else if(userChoice instanceof MoveChoice)
+        else if(userChoice.toString().equals("MoveChoice"))
         {
             MoveChoice currentChoice;
             currentChoice = (MoveChoice)userChoice;
@@ -195,13 +195,13 @@ public class MoveState implements State {
                         if(opponentWorker != null)
                         {
                             //Calculate push cell
-                            int xPush, yPush;
-                            xPush =
-                                    opponentWorker.getPosition().getCoord()[0] - actingPlayer.getSelectedWorker().getPosition().getCoord()[0];
-                            yPush =
-                                    opponentWorker.getPosition().getCoord()[1] - actingPlayer.getSelectedWorker().getPosition().getCoord()[1];
+                            int xPush, yPush,x,y;
+                            x=opponentWorker.getPosition().getCoord()[0];
+                            y=opponentWorker.getPosition().getCoord()[1];
+                            xPush = x - actingPlayer.getSelectedWorker().getPosition().getCoord()[0];
+                            yPush = y - actingPlayer.getSelectedWorker().getPosition().getCoord()[1];
 
-                            opponentWorker.move(model.getTurn().getBoardInstance().getBox(xPush, yPush));
+                            opponentWorker.move(model.getTurn().getBoardInstance().getBox(x+xPush, y+yPush));
                             actingPlayer.getSelectedWorker().move(b);
                         }
                     }
@@ -238,7 +238,7 @@ public class MoveState implements State {
                         actingPlayer.setHasWon();
                     }
 
-                    model.updateModelRep(StateEnum.Move);
+                    model.updateModelRep(stateID);
                     hasFinished = true;
                 }
                 catch (MoveErrorException ex)
