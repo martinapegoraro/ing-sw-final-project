@@ -9,9 +9,11 @@ public class Turn {
     private  int nTurn;
     private Board boardInstance;
     private ArrayList<Player> listaGiocatori;
+    private int idFirstPlayer;
     public Turn(List<String> playersNamesList)
     {
         nTurn=0;
+        idFirstPlayer=0;
         boardInstance=Board.getInstance();
         listaGiocatori=new ArrayList<Player>();
         for (String name:playersNamesList) {
@@ -27,7 +29,7 @@ public class Turn {
     public void setNextPlayer()
     {
         nTurn++;
-        int turnoDi=nTurn%listaGiocatori.size();
+        int turnoDi=(idFirstPlayer+nTurn)%listaGiocatori.size();
         for (Player p:listaGiocatori) {
             p.setPlayerActive(false);
         }
@@ -36,6 +38,17 @@ public class Turn {
         listaGiocatori.get(turnoDi).setPlayerActive(true);
 
     }
+
+    public void resetTurnCounter()
+    {
+        nTurn=0;
+    }
+
+    public void setIdFirstPlayer(int id)
+    {
+        idFirstPlayer=id;
+    }
+
 
     public Player getCurrentPlayer()
     {
