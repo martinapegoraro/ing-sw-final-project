@@ -42,6 +42,7 @@ public class Turn {
     public void resetTurnCounter()
     {
         nTurn=0;
+        listaGiocatori.get(idFirstPlayer).setPlayerActive(true);
     }
 
     public void setIdFirstPlayer(int id)

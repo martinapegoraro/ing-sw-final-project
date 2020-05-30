@@ -2,6 +2,7 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.Exceptions.WrongNumberOfPlayersException;
+import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.*;
 import org.junit.Before;
@@ -41,10 +42,30 @@ public class ControllerTest {
 
     /**Short simulation for turnFlow**/
     @Test
-    public void normalTurnFlowTest()
+    public void FirstTurnFlowTest()
     {
+        //The first player chose the gods
+        ArrayList<GodsList> gods=new ArrayList<GodsList>();
+        gods.add(GodsList.PROMETHEUS);
+        gods.add(GodsList.MINOTAUR);
+        Choice c=new GodsCollectionChoice(gods);
+        c.setId(0);
+        controllerUnderTest.update(c);
+
+        //the player 1 and 2 chose the god
+        c=new GodChoice("Minotaur");
+        c.setId(1);
+        controllerUnderTest.update(c);
+
+        //due the presence of only 2 players now the player 0 have to chose the initial player
+
+        c=new InitialPlayerChoice(0);
+        c.setId(0);
+        controllerUnderTest.update(c);
+        //the selected player starts positioning his workers
+
         //Players place setup workers
-        Choice c= new SelectWorkerCellChoice(0,0);
+        c= new SelectWorkerCellChoice(0,0);
         c.setId(0);
         controllerUnderTest.update(c);
         c= new SelectWorkerCellChoice(1,1);

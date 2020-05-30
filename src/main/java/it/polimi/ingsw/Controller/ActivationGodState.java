@@ -71,7 +71,7 @@ public class ActivationGodState implements State {
         Player actingPlayer;
         ArrayList<Player> playerList = (ArrayList<Player>) model.getTurn().getPlayersList();
         actingPlayer = playerList.get(userChoice.getId());
-        if(userChoice instanceof GodActivationChoice)
+        if(userChoice.toString().equals("GodActivationChoice"))
         {
 
             GodActivationChoice castedChoice = (GodActivationChoice)userChoice;

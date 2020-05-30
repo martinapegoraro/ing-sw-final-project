@@ -48,20 +48,8 @@ public class SetUpStateTest {
 
     }
 
-    @Test(expected = BoxAlreadyOccupiedException.class)
-    public void updateTestWithOccupiedBox() throws BoxAlreadyOccupiedException, BuildErrorException, WrongChoiceException, MoveErrorException, TowerCompleteException, GodConditionNotSatisfiedException {
-        Choice c= new SelectWorkerCellChoice(1,1);
-        model.getTurn().getBoardInstance().getBox(1,1).getTower().build(Block.DOME);
-        model.getTurn().getBoardInstance().getBox(1,1).setOccupied();
-        stateUnderTest.update(c,model);
-    }
 
 
-    @Test(expected = WrongChoiceException.class)
-    public void updateTestWithWrongChoice() throws BoxAlreadyOccupiedException, BuildErrorException, WrongChoiceException, MoveErrorException, GodConditionNotSatisfiedException {
-        Choice c= new MoveChoice(1,1);
-        stateUnderTest.update(c,model);
-    }
 
     @Test
     public void updateTest()

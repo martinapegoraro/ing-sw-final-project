@@ -10,6 +10,7 @@ C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Model\Worker.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\View\GameWindow.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Network\Client.java
+C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Utils\GodChoice.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\View\ViewState.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Model\Exceptions\WrongNumberOfPlayersException.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Controller\Context.java
@@ -26,6 +27,7 @@ C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Controller\MoveState.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\View\LobbyWindow.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Controller\CheckWinConditionState.java
+C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Utils\InitialPlayerChoice.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Controller\ActivationGodState.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Model\Exceptions\NotExistingGodException.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Utils\ErrorMessages\InitialWorkerPositionErrorMessage.java
@@ -46,6 +48,7 @@ C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Network\ServerApp.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Controller\BeginTurnState.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Model\Exceptions\BuildErrorException.java
+C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Utils\GodsCollectionChoice.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Utils\ExitChoice.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Utils\InitialPositionChoice.java
 C:\Users\Matteo\IdeaProjects\ing-sw-2020-Pegoraro-Pazzi-Panzeri\src\main\java\it\polimi\ingsw\Model\MessageToVirtualView.java

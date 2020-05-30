@@ -13,5 +13,11 @@ public class GodChoice extends Choice {
         } catch (NotExistingGodException e) {
             e.printStackTrace();
         }
+        this.type="GodChoice";
+    }
+
+    public GodsList getGod()
+    {
+        return god;
     }
 }
