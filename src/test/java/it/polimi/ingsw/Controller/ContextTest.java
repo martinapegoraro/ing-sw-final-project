@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.*;
-import it.polimi.ingsw.Model.Exceptions.WrongChoiceException;
+import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Utils.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -133,6 +133,44 @@ public class ContextTest {
         assertEquals(2,model.getTurn().getPlayersList().get(0).getWorkerList().get(0).getPosition().getCoord()[0]);
         assertEquals(2,model.getTurn().getPlayersList().get(0).getWorkerList().get(0).getPosition().getCoord()[1]);
     }
+
+    @Test
+    public void prometheusTurnFlowwithMoveErrorException()
+    {
+        Choice c;
+
+        model.getTurn().getPlayersList().get(0).setGodCard(GodsList.PROMETHEUS);
+        model.getTurn().getPlayersList().get(1).setGodCard(GodsList.ARTEMIS);
+        contextUnderTest.switchState(new BeginTurnState(model));
+        contextUnderTest.switchState(new ActivationGodState(model));
+        Player actingPlayer = model.getTurn().getCurrentPlayer();
+        //I'm in the activation God State
+        c = new GodActivationChoice(true);
+        c.setId(0);
+        contextUnderTest.update(c);
+        c = new GodActivationChoice(false);
+        c.setId(1);
+        contextUnderTest.update(c);
+
+        c = new SelectWorkerCellChoice(1,1);
+        c.setId(actingPlayer.getNumber());
+        contextUnderTest.update(c);
+
+        c = new BuildChoice(1,2);
+        c.setId(actingPlayer.getNumber());
+        contextUnderTest.update(c);
+
+        c = new SelectWorkerCellChoice(1,1);
+        c.setId(actingPlayer.getNumber());
+        contextUnderTest.update(c);
+
+        c = new MoveChoice(1,2);
+        c.setId(actingPlayer.getNumber());
+        contextUnderTest.update(c);
+
+
+    }
+
 
     @Test
     public void ArtemisTurnFlow()
