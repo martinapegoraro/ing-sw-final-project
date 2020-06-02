@@ -10,9 +10,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 
-public class LobbyWindow extends JFrame {
+public class LobbyWindow extends JFrame implements WindowInterface{
     private JFrame lobbyWindowFrame;
-
+    private View view;
     private BackgroundPanel backgroundPanel;
     private JPanel mainPanel;
     private JPanel fieldsPanel;
@@ -28,7 +28,9 @@ public class LobbyWindow extends JFrame {
     private JButton submitButton;
     private SubmitButtonListener submitButtonListener;
 
-    public LobbyWindow() throws IOException {
+    public LobbyWindow(View view) throws IOException {
+        this.view=view;
+
         lobbyWindowFrame = new JFrame("Santorini");
         lobbyWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         backgroundPanel = new BackgroundPanel("resources/background.png");
@@ -76,22 +78,24 @@ public class LobbyWindow extends JFrame {
 
     }
 
-    public void visible()
+    public void setWindowVisible()
     {
         lobbyWindowFrame.setVisible(true);
     }
 
-    public void setNotVisible()
+    public void setWindowNotVisible()
     {
         lobbyWindowFrame.setVisible(false);
     }
 
-    public SubmitButtonListener getSubmitButtonListenerListener()
-    {
-        return submitButtonListener;
+
+
+    @Override
+    public void updateWindow() {
+
     }
 
-    public class SubmitButtonListener extends Observable<Choice> implements ActionListener{
+    public class SubmitButtonListener  implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -110,7 +114,7 @@ public class LobbyWindow extends JFrame {
             if (message.equals(""))
             {
                 Choice c=new PlayerNumberChoice(playerName,Integer.parseInt(playerNumber));
-                notify(c);
+                view.notify(c);
 
             }
             else

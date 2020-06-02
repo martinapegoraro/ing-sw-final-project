@@ -7,6 +7,7 @@ import it.polimi.ingsw.Utils.PlayerNumberChoice;
 import it.polimi.ingsw.View.LobbyWindow;
 import it.polimi.ingsw.View.Observer;
 import it.polimi.ingsw.View.View;
+import it.polimi.ingsw.View.ViewState;
 
 
 import java.io.IOException;
@@ -24,21 +25,14 @@ public class Client implements Observer<Choice> {
     private ObjectInputStream in;
     private Socket socket;
     private View view;
-    private LobbyWindow lobbyWindow;
+
 
     public Client(String ip,int port)
     {
         this.ip=ip;
         this.port=port;
-        view=new View();
+        view=new View(ViewState.LobbyState);
         view.addObservers(this);
-        try {
-            lobbyWindow=new LobbyWindow();
-            lobbyWindow.getSubmitButtonListenerListener().addObservers(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
 
@@ -60,12 +54,7 @@ public class Client implements Observer<Choice> {
 
                         MessageToVirtualView messaggio =(MessageToVirtualView) in.readObject();
                         if(messaggio.isModelRep()){
-                           if(messaggio.getModelRep().currentState.toString().equals("SetUp"));
-                            {
-                                lobbyWindow.setNotVisible();
-                            }
-                              view.update(messaggio);
-                            //view.setView(messaggio.getModelRep());
+                              view.updateWindow(messaggio);
 
                         } else if(messaggio.getMessage().getMessage().equals("One player left the game")){
                             System.out.println(messaggio.getMessage().getMessage());
@@ -118,17 +107,6 @@ public class Client implements Observer<Choice> {
         out =new ObjectOutputStream(socket.getOutputStream());
         in=new ObjectInputStream(socket.getInputStream());
         Scanner stdin=new Scanner(System.in);
-        /*System.out.println("scrivi il tuo nome");
-        String name=stdin.nextLine();
-        System.out.println("scrivi con quanti vuoi giocare");
-        int num=stdin.nextInt();*/
-        /*Choice c=new PlayerNumberChoice(name,num);
-        Thread t1 = asyncWriteToSocket(c, out);
-        t1.join();
-        //out.writeObject(c);
-        //out.flush();
-        //MessageToVirtualView msg;*/
-        lobbyWindow.visible();
         Thread t0 = asyncReadFromSocket(in);
         t0.join();
 
@@ -136,8 +114,6 @@ public class Client implements Observer<Choice> {
 
 
             while (true) {
-                //msg = (MessageToVirtualView)in.readObject();
-
                 t0 = asyncReadFromSocket(in);
                 t0.join();
 

@@ -4,42 +4,38 @@ import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.ModelRepresentation;
 import it.polimi.ingsw.Utils.Choice;
 
+import java.io.IOException;
+
 public class View extends Observable<Choice> implements Observer<MessageToVirtualView> {
 
     private ViewState currentState;
-    //TODO: create a GameWindow
-
-    private GameWindow gameWindow;
+    private WindowInterface currentWindow;
 
 
     public View()
     {
         currentState=null;
-        gameWindow=new GameWindow();
+        currentWindow=null;
     }
 
-    public void setGameWindowVisible()
+    public View(ViewState state)
     {
-        gameWindow.visible();
+        currentState=state;
+
+        try {
+            currentWindow=new LobbyWindow(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        currentWindow.setWindowVisible();
     }
 
-    /*public View(ModelRepresentation modelRep)
-    {
-        setView(state,modelRep);
-    }*/
 
-    /**
-     * the setView is used to initialize the attributes of the class
-     * I imagine that an instance of a view is present at the beginning of the game but for example the gameWindow is disabled and
-     * not even
-     */
-    public void setView(ModelRepresentation modelRep)
-    {
-        currentState=ViewState.getState(modelRep.currentState.toString());
-        gameWindow.updateGodsPanel(modelRep);
-        gameWindow.updateInfoPanel(modelRep);
-        setGameWindowVisible();
-    }
+
+
+
+
+
 
     public ViewState getCurrentState() {
         return currentState;
@@ -61,9 +57,15 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
      */
     @Override
     public void update(MessageToVirtualView message) {
-        //I call the gameWindow methods
-        //they will be called depending on the modelRep state
-        setView(message.getModelRep());
+
+    }
+
+    public void updateWindow(MessageToVirtualView message)
+    {
+        if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null)
+        {
+           currentWindow.setWindowNotVisible();
+        }
     }
 
     /**

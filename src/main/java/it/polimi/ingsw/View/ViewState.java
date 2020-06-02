@@ -16,7 +16,9 @@ public enum ViewState {
     MoveState(new String[]{"SelectWorkerCellChoice","MoveChoice"}),
     CheckWinConditionState(new String[]{}),
     BuildState(new String[]{"SelectWorkerCellChoice","BuildChoice"}),
-    EndTurnState(new String[]{});
+    EndTurnState(new String[]{}),
+    LobbyState(new String[]{}),
+    SleepState(new String[]{});
 
 
     /**
@@ -57,6 +59,10 @@ public enum ViewState {
                 return ViewState.BuildState;
             case "EndTurn":
                 return ViewState.EndTurnState;
+            case "SleepState":
+                return ViewState.SleepState;
+            case "LobbyState":
+                return ViewState.LobbyState;
             default:
                 return null;
         }
