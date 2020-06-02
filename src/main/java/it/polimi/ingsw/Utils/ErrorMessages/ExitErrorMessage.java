@@ -5,7 +5,7 @@ public class ExitErrorMessage extends ErrorMessage {
 
     public ExitErrorMessage()
     {
-        message="One player left the game";
+        message="Exit";
     }
 
     public String getMessage()

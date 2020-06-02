@@ -89,6 +89,10 @@ public class LobbyWindow extends JFrame implements WindowInterface{
     }
 
 
+    public void godSelectionPrompt()
+    {
+        JOptionPane.showMessageDialog(lobbyWindowFrame,"the player 0 is choosing the gods");
+    }
 
     @Override
     public void updateWindow() {
@@ -114,6 +118,7 @@ public class LobbyWindow extends JFrame implements WindowInterface{
             if (message.equals(""))
             {
                 Choice c=new PlayerNumberChoice(playerName,Integer.parseInt(playerNumber));
+                view.setPlayerName(playerName);
                 view.notify(c);
 
             }

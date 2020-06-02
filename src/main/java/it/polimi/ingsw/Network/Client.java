@@ -51,29 +51,27 @@ public class Client implements Observer<Choice> {
             public void run() {
                 try {
                     while (isActive()) {
+                        //TODO:find the exception
+                        MessageToVirtualView messaggio = (MessageToVirtualView) in.readObject();
 
-                        MessageToVirtualView messaggio =(MessageToVirtualView) in.readObject();
-                        if(messaggio.isModelRep()){
-                              view.updateWindow(messaggio);
-
-                        } else if(messaggio.getMessage().getMessage().equals("One player left the game")){
-                            System.out.println(messaggio.getMessage().getMessage());
-                            socket.close();
-                        }
-                        else{
-
-                            if(!messaggio.getMessage().getMessage().equals("ping"))
-                            {
+                            if (messaggio.isModelRep()) {
+                                view.updateWindow(messaggio);
+                            } else if (messaggio.getMessage().getMessage().equals("One player left the game")) {
                                 System.out.println(messaggio.getMessage().getMessage());
+                                socket.close();
+                            } else {
+
+                                if (!messaggio.getMessage().getMessage().equals("ping")) {
+                                    System.out.println(messaggio.getMessage().getMessage());
+                                } else {
+                                    Thread t1 = asyncWriteToSocket(new PingChoice(), out);
+                                    t1.join();
+                                }
                             }
-                            else
-                            {
-                                Thread t1 = asyncWriteToSocket(new PingChoice(), out);
-                                t1.join();
-                            }
-                        }
+
                     }
                 } catch (Exception e){
+
                     setActive(false);
                 }
             }

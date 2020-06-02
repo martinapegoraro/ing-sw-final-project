@@ -72,6 +72,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                    } catch (InterruptedException e) {
                        e.printStackTrace();
                    }
+                   System.out.println("send Ping");
                    send(new MessageToVirtualView(new PingMessage()));
                    timer=new Timer();
                    task=new TimerTask() {
@@ -80,7 +81,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                            close();
                        };
                    };
-                   timer.schedule(task,4000);
+                   timer.schedule(task,6000);
                }
             }
         }).start();
@@ -131,10 +132,12 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                 }
                 else
                 {
-                    pingCounter++;
-                    if(pingCounter==4)
-                        close();
+                    System.out.println("recived pong");
                     task.cancel();
+                    pingCounter++;
+                    if(pingCounter==10)
+                        close();
+
                 }
             }
         } catch (IOException e) {

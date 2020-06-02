@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Model.GodsList;
+import it.polimi.ingsw.Utils.GodsCollectionChoice;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class CardSelectionWindow extends JFrame implements ActionListener {
+public class CardSelectionWindow extends JFrame implements ActionListener,WindowInterface {
     public final int WIN_WIDTH = 1000;
     public final int WIN_HEIGHT = 800;
     ImageIcon blankCard = new ImageIcon("resources/BlankGod.png");
@@ -23,16 +24,18 @@ public class CardSelectionWindow extends JFrame implements ActionListener {
     JLabel[] godMiniatures = new JLabel[3];
     JButton submitButton =  new JButton("Submit");
     JButton cancelButton = new JButton("Cancel");
+    View view;
+    JFrame f;
 
 
-
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         new CardSelectionWindow(3);
-    }
+    }*/
 
-    public CardSelectionWindow(int playerNum)
+    public CardSelectionWindow(View view,int playerNum)
     {
         this.playerNum = playerNum;
+        this.view=view;
         //Declaring needed constants
         int defaultCardWidth = blankCard.getIconWidth();
         int defaultCardHeight = blankCard.getIconHeight();
@@ -41,7 +44,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener {
         int defaultIconHeight = blankResizedIcon.getIconHeight();
 
         //Declaring needed objects
-        JFrame f=new JFrame("God Selection");
+        f=new JFrame("God Selection");
         JButton leftButton=new JButton("<");
         leftButton.setToolTipText("Switches to God on the left");
         leftButton.setActionCommand("before");
@@ -50,6 +53,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener {
         JButton rightButton=new JButton(">");
         rightButton.setActionCommand("next");
         rightButton.setToolTipText("Switches to God on the right");
+        submitButton.setActionCommand("submit");
 
 
         JLabel selectedGod1 = new JLabel("First God", blankResizedIcon, JLabel.CENTER);
@@ -93,6 +97,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener {
         godButton.addActionListener(this);
         rightButton.addActionListener(this);
         cancelButton.addActionListener(this);
+        submitButton.addActionListener(this);
 
         //Add objects to Frame
         f.add(leftButton);
@@ -118,7 +123,8 @@ public class CardSelectionWindow extends JFrame implements ActionListener {
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //f centers itself on screen
         f.setLocationRelativeTo(null);
-        f.setVisible(true);
+        //the window will be enabled or disabled by the View
+        //f.setVisible(true);
     }
 
     private ImageIcon resizeIcon(ImageIcon defaultScale, int scaleDownFactor)
@@ -192,11 +198,28 @@ public class CardSelectionWindow extends JFrame implements ActionListener {
         }
         else if("submit".equals(actionEvent.getActionCommand()))
         {
+            GodsCollectionChoice c=new GodsCollectionChoice(selectedCards);
+            view.notify(c);
 
         }
         else
             {
                 System.out.println("Command not recognized!");
             }
+    }
+
+    @Override
+    public void updateWindow() {
+
+    }
+
+    @Override
+    public void setWindowVisible() {
+        f.setVisible(true);
+    }
+
+    @Override
+    public void setWindowNotVisible() {
+        f.setVisible(false);
     }
 }

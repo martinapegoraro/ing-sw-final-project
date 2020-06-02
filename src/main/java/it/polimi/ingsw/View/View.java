@@ -4,24 +4,33 @@ import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.ModelRepresentation;
 import it.polimi.ingsw.Utils.Choice;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class View extends Observable<Choice> implements Observer<MessageToVirtualView> {
 
     private ViewState currentState;
     private WindowInterface currentWindow;
+    private String playerName;
+    private int idPlayer;
 
 
     public View()
     {
         currentState=null;
         currentWindow=null;
+        playerName="";
+        idPlayer=-1;
     }
 
     public View(ViewState state)
     {
         currentState=state;
-
+        playerName="";
+        idPlayer=-1;
         try {
             currentWindow=new LobbyWindow(this);
         } catch (IOException e) {
@@ -60,11 +69,37 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
 
     }
 
+    public void setPlayerName(String name)
+    {
+        playerName=name;
+    }
+    public void setIdPlayer(int id){
+        idPlayer=id;
+    }
+
     public void updateWindow(MessageToVirtualView message)
     {
+        if(message.getModelRep().currentState.toString().equals("Exit") )
+        {
+            currentWindow.setWindowNotVisible();
+        }
         if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null)
         {
-           currentWindow.setWindowNotVisible();
+           setIdPlayer(Arrays.asList(message.getModelRep().playersName).indexOf(playerName));
+           if(idPlayer==message.getModelRep().activePlayer)
+           {
+               currentWindow.setWindowNotVisible();
+               currentWindow=new CardSelectionWindow(this,message.getModelRep().playerNum);
+               currentWindow.setWindowVisible();
+           }
+           else
+           {
+               ((LobbyWindow)currentWindow).godSelectionPrompt();
+           }
+        }
+        if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods.size()!=0)
+        {
+            currentWindow.setWindowNotVisible();
         }
     }
 
