@@ -47,12 +47,15 @@ public class Model extends Observable<MessageToVirtualView> {
         notify(new MessageToVirtualView(modelRep));
     }
 
-    public void updateModelRep(GodsList god)
+    public void updateModelRep(List<GodsList> godsList)
     {
         //I initialize mi matrix with just zeroes (java default value for int)
         int [][] selectedCells = new int[5][5];
+        StateEnum oldState = modelRep.currentState;
         modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList(),selectedCells);
-        modelRep.gods.add(god);
+        modelRep.gods=new ArrayList<GodsList>();
+        modelRep.gods.addAll(godsList);
+        modelRep.currentState = oldState;
         notify(new MessageToVirtualView(modelRep));
     }
 

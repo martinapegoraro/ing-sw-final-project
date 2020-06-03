@@ -5,6 +5,7 @@ import it.polimi.ingsw.Network.Server;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.ErrorMessages.PingMessage;
 import it.polimi.ingsw.Utils.ExitChoice;
+import it.polimi.ingsw.Utils.PingChoice;
 import it.polimi.ingsw.Utils.PlayerNumberChoice;
 import it.polimi.ingsw.View.Observable;
 
@@ -81,7 +82,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                            close();
                        };
                    };
-                   timer.schedule(task,6000);
+                   timer.schedule(task,10000);
                }
             }
         }).start();
@@ -119,34 +120,51 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
 
     public void run()
     {
-        try{
-            while(isActive()) {
-                Choice read = (Choice) in.readObject();
-                if (!read.toString().equals("ping")) {
-                    pingCounter=0;
-                    if (read.toString().equals("PlayerNumberChoice")) {
-                        PlayerNumberChoice np = (PlayerNumberChoice) read;
-                        server.addToLobby(this, np.name, np.playerNumber);
-                    } else
-                        notify(read);
-                }
-                else
-                {
-                    System.out.println("recived pong");
-                    task.cancel();
-                    pingCounter++;
-                    if(pingCounter==10)
-                        close();
-
-                }
+        while(isActive()) {
+            Thread t0 = asyncReadFromSocket(this,in);
+            try {
+                t0.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
+    public Thread asyncReadFromSocket(SocketClientConnection connection,final ObjectInputStream in){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Choice read = (Choice) in.readObject();
+                    if (!read.toString().equals("ping")) {
+                        pingCounter=0;
+                        if (read.toString().equals("PlayerNumberChoice")) {
+                            PlayerNumberChoice np = (PlayerNumberChoice) read;
+                            server.addToLobby(connection, np.name, np.playerNumber);
+                        } else {
+                            System.out.println("recived:"+read.toString());
+                            connection.notify(read);
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("recived pong");
+                        task.cancel();
+                        pingCounter++;
+                        if(pingCounter==10)
+                            close();
+
+                    }
+                } catch (IOException e) {
+                    close();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+        return t;
+    }
 
 
 

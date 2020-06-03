@@ -77,13 +77,18 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
         idPlayer=id;
     }
 
+    public int getIdPlayer()
+    {
+        return idPlayer;
+    }
+
     public void updateWindow(MessageToVirtualView message)
     {
         if(message.getModelRep().currentState.toString().equals("Exit") )
         {
             currentWindow.setWindowNotVisible();
         }
-        if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null)
+        else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null)
         {
            setIdPlayer(Arrays.asList(message.getModelRep().playersName).indexOf(playerName));
            if(idPlayer==message.getModelRep().activePlayer)
@@ -97,7 +102,7 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
                ((LobbyWindow)currentWindow).godSelectionPrompt();
            }
         }
-        if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods.size()!=0)
+        else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods.size()!=0)
         {
             currentWindow.setWindowNotVisible();
         }
@@ -111,7 +116,8 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
     public void update(Choice c)
     {
         //check choice to send
-       notify(c);
+        c.setId(idPlayer);
+        notify(c);
     }
 
     /**

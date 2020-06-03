@@ -81,7 +81,7 @@ public class SetUpState implements State{
             selectedGodList.addAll(c.getGodList());
             godsSelected=true;
             model.getTurn().setNextPlayer();
-            model.updateModelRep(stateID);
+            model.updateModelRep(selectedGodList);
         }
 
 
@@ -101,6 +101,7 @@ public class SetUpState implements State{
                     actingPlayer.setGodCard(selectedGodList.get(0));
                     godsAssigned=true;
                     model.updateModelRep(stateID);
+
                 }
             }
             else
@@ -116,6 +117,7 @@ public class SetUpState implements State{
             model.getTurn().setIdFirstPlayer(c.getChoice());
             firstPlayerSelected=true;
             model.getTurn().resetTurnCounter();
+            model.updateModelRep(stateID);
         }
 
 

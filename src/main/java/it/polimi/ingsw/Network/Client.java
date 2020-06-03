@@ -51,11 +51,12 @@ public class Client implements Observer<Choice> {
             public void run() {
                 try {
                     while (isActive()) {
-                        //TODO:find the exception
-                        MessageToVirtualView messaggio = (MessageToVirtualView) in.readObject();
 
+                        MessageToVirtualView messaggio = (MessageToVirtualView) in.readObject();
                             if (messaggio.isModelRep()) {
+
                                 view.updateWindow(messaggio);
+
                             } else if (messaggio.getMessage().getMessage().equals("One player left the game")) {
                                 System.out.println(messaggio.getMessage().getMessage());
                                 socket.close();

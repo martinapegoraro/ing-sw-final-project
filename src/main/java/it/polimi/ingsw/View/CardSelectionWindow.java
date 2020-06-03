@@ -199,8 +199,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
         else if("submit".equals(actionEvent.getActionCommand()))
         {
             GodsCollectionChoice c=new GodsCollectionChoice(selectedCards);
-            view.notify(c);
-
+            view.update(c);
         }
         else
             {
