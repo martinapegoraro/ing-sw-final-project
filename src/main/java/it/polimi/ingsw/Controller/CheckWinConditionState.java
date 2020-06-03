@@ -87,6 +87,8 @@ public class CheckWinConditionState implements State{
                 Board.newBoard();
             }
         }
+
+        //TODO: Aggiungere controllo se tutti gli altri player hanno perso allora ho vinto
         if (stateId == StateEnum.FirstCheckWinCondition){model.updateModelRep(StateEnum.FirstCheckWinCondition);}
         if (stateId == StateEnum.SecondCheckWinCondition){model.updateModelRep(StateEnum.SecondCheckWinCondition);}
         hasFinished = true;

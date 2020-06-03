@@ -1,82 +1,78 @@
 package it.polimi.ingsw.View;
 
-import it.polimi.ingsw.Model.Model;
-import it.polimi.ingsw.Model.ModelRepresentation;
+import it.polimi.ingsw.Model.MessageToVirtualView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
-public class GameWindow extends JFrame {
-    private JFrame gameWindowFrame;
-    private JPanel mainPanel;
-    private JPanel infoPanel;
-    private JPanel gamePanel;
-    private BoardPanel fieldPanel;
-    private JPanel godsPanel;
-    private JLabel playerListLabel;
-    private JLabel currentPlayerLabel;
-    private JLabel currentStateLabel;
-    private JList playersList;
-    private JTextField currentStateTextField;
-    private JTextField currentPlayerTextField;
-    private JButton[][] buttonsGrid;
-    private ArrayList<BackgroundPanel> godPanelList;
+public class GameWindow extends JFrame implements WindowInterface{
+        JLayeredPane boardContainer;
+        JLabel boardBackGroudImage;
+        JPanel footerContainer;
+        JPanel playersSideBar;
+        JPanel playerCard;
+        JButton exitButton;
 
     public GameWindow() {
+        this.setTitle("Santorini Game");
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        boardContainer = new JLayeredPane();
+        boardContainer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        boardContainer.setBounds(260, 10, 480, 480);
+        boardContainer.setLayout(new GridLayout(5,5));
+        boardContainer.setSize(480,480);
 
-        gameWindowFrame = new JFrame();
-        gameWindowFrame = new JFrame("Santorini");
-        gameWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameWindowFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1, 2, -1, -1));
+        boardBackGroudImage = new JLabel(resizeIcon(getResource("Board_cells"), 480,480));
+        boardBackGroudImage.setBounds(260,10,480,480);
 
-        //creation infoPanel
-        infoPanel = new JPanel();
-        infoPanel.setLayout(new GridLayout(3, 2, -1, -1));
+        for (int i = 0; i < 25; i++) {
+            JLabel label = new JLabel();
+            label.setBorder(BorderFactory.createLineBorder(Color.CYAN));
+            label.setHorizontalTextPosition(JLabel.CENTER);
+            label.setVerticalTextPosition(JLabel.CENTER);
+            boardContainer.add(label, Integer.valueOf(1));
+        }
 
-        currentPlayerLabel=new JLabel("current Player:");
-        infoPanel.add(currentPlayerLabel);
-        currentPlayerTextField=new JTextField();
-        infoPanel.add(currentPlayerTextField);
+        footerContainer = new JPanel();
+        footerContainer.setBounds(0,500,987,165);
+        footerContainer.setBorder(BorderFactory.createLineBorder(Color.RED));
 
-        playerListLabel=new JLabel("players list:");
-        infoPanel.add(playerListLabel);
-        //da aggiornare quando arriva il modeRep
-        playersList=new JList();
-        infoPanel.add(playersList);
+        playersSideBar = new JPanel();
+        playersSideBar.setBounds(10,10,200, 480);
+        playersSideBar.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
-        currentStateLabel=new JLabel("state of the game");
-        infoPanel.add(currentStateLabel);
-        currentStateTextField=new JTextField();
-        infoPanel.add(currentStateTextField);
-        mainPanel.add(infoPanel);
-        //gamePanel creation
-        gamePanel = new JPanel();
-        gamePanel.setLayout(new GridLayout(2, 1, -1, -1));
-        mainPanel.add(gamePanel);
-        //creation of the fieldPanel
-        fieldPanel = new BoardPanel();
-        gamePanel.add(fieldPanel);
-        godsPanel = new JPanel();
-        //GodsPanel Creation
-        godsPanel.setLayout(new GridLayout(1, 3, -1, -1));
-        gamePanel.add(godsPanel);
-        godPanelList = new ArrayList<BackgroundPanel>();
-        gameWindowFrame.add(mainPanel);
-        gameWindowFrame.pack();
+        playerCard = new JPanel();
+        playerCard.setBounds(1000-180-30,700-300-50, 180, 300);
+        playerCard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+
+        exitButton = new JButton("EXIT");
+        exitButton.setBounds(1000-180-30, 10, 180, 50);
+
+
+        //Packing all the objects
+        this.add(playersSideBar);
+        //The order here matters! boardContainer must be painted on JFrame before backGround
+        this.add(boardContainer);
+        this.add(boardBackGroudImage);
+
+        this.add(playerCard);
+        this.add(footerContainer);
+        this.add(exitButton);
+        this.setResizable(false);
+        this.setSize(1000, 700);
+        this.setLocationRelativeTo(null);
+        this.setLayout(null);
 
     }
 
-    public void updateInfoPanel(ModelRepresentation modelRep)
+ /*   public void updateInfoPanel(ModelRepresentation modelRep)
     {
 
         playersList=new JList(modelRep.playersName.clone());
         currentPlayerTextField.setText(modelRep.playersName[modelRep.activePlayer]);
         currentStateTextField.setText(modelRep.currentState.toString());
         fieldPanel.getBox(2,2).setImage();
-        gameWindowFrame.pack();
+        this.pack();
     }
 
     public void updateGodsPanel(ModelRepresentation modelRep)
@@ -87,11 +83,41 @@ public class GameWindow extends JFrame {
         for (BackgroundPanel b : godPanelList) {
             godsPanel.add(b);
         }
-        gameWindowFrame.pack();
+        this.pack();
+
+    }*/
+
+    private ImageIcon getResource(String name)
+    {
+        return new ImageIcon("resources/"+name+".png");
+    }
+
+    private ImageIcon resizeIcon(ImageIcon defaultScale, int scaleDownFactor)
+    {
+        Image newimg = defaultScale.getImage().getScaledInstance( defaultScale.getIconWidth()/scaleDownFactor,
+                defaultScale.getIconHeight()/scaleDownFactor,  java.awt.Image.SCALE_SMOOTH ) ;
+        return new ImageIcon( newimg );
+    }
+
+    private ImageIcon resizeIcon(ImageIcon defaultScale, int width, int height)
+    {
+        Image newimg = defaultScale.getImage().getScaledInstance( width,
+                height,  java.awt.Image.SCALE_SMOOTH ) ;
+        return new ImageIcon( newimg );
+    }
+
+    @Override
+    public void updateWindow(MessageToVirtualView update) {
 
     }
 
-    public void visible() {
-        gameWindowFrame.setVisible(true);
+    @Override
+    public void setWindowVisible() {
+        this.setVisible(true);
+    }
+
+    @Override
+    public void setWindowNotVisible() {
+        this.setVisible(false);
     }
 }

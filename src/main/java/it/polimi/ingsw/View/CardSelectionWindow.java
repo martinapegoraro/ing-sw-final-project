@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Model.GodsList;
+import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Utils.GodsCollectionChoice;
 
 import javax.swing.*;
@@ -57,13 +58,13 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
 
 
         JLabel selectedGod1 = new JLabel("First God", blankResizedIcon, JLabel.CENTER);
-        selectedGod1.setVerticalTextPosition(JLabel.BOTTOM);
+        selectedGod1.setVerticalTextPosition(JLabel.TOP);
         selectedGod1.setHorizontalTextPosition(JLabel.CENTER);
         JLabel selectedGod2 = new JLabel("Second God", blankResizedIcon, JLabel.CENTER);
-        selectedGod2.setVerticalTextPosition(JLabel.BOTTOM);
+        selectedGod2.setVerticalTextPosition(JLabel.TOP);
         selectedGod2.setHorizontalTextPosition(JLabel.CENTER);
         JLabel selectedGod3 = new JLabel("Third God", blankResizedIcon, JLabel.CENTER);
-        selectedGod3.setVerticalTextPosition(JLabel.BOTTOM);
+        selectedGod3.setVerticalTextPosition(JLabel.TOP);
         selectedGod3.setHorizontalTextPosition(JLabel.CENTER);
 
         godMiniatures[0] = selectedGod1;
@@ -116,7 +117,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
         //Set frame properties
         //f.getContentPane().setBackground(Color.DARK_GRAY);
         //must be done before setting location relative to screen center (null)
-        f.setSize(1000,800);
+        f.setSize(WIN_WIDTH,WIN_HEIGHT);
         f.setResizable(false);
         f.setLayout(null);
         //f terminates process when closed
@@ -143,7 +144,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
     public void actionPerformed(ActionEvent actionEvent) {
         if("next".equals(actionEvent.getActionCommand()))
         {
-            //cliked on nextButton
+            //clicked on nextButton
             if(godCounter == allGods.size()-1)
             {
                 godCounter = 0;
@@ -207,8 +208,9 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
             }
     }
 
+
     @Override
-    public void updateWindow() {
+    public void updateWindow(MessageToVirtualView update) {
 
     }
 

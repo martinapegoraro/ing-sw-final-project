@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.PlayerNumberChoice;
 
@@ -78,6 +79,11 @@ public class LobbyWindow extends JFrame implements WindowInterface{
 
     }
 
+    @Override
+    public void updateWindow(MessageToVirtualView update) {
+
+    }
+
     public void setWindowVisible()
     {
         lobbyWindowFrame.setVisible(true);
@@ -94,10 +100,6 @@ public class LobbyWindow extends JFrame implements WindowInterface{
         JOptionPane.showMessageDialog(lobbyWindowFrame,"the player 0 is choosing the gods");
     }
 
-    @Override
-    public void updateWindow() {
-
-    }
 
     public class SubmitButtonListener  implements ActionListener{
 
