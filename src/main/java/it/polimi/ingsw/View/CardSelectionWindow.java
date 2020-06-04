@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class CardSelectionWindow extends JFrame implements ActionListener,WindowInterface {
     public final int WIN_WIDTH = 1000;
-    public final int WIN_HEIGHT = 800;
+    public final int WIN_HEIGHT = 700;
     ImageIcon blankCard = new ImageIcon("resources/BlankGod.png");
     ImageIcon blankResizedIcon = resizeIcon(blankCard, 4);
 
@@ -208,6 +208,10 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
             }
     }
 
+    public void godSelectionPrompt(String name)
+    {
+        JOptionPane.showMessageDialog(f,name+" is choosing the god");
+    }
 
     @Override
     public void updateWindow(MessageToVirtualView update) {

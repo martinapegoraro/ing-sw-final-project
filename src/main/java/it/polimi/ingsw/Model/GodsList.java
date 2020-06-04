@@ -77,7 +77,7 @@ public enum GodsList {
     public static GodsList getGod(String godName) throws NotExistingGodException
     {
         for (GodsList god:GodsList.values()) {
-            if(godName.equals(god.name))
+            if(godName.equals(god.name) || godName.equals(god.name.toUpperCase()))
                 return god;
         }
         throw new NotExistingGodException("This God doesn't exist");

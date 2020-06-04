@@ -3,6 +3,7 @@ package it.polimi.ingsw.View;
 import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.ModelRepresentation;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.GodChoice;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,7 +89,7 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
         {
             currentWindow.setWindowNotVisible();
         }
-        else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null)
+        else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null &&message.getModelRep().godList[0]==null)
         {
            setIdPlayer(Arrays.asList(message.getModelRep().playersName).indexOf(playerName));
            if(idPlayer==message.getModelRep().activePlayer)
@@ -99,12 +100,33 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
            }
            else
            {
-               ((LobbyWindow)currentWindow).godSelectionPrompt();
+               //((LobbyWindow)currentWindow).godSelectionPrompt(message.getModelRep().playersName[message.getModelRep().activePlayer]);
+               currentWindow.setWindowNotVisible();
            }
         }
-        else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods.size()!=0)
+        else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods!=null)
+        {
+            //currentWindow.setWindowNotVisible();
+            if(idPlayer==message.getModelRep().activePlayer)
+            {
+                currentWindow.setWindowNotVisible();
+                System.out.println("diventa visibile la scelta del singolo god");
+                //roba di prova da togliere
+                Choice c=new GodChoice(message.getModelRep().gods.get(idPlayer).toString());
+                c.setId(idPlayer);
+                notify(c);
+            }
+            else
+            {
+                //((CardSelectionWindow)currentWindow).godSelectionPrompt(message.getModelRep().playersName[message.getModelRep().activePlayer]);
+                currentWindow.setWindowNotVisible();
+            }
+        }
+        else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null && message.getModelRep().godList[0]!=null)
         {
             currentWindow.setWindowNotVisible();
+            currentWindow=new GameWindow();
+            currentWindow.setWindowVisible();
         }
     }
 

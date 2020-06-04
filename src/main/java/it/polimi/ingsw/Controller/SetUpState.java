@@ -94,15 +94,16 @@ public class SetUpState implements State{
                 actingPlayer.setGodCard(c.getGod());
                 selectedGodList.remove(c.getGod());
                 model.getTurn().setNextPlayer();
-                model.updateModelRep(stateID);
+                //model.updateModelRep(stateID);
                 //if in the list of chosen gods remains only a god I directly assign it to the last player
                 if(selectedGodList.size()==1){
                     actingPlayer=model.getTurn().getCurrentPlayer();
                     actingPlayer.setGodCard(selectedGodList.get(0));
+                    selectedGodList.remove(selectedGodList.get(0));
                     godsAssigned=true;
-                    model.updateModelRep(stateID);
-
+                    //model.updateModelRep(stateID);
                 }
+                model.updateModelRep(stateID);
             }
             else
             {
