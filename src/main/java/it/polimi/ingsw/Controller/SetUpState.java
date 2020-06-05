@@ -101,9 +101,10 @@ public class SetUpState implements State{
                     actingPlayer.setGodCard(selectedGodList.get(0));
                     selectedGodList.remove(selectedGodList.get(0));
                     godsAssigned=true;
-                    //model.updateModelRep(stateID);
+                    model.updateModelRep(stateID);
+                    return;
                 }
-                model.updateModelRep(stateID);
+                model.updateModelRep(selectedGodList);
             }
             else
             {

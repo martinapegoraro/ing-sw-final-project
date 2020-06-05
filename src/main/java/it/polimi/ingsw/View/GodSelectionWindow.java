@@ -3,6 +3,7 @@ package it.polimi.ingsw.View;
 import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.ModelRepresentation;
+import it.polimi.ingsw.Utils.GodChoice;
 import it.polimi.ingsw.Utils.GodsCollectionChoice;
 
 import javax.swing.*;
@@ -185,7 +186,8 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         }
         else if("submit".equals(actionEvent.getActionCommand()))
         {
-            GodsCollectionChoice c=new GodsCollectionChoice(selectedCards);
+            GodChoice c=new GodChoice(selectedCards.get(0).getName());
+           c.setId(playerNum);
             view.update(c);
         }
         else
