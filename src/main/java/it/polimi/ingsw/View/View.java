@@ -88,6 +88,7 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
         if(message.getModelRep().currentState.toString().equals("Exit") )
         {
             currentWindow.setWindowNotVisible();
+            System.exit(0);
         }
         else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null &&message.getModelRep().godList[0]==null)
         {

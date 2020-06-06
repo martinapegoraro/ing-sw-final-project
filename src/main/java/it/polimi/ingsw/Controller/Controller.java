@@ -55,7 +55,7 @@ public class Controller implements Observer<Choice> {
     }
 
     public synchronized void update(Choice userChoice) {
-        if (userChoice.toString().equals("ExitChoice")) {
+        if (userChoice.toString().equals("Exit")) {
             endGame();
         } else {
             //context.update(userChoice, modelInstance);

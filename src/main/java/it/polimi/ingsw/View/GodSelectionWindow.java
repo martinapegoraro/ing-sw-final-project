@@ -3,6 +3,8 @@ package it.polimi.ingsw.View;
 import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.ModelRepresentation;
+import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ExitChoice;
 import it.polimi.ingsw.Utils.GodChoice;
 import it.polimi.ingsw.Utils.GodsCollectionChoice;
 
@@ -48,6 +50,7 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
 
         //Declaring needed objects
         f=new JFrame("God Selection");
+
         JButton leftButton=new JButton("<");
         leftButton.setToolTipText("Switches to God on the left");
         leftButton.setActionCommand("before");
@@ -114,6 +117,16 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         f.setLocationRelativeTo(null);
         //the window will be enabled or disabled by the View
         //f.setVisible(true);
+        f.addWindowListener(new java.awt.event.WindowAdapter(){
+            public void windowClosing(java.awt.event.WindowEvent windowEvent){
+                if(JOptionPane.showConfirmDialog(f,"Are you sure you want quit the game?","Quit the game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
+                    Choice c=new ExitChoice();
+                    c.setId(playerNum);
+                    view.update(c);
+                    System.exit(0);
+                }
+            }
+        });
     }
 
     private ImageIcon resizeIcon(ImageIcon defaultScale, int scaleDownFactor)
