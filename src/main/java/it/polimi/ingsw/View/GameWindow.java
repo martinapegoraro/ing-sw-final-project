@@ -5,10 +5,12 @@ import it.polimi.ingsw.Model.MessageToVirtualView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.Flow;
 
-public class GameWindow extends JFrame implements WindowInterface{
+public class GameWindow extends JFrame implements WindowInterface, ActionListener {
     //Graphic elements
         JLayeredPane boardContainer;
         JLabel boardBackGroudImage;
@@ -24,6 +26,8 @@ public class GameWindow extends JFrame implements WindowInterface{
         JLabel[][][] pieces3dMatrix; //Contains all the game blocks and pieces in a 3d matrix
     //the top level (0) holds workers, the other levels hold tower blocks
 
+        JButton[][] boardButtons;
+
         //Variables
     int myID;
 
@@ -36,26 +40,43 @@ public class GameWindow extends JFrame implements WindowInterface{
         boardContainer = new JLayeredPane();
         boardContainer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         boardContainer.setBounds(260, 10, 480, 480);
-        boardContainer.setLayout(new GridLayout(5,5));
+        //boardContainer.setLayout(new GridLayout(5,5));
         boardContainer.setSize(480,480);
 
         boardBackGroudImage = new JLabel(resizeIcon(getResource("Board_cells"), 480,480));
         boardBackGroudImage.setBounds(260,10,480,480);
 
         //Creation of BoardContainer levels, TOP level (level 0) is made of transparent buttons to capture clicks
-        for (int i = 0; i < 25; i++) {
-            JButton label = new JButton();
-            label.setBorder(BorderFactory.createLineBorder(Color.CYAN));
-            label.setHorizontalTextPosition(JLabel.CENTER);
-            label.setVerticalTextPosition(JLabel.CENTER);
-            label.setText(""+i);
-            label.setOpaque(false);
-            label.setContentAreaFilled(false);
-            boardContainer.add(label, Integer.valueOf(0));
+        Point origin = new Point(0,0);
+        boardButtons = new JButton[5][5];
+
+        for (int i = 0; i < 5; i++) {
+            for(int k=0; k<5;k++)
+            {
+                JButton label = new JButton();
+                label.addActionListener(this);
+                label.setActionCommand(""+(i*5+k));
+                label.setBounds(origin.x, origin.y, 96,96);
+                label.setBorder(BorderFactory.createLineBorder(Color.CYAN));
+                label.setHorizontalTextPosition(JLabel.CENTER);
+                label.setVerticalTextPosition(JLabel.CENTER);
+                //label.setText(""+(i*5+k));
+                label.setOpaque(false);
+                label.setContentAreaFilled(false);
+                boardContainer.add(label, Integer.valueOf(5));
+                boardButtons[i][k] = label;
+                origin.x += 96;
+            }
+            origin.x = 0;
+            origin.y += 96;
         }
 
         //The next five levels are: 1 worker, 2 dome, 3 third level, 4 second level and 5 ground level
-
+        initialize3dMatrix();
+        pieces3dMatrix[0][0][4].setVisible(true);
+        pieces3dMatrix[0][0][0].setVisible(true);
+        pieces3dMatrix[0][1][1].setVisible(true);
+        //boardButtons[2][2].setBackground(new Color(208, 208, 0, 100));// it's probably better to add Labels on top level
 
 
         //FOOTER AND OBJECTS INSIDE
@@ -191,8 +212,60 @@ public class GameWindow extends JFrame implements WindowInterface{
 
     private void initialize3dMatrix()
     {
-        //the matrix is initialized with every block set to transparent
+        //The five Z levels are: 4 worker, 3 dome, 2 third level, 1 second level and 0 ground level
+        ImageIcon workerIcon = resizeIcon(getResource("WorkerPurpleM_Cropped"), 60,90);
+        //Workers will probably be painted later, this is just for testing
+        ImageIcon domeIcon = resizeIcon(getResource("Dome"), 90,90);
+        ImageIcon thirdFloorIcon = resizeIcon(getResource("Tower3"), 90,90);
+        ImageIcon secondFloorIcon = resizeIcon(getResource("Tower2"), 90,90);
+        ImageIcon groundFloorIcon = resizeIcon(getResource("Tower1"), 90,90);
 
+        ImageIcon[] iconArray = new ImageIcon[5];
+        iconArray[4] = workerIcon;
+        iconArray[3] = domeIcon;
+        iconArray[2] = thirdFloorIcon;
+        iconArray[1] = secondFloorIcon;
+        iconArray[0] = groundFloorIcon;
+
+        pieces3dMatrix = new JLabel[5][5][5];
+        Point origin = new Point(0,0);
+
+        //the matrix is initialized with every block set to transparent but icons are already present
+        for (int i = 0; i < 5; i++) {
+            for(int k= 0; k<5; k++)
+            {
+                for(int j=0;j<5;j++)
+                {
+                    //k is the row, j the column on the board and i the layer
+                    JLabel entity = new JLabel();
+                    entity.setBounds(origin.x, origin.y, 96,96);
+                    entity.setIcon(iconArray[i]);
+                    entity.setVisible(false);
+                    entity.setHorizontalAlignment(JLabel.CENTER);
+                    entity.setVerticalAlignment(JLabel.CENTER);
+                    pieces3dMatrix[k][j][i] = entity;
+                    boardContainer.add(entity, Integer.valueOf(i));
+                    origin.x += 96;
+                }
+                origin.x = 0;
+                origin.y += 96;
+            }
+            origin.x = 0;
+            origin.y = 0;
+            /*JButton label = new JButton();
+            label.setBorder(BorderFactory.createLineBorder(Color.CYAN));
+            label.setHorizontalTextPosition(JLabel.CENTER);
+            label.setVerticalTextPosition(JLabel.CENTER);
+            label.setText(""+i);
+            label.setOpaque(false);
+            label.setContentAreaFilled(false);
+            boardContainer.add(label, Integer.valueOf(0));*/
+        }
+    }
+
+    private void updateTowers(int[][] towerPositions, String[][] lastBlock)
+    {
+        //Last block needs to be checked just if it's a Dome
     }
  //__________________________________________UTILITY METHODS__________________________________________________________
 
@@ -229,5 +302,10 @@ public class GameWindow extends JFrame implements WindowInterface{
     @Override
     public void setWindowNotVisible() {
         this.setVisible(false);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        System.out.println(actionEvent.getActionCommand());
     }
 }
