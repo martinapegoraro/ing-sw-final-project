@@ -10,10 +10,20 @@ import it.polimi.ingsw.Utils.GodActivationChoice;
 
 import java.util.ArrayList;
 
+/**
+ * the ActivationGodState class is built in every turn,
+ * when each player has to decide if he wants to activate is god card
+ */
+
 public class ActivationGodState implements State {
     StateEnum stateID;
     private boolean hasFinished;
     ArrayList<Player> playerHaveSelected = new ArrayList<>();
+
+    /**
+     * the builder is called to initialize the state
+      * @param model
+     */
 
     public ActivationGodState(Model model)
     {
@@ -22,11 +32,21 @@ public class ActivationGodState implements State {
         startup(model);
     }
 
+    /**
+     * returns the ID of the state
+     * @return
+     */
+
     @Override
     public StateEnum getID()
     {
         return stateID;
     }
+
+    /**
+     * this method updates the ModelRepresentation, updating the current state
+     * @param model
+     */
 
     @Override
     public void startup(Model model)
@@ -350,6 +370,11 @@ public class ActivationGodState implements State {
 
     }
 
+
+    /**
+     * returns the boolean variable that is used to check if the state has finished
+     * @return
+     */
     @Override
     public boolean hasFinished() {
         return hasFinished;

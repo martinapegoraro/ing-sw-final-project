@@ -5,11 +5,21 @@ import it.polimi.ingsw.Model.Exceptions.ImpossibleAddAnotherPlayerException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this class contains the information of a turn
+ */
+
 public class Turn {
     private  int nTurn;
     private Board boardInstance;
     private ArrayList<Player> listaGiocatori;
     private int idFirstPlayer;
+
+    /**
+     * the builder is used to initialize the first turn of the game
+     * @param playersNamesList
+     */
+
     public Turn(List<String> playersNamesList)
     {
         nTurn=0;
@@ -26,6 +36,10 @@ public class Turn {
         listaGiocatori.get(0).setPlayerActive(true);
     }
 
+    /**
+     * this method is used to set the next player when the turn changes
+     */
+
     public void setNextPlayer()
     {
         nTurn++;
@@ -39,17 +53,32 @@ public class Turn {
 
     }
 
+    /**
+     * the counter is resetted every time all the players (two or three)
+     * have finished their turn
+     */
+
     public void resetTurnCounter()
     {
         nTurn=0;
         listaGiocatori.get(idFirstPlayer).setPlayerActive(true);
     }
 
+    /**
+     * this method sets the id of the player who starts
+     * @param id
+     */
+
     public void setIdFirstPlayer(int id)
     {
         idFirstPlayer=id;
     }
 
+
+    /**
+     * returns the current player
+     * @return
+     */
 
     public Player getCurrentPlayer()
     {
@@ -59,14 +88,32 @@ public class Turn {
         }
         return null;
     }
+
+    /**
+     * returns the instance of the board
+     * @return
+     */
+
     public Board getBoardInstance() {
         return boardInstance;
     }
+
+    /**
+     * returns the god chosen by a given player
+     * @param player
+     * @return
+     */
 
     public GodsList getPlayerGod(Player player)
     {
         return player.getGod();
     }
+
+    /**
+     * adds a player to the list of players
+     * @param name
+     * @throws ImpossibleAddAnotherPlayerException
+     */
 
     public void addPlayer(String name)throws ImpossibleAddAnotherPlayerException
     {
@@ -76,6 +123,11 @@ public class Turn {
             throw new ImpossibleAddAnotherPlayerException("max number of players already reached");
     }
 
+    /**
+     * given a certain box, returns the list of the boxes a worker can move to
+     * @param b
+     * @return
+     */
 
     public List<Box> getPossibleMoves(Box b)
     {
@@ -89,6 +141,11 @@ public class Turn {
 
     }
 
+    /**
+     * given a certain box, returns the possible boxes a worker can build on
+     * @param b
+     * @return
+     */
 
     public List<Box> getPossibleBuildLocations(Box b)
     {
@@ -100,10 +157,21 @@ public class Turn {
         return lista;
     }
 
+    /**
+     * returns the list of players
+     * @return
+     */
+
     public List<Player> getPlayersList()
     {
         return listaGiocatori;
     }
+
+    /**
+     * returns a player, given his ID
+     * @param id
+     * @return
+     */
 
     public Player getPlayer(int id)
     {
