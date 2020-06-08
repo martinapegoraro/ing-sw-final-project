@@ -57,9 +57,10 @@ public class Client implements Observer<Choice> {
 
                                 view.updateWindow(messaggio);
 
-                            } else if (messaggio.getMessage().getMessage().equals("One player left the game")) {
+                            } else if (messaggio.getMessage().getMessage().equals("Exit")) {
                                 System.out.println(messaggio.getMessage().getMessage());
                                 socket.close();
+                                System.exit(0);
                             } else {
 
                                 if (!messaggio.getMessage().getMessage().equals("ping")) {

@@ -7,6 +7,10 @@ import it.polimi.ingsw.Controller.StateEnum;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * an instance of this class is a picture of the model
+ * it's used as a container of all the information required by the view to graphically represents the game
+ */
 public class ModelRepresentation implements Serializable {
     public int[][] workerposition;
     public int[][] towerposition;
@@ -25,6 +29,12 @@ public class ModelRepresentation implements Serializable {
     public boolean[] hasLost;
     public StateEnum currentState;
 
+    /**
+     * given the parameters the builder creates the representation of the model
+     * @param instance
+     * @param players
+     * @param selectedCells
+     */
     public ModelRepresentation(Board instance, List<Player> players, int[][] selectedCells)
     {
         currentState = null;
@@ -137,51 +147,102 @@ public class ModelRepresentation implements Serializable {
 
     }
 
+    /**
+     * @return a matrix of int every worker is identified with the number of the player(0,1,2)
+     * and the coordinates in the matrix are the coordinates of the box where the worker is positioned.
+     */
     public int[][] getWorkerPosition()
     {
         return workerposition;
     }
 
+    /**
+     * @return a matrix of int every element of the matrix is the equivalent of a box
+     * for every tower is saved the height of the tower so the possible values are
+     * 0:ground
+     * 1:Level 1
+     * 2:level 2
+     * 3:Level 3
+     * 4:Dome
+     */
     public int[][] getTowerPosition()
     {
         return towerposition;
     }
 
+    /**
+     * @return an array of strings that contains the names of the gods selected for the game
+     * the position of the god in the array defines the ownership of the god so the god in godList[0] is owned by the
+     * player 0 and so on.
+     * in the first phase of the game this array will be empty and it will be filled run time when the player selects his god
+     */
     public String[] getGodList()
     {
         return godList;
     }
 
+    /**
+     * @return an array containing the players names as the others arrays the position in the array defines the ownership
+     */
     public String[] getPlayersName()
     {
         return playersName;
     }
 
+    /**
+     * @return the number of players in the current game it will be 2 or 3
+     */
     public int getPlayerNum()
     {
         return playerNum;
     }
 
+    /**
+     * @return the index of the current player
+     * the current player is the one who is supposed to play in the current turn
+     */
     public int getActivePlayer()
     {
         return activePlayer;
     }
 
+    /**
+     * @return an array of boolean and every boolean represents if the index player has his god active or not.
+     */
     public boolean[] getActiveGodsList()
     {
         return activeGodsList;
     }
 
+    /**
+     * for every cell return the last block of the tower in that box
+     * this information can't be given by the tower position because same
+     * gods break the construction rules
+     * @return
+     */
     public String[][] getLastBlock()
     {
         return lastBlock;
     }
 
+    /**
+     * for every player we can know if she or he has won
+     */
     public boolean[] getHasWon() { return hasWon;}
 
+    /**
+     * for every player we can know if she or he has lost
+     */
     public boolean[] getHasLost() { return hasLost; }
 
+    /**
+     * returns the current state of the controller
+     */
     public  StateEnum getCurrentState() {return  currentState;}
 
+    /**
+     * return an array list that contains the gods selected by the player 0 at the beginning of the game
+     * it will be used only in the first phase of the game
+     */
     public List<GodsList> getGods() { return gods; }
 }
