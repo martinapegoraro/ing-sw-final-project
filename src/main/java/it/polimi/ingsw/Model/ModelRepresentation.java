@@ -113,20 +113,22 @@ public class ModelRepresentation implements Serializable {
         {
             for (int k = 0; k<=4; k++)
             {
-                    if (instance.getBox(i,k).getTower().getHeight() == 1)
+                //Not a terribly efficient method but works fine and prevents order-related issues in getPieces()
+                //from propagating
+                    if (instance.getBox(i,k).getTower().getPieces().contains(Block.LEVEL1))
                     {
                         lastBlock[i][k] = "Level 1";
                     }
-                    else if (instance.getBox(i,k).getTower().getHeight() == 2) {
+                    if (instance.getBox(i,k).getTower().getPieces().contains(Block.LEVEL2)) {
                         lastBlock[i][k] = "Level 2";
                     }
-                    else if (instance.getBox(i,k).getTower().getHeight() == 3) {
+                    if (instance.getBox(i,k).getTower().getPieces().contains(Block.LEVEL3)) {
                         lastBlock[i][k] = "Level 3";
                     }
-                    else if (instance.getBox(i,k).getTower().getHeight() == 4) {
+                    if (instance.getBox(i,k).getTower().getPieces().contains(Block.DOME)) {
                         lastBlock[i][k] = "Dome";
                     }
-                    else
+                    if(instance.getBox(i,k).getTower().getPieces().isEmpty())
                         lastBlock[i][k] = "Ground";
 
             }

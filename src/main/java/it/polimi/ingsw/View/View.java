@@ -124,7 +124,8 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
         else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null && message.getModelRep().godList[0]!=null)
         {
             currentWindow.setWindowNotVisible();
-            currentWindow=new GameWindow();
+            //currentWindow=new GameWindow();
+            //TODO: Add new GameWindow constructor
             currentWindow.setWindowVisible();
             currentWindow.updateWindow(message);
         }

@@ -24,7 +24,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         JButton godSelect;
         JButton godRefuse;
         JLabel[][][] pieces3dMatrix; //Contains all the game blocks and pieces in a 3d matrix
-    //the top level (0) holds workers, the other levels hold tower blocks
+    //the top Z level (0) holds workers, the other levels hold tower blocks
 
         JButton[][] boardButtons;
 
@@ -53,16 +53,29 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         for (int i = 0; i < 5; i++) {
             for(int k=0; k<5;k++)
             {
-                JButton label = new JButton();
+                //Creates new JButton with the possibility of having transparent color on top
+                JButton label = new JButton()
+                {
+                    protected void paintComponent(Graphics g)
+                    {
+                        g.setColor( getBackground() );
+                        g.fillRect(0, 0, getWidth(), getHeight());
+                        super.paintComponent(g);
+                    }
+                };
                 label.addActionListener(this);
                 label.setActionCommand(""+(i*5+k));
                 label.setBounds(origin.x, origin.y, 96,96);
                 label.setBorder(BorderFactory.createLineBorder(Color.CYAN));
                 label.setHorizontalTextPosition(JLabel.CENTER);
                 label.setVerticalTextPosition(JLabel.CENTER);
+
+                //Without this line the buttons would be visible, I set the alpha value to 0
+                //Using setContentAreaFilled(false) creates graphical glitches
+                label.setBackground(new Color(0,0,0,0));
                 //label.setText(""+(i*5+k));
                 label.setOpaque(false);
-                label.setContentAreaFilled(false);
+                //label.setContentAreaFilled(false);
                 boardContainer.add(label, Integer.valueOf(5));
                 boardButtons[i][k] = label;
                 origin.x += 96;
@@ -213,7 +226,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     private void initialize3dMatrix()
     {
         //The five Z levels are: 4 worker, 3 dome, 2 third level, 1 second level and 0 ground level
-        ImageIcon workerIcon = resizeIcon(getResource("WorkerPurpleM_Cropped"), 60,90);
+        ImageIcon purpleWorkerIcon = resizeIcon(getResource("WorkerPurpleM_Cropped"), 60,90);
         //Workers will probably be painted later, this is just for testing
         ImageIcon domeIcon = resizeIcon(getResource("Dome"), 90,90);
         ImageIcon thirdFloorIcon = resizeIcon(getResource("Tower3"), 90,90);
@@ -221,7 +234,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         ImageIcon groundFloorIcon = resizeIcon(getResource("Tower1"), 90,90);
 
         ImageIcon[] iconArray = new ImageIcon[5];
-        iconArray[4] = workerIcon;
+        iconArray[4] = purpleWorkerIcon;
         iconArray[3] = domeIcon;
         iconArray[2] = thirdFloorIcon;
         iconArray[1] = secondFloorIcon;
@@ -263,9 +276,108 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         }
     }
 
+
+    //_______________________________________WINDOW UPDATER METHODS_________________________________________________
+
     private void updateTowers(int[][] towerPositions, String[][] lastBlock)
     {
+        int towerHeight;
         //Last block needs to be checked just if it's a Dome
+        //The 3d Matrix is updated with tower blocks
+        //Only levels 0 to 3 are used in the matrix, level 4 is reserved for workers
+
+        //cycles through board representation and sets correct visibility for components
+        for(int row=0; row<5;row++)
+        {
+            for(int col=0; col<5; col++)
+            {
+                if(lastBlock[row][col].equals("Dome"))
+                {
+                    //If the last block is a Dome some lower levels might not be present (Atlas power)
+                    towerHeight = towerPositions[row][col];
+                    for(int count=0;count < towerHeight -1;count ++)
+                    {
+                        //Setting blocks under dome visibility
+                        pieces3dMatrix[row][col][count].setVisible(true);
+                    }
+
+                    //Setting the Dome visibility
+                    pieces3dMatrix[row][col][3].setVisible(true);
+                }
+                else
+                    {
+                        towerHeight = towerPositions[row][col];
+                        for(int count=0; count <towerHeight;count++)
+                        {
+                            pieces3dMatrix[row][col][count].setVisible(true);
+                        }
+
+                    }
+            }
+        }
+    }
+
+    private void updateWorkers(int[][] workerPositions)
+    {
+        int playerID;
+        ImageIcon purpleWorkerIcon = resizeIcon(getResource("WorkerPurpleM_Cropped"), 60,90);
+        ImageIcon  redWorkerIcon = resizeIcon(getResource("WorkerRedM_Cropped"), 60,90);
+        ImageIcon  blueWorkerIcon = resizeIcon(getResource("WorkerBlueM_Cropped"), 60,90);
+        ImageIcon currentIcon;
+
+        //cycle through worker matrix and use appropriate worker color 0:red, 1:blue and 2:purple
+        for(int row=0; row<5; row++)
+        {
+            for(int col=0; col<5; col++)
+            {
+                playerID = workerPositions[row][col];
+                //A worker is present in the cell
+                if(playerID != -1)
+                {
+                    if(playerID == 0)
+                    {
+                        currentIcon = redWorkerIcon;
+                    }
+                    else if(playerID == 1)
+                    {
+                        currentIcon = blueWorkerIcon;
+                    }
+                    else
+                        {
+                            currentIcon = purpleWorkerIcon;
+                        }
+
+                    //4 Is the Z level for workers
+                    pieces3dMatrix[row][col][4].setIcon(currentIcon);
+                    pieces3dMatrix[row][col][4].setVisible(true);
+                }
+                else
+                    {
+                        //If the board has no worker in the cell the icon is turned transparent
+                        pieces3dMatrix[row][col][4].setVisible(false);
+                    }
+            }
+        }
+    }
+
+    private void updateSelectedCells(int[][] activeCells)
+    {
+        //cells containing [1] must be selected
+        for(int row=0; row<5;row++)
+        {
+            for(int col=0; col<5; col++)
+            {
+                if(activeCells[row][col] == 1)
+                {
+                    //The button becomes yellow but still allows to see through
+                    boardButtons[row][col].setBackground(new Color(208, 208, 0, 100));
+                }
+               else
+                   {
+                       boardButtons[row][col].setBackground(new Color(0,0,0,0));
+                   }
+            }
+        }
     }
  //__________________________________________UTILITY METHODS__________________________________________________________
 

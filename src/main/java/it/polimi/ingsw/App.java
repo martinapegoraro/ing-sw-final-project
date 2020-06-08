@@ -11,7 +11,7 @@ public class App
 {
     public static void main( String[] args )
     {
-       GameWindow gm=new GameWindow();
-       gm.setWindowVisible();
+       //GameWindow gm=new GameWindow();
+       //gm.setWindowVisible();
     }
 }
