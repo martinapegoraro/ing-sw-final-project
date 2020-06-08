@@ -13,6 +13,13 @@ import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 
 import java.util.ArrayList;
 
+/**
+ * the BuildState class is used every time the player has to build a block,
+ * usually after the MoveState.
+ * It contains the two lists of the boxes where each worker of the current player can build
+ * and two boolean variables which are true if the effects of Atlas or Hephaestus are active
+ */
+
 public class BuildState implements State{
     private boolean hasFinished;
     private StateEnum stateID;
@@ -21,6 +28,15 @@ public class BuildState implements State{
     boolean domeAtAnyLevel;
     boolean twoBlocksHephaestus;
 
+
+    /**
+     * the builder is called to initialize the state
+     * @param pBLW1
+     * @param pBLW2
+     * @param domeAAL
+     * @param twoBlocksBuilt
+     * @param model
+     */
 
     public BuildState(ArrayList<Box> pBLW1,ArrayList<Box> pBLW2, boolean domeAAL, boolean twoBlocksBuilt, Model model)
     {
@@ -38,21 +54,46 @@ public class BuildState implements State{
         startup(model);
     }
 
+    /**
+     * modifies the modelif a player has lost
+     * @param model
+     */
+
     private void playerHasLost(Model model)
     {
         model.getTurn().getCurrentPlayer().setHasLost();
 
     }
+
+    /**
+     * returns the ID of the state
+     * @return
+     */
+
     @Override
     public StateEnum getID() {
         return StateEnum.Build;
     }
+
+    /**
+     * updetes the ModelReoresentation with the current state
+     * @param model
+     */
 
     @Override
     public void startup(Model model) {
         model.updateModelRep(StateEnum.Build);
     }
 
+
+    /**
+     * updates the model using the BuildChoice of the current player,
+     * taking into account the activated gods
+     * @param userChoice
+     * @param model
+     * @throws BuildErrorException
+     * @throws WrongChoiceException
+     */
 
     @Override
     public void update(Choice userChoice, Model model) throws BuildErrorException, WrongChoiceException {
@@ -184,6 +225,11 @@ public class BuildState implements State{
             throw new WrongChoiceException("Wrong choice in Build, received: "+ userChoice.toString());
         }
     }
+
+    /**
+     * returns the boolean variable that is used to check if the state has finished
+     * @return
+     */
 
     @Override
     public boolean hasFinished() {
