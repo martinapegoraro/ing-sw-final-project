@@ -7,26 +7,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * the tower class represents a tower built on a box
+ */
 public class Tower {
 
     private ArrayList<Block> pieces;
 
+    /**
+     * the builder crates an array list of box at the beginning it will be empty
+     */
     public Tower(){
         pieces=new ArrayList<Block>();
     }
 
+    /**
+     * return the height of a tower
+     * the height is equivalent at the number of blocks in the tower not which pieces are in the tower
+     * @return
+     */
     public int getHeight(){
 
         return pieces.size();
     }
 
+    /**
+     * returns the list of the pieces which are in the tower
+     * @return
+     */
     public List<Block> getPieces()
     {
         return pieces;
     }
 
-    /*Il seguente metodo verrà usato nel caso in cui non si debba
-    seguire l'ordine di costruzione predefinito dal regolamento di gioco*/
+    /**
+     * this build method is used when don't have to follow the build order defined by the game's rules
+     * @param b
+     * @throws TowerCompleteException
+     */
     public void build(Block b) throws TowerCompleteException{
         if(pieces.contains(Block.DOME))
             throw new TowerCompleteException("This tower is already complete");
@@ -34,8 +52,11 @@ public class Tower {
             pieces.add(b);
     }
 
-    /*Il seguente metodo verrà chiamato in tutti i casi si voglia costruire in una cella
-    tranne i casi particolari*/
+
+    /**
+     * this build method is used when I have to build a block in a tower but not using the gods effects which changes the build rules
+     * @throws TowerCompleteException
+     */
     public void build() throws TowerCompleteException{
         if(getHeight()==0)
             pieces.add(Block.LEVEL1);

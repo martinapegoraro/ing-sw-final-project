@@ -4,12 +4,25 @@ import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
 import it.polimi.ingsw.Model.Exceptions.MoveErrorException;
 import it.polimi.ingsw.Model.Exceptions.TowerCompleteException;
 
+/**
+ * the Worker class contains all the information of a worker
+ */
 public class Worker{
     private Box position;
-    private int height; //Altezza della torre su cui si trova il worker, per non dover passare da Box e Tower
+    /**
+     * if the worker is on a tower this attribute represents his height
+     * in this way we don't need to go in the box and his tower to have this information
+     */
+    private int height;
     private int posX,posY;
-    //Chiamo il costruttore solo dopo aver assegnato una casella al worker
 
+
+    /**
+     * the builder is called only have selected the first position of the worker
+     * @param b
+     * @throws NullPointerException
+     * @throws BoxAlreadyOccupiedException
+     */
     public Worker(Box b) throws NullPointerException, BoxAlreadyOccupiedException
     {
         if(b == null)
@@ -27,6 +40,11 @@ public class Worker{
         updatePosition();
     }
 
+    /**
+     * change the current position of the worker in the box given as parameter
+     * @param to
+     * @throws MoveErrorException
+     */
     public void move(Box to) throws MoveErrorException
     {
         if(position.isAdjacent(to))
@@ -64,22 +82,40 @@ public class Worker{
         }
     }
 
+    /**
+     * return the position of the worker
+     * @return
+     */
     public Box getPosition()
     {
         return position;
     }
 
+    /**
+     * updates the informations of the worker such as coordinates (tacken frome the box where the worker is placed)
+     * and his height
+     */
     private void updatePosition()
     {
         posX=position.getCoord()[0];
         posY=position.getCoord()[1];
         height=position.getTower().getHeight();
     }
+
+    /**
+     * this method is used by the worker to build in the selected cell
+     * @param where
+     */
     public void build(Box where)
     {
         where.build();
     }
 
+    /**
+     * this method is used by the worker to build a specified block in the selected cell
+     *
+     * @param where
+     */
     public void build(Box where,Block nextBlock)
     {
         try {
@@ -90,6 +126,10 @@ public class Worker{
         }
     }
 
+    /**
+     * returns a string containing the basic information of the worker
+     * @return
+     */
     public String toString()
     {
        String s="x: "+posX+"\ty: "+posY+"\theight: "+height;

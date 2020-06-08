@@ -113,11 +113,7 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
                 currentWindow.setWindowNotVisible();
                 currentWindow=new GodSelectionWindow(this,idPlayer,message.getModelRep());
                 currentWindow.setWindowVisible();
-               // System.out.println("diventa visibile la scelta del singolo god");
-                //roba di prova da togliere
-                /*Choice c=new GodChoice(message.getModelRep().gods.get(idPlayer).toString());
-                c.setId(idPlayer);
-                notify(c);*/
+
             }
             else
             {
@@ -130,6 +126,11 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
             currentWindow.setWindowNotVisible();
             currentWindow=new GameWindow();
             currentWindow.setWindowVisible();
+            currentWindow.updateWindow(message);
+        }
+        else
+        {
+            currentWindow.updateWindow(message);
         }
     }
 
