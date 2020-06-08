@@ -2,6 +2,8 @@ package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.MessageToVirtualView;
+import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ExitChoice;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,10 +32,11 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
         //Variables
     int myID;
+    View view;
 
-    public GameWindow(String[] playersName, ArrayList<GodsList> playersGods, int playerID) {
+    public GameWindow(String[] playersName, ArrayList<GodsList> playersGods, int playerID, View view) {
         myID = playerID;
-
+        this.view=view;
         //Main JFrame setup
         this.setTitle("Santorini Game");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -121,6 +124,16 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         exitButton = new JButton("EXIT");
         exitButton.setBounds(1000-180-30, 10, 180, 50);
 
+        this.addWindowListener(new java.awt.event.WindowAdapter(){
+            public void windowClosing(java.awt.event.WindowEvent windowEvent){
+                if(JOptionPane.showConfirmDialog(playersSideBar,"Are you sure you want quit the game?","Quit the game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
+                    Choice c=new ExitChoice();
+                    c.setId(myID);
+                    view.update(c);
+                    System.exit(0);
+                }
+            }
+        });
 
         //Packing all the objects
         this.add(playersSideBar);
@@ -135,7 +148,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         this.setSize(1000, 700);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
-
     }
 
  /*   public void updateInfoPanel(ModelRepresentation modelRep)
@@ -178,7 +190,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                     temp.setVerticalTextPosition(JLabel.BOTTOM);
                     temp.setHorizontalTextPosition(JLabel.CENTER);
                     temp.setIconTextGap(10);
-
                     playersSideBar.add(temp);
                     opponentsMiniatures.add(temp);
                 }
@@ -279,6 +290,28 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     //_______________________________________WINDOW UPDATER METHODS_________________________________________________
 
+    private void updateCurrentPlayer(int currentPlayer,String[] playerNames)
+    {
+
+        playerCard.setBackground(new Color(255,255,255));
+        if(myID==currentPlayer)
+        {
+            playerCard.setOpaque(true);
+            playerCard.setBackground(new Color(250,150,0));
+        }
+        else
+        {
+            for(JLabel l:opponentsMiniatures)
+            {
+                l.setBackground(new Color(255,255,255));
+                if(l.getText().equals(playerNames[currentPlayer]))
+                {
+                    l.setOpaque(true);
+                    l.setBackground(new Color(0,150,250));
+                }
+            }
+        }
+    }
     private void updateTowers(int[][] towerPositions, String[][] lastBlock)
     {
         int towerHeight;

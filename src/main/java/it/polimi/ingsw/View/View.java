@@ -1,5 +1,7 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Model.Exceptions.NotExistingGodException;
+import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.ModelRepresentation;
 import it.polimi.ingsw.Utils.Choice;
@@ -8,6 +10,7 @@ import it.polimi.ingsw.Utils.GodChoice;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -124,8 +127,16 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
         else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null && message.getModelRep().godList[0]!=null)
         {
             currentWindow.setWindowNotVisible();
-            //currentWindow=new GameWindow();
-            //TODO: Add new GameWindow constructor
+            ArrayList<GodsList> list=new ArrayList<GodsList>();
+            for(String s:message.getModelRep().godList)
+            {
+                try {
+                    list.add(GodsList.getGod(s));
+                } catch (NotExistingGodException e) {
+                    e.printStackTrace();
+                }
+            }
+            currentWindow=new GameWindow(message.getModelRep().playersName,list,idPlayer,this);
             currentWindow.setWindowVisible();
             currentWindow.updateWindow(message);
         }

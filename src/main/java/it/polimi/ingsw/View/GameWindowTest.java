@@ -10,6 +10,7 @@ public class GameWindowTest {
     {
         ArrayList<GodsList> listaGod = new ArrayList<>();
         String[] nomiPlayer;
+        View v=new View();
         if(PLAYERS == 3)
         {
             nomiPlayer = new String[3];
@@ -32,7 +33,7 @@ public class GameWindowTest {
                 //listaGod.add(GodsList.HEPHAESTUS);
         }
 
-        GameWindow f = new GameWindow(nomiPlayer,listaGod, 0);
+        GameWindow f = new GameWindow(nomiPlayer,listaGod, 0,v);
         f.setWindowVisible();
     }
 }
