@@ -11,6 +11,13 @@ import it.polimi.ingsw.View.VirtualView;
 import javax.crypto.MacSpi;
 import java.util.*;
 
+/**
+ * The lobby class handles the creation of a game
+ * every time a client register itself in the server he have tu put his name and the number of player whit he or she wants to play
+ * the client using the number of players puts the client in a different lobby when the lobby is full the lobby class
+ * starts the game: it creates the model,the controller and the virtual view and bound them together following the
+ * mvc patter
+ */
 public class Lobby {
 
     private Map<SocketClientConnection,String> connectionMap;
@@ -20,6 +27,13 @@ public class Lobby {
     private int numberOfPlayers;
 
 
+    /**
+     * the builder of the class takes as parameter
+     * @param connection
+     * @param nome
+     * @param numberOfPlayers
+     *and puts them in a hasMap
+     */
     public Lobby(SocketClientConnection connection,String nome,int numberOfPlayers)
     {
 
@@ -32,6 +46,13 @@ public class Lobby {
 
     }
 
+    /**
+     * this method puts in a lobby a new client
+     * it checks if in the lobby there is no other players with the same name
+     *
+     * @param conn
+     * @param name
+     */
     public synchronized void  addPlayer(SocketClientConnection conn,String name)
     {
         if(!connectionMap.containsValue(name)) {
@@ -45,24 +66,46 @@ public class Lobby {
         }
 
     }
+
+    /**
+     * return the number of registered clients in the lobby at the moment
+     * @return
+     */
     public int getNumberInTheLobby()
     {
         return connectionMap.size();
     }
 
+    /**
+     * return the number of player supposed to be in the lobby in order to start the game.
+     * @return
+     */
     public int getNumberOfPlayers(){
         return numberOfPlayers;
     }
+
+    /**
+     * given a SocketClientConnection as @param conn
+     * @return true if the client who has that connection is in the lobby
+     */
     public synchronized boolean isInInTheLobby(SocketClientConnection conn)
     {
         return connectionMap.get(conn) != null;
     }
 
+    /**
+     * given the  @param connection
+     * removes the client from the lobby
+     */
     public synchronized void removePlayer(SocketClientConnection connection)
     {
         connectionMap.remove(connection);
     }
 
+    /**
+     * creates an instance of the model
+     *
+     */
     private  void instantiateModel()
     {
 
@@ -70,6 +113,10 @@ public class Lobby {
         model=new Model(nomiGiocatori);
     }
 
+    /**
+     * creates an instance of the controller
+     *
+     */
     private void createController()
     {
         try {
@@ -79,7 +126,10 @@ public class Lobby {
         }
     }
 
-    //TODO:Gestione virtual view
+    /**
+     * creates for every client in the lobby his instance of the VirtualView
+     *
+     */
     private void createVirtualView()
     {
         int i=0;
@@ -89,6 +139,10 @@ public class Lobby {
         }
     }
 
+    /**
+     * this method creates model view controller and connects them one another
+     * following the MVC pattern
+     */
     public void startGame()
     {
 
@@ -113,6 +167,7 @@ public class Lobby {
         }
 
     }
+
 
     public void print()
     {

@@ -27,6 +27,12 @@ public class Client implements Observer<Choice> {
     private View view;
 
 
+    /**
+     * given the parameters
+     * @param ip
+     * @param port
+     * the client creates an instance of the view and put itself as observer of the view
+     */
     public Client(String ip,int port)
     {
         this.ip=ip;
@@ -36,15 +42,31 @@ public class Client implements Observer<Choice> {
     }
 
 
-
+    /**
+     * checks if the client is still active
+     * @return
+     */
     public synchronized boolean isActive(){
         return active;
     }
 
+    /**
+     * sets the active following the parameter
+     * @param active
+     */
     public synchronized void setActive(boolean active){
         this.active = active;
     }
 
+    /**
+     * the method creates a parallel thread and read from the ObjectInputStream
+     * once read the messageToVirtualView from the stream
+     * if the message is a modelRep I update the view
+     * if the message is an exit message I close the client
+     * if the message is a ping message I reply to the ping
+     * @param in
+     * @return
+     */
     public Thread asyncReadFromSocket(final ObjectInputStream in){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -82,6 +104,12 @@ public class Client implements Observer<Choice> {
         return t;
     }
 
+    /**
+     * this method creates a new thread which sends a choice in the ObjectOutputStream
+     * @param c
+     * @param out
+     * @return
+     */
     public Thread asyncWriteToSocket(Choice c, final ObjectOutputStream out){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -102,6 +130,12 @@ public class Client implements Observer<Choice> {
     }
 
 
+    /**
+     * the run methods creates the connection between client and server
+     * and until the client is active it keep reading from the socket
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public void run() throws IOException, InterruptedException {
         socket=new Socket(ip,port);
         out =new ObjectOutputStream(socket.getOutputStream());
@@ -130,6 +164,10 @@ public class Client implements Observer<Choice> {
         }
     }
 
+    /**
+     * the client update recives as parameter a choice object aas sends it through the socket
+     * @param c
+     */
     @Override
     public void update(Choice c) {
         Thread t1 = asyncWriteToSocket(c, out);

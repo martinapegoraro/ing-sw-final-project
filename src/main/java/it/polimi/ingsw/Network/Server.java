@@ -16,6 +16,10 @@ public class Server {
     private List<Lobby> lobbiesList;
 
 
+    /**
+     * the server builder creates an instance of the serverSocket
+     * @throws IOException
+     */
     public Server() throws IOException
     {
         this.serverSocket=new ServerSocket(PORT);
@@ -24,11 +28,18 @@ public class Server {
         lobbiesList=null;
     }
 
+    /**
+     * given a socketClientConnection this method adds it to the connections list
+     * @param c
+     */
     private synchronized void registerConnection(SocketClientConnection c)
     {
         connections.add(c);
     }
 
+    /**
+     * this method accepts connections
+     */
     public void run(){
         while(true){
             try {
@@ -43,6 +54,13 @@ public class Server {
         }
     }
 
+    /**
+     * once a client is connected to the sever it sends the player name and the number of players ad it is put in the correct
+     * Lobby
+     * @param connection
+     * @param name
+     * @param numberOfPlayer
+     */
     public void addToLobby(SocketClientConnection connection,String name,int numberOfPlayer)
     {
         if(lobbiesList==null){
@@ -60,6 +78,10 @@ public class Server {
         }
     }
 
+    /**
+     * this method removes a connection
+     * @param c
+     */
     public synchronized void deregisterConnection(SocketClientConnection c)
     {
         for (Lobby l:lobbiesList) {
