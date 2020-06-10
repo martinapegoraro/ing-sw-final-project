@@ -14,8 +14,8 @@ import java.util.List;
 public class ModelRepresentation implements Serializable {
     public int[][] workerposition;
     public int[][] towerposition;
-    public List<GodsList> gods;
-    public String[] godList;
+    public List<GodsList> gods; //Contains the list of gods selected by player 0
+    public String[] godList;//Contains the list of gods assigned to each player, index = playerID
     public String[] playersName;
     public int playerNum;
     public int activePlayer;

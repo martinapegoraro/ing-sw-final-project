@@ -1,7 +1,9 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Controller.StateEnum;
 import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.MessageToVirtualView;
+import it.polimi.ingsw.Model.ModelRepresentation;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.ExitChoice;
 
@@ -32,9 +34,11 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
         //Variables
     int myID;
+    String[] playersName;
     View view;
 
     public GameWindow(String[] playersName, ArrayList<GodsList> playersGods, int playerID, View view) {
+        this.playersName = playersName;
         myID = playerID;
         this.view=view;
         //Main JFrame setup
@@ -119,6 +123,9 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         playerCard.setVerticalTextPosition(JLabel.TOP);
         playerCard.setHorizontalTextPosition(JLabel.CENTER);
         playerCard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        playerCard.setBackground(Color.YELLOW);
+        playerCard.setOpaque(false);
+
 
         //EXIT BUTTON
         exitButton = new JButton("EXIT");
@@ -150,27 +157,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         this.setLayout(null);
     }
 
- /*   public void updateInfoPanel(ModelRepresentation modelRep)
-    {
-
-        playersList=new JList(modelRep.playersName.clone());
-        currentPlayerTextField.setText(modelRep.playersName[modelRep.activePlayer]);
-        currentStateTextField.setText(modelRep.currentState.toString());
-        fieldPanel.getBox(2,2).setImage();
-        this.pack();
-    }
-
-    public void updateGodsPanel(ModelRepresentation modelRep)
-    {
-        for (String god:modelRep.getGodList()) {
-            godPanelList.add(new BackgroundPanel("resources/"+god+".png"));
-        }
-        for (BackgroundPanel b : godPanelList) {
-            godsPanel.add(b);
-        }
-        this.pack();
-
-    }*/
 //_________________________________________INITIALIZER METHODS________________________________________________________
 
     private void initializePlayerSidebar(String[] playersName, ArrayList<GodsList> playersGods, int playerID)
@@ -190,6 +176,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                     temp.setVerticalTextPosition(JLabel.BOTTOM);
                     temp.setHorizontalTextPosition(JLabel.CENTER);
                     temp.setIconTextGap(10);
+                    temp.setBackground(Color.YELLOW);
+                    temp.setOpaque(false);
                     playersSideBar.add(temp);
                     opponentsMiniatures.add(temp);
                 }
@@ -290,24 +278,22 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     //_______________________________________WINDOW UPDATER METHODS_________________________________________________
 
-    private void updateCurrentPlayer(int currentPlayer,String[] playerNames)
+    private void updateCurrentPlayer(int currentPlayer)
     {
 
-        playerCard.setBackground(new Color(255,255,255));
+        playerCard.setForeground(Color.BLACK);
         if(myID==currentPlayer)
         {
-            playerCard.setOpaque(true);
-            playerCard.setBackground(new Color(250,150,0));
+            playerCard.setForeground(Color.RED);
         }
         else
         {
             for(JLabel l:opponentsMiniatures)
             {
-                l.setBackground(new Color(255,255,255));
-                if(l.getText().equals(playerNames[currentPlayer]))
+                l.setForeground(Color.BLACK);
+                if(l.getText().equals(playersName[currentPlayer]))
                 {
-                    l.setOpaque(true);
-                    l.setBackground(new Color(0,150,250));
+                    l.setForeground(Color.RED);
                 }
             }
         }
@@ -358,6 +344,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         ImageIcon  blueWorkerIcon = resizeIcon(getResource("WorkerBlueM_Cropped"), 60,90);
         ImageIcon currentIcon;
 
+
         //cycle through worker matrix and use appropriate worker color 0:red, 1:blue and 2:purple
         for(int row=0; row<5; row++)
         {
@@ -382,6 +369,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
                     //4 Is the Z level for workers
                     pieces3dMatrix[row][col][4].setIcon(currentIcon);
+                    //pieces3dMatrix[row][col][4].setVerticalAlignment(JLabel.TOP);
                     pieces3dMatrix[row][col][4].setVisible(true);
                 }
                 else
@@ -412,6 +400,65 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             }
         }
     }
+
+    private void showErrorMessage(String message)
+    {
+        msgToUser.setText(message);
+    }
+
+    private void updateCurrentState(String state)
+    {
+        currentState.setText("Current State: "+state);
+    }
+
+    private void showGodButtons(boolean areVisible)
+    {
+        if(areVisible)
+        {
+            godSelect.setEnabled(true);
+            godRefuse.setEnabled(false);
+        }
+        else
+            {
+                godSelect.setEnabled(false);
+                godSelect.setEnabled(false);
+            }
+    }
+
+    private void updateSelectedGods(boolean[] activeGodsList)
+    {
+        playerCard.setOpaque(false);
+        if(activeGodsList[myID])
+        {
+            playerCard.setOpaque(true);
+        }
+
+        for(int count=0; count < activeGodsList.length; count++)
+        {
+            if(count == myID)
+            {
+                playerCard.setOpaque(false);
+                if(activeGodsList[myID])
+                {
+                        playerCard.setOpaque(true);
+                }
+            }
+            else if(activeGodsList[count])
+            {
+               for(JLabel l:opponentsMiniatures)
+               {
+                   l.setOpaque(false);
+                   if(l.getText().equals(playersName[count]))
+                   {
+                       l.setOpaque(true);
+                   }
+               }
+            }
+        }
+
+    }
+
+
  //__________________________________________UTILITY METHODS__________________________________________________________
 
     private ImageIcon getResource(String name)
@@ -433,10 +480,48 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         return new ImageIcon( newimg );
     }
 
-
+    /**
+     * @param update contains model representation or errors received from the server
+     * the method represents graphically what's inside the update message*/
     @Override
     public void updateWindow(MessageToVirtualView update) {
+        //Checks if the message is an error or a modelRep
+        if(update.isModelRep())
+        {
+            //Message is a modelRep
+            ModelRepresentation modelRep = update.getModelRep();
 
+            updateCurrentPlayer(modelRep.getActivePlayer());
+
+            updateCurrentState(modelRep.getCurrentState().toString());
+
+            if(modelRep.getCurrentState() == StateEnum.ActivationGod)
+            {
+                showGodButtons(true);
+            }
+            else
+                {
+                    showGodButtons(false);
+                }
+
+            updateTowers(modelRep.getTowerPosition(), modelRep.getLastBlock());
+
+            updateWorkers(modelRep.getWorkerPosition());
+
+            updateSelectedCells(modelRep.activeCells);
+
+            updateSelectedGods(modelRep.getActiveGodsList());
+
+            //TODO: Missing handler for win and lose cases
+        }
+        else
+            {
+                //Message is an error
+                if(update.getPlayerName() == null || update.getPlayerName().equals(playersName[myID]))
+                {
+                    showErrorMessage(update.getMessage().getMessage());
+                }
+            }
     }
 
     @Override

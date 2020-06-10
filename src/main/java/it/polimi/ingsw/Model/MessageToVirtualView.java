@@ -85,4 +85,8 @@ public class MessageToVirtualView implements Serializable {
     {
         return modelRep;
     }
+
+    /**
+     * @return the player whom the message is directed to*/
+    public String getPlayerName(){return playerName;}
 }
