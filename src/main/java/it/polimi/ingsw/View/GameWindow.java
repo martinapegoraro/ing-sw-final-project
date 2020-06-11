@@ -4,8 +4,8 @@ import it.polimi.ingsw.Controller.StateEnum;
 import it.polimi.ingsw.Model.GodsList;
 import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.ModelRepresentation;
+import it.polimi.ingsw.Utils.*;
 import it.polimi.ingsw.Utils.Choice;
-import it.polimi.ingsw.Utils.ExitChoice;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +35,9 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         //Variables
     int myID;
     String[] playersName;
+    ArrayList<int[]> myWorkerCells = new ArrayList<>(); //Saves the position of workers owned by the player sent with MsgToVirtualView
     View view;
+    StateEnum presentState = StateEnum.SetUp;
 
     public GameWindow(String[] playersName, ArrayList<GodsList> playersGods, int playerID, View view) {
         this.playersName = playersName;
@@ -212,6 +214,13 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
         godSelect = new JButton("ACTIVATE");
         godRefuse = new JButton("DEACTIVATE");
+        //Activating buttons effects
+        godSelect.setActionCommand("Activate");
+        godRefuse.setActionCommand("Deactivate");
+        godSelect.addActionListener(this);
+        godRefuse.addActionListener(this);
+        godSelect.setEnabled(false);
+        godRefuse.setEnabled(false);
 
         buttonContainer.add(godSelect);
         buttonContainer.add(godRefuse);
@@ -338,6 +347,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     private void updateWorkers(int[][] workerPositions)
     {
+        myWorkerCells.clear();
+        int[] currentWorker = new int[2];
         int playerID;
         ImageIcon purpleWorkerIcon = resizeIcon(getResource("WorkerPurpleM_Cropped"), 60,90);
         ImageIcon  redWorkerIcon = resizeIcon(getResource("WorkerRedM_Cropped"), 60,90);
@@ -366,6 +377,14 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                         {
                             currentIcon = purpleWorkerIcon;
                         }
+
+                    if(playerID == myID)
+                    {
+                        //worker belongs to this player, updating workerPos array
+                        currentWorker[0] = row;
+                        currentWorker[1] = col;
+                        myWorkerCells.add(currentWorker);
+                    }
 
                     //4 Is the Z level for workers
                     pieces3dMatrix[row][col][4].setIcon(currentIcon);
@@ -406,9 +425,10 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         msgToUser.setText(message);
     }
 
-    private void updateCurrentState(String state)
+    private void updateCurrentState(StateEnum state)
     {
-        currentState.setText("Current State: "+state);
+        currentState.setText("Current State: "+state.toString());
+        presentState = state;
     }
 
     private void showGodButtons(boolean areVisible)
@@ -416,12 +436,12 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         if(areVisible)
         {
             godSelect.setEnabled(true);
-            godRefuse.setEnabled(false);
+            godRefuse.setEnabled(true);
         }
         else
             {
                 godSelect.setEnabled(false);
-                godSelect.setEnabled(false);
+                godRefuse.setEnabled(false);
             }
     }
 
@@ -488,12 +508,13 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         //Checks if the message is an error or a modelRep
         if(update.isModelRep())
         {
+
             //Message is a modelRep
             ModelRepresentation modelRep = update.getModelRep();
 
             updateCurrentPlayer(modelRep.getActivePlayer());
 
-            updateCurrentState(modelRep.getCurrentState().toString());
+            updateCurrentState(modelRep.getCurrentState());
 
             if(modelRep.getCurrentState() == StateEnum.ActivationGod)
             {
@@ -508,7 +529,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
             updateWorkers(modelRep.getWorkerPosition());
 
-            updateSelectedCells(modelRep.activeCells);
+            if(modelRep.activePlayer == myID)
+                updateSelectedCells(modelRep.activeCells);
 
             updateSelectedGods(modelRep.getActiveGodsList());
 
@@ -537,5 +559,75 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         System.out.println(actionEvent.getActionCommand());
+        Choice choiceToSend = null;
+        int clickedCell;
+        int[] cellArray = new int[2];
+
+        if(actionEvent.getActionCommand().equals("Activate"))
+        {
+            showGodButtons(false);
+            choiceToSend = new GodActivationChoice(true);
+        }
+        else if(actionEvent.getActionCommand().equals("Deactivate"))
+        {
+            showGodButtons(false);
+            choiceToSend = new GodActivationChoice(false);
+        }
+        else if(actionEvent.getActionCommand().equals("Exit"))
+        {
+            choiceToSend = new ExitChoice();
+        }
+        else
+            {
+                //a cell has been clicked
+                try {
+                    clickedCell = Integer.parseInt(actionEvent.getActionCommand());
+                    cellArray[0] = clickedCell % 5;
+                    cellArray[1] = clickedCell / 5;
+
+                            //Depending on the state I'll send different messages
+                            switch(presentState){
+                                case SetUp:
+                                    choiceToSend = new InitialPositionChoice(cellArray[0], cellArray[1]);
+                                    break;
+
+                                case Move:
+                                    if(myWorkerCells.contains(cellArray))
+                                    {
+                                        choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
+                                    }
+                                    else
+                                        {
+                                            choiceToSend = new MoveChoice(cellArray[0], cellArray[1]);
+                                        }
+                                    break;
+
+                                case Build:
+
+                                    if(myWorkerCells.contains(cellArray))
+                                    {
+                                        choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
+                                    }
+                                    else
+                                    {
+                                        choiceToSend = new BuildChoice(cellArray[0], cellArray[1]);
+                                    }
+                                    break;
+
+                        }
+                }
+                catch (NumberFormatException e)
+                {
+                    System.out.println("Message is not supported!");
+                }
+
+            }
+
+        if(choiceToSend != null)
+        {
+            choiceToSend.setId(myID);
+            view.update(choiceToSend);
+        }
+
     }
 }
