@@ -324,11 +324,11 @@ public class Context implements Observer<Choice> {
         {
             //possibleBuildList empties if the worker can't build under itself
             //Zeus chooses only god effect cards
-            if(workerPositions.get(0).getTower().getHeight()<=2&& workerPositions.get(0).getTower().getPieces().contains(Block.DOME))
+            if(workerPositions.get(0).getTower().getHeight()<=2&& !workerPositions.get(0).getTower().getPieces().contains(Block.DOME))
                 possibleBuildList0.add(workerPositions.get(0));
             else
                 possibleBuildList0=new ArrayList<>();
-            if(workerPositions.get(1).getTower().getHeight()<=2&& workerPositions.get(1).getTower().getPieces().contains(Block.DOME))
+            if(workerPositions.get(1).getTower().getHeight()<=2&& !workerPositions.get(1).getTower().getPieces().contains(Block.DOME))
                 possibleBuildList1.add(workerPositions.get(1));
             else
                 possibleBuildList1=new ArrayList<>();

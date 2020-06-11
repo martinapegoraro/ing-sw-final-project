@@ -149,7 +149,8 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                     else
                     {
                         System.out.println("recived pong");
-                        task.cancel();
+                        if(task!=null)
+                            task.cancel();
                         pingCounter++;
                         if(pingCounter==10)
                             close();

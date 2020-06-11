@@ -59,6 +59,7 @@ public class BeginTurnState implements State {
         else
             {
                 model.updateModelRep(stateID);
+
                 hasFinished = true;
             }
 

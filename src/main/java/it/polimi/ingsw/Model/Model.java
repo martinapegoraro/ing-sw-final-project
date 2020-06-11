@@ -54,6 +54,8 @@ public class Model extends Observable<MessageToVirtualView> {
         int [][] selectedCells = new int[5][5];
         modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList(),selectedCells);
         //modelRep.currentState = null; This is not necessary, moved in ModelRep constructor
+        StateEnum oldState = modelRep.currentState;
+        modelRep.currentState = oldState;
         notify(new MessageToVirtualView(modelRep));
     }
 

@@ -100,23 +100,22 @@ public class MoveState implements State {
                 else
                     {
                         model.notify(new MessageToVirtualView(new SelectWorkerPositionErrorMessage()));
-                        throw new MoveErrorException("Selected Worker does not belong to player: "
-                                + actingPlayer.getPlayerName()+"!");
+                       // throw new MoveErrorException("Selected Worker does not belong to player: "
+                        //        + actingPlayer.getPlayerName()+"!");
                     }
             }
             else
                 {
                     model.notify(new MessageToVirtualView(new SelectWorkerPositionErrorMessage()));
-                    throw new MoveErrorException("No Worker present in the box selected by "
-                            + actingPlayer.getPlayerName()+"!");
+                    //throw new MoveErrorException("No Worker present in the box selected by "
+                    //        + actingPlayer.getPlayerName()+"!");
                 }
         }
         else if(userChoice.toString().equals("MoveChoice"))
         {
             MoveChoice currentChoice;
             currentChoice = (MoveChoice)userChoice;
-            Box b;
-
+            Box b=new Box(0,0);
             try
             {
                 b = model.getTurn().getBoardInstance().getBox(currentChoice.x,currentChoice.y);
@@ -124,14 +123,14 @@ public class MoveState implements State {
             catch(IndexOutOfBoundsException ex)
             {
                 model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
-                throw new WrongChoiceException("MoveChoice coords are invalid: " + currentChoice.x + "," + currentChoice.y);
+                //throw new WrongChoiceException("MoveChoice coords are invalid: " + currentChoice.x + "," + currentChoice.y);
             }
 
             //Checks if a worker has already been selected
             if(actingPlayer.getSelectedWorker() == null)
             {
                 model.notify(new MessageToVirtualView(new SelectedCellErrorMessage()));
-                throw new MoveErrorException("No worker has been selected for the move!");
+                //throw new MoveErrorException("No worker has been selected for the move!");
             }
 
             //Checks which worker is currently active and if selected cell is compatible with worker
