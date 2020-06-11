@@ -199,8 +199,12 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         }
         else if("submit".equals(actionEvent.getActionCommand()))
         {
+            if(selectedCards.size() == 0)
+            {
+                submitButton.setEnabled(false);
+            }
             GodChoice c=new GodChoice(selectedCards.get(0).getName());
-           c.setId(playerNum);
+            c.setId(playerNum);
             view.update(c);
         }
         else
