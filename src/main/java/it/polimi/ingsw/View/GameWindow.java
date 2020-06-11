@@ -132,6 +132,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         //EXIT BUTTON
         exitButton = new JButton("EXIT");
         exitButton.setBounds(1000-180-30, 10, 180, 50);
+        exitButton.addActionListener(this);
+        exitButton.setActionCommand("Exit");
 
         this.addWindowListener(new java.awt.event.WindowAdapter(){
             public void windowClosing(java.awt.event.WindowEvent windowEvent){
@@ -576,6 +578,9 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         else if(actionEvent.getActionCommand().equals("Exit"))
         {
             choiceToSend = new ExitChoice();
+            //choiceToSend.setId(myID);
+            //view.update(choiceToSend);
+            //System.exit(0);
         }
         else
             {
