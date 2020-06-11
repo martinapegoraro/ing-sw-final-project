@@ -65,6 +65,14 @@ public class Turn {
     }
 
     /**
+     * @return the id of the first player
+     */
+    public int getIdFirstPlayer()
+    {
+        return idFirstPlayer;
+    }
+
+    /**
      * this method sets the id of the player who starts
      * @param id
      */

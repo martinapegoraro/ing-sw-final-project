@@ -148,7 +148,7 @@ public class SetUpState implements State{
                     boxList.clear();
 
                     //Exits out of SetUpState if the actingPlayer is the last
-                    if (actingPlayer == playerList.get(playerList.size() - 1)) {
+                    if (actingPlayer == ((playerList.get((playerList.size() - 1+model.getTurn().getIdFirstPlayer())%playerList.size())))) {
                         hasFinished = true;
                     }
                     //the set next player doesn't go in the else branch because it has to be done in any case otherwise after the

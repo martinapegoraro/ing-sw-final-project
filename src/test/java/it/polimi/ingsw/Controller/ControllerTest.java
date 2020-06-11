@@ -65,16 +65,16 @@ public class ControllerTest {
         //the selected player starts positioning his workers
 
         //Players place setup workers
-        c= new SelectWorkerCellChoice(0,0);
+        c= new InitialPositionChoice(0,0);
         c.setId(0);
         controllerUnderTest.update(c);
-        c= new SelectWorkerCellChoice(1,1);
+        c= new InitialPositionChoice(1,1);
         c.setId(0);
         controllerUnderTest.update(c);
-        c= new SelectWorkerCellChoice(2,2);
+        c= new InitialPositionChoice(2,2);
         c.setId(1);
         controllerUnderTest.update(c);
-        c= new SelectWorkerCellChoice(3,3);
+        c= new InitialPositionChoice(3,3);
         c.setId(1);
         controllerUnderTest.update(c);
         /*SETUP:
@@ -207,7 +207,37 @@ public class ControllerTest {
         //have to look at getTower usages and fix
         assertEquals(0, model.getTurn().getBoardInstance().getBox(1, 1).getTower().getHeight());
 
+        c= new GodActivationChoice(false);
+        c.setId(0);
+        controllerUnderTest.update(c);
 
+        c= new GodActivationChoice(false);
+        c.setId(1);
+        controllerUnderTest.update(c);
+
+        assertEquals(StateEnum.Move,model.getModelRep().currentState);
+        c= new SelectWorkerCellChoice(2,2);
+        c.setId(1);
+        controllerUnderTest.update(c);
+
+        //A wrong move is passed, should be rejected
+        c= new MoveChoice(3,1);
+        c.setId(1);
+        controllerUnderTest.update(c);
+
+        assertFalse(model.getTurn().getBoardInstance().getBox(2,2).isOccupied());
+        assertTrue(model.getTurn().getBoardInstance().getBox(3,1).isOccupied());
+
+        c= new SelectWorkerCellChoice(3,1);
+        c.setId(1);
+        controllerUnderTest.update(c);
+
+        //then a wrong build cell is passed
+        c= new BuildChoice(4,0);
+        c.setId(1);
+        controllerUnderTest.update(c);
+
+        assertEquals(1, model.getTurn().getBoardInstance().getBox(4, 0).getTower().getHeight());
     }
 
 
