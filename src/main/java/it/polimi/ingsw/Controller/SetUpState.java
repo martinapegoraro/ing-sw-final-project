@@ -71,7 +71,7 @@ public class SetUpState implements State{
     public void update(Choice userChoice, Model model) throws WrongChoiceException,BoxAlreadyOccupiedException
     {
         Player actingPlayer;
-        SelectWorkerCellChoice castedChoice;
+        InitialPositionChoice castedChoice;
         ArrayList<Player> playerList = (ArrayList<Player>) model.getTurn().getPlayersList();
         actingPlayer = playerList.get(userChoice.getId());
 
@@ -123,10 +123,10 @@ public class SetUpState implements State{
         }
 
 
-        if(godsSelected && godsAssigned && firstPlayerSelected && userChoice.toString().equals("SelectWorkerCellChoice"))
+        if(godsSelected && godsAssigned && firstPlayerSelected && userChoice.toString().equals("InitialPositionChoice"))
         {
-            if( userChoice.toString().equals("SelectWorkerCellChoice")) {
-                castedChoice = (SelectWorkerCellChoice) userChoice;
+            if( userChoice.toString().equals("InitialPositionChoice")) {
+                castedChoice = (InitialPositionChoice) userChoice;
                 Box selectedCell;
                 //Initialize worker in the selected position if the cell is free
                 try {
@@ -162,7 +162,7 @@ public class SetUpState implements State{
             else
             {
                 model.notify(new MessageToVirtualView(new SentChoiceError()));
-                throw new WrongChoiceException("Wrong Choice Type! Expected: SelectWorkerCellChoice," +
+                throw new WrongChoiceException("Wrong Choice Type! Expected: InitialPositionChoice," +
                         "Received: "+ userChoice.toString());
             }
         }

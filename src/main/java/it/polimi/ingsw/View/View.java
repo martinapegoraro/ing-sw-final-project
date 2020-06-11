@@ -6,6 +6,7 @@ import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.ModelRepresentation;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.GodChoice;
+import it.polimi.ingsw.Utils.InitialPlayerChoice;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,12 +23,15 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
     private int idPlayer;
 
 
+    //temporaneo
+    private boolean chosenFirst=false;
     public View()
     {
         currentState=null;
         currentWindow=null;
         playerName="";
         idPlayer=-1;
+
     }
 
     public View(ViewState state)
@@ -129,6 +133,13 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
                 currentWindow = new GameWindow(message.getModelRep().playersName, list, idPlayer, this);
                 currentWindow.setWindowVisible();
                 currentWindow.updateWindow(message);
+
+                if(!chosenFirst &&idPlayer==0)
+                {
+                    Choice c=new InitialPlayerChoice(0);
+                    chosenFirst=true;
+                    notify(c);
+                }
             } else {
                 currentWindow.updateWindow(message);
             }

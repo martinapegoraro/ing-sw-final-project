@@ -288,7 +288,7 @@ public class ActivationGodState implements State {
                         else
                         {
                             model.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), actingPlayer));
-                            throw new GodConditionNotSatisfiedException("Apollo can't be activated!");
+                            throw new GodConditionNotSatisfiedException("Minotaur can't be activated!");
                         }
                         break;
 

@@ -74,6 +74,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                 };
                 label.addActionListener(this);
                 label.setActionCommand(""+(i*5+k));
+                //label.setBounds(origin.x, origin.y, 96,96);
                 label.setBounds(origin.x, origin.y, 96,96);
                 label.setBorder(BorderFactory.createLineBorder(Color.CYAN));
                 label.setHorizontalTextPosition(JLabel.CENTER);
@@ -159,6 +160,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         this.setSize(1000, 700);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
+
+
     }
 
 //_________________________________________INITIALIZER METHODS________________________________________________________
@@ -383,6 +386,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                     if(playerID == myID)
                     {
                         //worker belongs to this player, updating workerPos array
+                        currentWorker = new int[2];
                         currentWorker[0] = row;
                         currentWorker[1] = col;
                         myWorkerCells.add(currentWorker);
@@ -587,8 +591,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                 //a cell has been clicked
                 try {
                     clickedCell = Integer.parseInt(actionEvent.getActionCommand());
-                    cellArray[0] = clickedCell % 5;
-                    cellArray[1] = clickedCell / 5;
+                    cellArray[0] = clickedCell / 5;
+                    cellArray[1] = clickedCell % 5;
 
                             //Depending on the state I'll send different messages
                             switch(presentState){
@@ -597,7 +601,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                     break;
 
                                 case Move:
-                                    if(myWorkerCells.contains(cellArray))
+                                    //if(myWorkerCells.contains(cellArray))
+                                    if((myWorkerCells.get(0)[0]==cellArray[0] && myWorkerCells.get(0)[1]==cellArray[1])||(myWorkerCells.get(1)[0]==cellArray[0] && myWorkerCells.get(1)[1]==cellArray[1]))
                                     {
                                         choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
                                     }
@@ -609,7 +614,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
                                 case Build:
 
-                                    if(myWorkerCells.contains(cellArray))
+                                    if((myWorkerCells.get(0)[0]==cellArray[0] && myWorkerCells.get(0)[1]==cellArray[1])||(myWorkerCells.get(1)[0]==cellArray[0] && myWorkerCells.get(1)[1]==cellArray[1]))
                                     {
                                         choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
                                     }
