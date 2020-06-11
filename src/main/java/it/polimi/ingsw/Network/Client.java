@@ -86,7 +86,7 @@ public class Client implements Observer<Choice> {
                             } else {
 
                                 if (!messaggio.getMessage().getMessage().equals("ping")) {
-                                    System.out.println(messaggio.getMessage().getMessage());
+                                    view.updateWindow(messaggio);
                                 } else {
                                     Thread t1 = asyncWriteToSocket(new PingChoice(), out);
                                     t1.join();

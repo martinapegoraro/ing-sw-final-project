@@ -81,7 +81,10 @@ public class LobbyWindow extends JFrame implements WindowInterface{
 
     @Override
     public void updateWindow(MessageToVirtualView update) {
-
+        if(!update.isModelRep())
+        {
+            JOptionPane.showMessageDialog(lobbyWindowFrame,update.getMessage().getMessage());
+        }
     }
 
     public void setWindowVisible()
@@ -93,6 +96,7 @@ public class LobbyWindow extends JFrame implements WindowInterface{
     {
         lobbyWindowFrame.setVisible(false);
     }
+
 
 
     public void godSelectionPrompt(String name)

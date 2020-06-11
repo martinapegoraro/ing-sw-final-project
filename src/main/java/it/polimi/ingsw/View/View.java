@@ -73,6 +73,8 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
 
     }
 
+
+
     public void setPlayerName(String name)
     {
         playerName=name;
@@ -88,61 +90,48 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
 
     public void updateWindow(MessageToVirtualView message)
     {
-        if(message.getModelRep().currentState.toString().equals("Exit") )
+        if(!message.isModelRep())
         {
-            currentWindow.setWindowNotVisible();
-            System.exit(0);
+          currentWindow.updateWindow(message);
         }
-        else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null &&message.getModelRep().godList[0]==null)
-        {
-           setIdPlayer(Arrays.asList(message.getModelRep().playersName).indexOf(playerName));
-           if(idPlayer==message.getModelRep().activePlayer)
-           {
-               currentWindow.setWindowNotVisible();
-               currentWindow=new CardSelectionWindow(this,message.getModelRep().playerNum);
-               currentWindow.setWindowVisible();
-           }
-           else
-           {
-               //((LobbyWindow)currentWindow).godSelectionPrompt(message.getModelRep().playersName[message.getModelRep().activePlayer]);
-               currentWindow.setWindowNotVisible();
-           }
-        }
-        else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods!=null)
-        {
-            //currentWindow.setWindowNotVisible();
-            if(idPlayer==message.getModelRep().activePlayer)
-            {
-                currentWindow.setWindowNotVisible();
-                currentWindow=new GodSelectionWindow(this,idPlayer,message.getModelRep());
-                currentWindow.setWindowVisible();
-
-            }
-            else
-            {
-                //((CardSelectionWindow)currentWindow).godSelectionPrompt(message.getModelRep().playersName[message.getModelRep().activePlayer]);
-                currentWindow.setWindowNotVisible();
-            }
-        }
-        else if(message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods==null && message.getModelRep().godList[0]!=null)
-        {
-            currentWindow.setWindowNotVisible();
-            ArrayList<GodsList> list=new ArrayList<GodsList>();
-            for(String s:message.getModelRep().godList)
-            {
-                try {
-                    list.add(GodsList.getGod(s));
-                } catch (NotExistingGodException e) {
-                    e.printStackTrace();
+        else {
+            if (message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods == null && message.getModelRep().godList[0] == null) {
+                setIdPlayer(Arrays.asList(message.getModelRep().playersName).indexOf(playerName));
+                if (idPlayer == message.getModelRep().activePlayer) {
+                    currentWindow.setWindowNotVisible();
+                    currentWindow = new CardSelectionWindow(this, message.getModelRep().playerNum);
+                    currentWindow.setWindowVisible();
+                } else {
+                    ((LobbyWindow)currentWindow).godSelectionPrompt(message.getModelRep().playersName[message.getModelRep().activePlayer]);
+                    currentWindow.setWindowNotVisible();
                 }
+            } else if (message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods != null) {
+                //currentWindow.setWindowNotVisible();
+                if (idPlayer == message.getModelRep().activePlayer) {
+                    currentWindow.setWindowNotVisible();
+                    currentWindow = new GodSelectionWindow(this, idPlayer, message.getModelRep());
+                    currentWindow.setWindowVisible();
+
+                } else {
+                    ((CardSelectionWindow)currentWindow).godSelectionPrompt(message.getModelRep().playersName[message.getModelRep().activePlayer]);
+                    currentWindow.setWindowNotVisible();
+                }
+            } else if (message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods == null && message.getModelRep().godList[0] != null) {
+                currentWindow.setWindowNotVisible();
+                ArrayList<GodsList> list = new ArrayList<GodsList>();
+                for (String s : message.getModelRep().godList) {
+                    try {
+                        list.add(GodsList.getGod(s));
+                    } catch (NotExistingGodException e) {
+                        e.printStackTrace();
+                    }
+                }
+                currentWindow = new GameWindow(message.getModelRep().playersName, list, idPlayer, this);
+                currentWindow.setWindowVisible();
+                currentWindow.updateWindow(message);
+            } else {
+                currentWindow.updateWindow(message);
             }
-            currentWindow=new GameWindow(message.getModelRep().playersName,list,idPlayer,this);
-            currentWindow.setWindowVisible();
-            currentWindow.updateWindow(message);
-        }
-        else
-        {
-            currentWindow.updateWindow(message);
         }
     }
 

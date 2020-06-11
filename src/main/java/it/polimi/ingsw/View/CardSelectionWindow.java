@@ -229,7 +229,10 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
 
     @Override
     public void updateWindow(MessageToVirtualView update) {
-
+        if(!update.isModelRep())
+        {
+            JOptionPane.showMessageDialog(f,update.getMessage().getMessage());
+        }
     }
 
     @Override

@@ -216,7 +216,10 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
 
     @Override
     public void updateWindow(MessageToVirtualView update) {
-
+        if(!update.isModelRep())
+        {
+            JOptionPane.showMessageDialog(f,update.getMessage().getMessage());
+        }
     }
 
     @Override
