@@ -9,6 +9,7 @@ import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 import it.polimi.ingsw.View.Observer;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Context implements Observer<Choice> {
     private State currentState;
@@ -753,6 +754,11 @@ public class Context implements Observer<Choice> {
         //Check if the state has completed it's task, skips states that perform tasks only on startup method
         while(currentState.hasFinished())
         {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             stateChange();
         }
 
