@@ -56,12 +56,8 @@ public class BeginTurnState implements State {
         {
             model.getTurn().setNextPlayer();
         }
-        else
-            {
-                model.updateModelRep(stateID);
-
-                hasFinished = true;
-            }
+        model.updateModelRep(stateID);
+        hasFinished = true;
 
 
     }

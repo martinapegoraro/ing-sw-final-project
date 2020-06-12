@@ -79,6 +79,16 @@ public class CheckWinConditionState implements State{
         checkPanCondition(model);
         checkChronusCondition(model, instance);
         int playerNumber = model.getTurn().getPlayersList().size();
+        int lPlayer=0;
+        for(int i=0;i<playerNumber;i++)
+        {
+            if(model.getTurn().getPlayersList().get(i).getHasLost() && !(model.getTurn().getCurrentPlayer().getNumber()==model.getTurn().getPlayersList().get(i).getNumber()))
+                lPlayer++;
+        }
+
+        if(lPlayer==playerNumber-1)
+            model.getTurn().getCurrentPlayer().setHasWon();
+
         for (int i = 0; i<playerNumber; i++)
         {
             if(model.getTurn().getPlayersList().get(i).getHasWon())
@@ -88,7 +98,7 @@ public class CheckWinConditionState implements State{
             }
         }
 
-        //TODO: Aggiungere controllo se tutti gli altri player hanno perso allora ho vinto
+
         if (stateId == StateEnum.FirstCheckWinCondition){model.updateModelRep(StateEnum.FirstCheckWinCondition);}
         if (stateId == StateEnum.SecondCheckWinCondition){model.updateModelRep(StateEnum.SecondCheckWinCondition);}
         hasFinished = true;
