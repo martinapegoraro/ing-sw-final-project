@@ -152,7 +152,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                         if(task!=null)
                             task.cancel();
                         pingCounter++;
-                        if(pingCounter==10)
+                        if(pingCounter==30)
                             close();
 
                     }

@@ -108,8 +108,8 @@ public class Box {
     public boolean isReachable(Box b)
     {
         int startHeight=0,destinationHeight=0;
-        if(tower!=null) startHeight=tower.getHeight();
-        if(b.getTower()!=null) destinationHeight=b.getTower().getHeight();
+        if(tower!=null) destinationHeight=tower.getHeight();
+        if(b.getTower()!=null) startHeight=b.getTower().getHeight();
         if(destinationHeight-startHeight>1)return false;
         else return true;
     }
