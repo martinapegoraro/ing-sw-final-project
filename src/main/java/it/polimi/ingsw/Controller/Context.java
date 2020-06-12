@@ -102,27 +102,25 @@ public class Context implements Observer<Choice> {
                 if(activeGods.contains(GodsList.ARTEMIS))
                 {
                     artemisTurnFlow();
-                    break;
                 }
                 else if(activeGods.contains(GodsList.DEMETER))
                 {
                     demeterTurnFlow();
-                    break;
                 }
                 else if(activeGods.contains(GodsList.PROMETHEUS))
                 {
                     prometheusTurnFlow();
-
-                    break;
                 }
                 else if(activeGods.contains(GodsList.HESTIA))
                 {
                     hestiaTurnFlow();
-                    break;
                 }
+                else
+                    {
+                        newState = moveStateConstructor();
+                        switchState(newState);
+                    }
 
-                newState = moveStateConstructor();
-                switchState(newState);
                 break;
 
             case Move:
