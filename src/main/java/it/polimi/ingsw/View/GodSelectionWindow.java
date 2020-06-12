@@ -60,6 +60,7 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         rightButton.setActionCommand("next");
         rightButton.setToolTipText("Switches to God on the right");
         submitButton.setActionCommand("submit");
+        submitButton.setEnabled(false);
 
 
         JLabel chosenGod = new JLabel("Chosen God", blankResizedIcon, JLabel.CENTER);
@@ -175,14 +176,12 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         else if("god".equals(actionEvent.getActionCommand())){
             //A god has been selected
             cancelButton.setEnabled(true);
-            if(selectedCards.size()<1)
+            submitButton.setEnabled(true);
+            if(selectedCards.isEmpty())
             {
-                if(!selectedCards.contains(modelRep.gods.get(godCounter)))
-                {
                     ImageIcon smallIcon = resizeIcon(getGodImage(modelRep.gods.get(godCounter).getName()), 4);
                     godMiniatures[selectedCards.size()].setIcon(smallIcon);
                     selectedCards.add(modelRep.gods.get(godCounter));
-                }
             }
             else
             {
@@ -196,6 +195,7 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
             godMiniatures[0].setIcon(blankResizedIcon);
 
             cancelButton.setEnabled(false);
+            submitButton.setEnabled(false);
         }
         else if("submit".equals(actionEvent.getActionCommand()))
         {

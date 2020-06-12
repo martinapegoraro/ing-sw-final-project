@@ -96,9 +96,9 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
         //The next five levels are: 1 worker, 2 dome, 3 third level, 4 second level and 5 ground level
         initialize3dMatrix();
-        pieces3dMatrix[0][0][4].setVisible(true);
-        pieces3dMatrix[0][0][0].setVisible(true);
-        pieces3dMatrix[0][1][1].setVisible(true);
+        //pieces3dMatrix[0][0][4].setVisible(true);
+        //pieces3dMatrix[0][0][0].setVisible(true);
+        //pieces3dMatrix[0][1][1].setVisible(true);
         //boardButtons[2][2].setBackground(new Color(208, 208, 0, 100));// it's probably better to add Labels on top level
 
 
