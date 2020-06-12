@@ -96,7 +96,7 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
     {
         if(!message.isModelRep())
         {
-            if(message.getPlayerName()==null ||playerName.equals(message.getPlayerName()))
+            //if(message.getPlayerName()==null ||playerName.equals(message.getPlayerName()))
                 currentWindow.updateWindow(message);
         }
         else {
@@ -142,7 +142,7 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
                     notify(c);
                 }
             } else {
-                if(message.getPlayerName()==null || playerName.equals(message.getPlayerName()))
+                //if(message.getPlayerName()==null || playerName.equals(message.getPlayerName()))
                     currentWindow.updateWindow(message);
             }
         }

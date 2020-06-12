@@ -46,7 +46,7 @@ public class ContextTest {
         contextUnderTest.update(null);
     }
 
-    //TODO: Add tests for turn-flow god effects
+
     @Test
     public void basicTurnFlowTest()
     {

@@ -755,7 +755,7 @@ public class Context implements Observer<Choice> {
         while(currentState.hasFinished())
         {
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

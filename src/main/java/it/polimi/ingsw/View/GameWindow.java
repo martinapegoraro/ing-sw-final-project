@@ -514,9 +514,31 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         //Checks if the message is an error or a modelRep
         if(update.isModelRep())
         {
-
             //Message is a modelRep
             ModelRepresentation modelRep = update.getModelRep();
+
+
+            //handler for win/lose
+            if(modelRep.hasWon[myID])
+            {
+                if(JOptionPane.showConfirmDialog(playersSideBar,"Congratulations!! \n you have won!!\n you want quit the game field?","End Game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
+                    Choice c=new ExitChoice();
+                    c.setId(myID);
+                    view.update(c);
+                    System.exit(0);
+                }
+                return;
+            }
+            if(modelRep.hasLost[myID])
+            {
+                if(JOptionPane.showConfirmDialog(playersSideBar,"You have lost \n you want leave the field?","End Game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
+                    Choice c=new ExitChoice();
+                    c.setId(myID);
+                    view.update(c);
+                    System.exit(0);
+                }
+                return;
+            }
 
             updateCurrentPlayer(modelRep.getActivePlayer());
 
@@ -540,7 +562,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
             updateSelectedGods(modelRep.getActiveGodsList());
 
-            //TODO: Missing handler for win and lose cases
+
         }
         else
             {
