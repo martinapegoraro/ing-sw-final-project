@@ -58,6 +58,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
         rightButton.setActionCommand("next");
         rightButton.setToolTipText("Switches to God on the right");
         submitButton.setActionCommand("submit");
+        submitButton.setEnabled(false);
 
 
         JLabel selectedGod1 = new JLabel("First God", blankResizedIcon, JLabel.CENTER);
@@ -196,6 +197,10 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
                     godMiniatures[selectedCards.size()].setIcon(smallIcon);
                     selectedCards.add(allGods.get(godCounter));
                 }
+                if(selectedCards.size() == playerNum)
+                {
+                    submitButton.setEnabled(true);
+                }
             }
             else
                 {
@@ -210,6 +215,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
                 godMiniatures[k].setIcon(blankResizedIcon);
             }
             cancelButton.setEnabled(false);
+            submitButton.setEnabled(false);
         }
         else if("submit".equals(actionEvent.getActionCommand()))
         {
