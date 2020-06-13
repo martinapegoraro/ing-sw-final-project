@@ -211,8 +211,8 @@ public class MoveState implements State {
                         }
 
                     //Sets this Box to use in Context for creating Artemis second MoveState
-                    //It saves the position in which actingPlayer moved to, not the old position
-                    actingPlayer.setLastMoveBox(b);
+                    //It saves the old position, not the box the player moved to
+                    actingPlayer.setLastMoveBox(oldBox);
 
                     //If the player moves up his AthenaCondition will be set to true, at the beginning of his next
                     //MoveState it'll be set to false again

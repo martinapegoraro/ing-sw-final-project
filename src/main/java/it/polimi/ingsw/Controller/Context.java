@@ -477,7 +477,7 @@ public class Context implements Observer<Choice> {
 
     /**The method defines state changes during a turn in which
      * the god card Demeter is played, overruling the
-     * default stateChange() method**/
+     * default stateChange() method*/
     private void demeterTurnFlow()
     {
         State newState;
@@ -680,6 +680,9 @@ public class Context implements Observer<Choice> {
         }
     }
 
+    /**The method defines state changes during a turn in which
+     * the god card Hestia is played, overruling the
+     * default stateChange() method**/
     private void hestiaTurnFlow() {
         State newState;
         switch (currentState.getID()) {
@@ -689,27 +692,31 @@ public class Context implements Observer<Choice> {
                 break;
 
             case Move:
-                newState = buildStateConstructor();
+                newState = new CheckWinConditionState(1, contextModel);
                 switchState(newState);
                 break;
 
             case FirstCheckWinCondition:
+                hestiaSecondBuild = false;
                 newState = buildStateConstructor();
                 switchState(newState);
                 break;
 
             case Build:
-                if (!hestiaSecondBuild) {
-                    newState = buildStateConstructor();
-                    hestiaSecondBuild = true;
-                } else {
-                    newState = new CheckWinConditionState(2, contextModel);
-                }
+                newState = new CheckWinConditionState(2, contextModel);
                 switchState(newState);
                 break;
 
             case SecondCheckWinCondition:
-                newState = new EndTurnState(contextModel);
+                if(!hestiaSecondBuild)
+                {
+                    hestiaSecondBuild = true;
+                    newState = buildStateConstructor();
+                }
+                else
+                {
+                    newState = new EndTurnState(contextModel);
+                }
                 switchState(newState);
                 break;
 

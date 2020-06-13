@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class MoveGodsTest {
     private Model model;
@@ -19,7 +19,7 @@ public class MoveGodsTest {
      * MODEL SETUP:
      * Player0: Pippo       Player1: Pluto
      * <p>
-     * 0     1     2     3     4
+     *    0     1     2     3     4
      * |     |     |     |
      * 0  -  |  -  |  -  |  -  |  -
      * _____|_____|_____|_____|_____
@@ -200,5 +200,49 @@ public class MoveGodsTest {
         assertEquals(0,model.getModelRep().activeCells[3][2]);
         assertEquals(0,model.getModelRep().activeCells[3][3]);
         assertEquals(0,model.getModelRep().activeCells[3][4]);
+    }
+
+    @Test
+    public void artemisTest()
+    {
+        Choice c;
+        //Testing Artemis possible moves
+        model.getTurn().getPlayersList().get(0).setGodCard(GodsList.ARTEMIS);
+        model.getTurn().getPlayersList().get(1).setGodCard(GodsList.APOLLO);
+        context.switchState(new BeginTurnState(model));
+        Player actingPlayer = model.getTurn().getCurrentPlayer();
+        context.switchState(new ActivationGodState(model));
+
+        //Activation
+        c = new GodActivationChoice(true);
+        c.setId(0);
+        context.update(c);
+        c = new GodActivationChoice(false);
+        c.setId(1);
+        context.update(c);
+
+        //Now P0 moves
+        c = new SelectWorkerCellChoice(1, 1);
+        c.setId(0);
+        context.update(c);
+        c = new MoveChoice(2, 1);
+        c.setId(0);
+        context.update(c);
+
+        //Artemis is active, P0 moves again
+        c= new SelectWorkerCellChoice(2,1);
+        c.setId(0);
+        context.update(c);
+
+        c= new MoveChoice(1,1);
+        c.setId(0);
+        context.update(c); //This instruction should not be accepted by the MoveState
+
+        assertFalse(model.getTurn().getBoardInstance().getBox(1,1).isOccupied());
+
+        c= new MoveChoice(2,0);
+        c.setId(0);
+        context.update(c);
+        assertTrue(model.getTurn().getBoardInstance().getBox(2,0).isOccupied());
     }
 }
