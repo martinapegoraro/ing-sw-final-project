@@ -633,7 +633,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                 if(!workerHasBeenSelected)
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
-                                    workerHasBeenSelected = true;
                                     selectedWorker = 0;
                                 }
                                 else
@@ -647,7 +646,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                 if(!workerHasBeenSelected)
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
-                                    workerHasBeenSelected = true;
                                     selectedWorker = 1;
                                 }
                                 else
@@ -661,6 +659,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                     switch (presentState)
                                     {
                                         case Move:
+                                            workerHasBeenSelected = true;
                                             choiceToSend = new MoveChoice(cellArray[0], cellArray[1]);
                                             break;
                                         case Build:
