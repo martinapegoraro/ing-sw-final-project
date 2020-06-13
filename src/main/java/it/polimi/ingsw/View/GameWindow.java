@@ -38,11 +38,13 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     ArrayList<int[]> myWorkerCells = new ArrayList<>(); //Saves the position of workers owned by the player sent with MsgToVirtualView
     View view;
     StateEnum presentState = StateEnum.SetUp;
+    int[][] activeCells;
 
     public GameWindow(String[] playersName, ArrayList<GodsList> playersGods, int playerID, View view) {
         this.playersName = playersName;
         myID = playerID;
         this.view=view;
+        activeCells=null;
         //Main JFrame setup
         this.setTitle("Santorini Game");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -408,6 +410,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     private void updateSelectedCells(int[][] activeCells)
     {
+        this.activeCells=activeCells;
         //cells containing [1] must be selected
         for(int row=0; row<5;row++)
         {
@@ -636,7 +639,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
                                 case Build:
 
-                                    if((myWorkerCells.get(0)[0]==cellArray[0] && myWorkerCells.get(0)[1]==cellArray[1])||(myWorkerCells.get(1)[0]==cellArray[0] && myWorkerCells.get(1)[1]==cellArray[1]))
+                                    if(((myWorkerCells.get(0)[0]==cellArray[0] && myWorkerCells.get(0)[1]==cellArray[1])||(myWorkerCells.get(1)[0]==cellArray[0] && myWorkerCells.get(1)[1]==cellArray[1]))
+                                        && (activeCells[cellArray[0]][cellArray[1]])!=1)
                                     {
                                         choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
                                     }
