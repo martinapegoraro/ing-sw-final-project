@@ -169,8 +169,5 @@ public class Lobby {
     }
 
 
-    public void print()
-    {
-        System.out.println(connectionMap.toString());
-    }
+
 }

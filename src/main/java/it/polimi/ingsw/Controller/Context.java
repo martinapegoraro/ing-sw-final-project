@@ -754,11 +754,11 @@ public class Context implements Observer<Choice> {
         //Check if the state has completed it's task, skips states that perform tasks only on startup method
         while(currentState.hasFinished())
         {
-            try {
+            /*try {
                 TimeUnit.MILLISECONDS.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
             stateChange();
         }
 

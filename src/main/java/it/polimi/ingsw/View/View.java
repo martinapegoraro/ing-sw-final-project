@@ -137,9 +137,15 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
 
                 if(!chosenFirst &&idPlayer==0)
                 {
-                    Choice c=new InitialPlayerChoice(0);
-                    chosenFirst=true;
-                    notify(c);
+                   while(!chosenFirst) {
+                       int first = Integer.parseInt(JOptionPane.showInputDialog(new JFrame(), "chose the first player", "Santorini", JOptionPane.PLAIN_MESSAGE, null, null, "").toString());
+                       if (first >= 0 && first <= 2 && first<message.getModelRep().playerNum) {
+                           Choice c = new InitialPlayerChoice(first);
+                           chosenFirst = true;
+                           notify(c);
+                       }
+                   }
+
                 }
             } else {
                 //if(message.getPlayerName()==null || playerName.equals(message.getPlayerName()))

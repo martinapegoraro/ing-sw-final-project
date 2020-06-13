@@ -34,7 +34,7 @@ public class VirtualView extends View {
     }
     @Override
     public void update(MessageToVirtualView message) {
-        connection.asyncSend(message);
+        connection.send(message);
         //if(!message.isModelRep() && message.getMessage().getMessage().equals("One player left the game"))
         //    connection.closeConnection();
     }

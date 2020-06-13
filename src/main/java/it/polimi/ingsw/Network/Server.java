@@ -90,13 +90,5 @@ public class Server {
         }
 
     }
-    public synchronized void printLobbiesList()
-    {
-        int i=1;
-        for (Lobby l:lobbiesList ) {
-            System.out.println("printing lobby number"+i);
-            l.print();
-            i++;
-        }
-    }
+
 }
