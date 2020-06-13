@@ -551,6 +551,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             if(modelRep.getCurrentState() == StateEnum.ActivationGod)
             {
                 showGodButtons(true);
+                workerHasBeenSelected = false;
             }
             else
                 {
