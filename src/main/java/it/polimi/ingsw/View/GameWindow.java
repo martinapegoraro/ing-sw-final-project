@@ -35,10 +35,12 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         //Variables
     int myID;
     String[] playersName;
-    ArrayList<int[]> myWorkerCells = new ArrayList<>(); //Saves the position of workers owned by the player sent with MsgToVirtualView
+    int[][] myWorkerCells = new int[2][2]; //Saves the position of workers owned by the player sent with MsgToVirtualView
     View view;
     StateEnum presentState = StateEnum.SetUp;
     int[][] activeCells;
+    boolean workerHasBeenSelected = false;
+    int selectedWorker;
 
     public GameWindow(String[] playersName, ArrayList<GodsList> playersGods, int playerID, View view) {
         this.playersName = playersName;
@@ -354,7 +356,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     private void updateWorkers(int[][] workerPositions)
     {
-        myWorkerCells.clear();
         int[] currentWorker = new int[2];
         int playerID;
         ImageIcon purpleWorkerIcon = resizeIcon(getResource("WorkerPurpleM_Cropped"), 60,90);
@@ -372,11 +373,11 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                 //A worker is present in the cell
                 if(playerID != -1)
                 {
-                    if(playerID == 0)
+                    if(playerID / 10 == 0)
                     {
                         currentIcon = redWorkerIcon;
                     }
-                    else if(playerID == 1)
+                    else if(playerID / 10 == 1)
                     {
                         currentIcon = blueWorkerIcon;
                     }
@@ -385,13 +386,13 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                             currentIcon = purpleWorkerIcon;
                         }
 
-                    if(playerID == myID)
+                    if(playerID / 10 == myID)
                     {
                         //worker belongs to this player, updating workerPos array
                         currentWorker = new int[2];
                         currentWorker[0] = row;
                         currentWorker[1] = col;
-                        myWorkerCells.add(currentWorker);
+                        myWorkerCells[playerID % 10] = currentWorker;
                     }
 
                     //4 Is the Z level for workers
@@ -619,38 +620,58 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                     cellArray[0] = clickedCell / 5;
                     cellArray[1] = clickedCell % 5;
 
-                            //Depending on the state I'll send different messages
-                            switch(presentState){
-                                case SetUp:
-                                    choiceToSend = new InitialPositionChoice(cellArray[0], cellArray[1]);
-                                    break;
-
-                                case Move:
-                                    //if(myWorkerCells.contains(cellArray))
-                                    if((myWorkerCells.get(0)[0]==cellArray[0] && myWorkerCells.get(0)[1]==cellArray[1])||(myWorkerCells.get(1)[0]==cellArray[0] && myWorkerCells.get(1)[1]==cellArray[1]))
+                     //Depending on the state I'll send different messages
+                    if(presentState == StateEnum.SetUp){
+                        choiceToSend = new InitialPositionChoice(cellArray[0], cellArray[1]);
+                    }
+                    else
+                        {
+                            System.out.println(workerHasBeenSelected + " " + selectedWorker);
+                            //I first select the worker
+                            if((myWorkerCells[0][0]==cellArray[0] && myWorkerCells[0][1]==cellArray[1]))
+                            {
+                                if(!workerHasBeenSelected)
+                                {
+                                    choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
+                                    workerHasBeenSelected = true;
+                                    selectedWorker = 0;
+                                }
+                                else
+                                {
+                                    choiceToSend = new SelectWorkerCellChoice(myWorkerCells[selectedWorker][0],
+                                            myWorkerCells[selectedWorker][1]);
+                                }
+                            }
+                            else if((myWorkerCells[1][0]==cellArray[0] && myWorkerCells[1][1]==cellArray[1]))
+                            {
+                                if(!workerHasBeenSelected)
+                                {
+                                    choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
+                                    workerHasBeenSelected = true;
+                                    selectedWorker = 1;
+                                }
+                                else
+                                {
+                                    choiceToSend = new SelectWorkerCellChoice(myWorkerCells[selectedWorker][0],
+                                            myWorkerCells[selectedWorker][1]);
+                                }
+                            }
+                            else
+                                {
+                                    switch (presentState)
                                     {
-                                        choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
-                                    }
-                                    else
-                                        {
+                                        case Move:
                                             choiceToSend = new MoveChoice(cellArray[0], cellArray[1]);
-                                        }
-                                    break;
-
-                                case Build:
-
-                                    if(((myWorkerCells.get(0)[0]==cellArray[0] && myWorkerCells.get(0)[1]==cellArray[1])||(myWorkerCells.get(1)[0]==cellArray[0] && myWorkerCells.get(1)[1]==cellArray[1]))
-                                        && (activeCells[cellArray[0]][cellArray[1]])!=1)
-                                    {
-                                        choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
+                                            break;
+                                        case Build:
+                                            choiceToSend = new BuildChoice(cellArray[0], cellArray[1]);
+                                            break;
                                     }
-                                    else
-                                    {
-                                        choiceToSend = new BuildChoice(cellArray[0], cellArray[1]);
-                                    }
-                                    break;
 
+                                }
                         }
+
+
                 }
                 catch (NumberFormatException e)
                 {

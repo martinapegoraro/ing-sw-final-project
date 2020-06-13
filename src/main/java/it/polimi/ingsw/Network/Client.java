@@ -113,7 +113,7 @@ public class Client implements Observer<Choice> {
     public Thread asyncWriteToSocket(Choice c, final ObjectOutputStream out){
         Thread t = new Thread(new Runnable() {
             @Override
-            public void run() {
+            public synchronized void run() {
                 try {
                     //while (isActive()) {
 

@@ -54,14 +54,15 @@ public class ModelRepresentation implements Serializable {
         }
         for (Player player : players) {
             List<Worker> workers = player.getWorkerList();
-            for (Worker worker : workers) {
+            Worker worker;
+            for (int workerNumber = 0; workerNumber < workers.size(); workerNumber++) {
                //when the modelRep is created for the first time the workers aren't declared yet,
                 //so the worker position matrix remains of all -1
+                worker = workers.get(workerNumber);
                 if(worker!=null) {
                     int[] casella = worker.getPosition().getCoord();
-                    workerposition[casella[0]][casella[1]] = player.getNumber();
+                    workerposition[casella[0]][casella[1]] = player.getNumber() * 10 + workerNumber;
                 }
-
             }
         }
 
