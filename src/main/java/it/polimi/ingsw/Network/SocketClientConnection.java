@@ -88,7 +88,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         }).start();
     }
 
-    private synchronized void send(MessageToVirtualView message) {
+    public synchronized void send(MessageToVirtualView message) {
         try {
             out.reset();
             out.writeObject(message);
