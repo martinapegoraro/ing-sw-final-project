@@ -118,7 +118,7 @@ public class Context implements Observer<Choice> {
                 }
                 else
                     {
-                        newState = moveStateConstructor();
+                        newState = moveStateConstructor(true);
                         switchState(newState);
                     }
 
@@ -130,7 +130,7 @@ public class Context implements Observer<Choice> {
                 break;
 
             case FirstCheckWinCondition:
-                newState = buildStateConstructor();
+                newState = buildStateConstructor(false);
                 switchState(newState);
                 break;
 
@@ -209,7 +209,7 @@ public class Context implements Observer<Choice> {
 
     /**Returns a State constructed following the rules for
      * every active move-affecting god**/
-    private State moveStateConstructor()
+    private State moveStateConstructor(boolean firstAction)
     {
         ArrayList<Box> workerPositions = new ArrayList<>();
         //Get worker cells and move boxes
@@ -237,15 +237,15 @@ public class Context implements Observer<Choice> {
             }
         }
 
-        return new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, heraActive, contextModel);
+        return new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, heraActive, contextModel,firstAction);
     }
 
     /**@return a State constructed following the rules of
      * each active build-affecting god**/
-    private State buildStateConstructor()
+    private State buildStateConstructor(boolean firstAction)
     {
         ArrayList<Box> workerPositions = new ArrayList<>();
-        //Get worker cells and move boxes
+        //Get worker cells and build boxes
         workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());
         workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());
 
@@ -304,7 +304,7 @@ public class Context implements Observer<Choice> {
                 {
                     activeGods.remove(GodsList.PROMETHEUS);
                     contextModel.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), contextModel.getTurn().getCurrentPlayer()));
-                    return moveStateConstructor();
+                    return moveStateConstructor(true);
                 }
 
             }
@@ -348,7 +348,7 @@ public class Context implements Observer<Choice> {
                     possibleBuildList1.add(b);
             }
         }
-        return new BuildState(possibleBuildList0,possibleBuildList1,domeAtAnyLevel, twoBlocksInOneBuild, contextModel);
+        return new BuildState(possibleBuildList0,possibleBuildList1,domeAtAnyLevel, twoBlocksInOneBuild, contextModel,firstAction);
     }
 
 
@@ -426,7 +426,7 @@ public class Context implements Observer<Choice> {
                 //This move MUST be possible
                 //The flag is used by moveStateConstructor
                 artemisFirstMove = true;
-                newState = moveStateConstructor();
+                newState = moveStateConstructor(true);
                 switchState(newState);
                 break;
 
@@ -439,11 +439,11 @@ public class Context implements Observer<Choice> {
                 if(artemisFirstMove)
                 {
                     artemisFirstMove = false;
-                    newState = moveStateConstructor();
+                    newState = moveStateConstructor(false);
                 }
                 else
                     {
-                        newState = buildStateConstructor();
+                        newState = buildStateConstructor(false);
                     }
                 switchState(newState);
                 break;
@@ -486,7 +486,7 @@ public class Context implements Observer<Choice> {
 
             case ActivationGod:
                 //This build is possible, it has been checked in ActivationGodState
-                newState = moveStateConstructor();
+                newState = moveStateConstructor(true);
                 switchState(newState);
                 break;
 
@@ -497,7 +497,7 @@ public class Context implements Observer<Choice> {
 
             case FirstCheckWinCondition:
                 demeterFirstBuild = true;
-                newState = buildStateConstructor();
+                newState = buildStateConstructor(false);
                 switchState(newState);
                 break;
 
@@ -510,7 +510,7 @@ public class Context implements Observer<Choice> {
                 if(demeterFirstBuild)
                 {
                     demeterFirstBuild = false;
-                    newState = buildStateConstructor();
+                    newState = buildStateConstructor(false);
 
                 }
                 else
@@ -642,7 +642,7 @@ public class Context implements Observer<Choice> {
 
         case ActivationGod:
             //This build is possible, it has been checked in ActivationGodState
-        newState = buildStateConstructor();
+        newState = buildStateConstructor(true);
         prometheusFirstBuild = true;
         switchState(newState);
         break;
@@ -651,7 +651,7 @@ public class Context implements Observer<Choice> {
             if(prometheusFirstBuild)
             {
                 //The move MUST be possible otherwise the player looses
-                newState = moveStateConstructor();
+                newState = moveStateConstructor(false);
                 switchState(newState);
                 prometheusFirstBuild = false;
             }
@@ -663,7 +663,7 @@ public class Context implements Observer<Choice> {
             break;
 
         case Move:
-        newState = buildStateConstructor();
+        newState = buildStateConstructor(false);
         switchState(newState);
         break;
 
@@ -687,7 +687,7 @@ public class Context implements Observer<Choice> {
         State newState;
         switch (currentState.getID()) {
             case ActivationGod:
-                newState = moveStateConstructor();
+                newState = moveStateConstructor(true);
                 switchState(newState);
                 break;
 
@@ -698,7 +698,7 @@ public class Context implements Observer<Choice> {
 
             case FirstCheckWinCondition:
                 hestiaSecondBuild = false;
-                newState = buildStateConstructor();
+                newState = buildStateConstructor(false);
                 switchState(newState);
                 break;
 
@@ -711,7 +711,7 @@ public class Context implements Observer<Choice> {
                 if(!hestiaSecondBuild)
                 {
                     hestiaSecondBuild = true;
-                    newState = buildStateConstructor();
+                    newState = buildStateConstructor(false);
                 }
                 else
                 {

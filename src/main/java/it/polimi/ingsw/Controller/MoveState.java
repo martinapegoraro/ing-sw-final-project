@@ -21,14 +21,18 @@ public class MoveState implements State {
     private boolean pushWorkerBack;
     private boolean hasFinished;
     private boolean heraIsActive;
+    private boolean firstAction;
 
-    public MoveState(ArrayList<Box> possibleMovesby0,ArrayList<Box> possibleMovesby1, boolean pushWorker, boolean swapWorker, boolean heraIsActive, Model model)
+    public MoveState(ArrayList<Box> possibleMovesby0,ArrayList<Box> possibleMovesby1, boolean pushWorker, boolean swapWorker, boolean heraIsActive, Model model,boolean firstAction)
     {
+
         //If possibleMoves is empty the player has lost
-        if(possibleMovesby0.isEmpty() && possibleMovesby1.isEmpty())
+        if(possibleMovesby0.isEmpty() && possibleMovesby1.isEmpty() && firstAction)
         {
             playerHasLost(model);
         }
+
+        this.firstAction=firstAction;
 
         possibleMovesWorker0 = possibleMovesby0;
         possibleMovesWorker1 = possibleMovesby1;
@@ -89,12 +93,16 @@ public class MoveState implements State {
                 if(actingPlayer.getWorkerList().get(0).getPosition() == workerBox)
                 {
                     actingPlayer.setSelectedWorker(0);
+                    if(!firstAction && possibleMovesWorker0.isEmpty())
+                        playerHasLost(model);
                     model.updateModelRep(possibleMovesWorker0);
 
                 }
                 else if(actingPlayer.getWorkerList().get(1).getPosition() == workerBox)
                 {
                     actingPlayer.setSelectedWorker(1);
+                    if(!firstAction && possibleMovesWorker0.isEmpty())
+                        playerHasLost(model);
                     model.updateModelRep(possibleMovesWorker1);
                 }
                 else

@@ -63,13 +63,13 @@ public class MoveStateTest {
        stateUnderTest=new MoveState(
                (ArrayList<Box>)model.getTurn().getPossibleMoves( model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition()),
                (ArrayList<Box>)model.getTurn().getPossibleMoves( model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition()),
-               false,false, false, model);
+               false,false, false, model,true);
     }
 
     @Test
     public void emptyPossibleMovesListTest(){
         ArrayList<Box> listaVuota=new ArrayList<>();
-        State s=new MoveState(listaVuota,listaVuota,false,false, false, model);
+        State s=new MoveState(listaVuota,listaVuota,false,false, false, model,true);
         assertTrue(model.getTurn().getCurrentPlayer().getHasLost());
     }
 
@@ -129,7 +129,7 @@ public class MoveStateTest {
         State s = new MoveState(
                 (ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(0).getPosition()),
                 (ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(1).getPosition()),
-                false,false, true, model);
+                false,false, true, model,true);
 
         //Builds a two floor tower where the player's worker stands
         Box moveFromBox = model.getTurn().getBoardInstance().getBox(1,1);
@@ -172,7 +172,7 @@ public class MoveStateTest {
         State s = new MoveState(
                 (ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(0).getPosition()),
                 (ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(1).getPosition()),
-                false,false, false, model);
+                false,false, false, model,true);
 
         //Builds a two floor tower where the player's worker stands
         Box moveFromBox = model.getTurn().getBoardInstance().getBox(1,1);
@@ -220,7 +220,7 @@ public class MoveStateTest {
 
         State s = new MoveState((ArrayList<Box>)model.getTurn().getPossibleMoves( actingPlayer.getWorkerList().get(0).getPosition())
                 , possibleMoveList1,
-                false,true, false, model);
+                false,true, false, model,true);
 
         Choice c = new SelectWorkerCellChoice(4,1);
         try {

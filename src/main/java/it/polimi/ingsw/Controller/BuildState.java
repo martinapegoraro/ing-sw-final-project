@@ -27,6 +27,7 @@ public class BuildState implements State{
     ArrayList<Box> possibleBuildListWorker2;
     boolean domeAtAnyLevel;
     boolean twoBlocksHephaestus;
+    private boolean firstAction;
 
 
     /**
@@ -38,18 +39,20 @@ public class BuildState implements State{
      * @param model
      */
 
-    public BuildState(ArrayList<Box> pBLW1,ArrayList<Box> pBLW2, boolean domeAAL, boolean twoBlocksBuilt, Model model)
+    public BuildState(ArrayList<Box> pBLW1,ArrayList<Box> pBLW2, boolean domeAAL, boolean twoBlocksBuilt, Model model,boolean firstAction)
     {
+        this.firstAction=firstAction;
         domeAtAnyLevel = domeAAL;
         possibleBuildListWorker1 = pBLW1;
         possibleBuildListWorker2 = pBLW2;
         twoBlocksHephaestus = twoBlocksBuilt;
         stateID=StateEnum.Build;
         //If possibleMoves is empty the player has lost
-        if(possibleBuildListWorker1.isEmpty() && possibleBuildListWorker2.isEmpty())
+        if(possibleBuildListWorker1.isEmpty() && possibleBuildListWorker2.isEmpty() && firstAction)
         {
             playerHasLost(model);
         }
+
         hasFinished=false;
         startup(model);
     }
@@ -120,12 +123,16 @@ public class BuildState implements State{
                 if(actingPlayer.getWorkerList().get(0).getPosition() == workerBox)
                 {
                     actingPlayer.setSelectedWorker(0);
+                    if(!firstAction && possibleBuildListWorker1.isEmpty())
+                        playerHasLost(model);
                     model.updateModelRep(possibleBuildListWorker1);
 
                 }
                 else if(actingPlayer.getWorkerList().get(1).getPosition() == workerBox)
                 {
                     actingPlayer.setSelectedWorker(1);
+                    if(!firstAction && possibleBuildListWorker2.isEmpty())
+                        playerHasLost(model);
                     model.updateModelRep(possibleBuildListWorker2);
                 }
                 else

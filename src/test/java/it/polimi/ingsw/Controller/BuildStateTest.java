@@ -54,12 +54,12 @@ public class BuildStateTest {
     {
         stateUnderTest1=new BuildState(new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
                 new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
-                false,false,model);
+                false,false,model,true);
 
         stateUnderTest2=new BuildState(
                 new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
                 new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
-                true,false,model);
+                true,false,model,true);
     }
 
     @Test
@@ -219,7 +219,7 @@ public class BuildStateTest {
         stateUnderTest2=new BuildState(
                 new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition())),
                 new ArrayList<>(model.getTurn().getPossibleBuildLocations(model.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition())),
-                true,true,model);
+                true,true,model,true);
         Choice c=new SelectWorkerCellChoice(4,1);
         try {
             stateUnderTest2.update(c,model);
