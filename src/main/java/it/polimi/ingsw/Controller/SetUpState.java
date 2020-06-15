@@ -12,6 +12,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The SetUpState is used just once,
+ * at the beginning of the game,
+ */
+
 public class SetUpState implements State{
 
     private StateEnum stateID;
@@ -19,6 +24,11 @@ public class SetUpState implements State{
     private ArrayList<Box> boxList = new ArrayList<>();
     private ArrayList<GodsList> selectedGodList;
     private boolean godsSelected,godsAssigned,firstPlayerSelected;
+
+    /**
+     * the builder is called to initialize the state
+     * @param model
+     */
 
     public SetUpState(Model model)
     {
@@ -30,11 +40,21 @@ public class SetUpState implements State{
         startup(model);
     }
 
+    /**
+     * it returns the ID of the state
+     * @return
+     */
+
     @Override
     public StateEnum getID()
     {
         return stateID;
     }
+
+    /**
+     * sets the first player active
+     * @param model
+     */
 
     @Override
     //Links players with gods
@@ -53,6 +73,11 @@ public class SetUpState implements State{
         model.updateModelRep(stateID);
     }
 
+    /**
+     * returns the boolean variable that is used to check if the state has finished
+     * @return
+     */
+
     @Override
     public boolean hasFinished() {
         return hasFinished;
@@ -66,6 +91,16 @@ public class SetUpState implements State{
         Collections.shuffle(randomGodArray);
         return randomGodArray;
     }
+
+    /**
+     * links players and gods and sets
+     * the initial workers positions for each player,
+     * basing on the users choices
+     * @param userChoice
+     * @param model
+     * @throws WrongChoiceException
+     * @throws BoxAlreadyOccupiedException
+     */
 
     @Override
     public void update(Choice userChoice, Model model) throws WrongChoiceException,BoxAlreadyOccupiedException

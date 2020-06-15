@@ -13,6 +13,15 @@ import it.polimi.ingsw.Utils.SelectWorkerCellChoice;
 
 import java.util.ArrayList;
 
+/**
+ * The MoveState is used every time a player has to move.
+ * It is usually built after the ActivationGodState and
+ * it contains the list of possible moves for each worker and four boolean variables
+ * which report whether the gods Apollo, Minotaur, Hera or Prometheus are active.
+ * the boolean variable points out if the action is the first one, because
+ * when Prometheus is active the move is the second action
+ */
+
 public class MoveState implements State {
     private StateEnum stateID;
     private ArrayList<Box> possibleMovesWorker0;
@@ -22,6 +31,19 @@ public class MoveState implements State {
     private boolean hasFinished;
     private boolean heraIsActive;
     private boolean firstAction;
+
+    /**
+     * the builder is used to initialize the state.
+     * It receives the two lists of possible moves for the workers,
+     * the model and the four boolean variables which state if the gods are active
+     * @param possibleMovesby0
+     * @param possibleMovesby1
+     * @param pushWorker
+     * @param swapWorker
+     * @param heraIsActive
+     * @param model
+     * @param firstAction
+     */
 
     public MoveState(ArrayList<Box> possibleMovesby0,ArrayList<Box> possibleMovesby1, boolean pushWorker, boolean swapWorker, boolean heraIsActive, Model model,boolean firstAction)
     {
@@ -45,16 +67,31 @@ public class MoveState implements State {
         startup(model);
     }
 
+    /**
+     * returns the ID of the state
+     * @return
+     */
+
     @Override
     public StateEnum getID()
     {
         return stateID;
     }
 
+    /**
+     * updates the current state of the ModelRepresentation
+     * @param model
+     */
+
     @Override
     public void startup(Model model) {
         model.updateModelRep(stateID);
     }
+
+    /**
+     * sets the boolean variable hasLost of the current player to true
+     * @param model
+     */
 
     private void playerHasLost(Model model)
     {
@@ -62,10 +99,24 @@ public class MoveState implements State {
 
     }
 
+    /**
+     * returns the boolean variable that is used to check if the state has finished
+     * @return
+     */
+
     @Override
     public boolean hasFinished() {
         return hasFinished;
     }
+
+    /**
+     * takes the MoveChoice of the player and updates the model accordingly,
+     * taking into account all the activated gods
+     * @param userChoice
+     * @param model
+     * @throws WrongChoiceException
+     * @throws MoveErrorException
+     */
 
     @Override
     public void update(Choice userChoice, Model model) throws WrongChoiceException, MoveErrorException

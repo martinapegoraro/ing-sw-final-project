@@ -17,7 +17,11 @@ import java.util.ArrayList;
  * the BuildState class is used every time the player has to build a block,
  * usually after the MoveState.
  * It contains the two lists of the boxes where each worker of the current player can build
- * and two boolean variables which are true if the effects of Atlas or Hephaestus are active
+ * and three boolean variables which are true if the effects of Atlas, Hephaestus or Prometheus are active.
+ * They report if the player can build a dome at any level or if he can build twice on the same spot, with two
+ * boolean variables which point out if the effects of the gods are active,
+ * and if he can build before and after moving, with a boolean variable which points out
+ * if the build is the first action (possible only with Prometheus active) or not
  */
 
 public class BuildState implements State{
@@ -32,11 +36,15 @@ public class BuildState implements State{
 
     /**
      * the builder is called to initialize the state
+     * it receives the two lists of possible boxes for the two workers, the model
+     * and three boolean variables to verify whether the effects of
+     * the gods Atlas, Hephaestus or Prometheus are active.
      * @param pBLW1
      * @param pBLW2
      * @param domeAAL
      * @param twoBlocksBuilt
      * @param model
+     * @param firstAction
      */
 
     public BuildState(ArrayList<Box> pBLW1,ArrayList<Box> pBLW2, boolean domeAAL, boolean twoBlocksBuilt, Model model,boolean firstAction)

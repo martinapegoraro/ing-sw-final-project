@@ -1,14 +1,27 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Utils.Choice;
+import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 
 import java.util.List;
+
+/**
+ * The EndTurnState is used at the end of each turn.
+ * it resets some of the variables which are changed
+ * every turn
+ */
 
 public class EndTurnState implements State {
     private StateEnum stateID;
     private boolean hasFinished;
+
+    /**
+     * the builder initializes the state
+     * @param model
+     */
 
     public EndTurnState(Model model)
     {
@@ -18,10 +31,21 @@ public class EndTurnState implements State {
         startup(model);
     }
 
+    /**
+     * returns the ID of the state
+     * @return
+     */
+
     @Override
     public StateEnum getID() {
         return stateID;
     }
+
+    /**
+     * it resets the selected workers and
+     * the active gods for each player
+     * @param model
+     */
 
     @Override
     public void startup(Model model)
@@ -44,10 +68,24 @@ public class EndTurnState implements State {
         hasFinished = true;
     }
 
-    @Override
-    public void update(Choice userChoice, Model model) {
+    /**
+     * it sends a MessageToVirtualView if a choice is received during this state
+     * @param userChoice
+     * @param model
+     */
 
+
+    @Override
+    public void update(Choice userChoice, Model model)
+    {
+        model.notify(new MessageToVirtualView(new SentChoiceError()));
+        System.out.println("No choice can be received in CheckWinConditionState! RECEIVED: " + userChoice.toString());
     }
+
+    /**
+     * returns the boolean variable that is used to check if the state has finished
+     * @return
+     */
 
     @Override
     public boolean hasFinished() {

@@ -11,6 +11,15 @@ import it.polimi.ingsw.View.Observer;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The Context contains the logic of the game.
+ * it controls the turn flow according to the choices
+ * of the players and the current model.
+ * It contains some boolean variables used to apply god effects
+ * and an ArrayList used by Artemis and Demeter
+ * to save the old player positions
+ */
+
 public class Context implements Observer<Choice> {
     private State currentState;
     //private int numberofPlayers;
@@ -24,6 +33,12 @@ public class Context implements Observer<Choice> {
     private boolean hestiaSecondBuild;
     private ArrayList<Box> oldWorkerPositions = new ArrayList<>();
     //Used by Artemis and Demeter to save the old player positions
+
+    /**
+     * the builder is used to initialize the context
+     * @param model
+     * @throws NullPointerException
+     */
 
     public Context(Model model) throws NullPointerException
     {

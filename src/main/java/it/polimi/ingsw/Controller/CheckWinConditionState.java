@@ -4,9 +4,22 @@ import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 
+/**
+ * The CheckWinConditionState is used every time a player might have won
+ */
+
 public class CheckWinConditionState implements State{
     private boolean hasFinished;
     StateEnum stateId;
+
+    /**
+     * the builder id used to initialize the class
+     * and to specify if the CheckWinCondition is the first or the second one.
+     * The FirstCheckWinCondition is called after the move,
+     * the SecondCheckWinCondition is called after the build
+     * @param number
+     * @param model
+     */
 
     public CheckWinConditionState(int number,Model model)
     {
@@ -23,11 +36,24 @@ public class CheckWinConditionState implements State{
         startup(model);
     }
 
+    /**
+     * returns the ID of the state
+     * @return
+     */
+
     @Override
     public StateEnum getID() {
         return stateId;
     }
 
+
+    /**
+     * checks whether the player has the god Pan and
+     * if the boolean variable, which reports if the worker has moved down two
+     * or more levels, is set as true, if so it changes the win condition
+     *
+     * @param model
+     */
 
     public void checkPanCondition(Model model)
     {
@@ -38,6 +64,14 @@ public class CheckWinConditionState implements State{
             }
         }
     }
+
+    /**
+     * checks whether a player has the god Chronus and
+     * if there are five complete towers on the board,
+     * if so it changes the win condition
+     * @param model
+     * @param instance
+     */
 
     public void checkChronusCondition(Model model, Board instance)
     {
@@ -72,6 +106,13 @@ public class CheckWinConditionState implements State{
 
     }
 
+    /**
+     * checks each player's hasWon and hasLost variables
+     * to determine if anyone has won or lost.
+     * It can end the game
+     * @param model
+     */
+
     @Override
     public void startup(Model model)
     {
@@ -103,11 +144,23 @@ public class CheckWinConditionState implements State{
         if (stateId == StateEnum.SecondCheckWinCondition){model.updateModelRep(StateEnum.SecondCheckWinCondition);}
         hasFinished = true;
     }
+
+    /**
+     * it sends a MessageToVirtualView if a choice is received during this state
+     * @param userChoice
+     * @param model
+     */
+
     @Override
     public void update(Choice userChoice, Model model) {
         model.notify(new MessageToVirtualView(new SentChoiceError()));
         System.out.println("No choice can be received in CheckWinConditionState! RECEIVED: " + userChoice.toString());
     }
+
+    /**
+     * returns the boolean variable that is used to check if the state has finished
+     * @return
+     */
 
     @Override
     public boolean hasFinished() {
