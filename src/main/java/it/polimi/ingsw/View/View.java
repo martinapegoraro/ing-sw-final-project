@@ -139,10 +139,14 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
                 {
                    while(!chosenFirst) {
                        int first = Integer.parseInt(JOptionPane.showInputDialog(new JFrame(), "chose the first player", "Santorini", JOptionPane.PLAIN_MESSAGE, null, null, "").toString());
-                       if (first >= 0 && first <= 2 && first<message.getModelRep().playerNum) {
+                       if (first >= 0 && first<message.getModelRep().playerNum-1) {
                            Choice c = new InitialPlayerChoice(first);
                            chosenFirst = true;
                            notify(c);
+                       }
+                       else
+                       {
+                           JOptionPane.showMessageDialog((GameWindow)currentWindow,"there is no player"+first +"\n you have to insert a number between 0 and "+(message.getModelRep().playerNum-1));
                        }
                    }
 

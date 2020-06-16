@@ -142,7 +142,7 @@ public class Turn {
         List<Box> lista=new ArrayList<Box>();
         List<Box> borderBoxes=boardInstance.getBorderBoxes(b);
         for (Box cell:borderBoxes) {
-            if(!cell.isOccupied() && cell.isReachable(b))
+            if(!cell.isOccupied() && b.isReachable(cell))
                 lista.add(cell);
         }
         return lista;

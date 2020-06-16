@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Network;
 
+import it.polimi.ingsw.View.GameWindow;
+
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 
 public class ClientApp {
@@ -16,7 +19,8 @@ public class ClientApp {
             client.run();
         }
         catch(IOException | InterruptedException e){
-                System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(new Frame(),"the connection was refused by the server!!");
+            System.exit(0);
         }
     }
 }

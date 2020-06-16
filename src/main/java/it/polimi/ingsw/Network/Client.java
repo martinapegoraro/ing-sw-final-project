@@ -10,6 +10,7 @@ import it.polimi.ingsw.View.View;
 import it.polimi.ingsw.View.ViewState;
 
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -80,7 +81,7 @@ public class Client implements Observer<Choice> {
                                 view.updateWindow(messaggio);
 
                             } else if (messaggio.getMessage().getMessage().equals("Exit")) {
-                                System.out.println(messaggio.getMessage().getMessage());
+
                                 socket.close();
                                 System.exit(0);
                             } else {
@@ -95,8 +96,14 @@ public class Client implements Observer<Choice> {
 
                     }
                 } catch (Exception e){
-
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "the connection with the server is lost" +
+                                    "the game is ended",
+                            "Server Error",
+                            JOptionPane.ERROR_MESSAGE);
                     setActive(false);
+                    System.exit(0);
+
                 }
             }
         });
