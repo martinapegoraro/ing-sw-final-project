@@ -22,6 +22,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
     ArrayList<GodsList> selectedCards = new ArrayList<>();
     ArrayList<GodsList> allGods = new ArrayList<>(Arrays.asList(GodsList.values()));
     JButton godButton=new JButton(getGodImage(allGods.get(0).toString()));
+    JLabel godName;
     int godCounter = 0;
     int playerNum;
     JLabel[] godMiniatures = new JLabel[3];
@@ -40,6 +41,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
         this.playerNum = playerNum;
         this.view=view;
         //Declaring needed constants
+        blankCard = resizeIcon(new ImageIcon("resources/BlankGod.png"), (float) 1.25);
         int defaultCardWidth = blankCard.getIconWidth();
         int defaultCardHeight = blankCard.getIconHeight();
 
@@ -49,6 +51,8 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
         //Declaring needed objects
         f=new JFrame("God Selection");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        godName = new JLabel(allGods.get(0).getName());
+        godName.setHorizontalAlignment(JLabel.CENTER);
         JButton leftButton=new JButton("<");
         leftButton.setToolTipText("Switches to God on the left");
         leftButton.setActionCommand("before");
@@ -85,6 +89,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
 
         //Setting relative objects coordinates
         final int centeredButtonY = WIN_HEIGHT / 16 + defaultCardHeight / 2 - WIN_HEIGHT / 12;
+        godName.setBounds(WIN_WIDTH/2 - defaultCardWidth/2, 10, defaultCardWidth, 30);
         leftButton.setBounds(WIN_WIDTH/8, centeredButtonY, WIN_WIDTH/8,WIN_HEIGHT/6);
         godButton.setBounds(WIN_WIDTH/2 - defaultCardWidth/2,WIN_HEIGHT/16, defaultCardWidth, defaultCardHeight);
         rightButton.setBounds(WIN_WIDTH*6/8, centeredButtonY, WIN_WIDTH/8,WIN_HEIGHT/6);
@@ -110,6 +115,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
         f.add(rightButton);
         f.add(selectedGod1);
         f.add(selectedGod2);
+        f.add(godName);
 
         if(playerNum == 3)
         {
@@ -143,10 +149,10 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
         });
     }
 
-    private ImageIcon resizeIcon(ImageIcon defaultScale, int scaleDownFactor)
+    private ImageIcon resizeIcon(ImageIcon defaultScale, float scaleDownFactor)
     {
-        Image newimg = defaultScale.getImage().getScaledInstance( defaultScale.getIconWidth()/scaleDownFactor,
-                defaultScale.getIconHeight()/scaleDownFactor,  java.awt.Image.SCALE_SMOOTH ) ;
+        Image newimg = defaultScale.getImage().getScaledInstance( (int)(defaultScale.getIconWidth()/scaleDownFactor),
+                (int)(defaultScale.getIconHeight()/scaleDownFactor),  java.awt.Image.SCALE_SMOOTH ) ;
         return new ImageIcon( newimg );
     }
 
@@ -171,6 +177,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
 
             godButton.setToolTipText(allGods.get(godCounter).getDesc());
             godButton.setIcon(getGodImage(allGods.get(godCounter).getName()));
+            godName.setText(allGods.get(godCounter).getName());
         }
         else if("before".equals(actionEvent.getActionCommand()))
         {
