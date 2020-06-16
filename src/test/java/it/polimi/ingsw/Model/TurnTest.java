@@ -20,7 +20,7 @@ public class TurnTest {
         l.add("pippo");
         l.add("pluto");
         turnTest=new Turn(l);
-        turnTest.getBoardInstance().newBoard();
+        Board.newBoard();
     }
 
     @Test

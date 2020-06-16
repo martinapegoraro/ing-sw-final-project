@@ -50,11 +50,11 @@ public class ModelRepresentationTest {
     {
         int [][] workers = modelRepresentationTest.getWorkerPosition();
         assertEquals(-1, workers[1][1] );
-        assertEquals(1, workers[0][1]);
-        assertEquals(2, workers[1][4]);
+        assertEquals(10, workers[0][1]);
+        assertEquals(20, workers[1][4]);
         assertEquals(-1, workers[3][2]);
-        assertEquals(1,workers[2][2]);
-        assertEquals(2,workers[4][0]);
+        assertEquals(11,workers[2][2]);
+        assertEquals(21,workers[4][0]);
         assertEquals(-1, workers[2][1]);
         assertEquals(-1, workers[3][0]);
 

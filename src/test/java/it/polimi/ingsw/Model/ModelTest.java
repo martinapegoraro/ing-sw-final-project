@@ -84,16 +84,16 @@ public class ModelTest {
 
         int [][] workers = modelTest.getModelRep().getWorkerPosition();
 
-        assertEquals(2, workers[1][2]);
+        assertEquals(20, workers[1][2]);
         assertEquals(-1, workers[0][2]);
-        assertEquals(2, workers[0][3]);
+        assertEquals(21, workers[0][3]);
 
         modelTest.getTurn().getPlayersList().get(1).setWorkersPosition(b3,b4);
         modelTest.updateModelRep(modelTest.getModelRep().currentState);
         int [][] workers1 = modelTest.getModelRep().getWorkerPosition();
 
-        assertEquals(1, workers1[2][2]);
-        assertEquals(1, workers1 [3][1]);
+        assertEquals(10, workers1[2][2]);
+        assertEquals(11, workers1 [3][1]);
         assertEquals(-1, workers1 [1][1]);
 
         b5.build();
