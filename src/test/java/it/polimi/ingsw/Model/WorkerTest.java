@@ -27,7 +27,7 @@ public class WorkerTest {
         }
         box1.build();
         box1.build();
-        try{box3.getTower().build(Block.DOME);}catch(TowerCompleteException e){}
+        try{box3.getTower().build(Block.DOME);}catch(TowerCompleteException e){e.printStackTrace();}
     }
     @Test
     public void getPosition() {
@@ -47,7 +47,7 @@ public class WorkerTest {
         catch(MoveErrorException ex)
         {
             System.out.println(ex.getMessage());
-            System.out.println(ex.getStackTrace().toString());
+            ex.printStackTrace();
         }
 
 
