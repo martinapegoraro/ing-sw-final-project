@@ -108,7 +108,7 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
                     currentWindow.setWindowVisible();
                 } else {
                     ((LobbyWindow)currentWindow).godSelectionPrompt(message.getModelRep().playersName[message.getModelRep().activePlayer]);
-                    currentWindow.setWindowNotVisible();
+                    //currentWindow.setWindowNotVisible();
                 }
             } else if (message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods != null) {
                 //currentWindow.setWindowNotVisible();
@@ -119,7 +119,7 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
 
                 } else {
                     ((CardSelectionWindow)currentWindow).godSelectionPrompt(message.getModelRep().playersName[message.getModelRep().activePlayer]);
-                    currentWindow.setWindowNotVisible();
+                    //currentWindow.setWindowNotVisible();
                 }
             } else if (message.getModelRep().currentState.toString().equals("SetUp") && message.getModelRep().gods == null && message.getModelRep().godList[0] != null) {
                 currentWindow.setWindowNotVisible();
