@@ -591,6 +591,11 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     }
 
     @Override
+    public void messagePrompt(String message) {
+
+    }
+
+    @Override
     public void actionPerformed(ActionEvent actionEvent) {
         System.out.println(actionEvent.getActionCommand());
         Choice choiceToSend = null;
@@ -609,10 +614,12 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         }
         else if(actionEvent.getActionCommand().equals("Exit"))
         {
-            choiceToSend = new ExitChoice();
-            //choiceToSend.setId(myID);
-            //view.update(choiceToSend);
-            //System.exit(0);
+            if(JOptionPane.showConfirmDialog(playersSideBar,"Are you sure you want quit the game?","Quit the game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
+                Choice c=new ExitChoice();
+                c.setId(myID);
+                view.update(c);
+                System.exit(0);
+            }
         }
         else
             {

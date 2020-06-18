@@ -10,4 +10,5 @@ public interface WindowInterface {
 
     public void setWindowVisible();
     public void setWindowNotVisible();
+    public void messagePrompt(String message);
 }

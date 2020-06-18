@@ -100,7 +100,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                            close();
                        };
                    };
-                   timer.schedule(task,10000);
+                   //timer.schedule(task,10000);
                }
             }
         }).start();

@@ -81,7 +81,12 @@ public class Client implements Observer<Choice> {
                                 view.updateWindow(messaggio);
 
                             } else if (messaggio.getMessage().getMessage().equals("Exit")) {
-
+                                JOptionPane.showMessageDialog(new JFrame(),
+                                        "a player quit the game\n" +
+                                                "the game is ended",
+                                        "end game ",
+                                        JOptionPane.ERROR_MESSAGE);
+                                setActive(false);
                                 socket.close();
                                 System.exit(0);
                             } else {
@@ -97,7 +102,7 @@ public class Client implements Observer<Choice> {
                     }
                 } catch (Exception e){
                     JOptionPane.showMessageDialog(new JFrame(),
-                            "the connection with the server is lost" +
+                            "the connection with the server is lost\n" +
                                     "the game is ended",
                             "Server Error",
                             JOptionPane.ERROR_MESSAGE);

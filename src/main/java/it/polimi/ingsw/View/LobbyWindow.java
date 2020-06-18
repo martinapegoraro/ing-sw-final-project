@@ -99,9 +99,10 @@ public class LobbyWindow extends JFrame implements WindowInterface{
 
 
 
-    public void godSelectionPrompt(String name)
-    {
-        JOptionPane.showMessageDialog(lobbyWindowFrame,name+" is choosing the gods");
+
+    @Override
+    public void messagePrompt(String message) {
+        JOptionPane.showMessageDialog(lobbyWindowFrame,message+" is choosing the gods");
     }
 
 

@@ -239,10 +239,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
             }
     }
 
-    public void godSelectionPrompt(String name)
-    {
-        JOptionPane.showMessageDialog(f,name+" is choosing the god");
-    }
+
 
     @Override
     public void updateWindow(MessageToVirtualView update) {
@@ -260,5 +257,10 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
     @Override
     public void setWindowNotVisible() {
         f.setVisible(false);
+    }
+
+    @Override
+    public void messagePrompt(String message) {
+        JOptionPane.showMessageDialog(f,message+" is choosing the god");
     }
 }
