@@ -15,15 +15,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * the view class handles the client-side of the application
+ * recived a messageToVirtualView establish what the player is supposed to see handling the gui windows
+ */
 public class View extends Observable<Choice> implements Observer<MessageToVirtualView> {
 
     private ViewState currentState;
     private WindowInterface currentWindow;
     private String playerName;
     private int idPlayer;
-
-
-    //temporaneo
     private boolean chosenFirst=false;
     public View()
     {
@@ -34,6 +35,11 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
 
     }
 
+    /**
+     * this class builder sets the current state and shows the lobby window where the client can put his username and how many people he wants to play with
+     *
+     * @param state
+     */
     public View(ViewState state)
     {
         currentState=state;
@@ -47,13 +53,10 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
         currentWindow.setWindowVisible();
     }
 
-
-
-
-
-
-
-
+    /**
+     * return the current state of the client
+     * @return
+     */
     public ViewState getCurrentState() {
         return currentState;
     }
@@ -77,21 +80,37 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
 
     }
 
-
-
+    /**
+     * given as  @param name
+     * sets the player name attribute
+     */
     public void setPlayerName(String name)
     {
         playerName=name;
     }
+
+    /**
+     * given the id of the player sets the idplayer
+     * @param id
+     */
     public void setIdPlayer(int id){
         idPlayer=id;
     }
 
+    /**
+     * returns the IdPlayer
+     * @return
+     */
     public int getIdPlayer()
     {
         return idPlayer;
     }
 
+    /**
+     * given a messageToVirtualView as
+     * @param message
+     * modifies the current window
+     */
     public void updateWindow(MessageToVirtualView message)
     {
         if(!message.isModelRep())
@@ -139,7 +158,7 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
                 {
                    while(!chosenFirst) {
                        int first = Integer.parseInt(JOptionPane.showInputDialog(new JFrame(), "chose the first player", "Santorini", JOptionPane.PLAIN_MESSAGE, null, null, "").toString());
-                       if (first >= 0 && first<message.getModelRep().playerNum-1) {
+                       if (first >= 0 && first<=message.getModelRep().playerNum-1) {
                            Choice c = new InitialPlayerChoice(first);
                            chosenFirst = true;
                            notify(c);

@@ -31,7 +31,7 @@ public class Context implements Observer<Choice> {
     private boolean artemisFirstMove;
     private boolean demeterFirstBuild;
     private boolean hestiaSecondBuild;
-    private ArrayList<Box> oldWorkerPositions = new ArrayList<>();
+    private ArrayList<Box> oldWorkerPositions;
     //Used by Artemis and Demeter to save the old player positions
 
     /**
@@ -51,6 +51,7 @@ public class Context implements Observer<Choice> {
         contextModel = model;
         activeGods = new ArrayList<>();
         hestiaSecondBuild=false;
+        oldWorkerPositions = new ArrayList<>();
     }
 
 

@@ -148,6 +148,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                     view.update(c);
                     System.exit(0);
                 }
+
             }
         });
 

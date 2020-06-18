@@ -22,6 +22,9 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * the SocketClientConnection class is the one which handles the socket connection receives the messages and sends them to the controller
+ */
 public class SocketClientConnection extends Observable<Choice> implements Runnable{
     private Socket socket;
     private boolean active;
@@ -34,9 +37,12 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     private int pingCounter;
 
 
-
-
-
+    /**
+     * the builder methods creates the input and output streams and at the end it runs the ping method
+     * @param socket
+     * @param server
+     * @throws IOException
+     */
     public SocketClientConnection(Socket socket,Server server) throws IOException {
         this.socket=socket;
         this.server=server;
@@ -48,11 +54,19 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         ping();
     }
 
+    /**
+     * the methods
+     * @return true if the connection is still active
+     * and @returns false if it is not
+     */
     private synchronized boolean isActive()
     {
         return active;
     }
 
+    /**
+     * the method closes the socket and set not active the active attribute
+     */
     public synchronized void closeConnection()
     {
         try{
@@ -62,6 +76,10 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         }
         active=false;
     }
+
+    /**
+     * the ping method sends each 15 seconds a ping message to the client
+     */
     private void ping()
     {
         new Thread(new Runnable() {
@@ -82,12 +100,16 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                            close();
                        };
                    };
-                   //timer.schedule(task,10000);
+                   timer.schedule(task,10000);
                }
             }
         }).start();
     }
 
+    /**
+     * the send method sends a message to the client
+     * @param message
+     */
     public synchronized void send(MessageToVirtualView message) {
         try {
             out.reset();
@@ -99,6 +121,9 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
 
     }
 
+    /**
+     * this send creates a new thread which sends the message recived as  @param message
+     */
     public void asyncSend(MessageToVirtualView message){
         new Thread(new Runnable() {
             @Override
@@ -108,6 +133,9 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         }).start();
     }
 
+    /**
+     * the close method shuts down the connection and sends to the clients an exit choice
+     */
     private void close()
     {
         connectionPing=false;
@@ -118,6 +146,9 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         System.out.println("Done!");
     }
 
+    /**
+     * the run method continue to read from the socket until the active attribute is true
+     */
     public void run()
     {
         while(isActive()) {
@@ -130,6 +161,12 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         }
     }
 
+    /**
+     * the asyncRead reads in an asynchronous way from the socket
+     * @param connection
+     * @param in
+     * @return
+     */
     public Thread asyncReadFromSocket(SocketClientConnection connection,final ObjectInputStream in){
         Thread t = new Thread(new Runnable() {
             @Override

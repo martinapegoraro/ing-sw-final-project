@@ -53,12 +53,7 @@ public class Controller implements Observer<Choice> {
      Not needed if everything is done in AddPlayer
      **/
 
-    /*//After beginGameChoice is received by update this method starts the game
-    public void beginGame()
-    {
 
-    }
-    */
 
     /**
      * exits the game

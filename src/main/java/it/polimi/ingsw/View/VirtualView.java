@@ -4,10 +4,19 @@ import it.polimi.ingsw.Model.MessageToVirtualView;
 import it.polimi.ingsw.Network.SocketClientConnection;
 import it.polimi.ingsw.Utils.Choice;
 
+/**
+ * the virtual view class is used in the server-side of the application
+ * it receives the choice from the client and sends them to the controller and takes the messageToVirtualView from the model and sends to the clients
+ * in this project the virtual view is only the receiver and sender of messages the checks and elaboration methods are implemented in the controller (server-side)
+ * or the view (client-side)
+ * */
 public class VirtualView extends View {
     private int idPlayer;
     private SocketClientConnection connection;
 
+    /**
+     * the private class message receiver is used to submit to the controller the choices
+     */
     private class MessageReceiver extends Observable<Choice> implements Observer<Choice> {
 
         public void update(Choice c)
@@ -16,6 +25,12 @@ public class VirtualView extends View {
         }
     }
 
+
+    /**
+     * the virtualview builder builds the object and sets the Message reciver private class as observer of the connection
+     * @param idPlayer
+     * @param connection
+     */
     public VirtualView(int idPlayer,SocketClientConnection connection)
     {
         this.idPlayer=idPlayer;
@@ -23,15 +38,26 @@ public class VirtualView extends View {
         connection.addObservers(new MessageReceiver());
     }
 
+    /**
+     * the notify sends to the controller the choice recived
+     */
     public void notify(Choice click)
     {
         super.notify(click);
     }
 
+    /**
+     * @return the connection
+     */
     public SocketClientConnection getConnection()
     {
         return connection;
     }
+
+    /**
+     * this update method sends through the connection the message to the view
+     * @param message
+     */
     @Override
     public void update(MessageToVirtualView message) {
         connection.send(message);

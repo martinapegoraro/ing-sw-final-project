@@ -20,7 +20,7 @@ public class ClientApp {
         }
         catch(IOException | InterruptedException e){
             JOptionPane.showMessageDialog(new Frame(),"the connection was refused by the server!!");
-            System.exit(0);
+            //System.exit(0);
         }
     }
 }
