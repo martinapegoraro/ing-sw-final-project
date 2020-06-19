@@ -15,6 +15,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * this class represents the window where, in turn,
+ * the second (and third) player can choose his god card
+ */
+
 public class GodSelectionWindow extends JFrame implements ActionListener,WindowInterface
 {
     public final int WIN_WIDTH = 1000;
@@ -32,6 +37,15 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
     View view;
     JFrame f;
     ModelRepresentation modelRep;
+
+    /**
+     * builds the window, where a player can slide the
+     * possible god cards (which were chosen by the first player),
+     * submit his choice and cancel the selected card and choose again
+     * @param view
+     * @param playerNum
+     * @param modelRep
+     */
 
     public GodSelectionWindow(View view, int playerNum, ModelRepresentation modelRep)
     {
@@ -119,6 +133,11 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         //the window will be enabled or disabled by the View
         //f.setVisible(true);
         f.addWindowListener(new java.awt.event.WindowAdapter(){
+
+            /**
+             * ends the game and closes the window
+             * @param windowEvent
+             */
             public void windowClosing(java.awt.event.WindowEvent windowEvent){
                 if(JOptionPane.showConfirmDialog(f,"Are you sure you want quit the game?","Quit the game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
                     Choice c=new ExitChoice();
@@ -130,6 +149,13 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         });
     }
 
+    /**
+     * resize the icon
+     * @param defaultScale
+     * @param scaleDownFactor
+     * @return
+     */
+
     private ImageIcon resizeIcon(ImageIcon defaultScale, int scaleDownFactor)
     {
         Image newimg = defaultScale.getImage().getScaledInstance( defaultScale.getIconWidth()/scaleDownFactor,
@@ -137,10 +163,21 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         return new ImageIcon( newimg );
     }
 
+    /**
+     * gets the god image
+     * @param name
+     * @return
+     */
+
     private ImageIcon getGodImage(String name)
     {
         return new ImageIcon("resources/"+name+".png");
     }
+
+    /**
+     * updates the window, according to what the player has clicked on
+     * @param actionEvent
+     */
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
@@ -214,7 +251,10 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
     }
 
 
-
+    /**
+     * updates the window, according to the messages it may receive
+     * @param update
+     */
 
     @Override
     public void updateWindow(MessageToVirtualView update) {
@@ -224,15 +264,28 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         }
     }
 
+    /**
+     * sets the window visible
+     */
+
     @Override
     public void setWindowVisible() {
         f.setVisible(true);
     }
 
+    /**
+     * sets the window not visible
+     */
+
     @Override
     public void setWindowNotVisible() {
         f.setVisible(false);
     }
+
+    /**
+     * shows a message to the players who are not choosing the god
+     * @param message
+     */
 
     @Override
     public void messagePrompt(String message) {

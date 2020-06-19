@@ -6,10 +6,21 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * this class chooses the board image
+ */
+
 public class BoardPanel extends JPanel {
 
     private Image img;
     private ViewBox[][] buttonsGrid;
+
+    /**
+     * the builder sets the path of the chosen image
+     * and builds the grid where the workers
+     * and towers are going to be with buttons,
+     * so that the player can select any box
+     */
 
     public BoardPanel()
     {
@@ -34,6 +45,11 @@ public class BoardPanel extends JPanel {
         }
     }
 
+    /**
+     * puts the image on the window
+     * @param g
+     */
+
     @Override
     protected void paintComponent(Graphics g)
     {
@@ -42,6 +58,13 @@ public class BoardPanel extends JPanel {
             g.drawImage(img, 0, 0,this.getWidth(),this.getHeight(), null);
         }
     }
+
+    /**
+     * returns the box corresponding to the coordinates
+     * @param x
+     * @param y
+     * @return
+     */
 
     public ViewBox getBox(int x,int y)
     {

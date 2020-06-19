@@ -10,6 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * This class represents the initial window of the game, the lobby window,
+ * where the players decide their usernames and the number
+ * of players they want to play with
+ */
 
 public class LobbyWindow extends JFrame implements WindowInterface{
     private JFrame lobbyWindowFrame;
@@ -28,6 +33,13 @@ public class LobbyWindow extends JFrame implements WindowInterface{
 
     private JButton submitButton;
     private SubmitButtonListener submitButtonListener;
+
+    /**
+     * builds the lobby window, setting the background panel
+     * and the button to submit the choice
+     * @param view
+     * @throws IOException
+     */
 
     public LobbyWindow(View view) throws IOException {
         this.view=view;
@@ -79,6 +91,12 @@ public class LobbyWindow extends JFrame implements WindowInterface{
 
     }
 
+    /**
+     * updates the lobby window,
+     * according to the messages it may receive
+     * @param update
+     */
+
     @Override
     public void updateWindow(MessageToVirtualView update) {
         if(!update.isModelRep())
@@ -87,10 +105,18 @@ public class LobbyWindow extends JFrame implements WindowInterface{
         }
     }
 
+    /**
+     * sets the window visible
+     */
+
     public void setWindowVisible()
     {
         lobbyWindowFrame.setVisible(true);
     }
+
+    /**
+     * sets the window not visible
+     */
 
     public void setWindowNotVisible()
     {
@@ -98,7 +124,11 @@ public class LobbyWindow extends JFrame implements WindowInterface{
     }
 
 
-
+    /**
+     * shows a message to the player/players
+     * who are not choosing the gods
+     * @param message
+     */
 
     @Override
     public void messagePrompt(String message) {
@@ -106,7 +136,17 @@ public class LobbyWindow extends JFrame implements WindowInterface{
     }
 
 
+    /**
+     * this class represents the listener of the submit button
+     */
+
     public class SubmitButtonListener  implements ActionListener{
+
+        /**
+         * controls if the username and the number
+         * of players inserted by the user are correct
+         * @param actionEvent
+         */
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {

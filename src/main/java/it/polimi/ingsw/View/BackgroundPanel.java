@@ -6,8 +6,17 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class chooses the background image for the game, it is used only in the lobby window
+ */
+
 public class BackgroundPanel extends JPanel {
     Image img;
+
+    /**
+     * the builder is used to set the path of the image
+     * @param path
+     */
 
     public BackgroundPanel(String path)
     {
@@ -19,10 +28,21 @@ public class BackgroundPanel extends JPanel {
         }
     }
 
+    /**
+     * sets the dimension of the image
+     * @return
+     */
+
     @Override
     public Dimension getPreferredSize(){
         return img==null ? super.getPreferredSize():new Dimension(img.getWidth(null),img.getWidth(null));
     }
+
+    /**
+     * puts the image on the window
+     * @param g
+     */
+
     @Override
     protected void paintComponent(Graphics g)
     {

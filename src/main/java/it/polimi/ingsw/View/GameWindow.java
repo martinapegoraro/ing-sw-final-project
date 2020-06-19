@@ -14,6 +14,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.Flow;
 
+/**
+ * This class represents the main window of
+ * the game, where the actual game takes place
+ */
+
 public class GameWindow extends JFrame implements WindowInterface, ActionListener {
     //Graphic elements
         JLayeredPane boardContainer;
@@ -41,6 +46,15 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     int[][] activeCells;
     boolean workerHasBeenSelected = false;
     int selectedWorker;
+
+    /**
+     * builds the window, showing the board, the
+     * players and their gods
+     * @param playersName
+     * @param playersGods
+     * @param playerID
+     * @param view
+     */
 
     public GameWindow(String[] playersName, ArrayList<GodsList> playersGods, int playerID, View view) {
         this.playersName = playersName;
@@ -171,6 +185,14 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
 //_________________________________________INITIALIZER METHODS________________________________________________________
 
+    /**
+     * builds the sidebar which shows the other
+     * players' names and their god cards
+     * @param playersName
+     * @param playersGods
+     * @param playerID
+     */
+
     private void initializePlayerSidebar(String[] playersName, ArrayList<GodsList> playersGods, int playerID)
     {
         int counter = 0;
@@ -202,6 +224,11 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                 System.out.println("ERROR, wrong number of players!");
             }
     }
+
+    /**
+     * builds the footer where error messages
+     * and confirmation messages are shown
+     */
 
     private void initializeFooter()
     {
@@ -240,6 +267,12 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         footerContainer.add(buttonContainer, BorderLayout.EAST);
 
     }
+
+    /**
+     * initializes every box of the board, already
+     * placing the blocks of the towers and the workers.
+     * Every component will be set visible when needed
+     */
 
     private void initialize3dMatrix()
     {
@@ -297,6 +330,12 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     //_______________________________________WINDOW UPDATER METHODS_________________________________________________
 
+    /**
+     * when a player is the current player,
+     * changes the view
+     * @param currentPlayer
+     */
+
     private void updateCurrentPlayer(int currentPlayer)
     {
 
@@ -317,6 +356,13 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             }
         }
     }
+
+    /**
+     * sets the needed block visible on a tower
+     * @param towerPositions
+     * @param lastBlock
+     */
+
     private void updateTowers(int[][] towerPositions, String[][] lastBlock)
     {
         int towerHeight;
@@ -354,6 +400,11 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             }
         }
     }
+
+    /**
+     * puts the needed worker where his player has chosen
+     * @param workerPositions
+     */
 
     private void updateWorkers(int[][] workerPositions)
     {
@@ -410,6 +461,12 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         }
     }
 
+    /**
+     * updates the active cell for the selected worker,
+     * which are the cells where he can build or move
+     * @param activeCells
+     */
+
     private void updateSelectedCells(int[][] activeCells)
     {
         this.activeCells=activeCells;
@@ -431,16 +488,31 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         }
     }
 
+    /**
+     * shows the error message to the player
+     * @param message
+     */
+
     private void showErrorMessage(String message)
     {
         msgToUser.setText(message);
     }
+
+    /**
+     * updates the current state of the game
+     * @param state
+     */
 
     private void updateCurrentState(StateEnum state)
     {
         currentState.setText("Current State: "+state.toString());
         presentState = state;
     }
+
+    /**
+     * shows the buttons where the player can choose whether to activate his god power
+     * @param areVisible
+     */
 
     private void showGodButtons(boolean areVisible)
     {
@@ -455,6 +527,11 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                 godRefuse.setEnabled(false);
             }
     }
+
+    /**
+     * shows which gods are active, changing thw view
+     * @param activeGodsList
+     */
 
     private void updateSelectedGods(boolean[] activeGodsList)
     {
@@ -492,10 +569,23 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
  //__________________________________________UTILITY METHODS__________________________________________________________
 
+    /**
+     * gets the needed image
+     * @param name
+     * @return
+     */
+
     private ImageIcon getResource(String name)
     {
         return new ImageIcon("resources/"+name+".png");
     }
+
+    /**
+     * resizes the icon
+     * @param defaultScale
+     * @param scaleDownFactor
+     * @return
+     */
 
     private ImageIcon resizeIcon(ImageIcon defaultScale, int scaleDownFactor)
     {
@@ -503,6 +593,14 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                 defaultScale.getIconHeight()/scaleDownFactor,  java.awt.Image.SCALE_SMOOTH ) ;
         return new ImageIcon( newimg );
     }
+
+    /**
+     * resizes the icon
+     * @param defaultScale
+     * @param width
+     * @param height
+     * @return
+     */
 
     private ImageIcon resizeIcon(ImageIcon defaultScale, int width, int height)
     {
@@ -580,10 +678,18 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             }
     }
 
+    /**
+     * sets the window visible
+     */
+
     @Override
     public void setWindowVisible() {
         this.setVisible(true);
     }
+
+    /**
+     * sets the window not visible
+     */
 
     @Override
     public void setWindowNotVisible() {
@@ -594,6 +700,11 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     public void messagePrompt(String message) {
 
     }
+
+    /**
+     * updates the view according to what a player has clicked on
+     * @param actionEvent
+     */
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
