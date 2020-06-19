@@ -6,6 +6,10 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * this class represents a box
+ */
+
 public class ViewBox extends JButton {
     private  int x,y;
     private boolean highlighted;
@@ -13,6 +17,12 @@ public class ViewBox extends JButton {
     private String lastBlock;
     private JButton box;
     private Image img;
+
+    /**
+     * builds each box
+     * @param x
+     * @param y
+     */
 
     public ViewBox(int x,int y)
     {
@@ -26,20 +36,41 @@ public class ViewBox extends JButton {
         box.setContentAreaFilled(false);
     }
 
+    /**
+     * sets the worker image on the given box
+     */
+
     public void setImage()
     {
         box.setIcon(new ImageIcon("resources/WorkerPurpleF_Cropped.png"));
     }
+
+    /**
+     * sets the level and the last block of a tower
+     * @param level
+     * @param lastBlock
+     */
+
     public void setTower(int level,String lastBlock)
     {
         towerLevel=level;
         this.lastBlock=lastBlock;
     }
+
+    /**
+     * sets an highlighted box
+     * @param highlighted
+     */
     public void setHighlighted(boolean highlighted)
     {
         this.highlighted=highlighted;
     }
 
+
+    /**
+     * sets the image given a path
+     * @param path
+     */
     public void setImage(String path)
     {
         try{

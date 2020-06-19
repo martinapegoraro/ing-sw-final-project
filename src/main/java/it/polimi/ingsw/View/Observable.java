@@ -9,9 +9,19 @@ public class Observable<T> {
 
     private List<Observer<T>> observers = new ArrayList<>();
 
+    /**
+     * add an observer
+     * @param observer
+     */
+
     public void addObservers(Observer<T> observer){
         observers.add(observer);
     }
+
+    /**
+     * notifies a change so that the observers can update
+     * @param message
+     */
 
     public void notify(T message){
         for(Observer<T> observer: observers){

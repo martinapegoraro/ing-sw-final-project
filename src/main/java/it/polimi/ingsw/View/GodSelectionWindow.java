@@ -252,7 +252,7 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
 
 
     /**
-     * updates the window, according to the messages it may receive
+     * updates the window, according to the model representation
      * @param update
      */
 

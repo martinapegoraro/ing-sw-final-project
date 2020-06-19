@@ -279,7 +279,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
 
 
     /**
-     * updates the window according to the messages it may receive
+     * updates the window according to the model representation
      * @param update
      */
 

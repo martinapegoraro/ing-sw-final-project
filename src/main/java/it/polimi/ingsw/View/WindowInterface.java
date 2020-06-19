@@ -8,7 +8,20 @@ public interface WindowInterface {
     /**Updates window after having received ModelRep inside MessageToVirtualView**/
     public void updateWindow(MessageToVirtualView update);
 
+    /**
+     * sets the window visible
+     */
     public void setWindowVisible();
+
+    /**
+     * sets the window not visible
+     */
+
     public void setWindowNotVisible();
+
+    /**
+     * shows messages
+     * @param message
+     */
     public void messagePrompt(String message);
 }

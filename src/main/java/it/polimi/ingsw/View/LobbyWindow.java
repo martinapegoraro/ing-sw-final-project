@@ -93,7 +93,7 @@ public class LobbyWindow extends JFrame implements WindowInterface{
 
     /**
      * updates the lobby window,
-     * according to the messages it may receive
+     * according to the model representation
      * @param update
      */
 
