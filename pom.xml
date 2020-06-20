@@ -31,6 +31,12 @@
           <version>15.0</version>
           <scope>compile</scope>
       </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -54,10 +60,55 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
         </plugin>
+
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
+          <executions>
+            <execution>
+              <id>first-jar</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+              <configuration>
+                <classifier>Client</classifier>
+                <finalName>Client</finalName>
+                <excludes>
+                  <exlude>it.polimi.ingsw.Network.ServerApp</exlude>
+                </excludes>
+                <archive>
+                  <manifest>
+                    <addClasspath>true</addClasspath>
+                    <classpathPrefix>lib/</classpathPrefix>
+                    <mainClass>it.polimi.ingsw.Network.ClientApp</mainClass>
+                  </manifest>
+                </archive>
+              </configuration>
+            </execution>
+            <execution>
+              <id>second-jar</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+              <configuration>
+                <classifier>Server</classifier>
+                <finalName>Server</finalName>
+                <excludes>
+                  <exlude>it.polimi.ingsw.Network.ClientApp</exlude>
+                </excludes>
+                <archive>
+                  <manifest>
+                    <addClasspath>true</addClasspath>
+                    <classpathPrefix>lib/</classpathPrefix>
+                    <mainClass>it.polimi.ingsw.Network.ServerApp</mainClass>
+                  </manifest>
+                </archive>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
+
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
           <version>2.5.2</version>
