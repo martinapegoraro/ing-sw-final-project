@@ -598,10 +598,10 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     /**
      * resizes the icon
-     * @param defaultScale
+     * @param defaultScale the icon
      * @param width
      * @param height
-     * @return
+     * @return the resized icon
      */
 
     private ImageIcon resizeIcon(ImageIcon defaultScale, int width, int height)

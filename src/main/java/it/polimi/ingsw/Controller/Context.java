@@ -4,12 +4,10 @@ import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.*;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.ErrorMessages.GodNotActionableErrorMessage;
-import it.polimi.ingsw.Utils.ErrorMessages.SelectedCellErrorMessage;
 import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
 import it.polimi.ingsw.View.Observer;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 /**
  * The Context contains the logic of the game.
@@ -35,9 +33,8 @@ public class Context implements Observer<Choice> {
     //Used by Artemis and Demeter to save the old player positions
 
     /**
-     * the builder is used to initialize the context
      * @param model
-     * @throws NullPointerException
+     * @throws NullPointerException when model is null
      */
 
     public Context(Model model) throws NullPointerException
@@ -404,7 +401,7 @@ public class Context implements Observer<Choice> {
         ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
         
         for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {
-            if(cell.isOccupied() && cell.isReachable(b) && (!b.getTower().getPieces().contains(Block.DOME)))
+            if(cell.isOccupied() && cell.isReachable(b) && (!cell.getTower().getPieces().contains(Block.DOME)))
             {
                 godMoves.add(cell);
             }
