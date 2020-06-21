@@ -340,6 +340,10 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     {
 
         playerCard.setForeground(Color.BLACK);
+        for(JLabel l:opponentsMiniatures)
+        {
+            l.setForeground(Color.BLACK);
+        }
         if(myID==currentPlayer)
         {
             playerCard.setForeground(Color.RED);
@@ -348,7 +352,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         {
             for(JLabel l:opponentsMiniatures)
             {
-                l.setForeground(Color.BLACK);
                 if(l.getText().equals(playersName[currentPlayer]))
                 {
                     l.setForeground(Color.RED);

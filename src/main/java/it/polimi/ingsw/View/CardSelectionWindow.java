@@ -230,6 +230,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
                 }
             godButton.setToolTipText(allGods.get(godCounter).getDesc());
             godButton.setIcon(getGodImage(allGods.get(godCounter).getName()));
+            godName.setText(allGods.get(godCounter).getName());
         }
         else if("god".equals(actionEvent.getActionCommand())){
             //A god has been selected

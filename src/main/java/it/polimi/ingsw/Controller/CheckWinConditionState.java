@@ -136,6 +136,12 @@ public class CheckWinConditionState implements State{
             {
                 //the game ends
                 Board.newBoard();
+
+                for(int j=0;j<playerNumber;j++)
+                {
+                    if(j!=i)
+                        model.getTurn().getPlayersList().get(i).setHasLost();
+                }
             }
         }
 
