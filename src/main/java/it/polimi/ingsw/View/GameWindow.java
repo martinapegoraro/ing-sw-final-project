@@ -539,16 +539,16 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     private void updateSelectedGods(boolean[] activeGodsList)
     {
         playerCard.setOpaque(false);
-        if(activeGodsList[myID])
+        for(JLabel l:opponentsMiniatures)
         {
-            playerCard.setOpaque(true);
+            l.setOpaque(false);
         }
+
 
         for(int count=0; count < activeGodsList.length; count++)
         {
             if(count == myID)
             {
-                playerCard.setOpaque(false);
                 if(activeGodsList[myID])
                 {
                         playerCard.setOpaque(true);
@@ -558,7 +558,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             {
                for(JLabel l:opponentsMiniatures)
                {
-                   l.setOpaque(false);
                    if(l.getText().equals(playersName[count]))
                    {
                        l.setOpaque(true);
