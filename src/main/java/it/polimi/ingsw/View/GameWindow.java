@@ -38,14 +38,15 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         JButton[][] boardButtons;
 
         //Variables
-    int myID;
-    String[] playersName;
-    int[][] myWorkerCells = new int[2][2]; //Saves the position of workers owned by the player sent with MsgToVirtualView
-    View view;
-    StateEnum presentState = StateEnum.SetUp;
-    int[][] activeCells;
-    boolean workerHasBeenSelected = false;
-    int selectedWorker;
+    private int myID;
+    private String[] playersName;
+    private int[][] myWorkerCells = new int[2][2]; //Saves the position of workers owned by the player sent with MsgToVirtualView
+    private View view;
+    private StateEnum presentState = StateEnum.SetUp;
+    private int[][] activeCells;
+    private boolean workerHasBeenSelected;
+    private int selectedWorker;
+    private boolean moved;
 
     /**
      * builds the window, showing the board, the
@@ -57,6 +58,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
      */
 
     public GameWindow(String[] playersName, ArrayList<GodsList> playersGods, int playerID, View view) {
+        workerHasBeenSelected = false;
+        moved=false;
         this.playersName = playersName;
         myID = playerID;
         this.view=view;
@@ -715,6 +718,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         int clickedCell;
         int[] cellArray = new int[2];
 
+
         if(actionEvent.getActionCommand().equals("Activate"))
         {
             showGodButtons(false);
@@ -750,7 +754,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                         {
                             System.out.println(workerHasBeenSelected + " " + selectedWorker);
                             //I first select the worker
-                            if((myWorkerCells[0][0]==cellArray[0] && myWorkerCells[0][1]==cellArray[1]))
+                            if((myWorkerCells[0][0]==cellArray[0] && myWorkerCells[0][1]==cellArray[1]) && !moved)
                             {
                                 if(!workerHasBeenSelected)
                                 {
@@ -761,9 +765,10 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(myWorkerCells[selectedWorker][0],
                                             myWorkerCells[selectedWorker][1]);
+                                    moved=true;
                                 }
                             }
-                            else if((myWorkerCells[1][0]==cellArray[0] && myWorkerCells[1][1]==cellArray[1]))
+                            else if((myWorkerCells[1][0]==cellArray[0] && myWorkerCells[1][1]==cellArray[1]) && !moved)
                             {
                                 if(!workerHasBeenSelected)
                                 {
@@ -774,6 +779,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(myWorkerCells[selectedWorker][0],
                                             myWorkerCells[selectedWorker][1]);
+                                    moved=true;
                                 }
                             }
                             else
@@ -786,6 +792,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                             break;
                                         case Build:
                                             choiceToSend = new BuildChoice(cellArray[0], cellArray[1]);
+                                            moved=false;
                                             break;
                                     }
 
@@ -798,6 +805,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                 {
                     System.out.println("Message is not supported!");
                 }
+
 
             }
 

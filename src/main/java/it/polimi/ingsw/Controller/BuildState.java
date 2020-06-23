@@ -198,6 +198,7 @@ public class BuildState implements State{
                     else if(domeAtAnyLevel){
                         try {
                             b.getTower().build(Block.DOME);
+                            b.setOccupied();
                         } catch (TowerCompleteException e) {
                             e.printStackTrace();
                         }

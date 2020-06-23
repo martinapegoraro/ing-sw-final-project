@@ -293,7 +293,13 @@ public class MoveState implements State {
                         //If Hera is active the player can't win on a border Box
                         //The flag heraIsActive is set only for opponent's turn
                         //Nobody can play Hera card in it's turn
+                        for(Player p:model.getTurn().getPlayersList())
+                        {
+                            if(p.getNumber()!=actingPlayer.getNumber())
+                                p.setHasLost();
+                        }
                         actingPlayer.setHasWon();
+
                     }
 
                     model.updateModelRep(stateID);
