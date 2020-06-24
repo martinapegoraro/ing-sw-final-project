@@ -8,10 +8,12 @@ import it.polimi.ingsw.Utils.ExitChoice;
 import it.polimi.ingsw.Utils.GodChoice;
 import it.polimi.ingsw.Utils.GodsCollectionChoice;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -24,7 +26,7 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
 {
     public final int WIN_WIDTH = 1000;
     public final int WIN_HEIGHT = 700;
-    ImageIcon blankCard = new ImageIcon("resources/BlankGod.png");
+    ImageIcon blankCard = new ImageIcon(getClass().getResource("/BlankGod.png"));
     ImageIcon blankResizedIcon = resizeIcon(blankCard, 4);
 
     ArrayList<GodsList> selectedCards = new ArrayList<>();
@@ -53,7 +55,7 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         this.view=view;
         this.modelRep = modelRep;
 
-        godButton=new JButton(getGodImage(modelRep.gods.get(0).toString()));
+        godButton=new JButton(getGodImage(modelRep.gods.get(0).getName()));
 
         //Declaring needed constants
         int defaultCardWidth = blankCard.getIconWidth();
@@ -171,7 +173,13 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
 
     private ImageIcon getGodImage(String name)
     {
-        return new ImageIcon("resources/"+name+".png");
+        try {
+            return new ImageIcon(ImageIO.read(getClass().getResource("/"+name+".png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     /**

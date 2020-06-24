@@ -7,10 +7,12 @@ import it.polimi.ingsw.Model.ModelRepresentation;
 import it.polimi.ingsw.Utils.*;
 import it.polimi.ingsw.Utils.Choice;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Flow;
 
@@ -142,7 +144,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         playerCard = new JLabel();
         playerCard.setBounds(1000-180-30,700-300-70, 180, 320);
         playerCard.setText(playersName[playerID]);
-        ImageIcon playersIcon = getResource(playersGods.get(playerID).toString());
+        ImageIcon playersIcon = getResource(playersGods.get(playerID).getName());
         playerCard.setIcon(resizeIcon(playersIcon, 180, 300));
         playerCard.setVerticalTextPosition(JLabel.TOP);
         playerCard.setHorizontalTextPosition(JLabel.CENTER);
@@ -207,7 +209,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             while(counter < playersName.length)
             {
                 if(counter!=playerID){
-                    opponentGodIcon = getResource(playersGods.get(counter).toString());
+                    opponentGodIcon = getResource(playersGods.get(counter).getName());
                     opponentGodIcon = resizeIcon(opponentGodIcon, 130, 200);
                     temp = new JLabel(playersName[counter], opponentGodIcon, JLabel.CENTER);
                     temp.setVerticalTextPosition(JLabel.BOTTOM);
@@ -582,7 +584,12 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     private ImageIcon getResource(String name)
     {
-        return new ImageIcon("resources/"+name+".png");
+        try {
+            return new ImageIcon(ImageIO.read(getClass().getResource("/"+name+".png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

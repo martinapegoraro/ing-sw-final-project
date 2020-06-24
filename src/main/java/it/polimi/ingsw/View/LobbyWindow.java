@@ -46,7 +46,7 @@ public class LobbyWindow extends JFrame implements WindowInterface{
 
         lobbyWindowFrame = new JFrame("Santorini");
         lobbyWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        backgroundPanel = new BackgroundPanel("resources/background.png");
+        backgroundPanel = new BackgroundPanel("/background.png");
         backgroundPanel.setLayout(new GridLayout(1, 1, -1, -1));
         //da settare L'immagine di background
         lobbyWindowFrame.add(backgroundPanel);

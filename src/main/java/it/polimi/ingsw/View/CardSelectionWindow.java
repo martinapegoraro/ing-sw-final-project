@@ -6,10 +6,12 @@ import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.ExitChoice;
 import it.polimi.ingsw.Utils.GodsCollectionChoice;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -21,12 +23,12 @@ import java.util.Arrays;
 public class CardSelectionWindow extends JFrame implements ActionListener,WindowInterface {
     public final int WIN_WIDTH = 1000;
     public final int WIN_HEIGHT = 700;
-    ImageIcon blankCard = new ImageIcon("resources/BlankGod.png");
+    ImageIcon blankCard =new ImageIcon(getClass().getResource("/BlankGod.png"));
     ImageIcon blankResizedIcon = resizeIcon(blankCard, 4);
 
     ArrayList<GodsList> selectedCards = new ArrayList<>();
     ArrayList<GodsList> allGods = new ArrayList<>(Arrays.asList(GodsList.values()));
-    JButton godButton=new JButton(getGodImage(allGods.get(0).toString()));
+    JButton godButton=new JButton(getGodImage(allGods.get(0).getName()));
     JLabel godName;
     int godCounter = 0;
     int playerNum;
@@ -55,7 +57,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
         this.playerNum = playerNum;
         this.view=view;
         //Declaring needed constants
-        blankCard = resizeIcon(new ImageIcon("resources/BlankGod.png"), (float) 1.25);
+        blankCard = resizeIcon(new ImageIcon(getClass().getResource("/BlankGod.png")), (float) 1.25);
         int defaultCardWidth = blankCard.getIconWidth();
         int defaultCardHeight = blankCard.getIconHeight();
 
@@ -190,7 +192,12 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
 
     private ImageIcon getGodImage(String name)
     {
-        return new ImageIcon("resources/"+name+".png");
+        try {
+            return new ImageIcon(ImageIO.read(getClass().getResource("/"+name+".png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
