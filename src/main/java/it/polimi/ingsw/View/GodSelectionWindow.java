@@ -67,6 +67,8 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         //Declaring needed objects
         f=new JFrame("God Selection");
 
+        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/GodSelWindow.png")));
+        background.setBounds(0,0,1000,700);
         JButton leftButton=new JButton("<");
         leftButton.setToolTipText("Switches to God on the left");
         leftButton.setActionCommand("before");
@@ -121,6 +123,7 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         f.add(chosenGod);
         f.add(submitButton);
         f.add(cancelButton);
+        f.add(background);
 
         //Set frame properties
         //f.getContentPane().setBackground(Color.DARK_GRAY);

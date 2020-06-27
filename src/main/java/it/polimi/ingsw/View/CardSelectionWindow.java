@@ -26,17 +26,17 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
     ImageIcon blankCard =new ImageIcon(getClass().getResource("/BlankGod.png"));
     ImageIcon blankResizedIcon = resizeIcon(blankCard, 4);
 
-    ArrayList<GodsList> selectedCards = new ArrayList<>();
-    ArrayList<GodsList> allGods = new ArrayList<>(Arrays.asList(GodsList.values()));
-    JButton godButton=new JButton(getGodImage(allGods.get(0).getName()));
-    JLabel godName;
-    int godCounter = 0;
-    int playerNum;
-    JLabel[] godMiniatures = new JLabel[3];
-    JButton submitButton =  new JButton("Submit");
-    JButton cancelButton = new JButton("Cancel");
-    View view;
-    JFrame f;
+    private ArrayList<GodsList> selectedCards = new ArrayList<>();
+    private ArrayList<GodsList> allGods = new ArrayList<>(Arrays.asList(GodsList.values()));
+    private JButton godButton=new JButton(getGodImage(allGods.get(0).getName()));
+    private JLabel godName;
+    private int godCounter = 0;
+    private int playerNum;
+    private JLabel[] godMiniatures = new JLabel[3];
+    private JButton submitButton =  new JButton("Submit");
+    private JButton cancelButton = new JButton("Cancel");
+    private View view;
+    private JFrame f;
 
 
    /* public static void main(String[] args) {
@@ -56,6 +56,9 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
     {
         this.playerNum = playerNum;
         this.view=view;
+
+        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/CardSelWindow.png")));
+        background.setBounds(0,0,1000,700);
         //Declaring needed constants
         blankCard = resizeIcon(new ImageIcon(getClass().getResource("/BlankGod.png")), (float) 1.25);
         int defaultCardWidth = blankCard.getIconWidth();
@@ -139,6 +142,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
         }
         f.add(submitButton);
         f.add(cancelButton);
+        f.add(background);
 
         //Set frame properties
         //f.getContentPane().setBackground(Color.DARK_GRAY);
