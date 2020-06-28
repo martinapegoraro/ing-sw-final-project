@@ -91,4 +91,11 @@ public class Server {
 
     }
 
+    /**
+     * The method is used after a game is ended to reset the lobby and permit new players to join*/
+    public void flushLobbies()
+    {
+        lobbiesList.clear();
+    }
+
 }

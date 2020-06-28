@@ -122,7 +122,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     }
 
     /**
-     * this send creates a new thread which sends the message recived as  @param message
+     * this send creates a new thread which sends the message received as  @param message
      */
     public void asyncSend(MessageToVirtualView message){
         new Thread(new Runnable() {
@@ -144,6 +144,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         System.out.println("Deregistering client...");
         server.deregisterConnection(this);
         System.out.println("Done!");
+        server.flushLobbies();
     }
 
     /**
@@ -179,13 +180,13 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                             PlayerNumberChoice np = (PlayerNumberChoice) read;
                             server.addToLobby(connection, np.name, np.playerNumber);
                         } else {
-                            System.out.println("recived:"+read.toString());
+                            System.out.println("received:"+read.toString());
                             connection.notify(read);
                         }
                     }
                     else
                     {
-                        System.out.println("recived pong");
+                        System.out.println("received pong");
                         if(task!=null)
                             task.cancel();
                         pingCounter++;
