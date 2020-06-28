@@ -84,6 +84,7 @@ public class LobbyWindow extends JFrame implements WindowInterface{
         submitButton.setContentAreaFilled(false);
         submitButtonListener=new SubmitButtonListener();
         submitButton.addActionListener(submitButtonListener);
+        submitButton.setActionCommand("submit");
         buttonPanel.add(submitButton);
 
 
@@ -156,18 +157,18 @@ public class LobbyWindow extends JFrame implements WindowInterface{
 
             if(playerName.equals(""))
             {
-                message="you have put your name \n";
+                message="the name field is empty! \n";
             }
             if(playerNumber.equals("")||(Integer.parseInt(playerNumber)!=2&&(Integer.parseInt(playerNumber))!=3))
             {
                 message+="Remember a game is composed by 2 or 3 players";
             }
-            if (message.equals(""))
+            if (actionEvent.getActionCommand().equals("submit"))
             {
                 Choice c=new PlayerNumberChoice(playerName,Integer.parseInt(playerNumber));
                 view.setPlayerName(playerName);
                 view.notify(c);
-
+                submitButton.setEnabled(false);
             }
             else
             {

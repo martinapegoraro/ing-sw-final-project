@@ -24,7 +24,8 @@ public class Turn {
     {
         nTurn=0;
         idFirstPlayer=0;
-        boardInstance=Board.getInstance();
+        Board.newBoard();
+        boardInstance= Board.getInstance();
         listaGiocatori=new ArrayList<Player>();
         for (String name:playersNamesList) {
             try {
