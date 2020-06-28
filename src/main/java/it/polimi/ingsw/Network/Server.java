@@ -14,6 +14,7 @@ public class Server {
     private ExecutorService executor;
     private List<SocketClientConnection> connections;
     private List<Lobby> lobbiesList;
+    private boolean gameHasStarted;
 
 
     /**
@@ -43,11 +44,14 @@ public class Server {
     public void run(){
         while(true){
             try {
-                Socket socket=serverSocket.accept();
-                SocketClientConnection connection=new SocketClientConnection(socket,this);
+                if(!gameHasStarted)
+                {
+                    Socket socket=serverSocket.accept();
+                    SocketClientConnection connection=new SocketClientConnection(socket,this);
 
-                registerConnection(connection);
-                executor.submit(connection);
+                    registerConnection(connection);
+                    executor.submit(connection);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -63,6 +67,7 @@ public class Server {
      */
     public void addToLobby(SocketClientConnection connection,String name,int numberOfPlayer)
     {
+
         if(lobbiesList==null){
             lobbiesList=new ArrayList<Lobby>();
             lobbiesList.add(new Lobby(connection,name,numberOfPlayer));
@@ -72,6 +77,10 @@ public class Server {
             for (Lobby l:lobbiesList) {
                 if(numberOfPlayer==l.getNumberOfPlayers()) {
                     l.addPlayer(connection, name);
+                    if(l.isFull())
+                    {
+                        gameHasStarted = true;
+                    }
                 }
             }
             lobbiesList.add(new Lobby(connection,name,numberOfPlayer));
@@ -96,6 +105,7 @@ public class Server {
     public void flushLobbies()
     {
         lobbiesList.clear();
+        gameHasStarted = false;
     }
 
 }

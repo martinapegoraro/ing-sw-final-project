@@ -25,6 +25,7 @@ public class Lobby {
     private Controller controller;
     private List<VirtualView> virtualViewList;
     private int numberOfPlayers;
+    private boolean isComplete;
 
 
     /**
@@ -58,6 +59,7 @@ public class Lobby {
         if(!connectionMap.containsValue(name)) {
             connectionMap.put(conn, name);
             if (connectionMap.size() == numberOfPlayers)
+                isComplete = true;
                 startGame();
         }
         else
@@ -168,6 +170,12 @@ public class Lobby {
 
     }
 
-
+    /**
+     * If the lobby is full no more connections will be accepted by the server
+     * @return the state of the lobby, true means the lobby has reached max capacity*/
+    public boolean isFull()
+    {
+        return isComplete;
+    }
 
 }

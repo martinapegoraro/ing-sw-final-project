@@ -282,6 +282,8 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
             }
             GodsCollectionChoice c=new GodsCollectionChoice(selectedCards);
             view.update(c);
+            submitButton.setEnabled(false);
+            cancelButton.setEnabled(false);
         }
         else
             {
