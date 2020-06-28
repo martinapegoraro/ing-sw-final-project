@@ -33,16 +33,9 @@ public class MoveState implements State {
     private boolean firstAction;
 
     /**
-     * the builder is used to initialize the state.
+     * the constructor is used to initialize the state.
      * It receives the two lists of possible moves for the workers,
      * the model and the four boolean variables which state if the gods are active
-     * @param possibleMovesby0
-     * @param possibleMovesby1
-     * @param pushWorker
-     * @param swapWorker
-     * @param heraIsActive
-     * @param model
-     * @param firstAction
      */
 
     public MoveState(ArrayList<Box> possibleMovesby0,ArrayList<Box> possibleMovesby1, boolean pushWorker, boolean swapWorker, boolean heraIsActive, Model model,boolean firstAction)
@@ -71,8 +64,7 @@ public class MoveState implements State {
     }
 
     /**
-     * returns the ID of the state
-     * @return
+     * @return the ID of the state
      */
 
     @Override
@@ -83,7 +75,6 @@ public class MoveState implements State {
 
     /**
      * updates the current state of the ModelRepresentation
-     * @param model
      */
 
     @Override
@@ -93,7 +84,6 @@ public class MoveState implements State {
 
     /**
      * sets the boolean variable hasLost of the current player to true
-     * @param model
      */
 
     private void playerHasLost(Model model)
@@ -103,8 +93,7 @@ public class MoveState implements State {
     }
 
     /**
-     * returns the boolean variable that is used to check if the state has finished
-     * @return
+     * @return the boolean variable that is used to check if the state has finished
      */
 
     @Override
@@ -115,10 +104,6 @@ public class MoveState implements State {
     /**
      * takes the MoveChoice of the player and updates the model accordingly,
      * taking into account all the activated gods
-     * @param userChoice
-     * @param model
-     * @throws WrongChoiceException
-     * @throws MoveErrorException
      */
 
     @Override

@@ -100,7 +100,8 @@ public class Box {
     }
 
     /**
-     * given  @param Box b
+     * given
+     * @param b which is a Box
      * @return true if the Box b is reachable from the this Box
      * a Box is reachable from another box if the two are adjacent(not checked here)
      * and the destination (Box b) is higher no more than 1 level than start height (Box this)
@@ -116,7 +117,8 @@ public class Box {
 
 
     /**
-     * given a Box as @param
+     * given a Box as
+     * @param b2
      * @return true if the given box represents the same box (in terms of coordinates) of the this Box
      */
     public boolean equals(Box b2)
@@ -125,8 +127,9 @@ public class Box {
     }
 
     /**
-     * return true if the this Box and the parameter box are adjacent
-     * else return false
+     * @return true if the this Box and the parameter box are adjacent
+     * else
+     * @return false
      * two boxes are adjacent if (given a box of coordinate x,y)
      * if the sum of x and y is no more than the sum of this x and y plus 2 or minus 2
      */
@@ -142,7 +145,7 @@ public class Box {
     }
 
     /**
-     * return true if the given box is a border box
+     * @return true if the given box is a border box
      * else return false
      */
     public boolean isBorder()

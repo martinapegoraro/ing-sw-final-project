@@ -5,6 +5,15 @@ import it.polimi.ingsw.Model.Exceptions.BoxAlreadyOccupiedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
+/**
+ * This class represents the player. It contains all
+ * the characteristics that define a player, such has his username,
+ * his god card and his ID number and a lot of useful variables
+ * which define if the player is active, if his god card is active,
+ * which worker he has selected, if he has lost/won and so on
+ */
+
 public class Player {
     private boolean isActive;
     private final String username;
@@ -20,9 +29,11 @@ public class Player {
     private Box lastMoveBox;
     private Box lastBuildBox;
 
-    /**Getter for lastMoveBox,
+    /**
+     * @return lastMoveBox,
      * lastMoveBox is used by Artemis to prevent the player from moving back
-     * to his old position**/
+     * to his old position*
+     * */
     public Box getLastMoveBox() {
         return lastMoveBox;
     }
@@ -35,7 +46,8 @@ public class Player {
         this.lastMoveBox = lastMoveBox;
     }
 
-    /**Getter for lastBuildBox,
+    /**
+     * @return lastBuildBox,
      * lastBuildBox is used by Demeter to prevent the player from building two times
      * on the same cell**/
     public Box getLastBuildBox() {
@@ -72,7 +84,6 @@ public class Player {
 
 
     /**
-     *
      * @return true if the current player is active
      */
     public boolean isPlayerActive()
@@ -81,7 +92,7 @@ public class Player {
     }
 
     /**
-     * this method sets the player active or not active given the @param active
+     * this method sets the player active or not active
      */
     public void setPlayerActive(boolean active)
     {
@@ -116,7 +127,6 @@ public class Player {
 
     /**
      * method that sets the god of the player during the game
-     * @param card
      */
     public void setGodCard(GodsList card)
     {
@@ -141,7 +151,6 @@ public class Player {
 
     /**
      * sets the active property of the player's god
-     * @param active
      */
      public void setGodActive(boolean active)
      {
@@ -159,7 +168,6 @@ public class Player {
 
     /**
      * sets true or false the athena condition of the player
-     * @param active
      */
      public void changeAthenaCondition(boolean active)
      {
@@ -167,22 +175,20 @@ public class Player {
      }
 
     /**
-     *
-     * @return true if the pan condition for the player is true or false
+     * @return if the pan condition for the player is true or false
      */
      public boolean isPanConditionTrue() {return  panCondition;}
 
     /**
      * sets the pan condition of the player
-     * @param active
      */
      public void changePanCondition (boolean active) {panCondition = active;}
 
 
     /**
      * given 2 boxes
-     * @param b1
-     * @param b2
+     * @param b1 which is the first box
+     * @param b2 which is the second box
      * the method sets the workers position
      */
     public void setWorkersPosition(Box b1,Box b2)
@@ -213,7 +219,6 @@ public class Player {
 
     /**
      * sets as selected a worker of the player
-     * @param selected
      */
     public void setSelectedWorker(Worker selected)
     {
@@ -221,8 +226,8 @@ public class Player {
     }
 
     /**
-     * sets a worker as selected but this time given the index of the worker
-     * @param n
+     * sets a worker as selected but this time given
+     * @param n the index of the worker
      */
     public void setSelectedWorker(int n)
     {

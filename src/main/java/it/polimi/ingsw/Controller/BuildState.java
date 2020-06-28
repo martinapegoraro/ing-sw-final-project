@@ -35,16 +35,10 @@ public class BuildState implements State{
 
 
     /**
-     * the builder is called to initialize the state
+     * the constructor is called to initialize the state
      * it receives the two lists of possible boxes for the two workers, the model
      * and three boolean variables to verify whether the effects of
      * the gods Atlas, Hephaestus or Prometheus are active.
-     * @param pBLW1
-     * @param pBLW2
-     * @param domeAAL
-     * @param twoBlocksBuilt
-     * @param model
-     * @param firstAction
      */
 
     public BuildState(ArrayList<Box> pBLW1,ArrayList<Box> pBLW2, boolean domeAAL, boolean twoBlocksBuilt, Model model,boolean firstAction)
@@ -72,8 +66,8 @@ public class BuildState implements State{
     }
 
     /**
-     * modifies the modelif a player has lost
-     * @param model
+     * modifies the model if a player has lost,
+     * it sets the player's variable HasLost to true
      */
 
     private void playerHasLost(Model model)
@@ -83,8 +77,7 @@ public class BuildState implements State{
     }
 
     /**
-     * returns the ID of the state
-     * @return
+     * @return the ID of the state
      */
 
     @Override
@@ -93,8 +86,7 @@ public class BuildState implements State{
     }
 
     /**
-     * updetes the ModelReoresentation with the current state
-     * @param model
+     * updates the ModelRepresentation with the current state
      */
 
     @Override
@@ -106,10 +98,6 @@ public class BuildState implements State{
     /**
      * updates the model using the BuildChoice of the current player,
      * taking into account the activated gods
-     * @param userChoice
-     * @param model
-     * @throws BuildErrorException
-     * @throws WrongChoiceException
      */
 
     @Override
@@ -256,8 +244,7 @@ public class BuildState implements State{
     }
 
     /**
-     * returns the boolean variable that is used to check if the state has finished
-     * @return
+     * @return the boolean variable that is used to check if the state has finished
      */
 
     @Override

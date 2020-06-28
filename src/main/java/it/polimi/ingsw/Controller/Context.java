@@ -33,7 +33,6 @@ public class Context implements Observer<Choice> {
     //Used by Artemis and Demeter to save the old player positions
 
     /**
-     * @param model
      * @throws NullPointerException when model is null
      */
 
