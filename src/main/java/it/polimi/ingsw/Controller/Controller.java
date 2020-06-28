@@ -25,8 +25,11 @@ public class Controller implements Observer<Choice> {
     Context context;
 
     /**
-     * the constructor initializes the controller,
+     * the builder initializes the controller,
      * it receives the number of player chosen by the players
+     * @param model
+     * @param playerNumber
+     * @throws WrongNumberOfPlayersException
      */
 
     public Controller(Model model, int playerNumber) throws WrongNumberOfPlayersException
@@ -64,6 +67,7 @@ public class Controller implements Observer<Choice> {
     /**
      * sends the valid choices to the context,
      * which controls the turn flow
+     * @param userChoice
      */
 
     public synchronized void update(Choice userChoice) {

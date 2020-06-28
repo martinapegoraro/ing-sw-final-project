@@ -21,9 +21,8 @@ public class ActivationGodState implements State {
     ArrayList<Player> playerHaveSelected = new ArrayList<>();
 
     /**
-     * the constructor is called to initialize the state.
-     * The boolean variable hasFinished is immediately set as
-     * true if the player has lost
+     * the builder is called to initialize the state
+      * @param model
      */
 
     public ActivationGodState(Model model)
@@ -39,7 +38,7 @@ public class ActivationGodState implements State {
 
     /**
      * @return the ID of the state
-     **/
+     */
 
     @Override
     public StateEnum getID()
@@ -49,6 +48,7 @@ public class ActivationGodState implements State {
 
     /**
      * this method updates the ModelRepresentation, updating the current state
+     * @param model
      */
 
     @Override
@@ -57,11 +57,8 @@ public class ActivationGodState implements State {
         model.updateModelRep(stateID);
     }
 
-    /**
-     * Called when activating Minotaur card, checks if the opponent worker has a free cell
-     * behind him to use the  God's power*
-     **/
-
+    /**Called when activating Minotaur card, checks if the opponent worker has a free cell
+     * behind him to use the  God's power**/
     private boolean minotaurCheck(Box opponentWorkerBox, Box playerWorkerBox, Model model)
     {
         int x1,x2,y1,y2;
@@ -87,12 +84,10 @@ public class ActivationGodState implements State {
         }
     }
 
-    /**
-     * Called by Context after BeginTurnState has finished
+    /**Called by Context after BeginTurnState has finished
      * The method collects the decision for every player
      * to activate their god card and updates the Model accordingly
-     **/
-
+     * **/
     @Override
     public void update(Choice userChoice, Model model) throws WrongChoiceException, GodConditionNotSatisfiedException
     {

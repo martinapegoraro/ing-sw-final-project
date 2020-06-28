@@ -15,16 +15,16 @@ public class Tower {
     private ArrayList<Block> pieces;
 
     /**
-     * the builder crates an array list of blocks
-     * at the beginning it will be empty
+     * the builder crates an array list of box at the beginning it will be empty
      */
     public Tower(){
         pieces=new ArrayList<Block>();
     }
 
     /**
-     * @return the height of a tower
+     * return the height of a tower
      * the height is equivalent at the number of blocks in the tower not which pieces are in the tower
+     * @return
      */
     public int getHeight(){
 
@@ -32,7 +32,8 @@ public class Tower {
     }
 
     /**
-     * @return the list of the pieces which are in the tower
+     * returns the list of the pieces which are in the tower
+     * @return
      */
     public List<Block> getPieces()
     {
@@ -40,9 +41,9 @@ public class Tower {
     }
 
     /**
-     * this build method is used when don't have to follow the build order defined by the game rules
-     * @param b is the block which has to be added to the tower
-     * @throws TowerCompleteException when a tower is already complete
+     * this build method is used when don't have to follow the build order defined by the game's rules
+     * @param b
+     * @throws TowerCompleteException
      */
     public void build(Block b) throws TowerCompleteException{
         if(pieces.contains(Block.DOME))
@@ -54,7 +55,7 @@ public class Tower {
 
     /**
      * this build method is used when I have to build a block in a tower but not using the gods effects which changes the build rules
-     * @throws TowerCompleteException when the tower is already complete
+     * @throws TowerCompleteException
      */
     public void build() throws TowerCompleteException{
         if(getHeight()==0)

@@ -17,8 +17,7 @@ public class Model extends Observable<MessageToVirtualView> {
     private ModelRepresentation modelRep;
 
     /**
-     * given the
-     * @param playersNamesList in this class's builder is created a new instance of the game
+     * given the  @param playersNamesList in this class builder is created a new instance of the game
      */
     public Model(List<String> playersNamesList)
     {
@@ -30,7 +29,7 @@ public class Model extends Observable<MessageToVirtualView> {
     }
 
     /**
-     * @return the current turn
+     * method that return the current turn
      */
     public Turn getTurn()
     {
@@ -47,7 +46,7 @@ public class Model extends Observable<MessageToVirtualView> {
 
     /**
      * this update modelRep is used when we have to show the current player
-     * in which cells he can move or build
+     * in which cells she or he can move or build
      */
     public void updateModelRep()
     {
@@ -61,7 +60,7 @@ public class Model extends Observable<MessageToVirtualView> {
     }
 
     /**
-     * this update modelRep in addiction to saving in the modelRep the selected cells saves also the current state of the controller
+     * this update modelRep in addiction to save in the modelRep the selected cells saves also the current state of the controller
      * in this way the client can know the state of the context (moveState or buildState)
      */
     public void updateModelRep(StateEnum currentState)
@@ -90,7 +89,8 @@ public class Model extends Observable<MessageToVirtualView> {
     }
 
     /**
-     * this updateModelRep updates the position of the workers in the modelRep
+     * this updateModelRep update the position of the workers in the modelRep
+     * @param selectedWorkerCells
      */
     public void updateModelRep(ArrayList<Box> selectedWorkerCells)
     {
@@ -111,6 +111,7 @@ public class Model extends Observable<MessageToVirtualView> {
 
     /**
      * this notify sends the messageToVirtualView which contains the modelRep to the VirtualView
+     * @param message
      */
     @Override
     public void notify(MessageToVirtualView message) {

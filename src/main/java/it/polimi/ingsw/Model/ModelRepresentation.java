@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * an instance of this class is a picture of the model
- * it's used as a container of all the information required by the view to graphically represent the game
+ * it's used as a container of all the information required by the view to graphically represents the game
  */
 public class ModelRepresentation implements Serializable {
     public int[][] workerposition;
@@ -31,6 +31,9 @@ public class ModelRepresentation implements Serializable {
 
     /**
      * given the parameters the builder creates the representation of the model
+     * @param instance
+     * @param players
+     * @param selectedCells
      */
     public ModelRepresentation(Board instance, List<Player> players, int[][] selectedCells)
     {
@@ -215,10 +218,10 @@ public class ModelRepresentation implements Serializable {
     }
 
     /**
-     * for every cell
-     * @return the last block of the tower in that box
+     * for every cell return the last block of the tower in that box
      * this information can't be given by the tower position because same
      * gods break the construction rules
+     * @return
      */
     public String[][] getLastBlock()
     {
@@ -226,24 +229,22 @@ public class ModelRepresentation implements Serializable {
     }
 
     /**
-     * for every player
-     * @return if he has won
+     * for every player we can know if she or he has won
      */
     public boolean[] getHasWon() { return hasWon;}
 
     /**
-     * for every player
-     * @return if he has lost
+     * for every player we can know if she or he has lost
      */
     public boolean[] getHasLost() { return hasLost; }
 
     /**
-     * @return the current state of the controller
+     * returns the current state of the controller
      */
     public  StateEnum getCurrentState() {return  currentState;}
 
     /**
-     * @return an array list that contains the gods selected by the player 0 at the beginning of the game
+     * return an array list that contains the gods selected by the player 0 at the beginning of the game
      * it will be used only in the first phase of the game
      */
     public List<GodsList> getGods() { return gods; }

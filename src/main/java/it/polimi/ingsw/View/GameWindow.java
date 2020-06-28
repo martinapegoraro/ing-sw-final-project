@@ -48,7 +48,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     private int[][] activeCells;
     private boolean workerHasBeenSelected;
     private int selectedWorker;
-    private boolean moved;
+    private boolean buildUnder;
 
     /**
      * builds the window, showing the board, the
@@ -61,7 +61,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     public GameWindow(String[] playersName, ArrayList<GodsList> playersGods, int playerID, View view) {
         workerHasBeenSelected = false;
-        moved=false;
+        buildUnder=false;
         this.playersName = playersName;
         myID = playerID;
         this.view=view;
@@ -487,6 +487,12 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                 {
                     //The button becomes yellow but still allows to see through
                     boardButtons[row][col].setBackground(new Color(208, 208, 0, 100));
+
+                    //check zeus
+                    if((myWorkerCells[0][0]==row && myWorkerCells[0][1]==col)||(myWorkerCells[1][0]==row && myWorkerCells[1][1]==col))
+                    {
+                        buildUnder=true;
+                    }
                 }
                else
                    {
@@ -664,7 +670,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             {
                 showGodButtons(true);
                 workerHasBeenSelected = false;
-                moved=false;
+
             }
             else
                 {
@@ -763,29 +769,26 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                         {
                             System.out.println(workerHasBeenSelected + " " + selectedWorker);
                             //I first select the worker
-                            if((myWorkerCells[0][0]==cellArray[0] && myWorkerCells[0][1]==cellArray[1]) )
+                            if((myWorkerCells[0][0]==cellArray[0] && myWorkerCells[0][1]==cellArray[1]) && !buildUnder)
                             {
-                                if(!workerHasBeenSelected && !moved)
+                                if(!workerHasBeenSelected)
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
                                     selectedWorker = 0;
-                                    moved=true;
                                 }
                                 else
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(myWorkerCells[selectedWorker][0],
                                             myWorkerCells[selectedWorker][1]);
-
                                 }
 
                             }
-                            else if((myWorkerCells[1][0]==cellArray[0] && myWorkerCells[1][1]==cellArray[1]))
+                            else if((myWorkerCells[1][0]==cellArray[0] && myWorkerCells[1][1]==cellArray[1]) && !buildUnder)
                             {
-                                if(!workerHasBeenSelected  && !moved)
+                                if(!workerHasBeenSelected )
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
                                     selectedWorker = 1;
-                                    moved=true;
                                 }
                                 else
                                 {
@@ -804,7 +807,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                             break;
                                         case Build:
                                             choiceToSend = new BuildChoice(cellArray[0], cellArray[1]);
-                                            moved=false;
+                                            buildUnder=false;
                                             break;
                                     }
 

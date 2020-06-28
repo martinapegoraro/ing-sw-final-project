@@ -16,8 +16,8 @@ public class Turn {
     private int idFirstPlayer;
 
     /**
-     * the constructor is used to initialize the first turn of the game given
-     * @param playersNamesList list of  players
+     * the builder is used to initialize the first turn of the game
+     * @param playersNamesList
      */
 
     public Turn(List<String> playersNamesList)
@@ -75,8 +75,8 @@ public class Turn {
     }
 
     /**
-     * this method sets the id of the player who starts given
-     * @param id which is the player's ID
+     * this method sets the id of the player who starts
+     * @param id
      */
 
     public void setIdFirstPlayer(int id)
@@ -86,7 +86,8 @@ public class Turn {
 
 
     /**
-     * @return the current player
+     * returns the current player
+     * @return
      */
 
     public Player getCurrentPlayer()
@@ -99,7 +100,8 @@ public class Turn {
     }
 
     /**
-     * @return the instance of the board
+     * returns the instance of the board
+     * @return
      */
 
     public Board getBoardInstance() {
@@ -107,8 +109,9 @@ public class Turn {
     }
 
     /**
-     * @return the god chosen by
-     * @param player which is the given player
+     * returns the god chosen by a given player
+     * @param player
+     * @return
      */
 
     public GodsList getPlayerGod(Player player)
@@ -117,11 +120,9 @@ public class Turn {
     }
 
     /**
-     * adds
-     * @param name which is a player's name
-     * to the list of players
-     * @throws ImpossibleAddAnotherPlayerException if the players' number is higher
-     * then three
+     * adds a player to the list of players
+     * @param name
+     * @throws ImpossibleAddAnotherPlayerException
      */
 
     public void addPlayer(String name)throws ImpossibleAddAnotherPlayerException
@@ -133,9 +134,9 @@ public class Turn {
     }
 
     /**
-     * given
-     * @param b , a box,
-     * @return  the list of the boxes a worker can move to
+     * given a certain box, returns the list of the boxes a worker can move to
+     * @param b
+     * @return
      */
 
     public List<Box> getPossibleMoves(Box b)
@@ -151,9 +152,9 @@ public class Turn {
     }
 
     /**
-     * given
-     * @param b , a box,
-     * @return  the possible boxes a worker can build on
+     * given a certain box, returns the possible boxes a worker can build on
+     * @param b
+     * @return
      */
 
     public List<Box> getPossibleBuildLocations(Box b)
@@ -167,7 +168,8 @@ public class Turn {
     }
 
     /**
-     * @return the list of players
+     * returns the list of players
+     * @return
      */
 
     public List<Player> getPlayersList()
@@ -176,9 +178,9 @@ public class Turn {
     }
 
     /**
-     * given
-     * @param id ,  a plyer's ID
-     * @return a player
+     * returns a player, given his ID
+     * @param id
+     * @return
      */
 
     public Player getPlayer(int id)

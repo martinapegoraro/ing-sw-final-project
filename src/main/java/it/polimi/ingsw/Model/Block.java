@@ -13,7 +13,7 @@ public enum Block {
      * @param base
      * @return the next block of the tower
      * @throws TowerCompleteException if the @param base is a dome, because that is supposed to be the last block
-     * on a tower and nothing can be built over it
+     * on a tower nothing can be built over it
      */
     public static Block getNextBlock(Block base)throws TowerCompleteException
     {

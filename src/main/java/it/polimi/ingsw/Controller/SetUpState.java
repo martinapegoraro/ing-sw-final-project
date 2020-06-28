@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * The SetUpState is used just once,
- * at the beginning of the game
+ * at the beginning of the game,
  */
 
 public class SetUpState implements State{
@@ -26,9 +26,10 @@ public class SetUpState implements State{
     private boolean godsSelected,godsAssigned,firstPlayerSelected;
 
     /**
-     * the constructor receives the model and
-     * initializes the state
+     * the builder is called to initialize the state
+     * @param model
      */
+
     public SetUpState(Model model)
     {
         stateID = StateEnum.SetUp;
@@ -40,7 +41,8 @@ public class SetUpState implements State{
     }
 
     /**
-     * @return the ID of the state
+     * it returns the ID of the state
+     * @return
      */
 
     @Override
@@ -51,6 +53,7 @@ public class SetUpState implements State{
 
     /**
      * sets the first player active
+     * @param model
      */
 
     @Override
@@ -71,7 +74,8 @@ public class SetUpState implements State{
     }
 
     /**
-     * @return the boolean variable that is used to check if the state has finished
+     * returns the boolean variable that is used to check if the state has finished
+     * @return
      */
 
     @Override
@@ -92,6 +96,10 @@ public class SetUpState implements State{
      * links players and gods and sets
      * the initial workers positions for each player,
      * basing on the users choices
+     * @param userChoice
+     * @param model
+     * @throws WrongChoiceException
+     * @throws BoxAlreadyOccupiedException
      */
 
     @Override

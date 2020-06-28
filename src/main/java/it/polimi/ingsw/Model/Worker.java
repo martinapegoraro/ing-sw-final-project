@@ -18,9 +18,10 @@ public class Worker{
 
 
     /**
-     * the constructor is called only to select the first position of the worker
-     * @param b is the box chosen for initialization
-
+     * the builder is called only have selected the first position of the worker
+     * @param b
+     * @throws NullPointerException
+     * @throws BoxAlreadyOccupiedException
      */
     public Worker(Box b) throws NullPointerException, BoxAlreadyOccupiedException
     {
@@ -41,6 +42,8 @@ public class Worker{
 
     /**
      * change the current position of the worker in the box given as parameter
+     * @param to
+     * @throws MoveErrorException
      */
     public void move(Box to) throws MoveErrorException
     {
@@ -80,7 +83,8 @@ public class Worker{
     }
 
     /**
-     * @return the position of the worker
+     * return the position of the worker
+     * @return
      */
     public Box getPosition()
     {
@@ -88,7 +92,7 @@ public class Worker{
     }
 
     /**
-     * updates the information of the worker such as coordinates (taken from the box where the worker is placed)
+     * updates the informations of the worker such as coordinates (tacken frome the box where the worker is placed)
      * and his height
      */
     private void updatePosition()
@@ -100,6 +104,7 @@ public class Worker{
 
     /**
      * this method is used by the worker to build in the selected cell
+     * @param where
      */
     public void build(Box where)
     {
@@ -109,6 +114,7 @@ public class Worker{
     /**
      * this method is used by the worker to build a specified block in the selected cell
      *
+     * @param where
      */
     public void build(Box where,Block nextBlock)
     {
@@ -121,7 +127,8 @@ public class Worker{
     }
 
     /**
-     * @return a string containing the basic information of the worker
+     * returns a string containing the basic information of the worker
+     * @return
      */
     public String toString()
     {
