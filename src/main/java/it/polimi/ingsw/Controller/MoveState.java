@@ -49,11 +49,11 @@ public class MoveState implements State {
     {
 
         //If possibleMoves is empty the player has lost
+        stateID = StateEnum.Move;
         if(possibleMovesby0.isEmpty() && possibleMovesby1.isEmpty() && firstAction)
         {
             playerHasLost(model);
         }
-
         this.firstAction=firstAction;
 
         possibleMovesWorker0 = possibleMovesby0;
@@ -63,8 +63,11 @@ public class MoveState implements State {
         hasFinished = false;
         this.heraIsActive = heraIsActive;
 
-        stateID = StateEnum.Move;
         startup(model);
+        if(model.getTurn().getCurrentPlayer().getHasLost())
+        {
+            hasFinished=true;
+        }
     }
 
     /**
@@ -144,16 +147,21 @@ public class MoveState implements State {
                 if(actingPlayer.getWorkerList().get(0).getPosition() == workerBox)
                 {
                     actingPlayer.setSelectedWorker(0);
-                    if(!firstAction && possibleMovesWorker0.isEmpty())
+                    if(!firstAction && possibleMovesWorker0.isEmpty()) {
                         playerHasLost(model);
+                        hasFinished=true;
+                        return;
+                    }
                     model.updateModelRep(possibleMovesWorker0);
 
                 }
                 else if(actingPlayer.getWorkerList().get(1).getPosition() == workerBox)
                 {
                     actingPlayer.setSelectedWorker(1);
-                    if(!firstAction && possibleMovesWorker0.isEmpty())
+                    if(!firstAction && possibleMovesWorker0.isEmpty()) {
                         playerHasLost(model);
+                        hasFinished=true;
+                    }
                     model.updateModelRep(possibleMovesWorker1);
                 }
                 else

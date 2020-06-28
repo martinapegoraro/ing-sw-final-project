@@ -61,8 +61,14 @@ public class BuildState implements State{
             playerHasLost(model);
         }
 
+
         hasFinished=false;
         startup(model);
+        if(model.getTurn().getCurrentPlayer().getHasLost())
+        {
+            hasFinished=true;
+        }
+
     }
 
     /**

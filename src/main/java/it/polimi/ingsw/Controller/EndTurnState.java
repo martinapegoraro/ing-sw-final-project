@@ -29,6 +29,10 @@ public class EndTurnState implements State {
         stateID = StateEnum.EndTurn;
         hasFinished = false;
         startup(model);
+        if(model.getTurn().getCurrentPlayer().getHasLost())
+        {
+            hasFinished=true;
+        }
     }
 
     /**

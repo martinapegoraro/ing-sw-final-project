@@ -647,10 +647,11 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             if(modelRep.hasLost[myID])
             {
                 if(JOptionPane.showConfirmDialog(playersSideBar,"You have lost \n you want leave the field?","End Game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
-                    Choice c=new ExitChoice();
-                    c.setId(myID);
-                    view.update(c);
-                    System.exit(0);
+                    //Choice c=new ExitChoice();
+                    //c.setId(myID);
+                    //view.update(c);
+                    //System.exit(0);
+                    this.setWindowNotVisible();
                 }
                 return;
             }
@@ -663,6 +664,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             {
                 showGodButtons(true);
                 workerHasBeenSelected = false;
+                moved=false;
             }
             else
                 {
@@ -761,32 +763,35 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                         {
                             System.out.println(workerHasBeenSelected + " " + selectedWorker);
                             //I first select the worker
-                            if((myWorkerCells[0][0]==cellArray[0] && myWorkerCells[0][1]==cellArray[1]) && !moved)
+                            if((myWorkerCells[0][0]==cellArray[0] && myWorkerCells[0][1]==cellArray[1]) )
                             {
-                                if(!workerHasBeenSelected)
+                                if(!workerHasBeenSelected && !moved)
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
                                     selectedWorker = 0;
+                                    moved=true;
                                 }
                                 else
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(myWorkerCells[selectedWorker][0],
                                             myWorkerCells[selectedWorker][1]);
-                                    moved=true;
+
                                 }
+
                             }
-                            else if((myWorkerCells[1][0]==cellArray[0] && myWorkerCells[1][1]==cellArray[1]) && !moved)
+                            else if((myWorkerCells[1][0]==cellArray[0] && myWorkerCells[1][1]==cellArray[1]))
                             {
-                                if(!workerHasBeenSelected)
+                                if(!workerHasBeenSelected  && !moved)
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(cellArray[0], cellArray[1]);
                                     selectedWorker = 1;
+                                    moved=true;
                                 }
                                 else
                                 {
                                     choiceToSend = new SelectWorkerCellChoice(myWorkerCells[selectedWorker][0],
                                             myWorkerCells[selectedWorker][1]);
-                                    moved=true;
+
                                 }
                             }
                             else

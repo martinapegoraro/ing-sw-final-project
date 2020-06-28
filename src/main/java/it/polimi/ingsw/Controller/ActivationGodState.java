@@ -30,6 +30,10 @@ public class ActivationGodState implements State {
         stateID = StateEnum.ActivationGod;
         hasFinished = false;
         startup(model);
+        if(model.getTurn().getCurrentPlayer().getHasLost())
+        {
+            hasFinished=true;
+        }
     }
 
     /**
@@ -356,7 +360,12 @@ public class ActivationGodState implements State {
 
             //If all players have made the activation choice the state has finished
             playerHaveSelected.add(actingPlayer);
-            if(playerHaveSelected.size() == playerList.size())
+            int losers=0;
+            for (Player p:model.getTurn().getPlayersList() ) {
+                if(p.getHasLost())
+                    losers++;
+            }
+            if(playerHaveSelected.size() == (playerList.size()-losers))
             {
                 hasFinished = true;
                 model.updateModelRep(stateID);

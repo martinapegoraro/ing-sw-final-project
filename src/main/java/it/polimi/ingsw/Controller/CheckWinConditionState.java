@@ -34,6 +34,11 @@ public class CheckWinConditionState implements State{
 
         hasFinished = false;
         startup(model);
+
+        if(model.getTurn().getCurrentPlayer().getHasLost())
+        {
+            hasFinished=true;
+        }
     }
 
     /**

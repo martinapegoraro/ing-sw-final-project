@@ -47,8 +47,10 @@ public class Turn {
         for (Player p:listaGiocatori) {
             p.setPlayerActive(false);
         }
-        while(listaGiocatori.get(turnoDi).getHasLost())
-           turnoDi=(turnoDi+1)%listaGiocatori.size();
+        while(listaGiocatori.get(turnoDi).getHasLost()) {
+            turnoDi = (turnoDi + 1) % listaGiocatori.size();
+            nTurn++;
+        }
         listaGiocatori.get(turnoDi).setPlayerActive(true);
 
     }

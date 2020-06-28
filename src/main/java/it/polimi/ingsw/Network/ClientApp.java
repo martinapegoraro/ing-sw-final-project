@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Network;
 
-import it.polimi.ingsw.View.GameWindow;
+
 
 import javax.swing.*;
 import java.awt.*;

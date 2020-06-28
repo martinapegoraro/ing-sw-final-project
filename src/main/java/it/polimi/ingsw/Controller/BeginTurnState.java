@@ -23,6 +23,10 @@ public class BeginTurnState implements State {
         stateID = StateEnum.BeginTurn;
         hasFinished = false;
         startup(model);
+        if(model.getTurn().getCurrentPlayer().getHasLost())
+        {
+            hasFinished=true;
+        }
     }
 
     /**
