@@ -30,8 +30,7 @@ public class BeginTurnState implements State {
     }
 
     /**
-     * returns the ID of the state
-     * @return
+     * @return the ID of the state
      */
 
     @Override

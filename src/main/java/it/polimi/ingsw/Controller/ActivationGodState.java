@@ -37,8 +37,7 @@ public class ActivationGodState implements State {
     }
 
     /**
-     * returns the ID of the state
-     * @return
+     * @return the ID of the state
      */
 
     @Override
@@ -184,8 +183,8 @@ public class ActivationGodState implements State {
                         break;
 
                     case ATLAS:
-                        //There has to be at least one free Tower near a player's worker, Domes cannot be built on level 0
-                        boolean atlasCondition = false;
+                        //Atlas can build dome at any level (ground is not included)
+                        /*boolean atlasCondition = false;
                         for(Box b : neighborBoxes)
                         {
                             if(!b.isOccupied() && !(b.getTower().getHeight() == 0))
@@ -193,8 +192,9 @@ public class ActivationGodState implements State {
                                 //Flag isOccupied is used both with domes and workers
                                 atlasCondition = true;
                             }
-                        }
-                        if(actingPlayer.isPlayerActive() && atlasCondition)
+                        }*/
+
+                        if(actingPlayer.isPlayerActive())
                         {
                             actingPlayer.setGodActive(true);
                         }
@@ -266,7 +266,6 @@ public class ActivationGodState implements State {
                             if(b.isOccupied() &&
                                     (!b.getTower().getPieces().contains(Block.DOME)))
                             {
-                                //FIXME: This check is not exactly done as rules specify, should check if the worker can move in the cell
                                 //This is not a big problem though because the check is done later in the Context (minotaurEffect)
                                 //Flag isOccupied is used both with domes and workers
                                 //This part calculates the cell opposite to workerCell with center in b
@@ -381,8 +380,7 @@ public class ActivationGodState implements State {
 
 
     /**
-     * returns the boolean variable that is used to check if the state has finished
-     * @return
+     * @return the boolean variable that is used to check if the state has finished
      */
     @Override
     public boolean hasFinished() {
