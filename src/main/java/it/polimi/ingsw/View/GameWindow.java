@@ -238,7 +238,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     private void initializeFooter()
     {
         msgToUser = new JTextArea(8,30);
-        msgToUser.setText("Testo di prova, \nqui andranno a comparire i messaggi\n di errore e conferma per l'utente");
+        msgToUser.setText("Qui verranno visualizzati\n eventuali messaggi di <bold>errore</bold>");
         //msgToUser.setSize(300, 180);
         msgToUser.setEditable(false);
 
@@ -802,10 +802,21 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                     switch (presentState)
                                     {
                                         case Move:
-                                            workerHasBeenSelected = true;
+                                            //If the move is actually valid the worker is now fixed
+                                            if(activeCells[cellArray[0]][cellArray[1]] == 1)
+                                            {
+                                                workerHasBeenSelected = true;
+                                            }
                                             choiceToSend = new MoveChoice(cellArray[0], cellArray[1]);
                                             break;
+
                                         case Build:
+                                            //If the build is actually valid the worker is now fixed
+                                            //this case is only useful for prometheus
+                                            if(activeCells[cellArray[0]][cellArray[1]] == 1)
+                                            {
+                                                workerHasBeenSelected = true;
+                                            }
                                             choiceToSend = new BuildChoice(cellArray[0], cellArray[1]);
                                             buildUnder=false;
                                             break;

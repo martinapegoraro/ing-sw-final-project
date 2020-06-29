@@ -46,12 +46,24 @@ public class Server {
             try {
                 if(!gameHasStarted)
                 {
+                    //this flag could possibly generate some synchronization problems
                     Socket socket=serverSocket.accept();
                     SocketClientConnection connection=new SocketClientConnection(socket,this);
 
                     registerConnection(connection);
                     executor.submit(connection);
                 }
+                else
+                    {
+                        for(SocketClientConnection c: lobbiesList.get(0).getConnections())
+                        {
+                            //If a client who was playing has disconnected the server will accept new connections
+                            if(!c.isActive())
+                            {
+                                flushLobbies();
+                            }
+                        }
+                    }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -67,7 +79,8 @@ public class Server {
      */
     public void addToLobby(SocketClientConnection connection,String name,int numberOfPlayer)
     {
-
+        boolean fullLobby = false;
+        boolean foundLobby = false;
         if(lobbiesList==null){
             lobbiesList=new ArrayList<Lobby>();
             lobbiesList.add(new Lobby(connection,name,numberOfPlayer));
@@ -76,14 +89,31 @@ public class Server {
         {
             for (Lobby l:lobbiesList) {
                 if(numberOfPlayer==l.getNumberOfPlayers()) {
+                    foundLobby = true;
                     l.addPlayer(connection, name);
                     if(l.isFull())
                     {
-                        gameHasStarted = true;
+                        fullLobby = true;
                     }
                 }
             }
-            lobbiesList.add(new Lobby(connection,name,numberOfPlayer));
+            if(!foundLobby)
+            {
+                lobbiesList.add(new Lobby(connection,name,numberOfPlayer));
+            }
+            //if a lobby is full we flush all the other lobbies
+            if(fullLobby)
+            {
+                for(Lobby l:lobbiesList)
+                {
+                    if(!l.isFull())
+                    {
+                        l.emptyLobby();
+                        lobbiesList.remove(l);
+                    }
+                }
+                gameHasStarted = true;
+            }
         }
     }
 

@@ -59,7 +59,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
      * @return true if the connection is still active
      * and @returns false if it is not
      */
-    private synchronized boolean isActive()
+    public synchronized boolean isActive()
     {
         return active;
     }
@@ -136,7 +136,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     /**
      * the close method shuts down the connection and sends to the clients an exit choice
      */
-    private void close()
+    public void close()
     {
         connectionPing=false;
         notify(new ExitChoice());
@@ -144,7 +144,6 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
         System.out.println("Deregistering client...");
         server.deregisterConnection(this);
         System.out.println("Done!");
-        server.flushLobbies();
     }
 
     /**
@@ -190,7 +189,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                         if(task!=null)
                             task.cancel();
                         pingCounter++;
-                        if(pingCounter==30)
+                        if(pingCounter>=30)
                             close();
 
                     }

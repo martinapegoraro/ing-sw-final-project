@@ -33,7 +33,7 @@ public class Lobby {
      * @param connection
      * @param nome
      * @param numberOfPlayers
-     *and puts them in a hasMap
+     *and puts them in a hashMap
      */
     public Lobby(SocketClientConnection connection,String nome,int numberOfPlayers)
     {
@@ -178,4 +178,20 @@ public class Lobby {
         return isComplete;
     }
 
+    /**
+     * After a game is started all other lobbies are emptied using this method*/
+    public void emptyLobby()
+    {
+        for(SocketClientConnection c: connectionMap.keySet())
+        {
+            c.close();
+        }
+    }
+
+    /**
+     * @return the list of all SocketClientConnections in the Lobby*/
+    public List<SocketClientConnection> getConnections()
+    {
+        return new ArrayList<>(connectionMap.keySet());
+    }
 }

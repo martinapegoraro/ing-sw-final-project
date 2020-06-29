@@ -45,13 +45,13 @@ public class Controller implements Observer<Choice> {
         playerNum = playerNumber;
     }
 
-    /**public void playerNumSet(int n)
+    /*public void playerNumSet(int n)
     {
         this.playerNum = n;
         this.playerList = new String[n];
     }
      Not needed if everything is done in AddPlayer
-     **/
+     */
 
 
 
