@@ -48,20 +48,29 @@ public class Server {
                 {
                     //this flag could possibly generate some synchronization problems
                     Socket socket=serverSocket.accept();
-                    SocketClientConnection connection=new SocketClientConnection(socket,this);
+                    if(lobbiesList!= null && (lobbiesList.isEmpty() || lobbiesList.get(0).getConnections().isEmpty()))
+                    {
+                        //If a client who was playing has disconnected the server will accept new connections
+                        flushLobbies();
+                    }
+                    if(!gameHasStarted)
+                    {
+                        SocketClientConnection connection=new SocketClientConnection(socket,this);
 
-                    registerConnection(connection);
-                    executor.submit(connection);
+                        registerConnection(connection);
+                        executor.submit(connection);
+                    }
+                    else
+                        {
+                            socket.close();
+                        }
                 }
                 else
                     {
-                        for(SocketClientConnection c: lobbiesList.get(0).getConnections())
+                        if(lobbiesList.get(0).getConnections().isEmpty())
                         {
                             //If a client who was playing has disconnected the server will accept new connections
-                            if(!c.isActive())
-                            {
                                 flushLobbies();
-                            }
                         }
                     }
             } catch (IOException e) {
@@ -88,7 +97,7 @@ public class Server {
         else
         {
             for (Lobby l:lobbiesList) {
-                if(numberOfPlayer==l.getNumberOfPlayers()) {
+                if(numberOfPlayer==l.getNumberOfPlayers() &&!l.isFull()) {
                     foundLobby = true;
                     l.addPlayer(connection, name);
                     if(l.isFull())
