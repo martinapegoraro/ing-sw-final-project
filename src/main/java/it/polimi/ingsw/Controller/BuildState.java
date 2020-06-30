@@ -39,12 +39,12 @@ public class BuildState implements State{
      * it receives the two lists of possible boxes for the two workers, the model
      * and three boolean variables to verify whether the effects of
      * the gods Atlas, Hephaestus or Prometheus are active.
-     * @param pBLW1
-     * @param pBLW2
-     * @param domeAAL
-     * @param twoBlocksBuilt
-     * @param model
-     * @param firstAction
+     * @param pBLW1 possible build list for first worker
+     * @param pBLW2 possible build list for second worker
+     * @param domeAAL Atlas is active, domes can be built at any level
+     * @param twoBlocksBuilt Hephaestus is active, two blocks can be built together
+     * @param firstAction set to true if this is the first action (move or build) of the turn, used to differentiate the
+     *                    losing conditions (if a worker has been already selected for the turn the flag is set to false)
      */
 
     public BuildState(ArrayList<Box> pBLW1,ArrayList<Box> pBLW2, boolean domeAAL, boolean twoBlocksBuilt, Model model,boolean firstAction)
@@ -72,8 +72,7 @@ public class BuildState implements State{
     }
 
     /**
-     * modifies the modelif a player has lost
-     * @param model
+     * sets hasLost flag in the model if a player has lost
      */
 
     private void playerHasLost(Model model)
@@ -83,8 +82,7 @@ public class BuildState implements State{
     }
 
     /**
-     * returns the ID of the state
-     * @return
+     * @return the ID of the state
      */
 
     @Override
@@ -93,8 +91,7 @@ public class BuildState implements State{
     }
 
     /**
-     * updetes the ModelReoresentation with the current state
-     * @param model
+     * updates the ModelRepresentation with the current state
      */
 
     @Override
@@ -106,10 +103,8 @@ public class BuildState implements State{
     /**
      * updates the model using the BuildChoice of the current player,
      * taking into account the activated gods
-     * @param userChoice
-     * @param model
-     * @throws BuildErrorException
-     * @throws WrongChoiceException
+     * @throws BuildErrorException when a build cannot be done (because of god effects or basic game rules)
+     * @throws WrongChoiceException when userChoice isn't either a selectWorkerCellChoice or BuildChoice
      */
 
     @Override
@@ -256,8 +251,7 @@ public class BuildState implements State{
     }
 
     /**
-     * returns the boolean variable that is used to check if the state has finished
-     * @return
+     * @return the boolean variable that is used to check if the state has finished
      */
 
     @Override

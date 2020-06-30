@@ -13,12 +13,11 @@ public class CheckWinConditionState implements State{
     StateEnum stateId;
 
     /**
-     * the builder id used to initialize the class
+     * the constructor used to initialize the class
      * and to specify if the CheckWinCondition is the first or the second one.
      * The FirstCheckWinCondition is called after the move,
      * the SecondCheckWinCondition is called after the build
-     * @param number
-     * @param model
+     * @param number 1 for FirstCheck and 2(or any other value) for SecondCheck
      */
 
     public CheckWinConditionState(int number,Model model)
@@ -42,8 +41,7 @@ public class CheckWinConditionState implements State{
     }
 
     /**
-     * returns the ID of the state
-     * @return
+     * @return the ID of the state
      */
 
     @Override
@@ -57,7 +55,6 @@ public class CheckWinConditionState implements State{
      * if the boolean variable, which reports if the worker has moved down two
      * or more levels, is set as true, if so it changes the win condition
      *
-     * @param model
      */
 
     public void checkPanCondition(Model model)
@@ -74,8 +71,7 @@ public class CheckWinConditionState implements State{
      * checks whether a player has the god Chronus and
      * if there are five complete towers on the board,
      * if so it changes the win condition
-     * @param model
-     * @param instance
+     * @param instance the game Board
      */
 
     public void checkChronusCondition(Model model, Board instance)
@@ -112,10 +108,9 @@ public class CheckWinConditionState implements State{
     }
 
     /**
-     * checks each player's hasWon and hasLost variables
+     * Called in the constructor, checks each player's hasWon and hasLost variables
      * to determine if anyone has won or lost.
      * It can end the game
-     * @param model
      */
 
     @Override
@@ -154,9 +149,8 @@ public class CheckWinConditionState implements State{
     }
 
     /**
-     * it sends a MessageToVirtualView if a choice is received during this state
-     * @param userChoice
-     * @param model
+     * it sends an error if a choice is received during this state,
+     * this method is overridden from the State interface but doesn't perform any action
      */
 
     @Override

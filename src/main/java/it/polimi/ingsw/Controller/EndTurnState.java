@@ -19,8 +19,7 @@ public class EndTurnState implements State {
     private boolean hasFinished;
 
     /**
-     * the builder initializes the state
-     * @param model
+     * initializes the state
      */
 
     public EndTurnState(Model model)
@@ -36,8 +35,7 @@ public class EndTurnState implements State {
     }
 
     /**
-     * returns the ID of the state
-     * @return
+     * @return the ID of the state
      */
 
     @Override
@@ -46,9 +44,9 @@ public class EndTurnState implements State {
     }
 
     /**
+     * Called during initialization,
      * it resets the selected workers and
      * the active gods for each player
-     * @param model
      */
 
     @Override
@@ -73,9 +71,7 @@ public class EndTurnState implements State {
     }
 
     /**
-     * it sends a MessageToVirtualView if a choice is received during this state
-     * @param userChoice
-     * @param model
+     * it sends a ChoiceError if a choice is received during this state
      */
 
 
@@ -87,8 +83,7 @@ public class EndTurnState implements State {
     }
 
     /**
-     * returns the boolean variable that is used to check if the state has finished
-     * @return
+     * @return the boolean variable that is used to check if the state has finished
      */
 
     @Override

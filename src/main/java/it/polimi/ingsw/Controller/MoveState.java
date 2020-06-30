@@ -33,16 +33,15 @@ public class MoveState implements State {
     private boolean firstAction;
 
     /**
-     * the builder is used to initialize the state.
+     * Used to initialize the state.
      * It receives the two lists of possible moves for the workers,
      * the model and the four boolean variables which state if the gods are active
-     * @param possibleMovesby0
-     * @param possibleMovesby1
-     * @param pushWorker
-     * @param swapWorker
-     * @param heraIsActive
-     * @param model
-     * @param firstAction
+     * @param possibleMovesby0 possible moves for the first worker
+     * @param possibleMovesby1 possible moves for the second worker
+     * @param pushWorker if Minotaur is active this is set to true, it allows workers to push others
+     * @param swapWorker if Apollo is active this is set to true, allows worker swaps
+     * @param firstAction if the Move is the first action in the turn (move or build)
+     *                    this flag is set to true
      */
 
     public MoveState(ArrayList<Box> possibleMovesby0,ArrayList<Box> possibleMovesby1, boolean pushWorker, boolean swapWorker, boolean heraIsActive, Model model,boolean firstAction)
@@ -71,8 +70,7 @@ public class MoveState implements State {
     }
 
     /**
-     * returns the ID of the state
-     * @return
+     * @return the ID of the state
      */
 
     @Override
@@ -82,8 +80,8 @@ public class MoveState implements State {
     }
 
     /**
-     * updates the current state of the ModelRepresentation
-     * @param model
+     * Called during initialization,
+     * it updates the current state of the ModelRepresentation
      */
 
     @Override
@@ -93,7 +91,6 @@ public class MoveState implements State {
 
     /**
      * sets the boolean variable hasLost of the current player to true
-     * @param model
      */
 
     private void playerHasLost(Model model)
@@ -103,8 +100,7 @@ public class MoveState implements State {
     }
 
     /**
-     * returns the boolean variable that is used to check if the state has finished
-     * @return
+     * @return the boolean variable that is used to check if the state has finished
      */
 
     @Override
@@ -115,10 +111,8 @@ public class MoveState implements State {
     /**
      * takes the MoveChoice of the player and updates the model accordingly,
      * taking into account all the activated gods
-     * @param userChoice
-     * @param model
-     * @throws WrongChoiceException
-     * @throws MoveErrorException
+     * @throws WrongChoiceException if choices other than SelectWorkerCellChoice or MoveChoice are received
+     * @throws MoveErrorException if the Move is not valid (because of god effects or basic game rules)
      */
 
     @Override

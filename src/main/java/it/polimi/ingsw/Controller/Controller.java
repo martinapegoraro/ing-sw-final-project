@@ -19,17 +19,14 @@ import it.polimi.ingsw.View.VirtualView;
 public class Controller implements Observer<Choice> {
 
     Model modelInstance;
-    private VirtualView view;
     private int playerNum;
     String[] playerList;
     Context context;
 
     /**
-     * the builder initializes the controller,
-     * it receives the number of player chosen by the players
-     * @param model
-     * @param playerNumber
-     * @throws WrongNumberOfPlayersException
+     * initializes the controller,
+     * it receives the number of players playing the game
+     * @throws WrongNumberOfPlayersException if the number isn't either 2 or 3 (4 player games are not supported)
      */
 
     public Controller(Model model, int playerNumber) throws WrongNumberOfPlayersException
@@ -56,7 +53,7 @@ public class Controller implements Observer<Choice> {
 
 
     /**
-     * exits the game
+     * Sends to every client an Exit message
      */
 
     private void endGame()
@@ -67,7 +64,8 @@ public class Controller implements Observer<Choice> {
     /**
      * sends the valid choices to the context,
      * which controls the turn flow
-     * @param userChoice
+     * @param userChoice if the choice is an exitChoice endGame is called, otherwise it's passed on to the
+     *                   current state
      */
 
     public synchronized void update(Choice userChoice) {

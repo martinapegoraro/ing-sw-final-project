@@ -29,11 +29,10 @@ public class Context implements Observer<Choice> {
     private boolean artemisFirstMove;
     private boolean demeterFirstBuild;
     private boolean hestiaSecondBuild;
-    private ArrayList<Box> oldWorkerPositions;
     //Used by Artemis and Demeter to save the old player positions
 
     /**
-     * @param model
+     * Context constructor
      * @throws NullPointerException when model is null
      */
 
@@ -48,7 +47,6 @@ public class Context implements Observer<Choice> {
         contextModel = model;
         activeGods = new ArrayList<>();
         hestiaSecondBuild=false;
-        oldWorkerPositions = new ArrayList<>();
     }
 
 
@@ -178,7 +176,8 @@ public class Context implements Observer<Choice> {
 
     /**Returns a List of all the possible Move boxes surrounding
      * the active player selected worker
-     * taking in consideration active move-affecting gods**/
+     * taking in consideration active move-affecting gods
+     * @param currentCell the selected workers cell*/
     private ArrayList<Box> getPossibleMoveBoxes(Box currentCell)
     {
         ArrayList<Box> possibleMoves = (ArrayList<Box>)contextModel.getTurn().getPossibleMoves(currentCell);
@@ -224,7 +223,8 @@ public class Context implements Observer<Choice> {
     }
 
     /**Returns a State constructed following the rules for
-     * every active move-affecting god**/
+     * every active move-affecting god
+     * @param firstAction used when the move is the first action performed in the turn**/
     private State moveStateConstructor(boolean firstAction)
     {
         ArrayList<Box> workerPositions = new ArrayList<>();

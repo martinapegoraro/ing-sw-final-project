@@ -26,8 +26,7 @@ public class SetUpState implements State{
     private boolean godsSelected,godsAssigned,firstPlayerSelected;
 
     /**
-     * the builder is called to initialize the state
-     * @param model
+     * called to initialize the state
      */
 
     public SetUpState(Model model)
@@ -41,8 +40,7 @@ public class SetUpState implements State{
     }
 
     /**
-     * it returns the ID of the state
-     * @return
+     * @return the ID of the state
      */
 
     @Override
@@ -52,8 +50,8 @@ public class SetUpState implements State{
     }
 
     /**
+     * Called during initialization,
      * sets the first player active
-     * @param model
      */
 
     @Override
@@ -74,8 +72,7 @@ public class SetUpState implements State{
     }
 
     /**
-     * returns the boolean variable that is used to check if the state has finished
-     * @return
+     * @return the boolean variable that is used to check if the state has finished
      */
 
     @Override
@@ -84,22 +81,12 @@ public class SetUpState implements State{
     }
 
 
-    //ENSURES: A random list of Gods is returned
-    private List<GodsList> extractListOfGods()
-    {
-        ArrayList<GodsList> randomGodArray = new ArrayList<>(Arrays.asList(GodsList.values()));
-        Collections.shuffle(randomGodArray);
-        return randomGodArray;
-    }
-
     /**
-     * links players and gods and sets
-     * the initial workers positions for each player,
-     * basing on the users choices
-     * @param userChoice
-     * @param model
-     * @throws WrongChoiceException
-     * @throws BoxAlreadyOccupiedException
+     * links players and gods,
+     * sets the initial workers positions for each player,
+     * based on the users choices
+     * @throws WrongChoiceException if the choice is not a GodChoice, InitialPlayerChoice or InitialPositionChoice
+     * @throws BoxAlreadyOccupiedException if the box is occupied by another worker
      */
 
     @Override

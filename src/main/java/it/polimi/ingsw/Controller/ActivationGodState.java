@@ -21,9 +21,8 @@ public class ActivationGodState implements State {
     ArrayList<Player> playerHaveSelected = new ArrayList<>();
 
     /**
-     * the builder is called to initialize the state
-      * @param model
-     */
+     * the constructor is called to initialize the state
+           */
 
     public ActivationGodState(Model model)
     {
@@ -47,8 +46,8 @@ public class ActivationGodState implements State {
     }
 
     /**
-     * this method updates the ModelRepresentation, updating the current state
-     * @param model
+     * this method is called when ActivationGodState is initialized
+     * it updates the ModelRepresentation
      */
 
     @Override
@@ -86,7 +85,9 @@ public class ActivationGodState implements State {
 
     /**Called by Context after BeginTurnState has finished
      * The method collects the decision for every player
-     * to activate their god card and updates the Model accordingly
+     * to activate their god card and updates the Model accordingly.
+     * It also performs a check to see if the god can be activated
+     * @param userChoice is a GodActivationChoice
      * **/
     @Override
     public void update(Choice userChoice, Model model) throws WrongChoiceException, GodConditionNotSatisfiedException

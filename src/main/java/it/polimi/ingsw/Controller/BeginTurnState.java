@@ -14,8 +14,8 @@ public class BeginTurnState implements State {
     private boolean hasFinished;
 
     /**
-     * the builder is called to initialize the state
-     * @param model
+     * the constructor is called to initialize the state,
+     * it skips the player if it has lost
      */
 
     public BeginTurnState(Model model)
@@ -41,10 +41,9 @@ public class BeginTurnState implements State {
 
 
     /**
-     * sets the next player skipping the players who have lost,
+     * sets the next player skipping the player who has lost (game with 3 players),
      * resets the Athena condition and updates the ModelRepresentation
      * with the current state
-     * @param model
      */
 
     @Override
@@ -66,9 +65,8 @@ public class BeginTurnState implements State {
     }
 
     /**
-     * prints an error message if a choice is received during this state
-     * @param userChoice
-     * @param model
+     * prints an error message if a choice is received during this state,
+     * the method is overridden from the State interface and performs no action
      */
 
     @Override
@@ -79,8 +77,7 @@ public class BeginTurnState implements State {
     }
 
     /**
-     * returns the boolean variable that is used to check if the state has finished
-     * @return
+     * @return the boolean variable that is used to check if the state has finished
      */
 
     @Override
