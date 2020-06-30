@@ -30,9 +30,9 @@ public class Lobby {
 
     /**
      * the builder of the class takes as parameter
-     * @param connection
-     * @param nome
-     * @param numberOfPlayers
+     * @param connection is the socketClientConnection which allows the communication
+     * @param nome is the name of the player
+     * @param numberOfPlayers is the number of player for the game that the player wants to play
      *and puts them in a hashMap
      */
     public Lobby(SocketClientConnection connection,String nome,int numberOfPlayers)
@@ -51,8 +51,8 @@ public class Lobby {
      * this method puts in a lobby a new client
      * it checks if in the lobby there is no other players with the same name
      *
-     * @param conn
-     * @param name
+     * @param conn is the socketClientConnection of the player
+     * @param name is the name of the player
      */
     public synchronized void  addPlayer(SocketClientConnection conn,String name)
     {
@@ -71,8 +71,7 @@ public class Lobby {
     }
 
     /**
-     * return the number of registered clients in the lobby at the moment
-     * @return
+     * @return the number of registered clients in the lobby at the moment
      */
     public int getNumberInTheLobby()
     {
@@ -80,8 +79,7 @@ public class Lobby {
     }
 
     /**
-     * return the number of player supposed to be in the lobby in order to start the game.
-     * @return
+     * @return the number of player supposed to be in the lobby in order to start the game.
      */
     public int getNumberOfPlayers(){
         return numberOfPlayers;

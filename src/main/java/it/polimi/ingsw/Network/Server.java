@@ -19,7 +19,8 @@ public class Server {
 
     /**
      * the server builder creates an instance of the serverSocket
-     * @throws IOException
+     * @throws IOException if the socket is unexpectedly closed
+     * for example when the client is closed without sending an exit choice
      */
     public Server() throws IOException
     {
@@ -31,7 +32,7 @@ public class Server {
 
     /**
      * given a socketClientConnection this method adds it to the connections list
-     * @param c
+     * @param c is the socketClientConnection we want to add to the lobby
      */
     private synchronized void registerConnection(SocketClientConnection c)
     {
@@ -82,9 +83,9 @@ public class Server {
     /**
      * once a client is connected to the sever it sends the player name and the number of players ad it is put in the correct
      * Lobby
-     * @param connection
-     * @param name
-     * @param numberOfPlayer
+     * @param connection is the connection of the player
+     * @param name is the name of the player
+     * @param numberOfPlayer is the number of players which the player wants to play with
      */
     public void addToLobby(SocketClientConnection connection,String name,int numberOfPlayer)
     {
@@ -128,7 +129,7 @@ public class Server {
 
     /**
      * this method removes a connection
-     * @param c
+     * @param c is the connection we want remove from the list
      */
     public synchronized void deregisterConnection(SocketClientConnection c)
     {

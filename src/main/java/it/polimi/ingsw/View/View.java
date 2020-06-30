@@ -17,7 +17,8 @@ import java.util.Collections;
 
 /**
  * the view class handles the client-side of the application
- * recived a messageToVirtualView establish what the player is supposed to see handling the gui windows
+ * received a messageToVirtualView establish what the player
+ * is supposed to see handling the gui windows
  */
 public class View extends Observable<Choice> implements Observer<MessageToVirtualView> {
 
@@ -36,9 +37,10 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
     }
 
     /**
-     * this class builder sets the current state and shows the lobby window where the client can put his username and how many people he wants to play with
+     * the constructor of this class sets the current
+     * state and shows the lobby window where the client
+     * can put his username and how many people he wants to play with
      *
-     * @param state
      */
     public View(ViewState state)
     {
@@ -54,8 +56,7 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
     }
 
     /**
-     * return the current state of the client
-     * @return
+     * @return the current state of the client
      */
     public ViewState getCurrentState() {
         return currentState;
@@ -81,7 +82,8 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
     }
 
     /**
-     * given as  @param name
+     * given the
+     * @param name
      * sets the player name attribute
      */
     public void setPlayerName(String name)
@@ -90,16 +92,14 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
     }
 
     /**
-     * given the id of the player sets the idplayer
-     * @param id
+     * given the id of the player sets the player ID
      */
     public void setIdPlayer(int id){
         idPlayer=id;
     }
 
     /**
-     * returns the IdPlayer
-     * @return
+     * @return the IdPlayer
      */
     public int getIdPlayer()
     {
@@ -190,10 +190,12 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
     }
 
     /**
-     * given the  choice * @param c
+     * given the  choice
+     * @param c
      * the method checks if the choice we want to send to the server is compatible to the current state of the view
      * (it will be the same of the controller) this method allows us to stop wrong choices before we send them
-     * @return true if the current state contains in his list of compatible choices the @param c choice otherwise it @return false
+     * @return true if the current state contains in his list of compatible choices the @param c choice otherwise it
+     * @return false
      */
     public boolean checkChoiceToSend(Choice c)
     {
@@ -204,7 +206,8 @@ public class View extends Observable<Choice> implements Observer<MessageToVirtua
     }
 
     /**
-     * given @param newState
+     * given
+     * @param newState
      * the method changes the attribute current state
      */
     public void setCurrentState(ViewState newState)

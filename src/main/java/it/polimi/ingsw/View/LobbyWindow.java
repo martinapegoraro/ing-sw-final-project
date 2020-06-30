@@ -37,8 +37,6 @@ public class LobbyWindow extends JFrame implements WindowInterface{
     /**
      * builds the lobby window, setting the background panel
      * and the button to submit the choice
-     * @param view
-     * @throws IOException
      */
 
     public LobbyWindow(View view) throws IOException {
@@ -95,7 +93,6 @@ public class LobbyWindow extends JFrame implements WindowInterface{
     /**
      * updates the lobby window,
      * according to the model representation
-     * @param update
      */
 
     @Override
@@ -128,7 +125,6 @@ public class LobbyWindow extends JFrame implements WindowInterface{
     /**
      * shows a message to the player/players
      * who are not choosing the gods
-     * @param message
      */
 
     @Override
@@ -146,7 +142,7 @@ public class LobbyWindow extends JFrame implements WindowInterface{
         /**
          * controls if the username and the number
          * of players inserted by the user are correct
-         * @param actionEvent
+         * and memorizes their choice
          */
 
         @Override

@@ -48,8 +48,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
      * all the possible god cards, view the ones
      * he has already selected and eventually cancel
      * the selected cards and start again
-     * @param view
-     * @param playerNum
+     * @param playerNum number of players
      */
 
     public CardSelectionWindow(View view,int playerNum)
@@ -160,7 +159,8 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
         f.addWindowListener(new java.awt.event.WindowAdapter(){
             /**
              * closes the window game when a player decides to exit
-             * @param windowEvent
+             * and asks the player to confirm his choice
+             * @param windowEvent window is being closed
              */
 
             public void windowClosing(java.awt.event.WindowEvent windowEvent){
@@ -176,9 +176,6 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
 
     /**
      * sets the size for the icons
-     * @param defaultScale
-     * @param scaleDownFactor
-     * @return
      */
 
     private ImageIcon resizeIcon(ImageIcon defaultScale, float scaleDownFactor)
@@ -190,8 +187,7 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
 
     /**
      * sets the path for the image
-     * @param name
-     * @return
+     * @param name god name
      */
 
     private ImageIcon getGodImage(String name)
@@ -206,8 +202,9 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
 
     /**
      * define the behaviour of the
-     * window when a player does something
-     * @param actionEvent
+     * window when a player makes an action
+     * @param actionEvent event that occurs when
+     *                    a player has clicked on a button
      */
 
     @Override
@@ -294,7 +291,6 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
 
     /**
      * updates the window according to the model representation
-     * @param update
      */
 
     @Override
@@ -326,7 +322,6 @@ public class CardSelectionWindow extends JFrame implements ActionListener,Window
     /**
      * shows a message to the players
      * who are not choosing the god
-     * @param message
      */
 
     @Override

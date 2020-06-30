@@ -13,7 +13,7 @@ public abstract class Choice implements Serializable {
     /**
      * this method is used to get the ID
      *of the user who sent the choice
-     * @return
+     * @return the id of the player who has sent the choice
      */
 
     public int getId()
@@ -24,7 +24,7 @@ public abstract class Choice implements Serializable {
     /**
      * this method is used to set the ID
      * of the user who sent the choice
-     * @param id
+     * @param id of the player who sends the choice
      */
 
     public void setId(int id)
@@ -33,8 +33,7 @@ public abstract class Choice implements Serializable {
     }
 
     /**
-     * returns the type of the choice
-     * @return
+     * @return the type of the choice
      */
 
     @Override

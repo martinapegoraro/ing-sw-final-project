@@ -15,7 +15,7 @@ public class InitialPlayerChoice extends Choice {
     /**
      * the builder sets the choice type
      * and the chosen player
-     * @param initialPlayerId
+     * @param initialPlayerId is the number of the first player
      */
 
     public InitialPlayerChoice(int initialPlayerId) {
@@ -26,7 +26,7 @@ public class InitialPlayerChoice extends Choice {
 
     /**
      * returns the initial player
-     * @return
+     * @return return the id of the first player
      */
 
     public int getChoice()

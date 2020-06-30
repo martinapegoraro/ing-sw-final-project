@@ -16,7 +16,7 @@ public class GodsCollectionChoice extends Choice {
 
     /**
      * th builder sets the list of gods and the choice type
-     * @param godList
+     * @param godList is the list of the gods selected by the player 0
      */
 
     public GodsCollectionChoice(ArrayList<GodsList> godList)
@@ -27,7 +27,7 @@ public class GodsCollectionChoice extends Choice {
 
     /**
      * returns the list of gods
-     * @return
+     * @return the list of chosen gods
      */
 
     public ArrayList<GodsList> getGodList()

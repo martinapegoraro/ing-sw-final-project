@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.Flow;
 
 /**
  * This class represents the main window of
@@ -53,10 +52,9 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     /**
      * builds the window, showing the board, the
      * players and their gods
-     * @param playersName
-     * @param playersGods
-     * @param playerID
-     * @param view
+     * @param playersName names of the players
+     * @param playersGods gods associated to the players
+     * @param playerID ID of the player
      */
 
     public GameWindow(String[] playersName, ArrayList<GodsList> playersGods, int playerID, View view) {
@@ -193,9 +191,9 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     /**
      * builds the sidebar which shows the other
      * players' names and their god cards
-     * @param playersName
-     * @param playersGods
-     * @param playerID
+     * @param playersName name of the players
+     * @param playersGods gods associated to the players
+     * @param playerID ID of the player
      */
 
     private void initializePlayerSidebar(String[] playersName, ArrayList<GodsList> playersGods, int playerID)
@@ -337,8 +335,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     /**
      * when a player is the current player,
-     * changes the view
-     * @param currentPlayer
+     * changes the window, changing the colour of
+     * the current player's name  to red
      */
 
     private void updateCurrentPlayer(int currentPlayer)
@@ -367,8 +365,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     /**
      * sets the needed block visible on a tower
-     * @param towerPositions
-     * @param lastBlock
      */
 
     private void updateTowers(int[][] towerPositions, String[][] lastBlock)
@@ -411,7 +407,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     /**
      * puts the needed worker where his player has chosen
-     * @param workerPositions
      */
 
     private void updateWorkers(int[][] workerPositions)
@@ -472,7 +467,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     /**
      * updates the active cell for the selected worker,
      * which are the cells where he can build or move
-     * @param activeCells
      */
 
     private void updateSelectedCells(int[][] activeCells)
@@ -500,7 +494,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     /**
      * shows the error message to the player
-     * @param message
      */
 
     private void showErrorMessage(String message)
@@ -510,7 +503,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     /**
      * updates the current state of the game
-     * @param state
      */
 
     private void updateCurrentState(StateEnum state)
@@ -520,8 +512,10 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     }
 
     /**
-     * shows the buttons where the player can choose whether to activate his god power
-     * @param areVisible
+     * according to the
+     * @param areVisible which can be true or false
+     * enables the buttons used so that the player
+     * can choose whether to activate his god power
      */
 
     private void showGodButtons(boolean areVisible)
@@ -539,8 +533,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     }
 
     /**
-     * shows which gods are active, changing thw view
-     * @param activeGodsList
+     * shows which gods are active, changing the window
      */
 
     private void updateSelectedGods(boolean[] activeGodsList)
@@ -579,9 +572,8 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
  //__________________________________________UTILITY METHODS__________________________________________________________
 
     /**
-     * gets the needed image
-     * @param name
-     * @return
+     * @param name name of the god
+     * @return the needed image
      */
 
     private ImageIcon getResource(String name)
@@ -596,9 +588,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
 
     /**
      * resizes the icon
-     * @param defaultScale
-     * @param scaleDownFactor
-     * @return
      */
 
     private ImageIcon resizeIcon(ImageIcon defaultScale, int scaleDownFactor)
@@ -611,8 +600,6 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     /**
      * resizes the icon
      * @param defaultScale the icon
-     * @param width
-     * @param height
      * @return the resized icon
      */
 
@@ -718,8 +705,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
     }
 
     /**
-     * updates the view according to what a player has clicked on
-     * @param actionEvent
+     * updates the window according to what a player has clicked on
      */
 
     @Override

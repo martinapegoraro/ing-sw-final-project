@@ -13,8 +13,8 @@ public class PlayerNumberChoice extends Choice {
     /**
      * the builder sets the number of players and the
      * username of the player who sent the choice
-     * @param name
-     * @param pN
+     * @param name is the name of the player who sends the choice
+     * @param pN is the number of players which the player wants to play with
      */
 
     public PlayerNumberChoice(String name,int pN)

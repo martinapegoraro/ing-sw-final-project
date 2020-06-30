@@ -13,8 +13,8 @@ public class SelectWorkerCellChoice extends Choice {
     /**
      * the builder sets the coordinates of the cell
      * where teh selected worker is and the choice type
-     * @param x
-     * @param y
+     * @param x is the row of the selected cell
+     * @param y is the column of the selected cell
      */
 
     public SelectWorkerCellChoice(int x, int y)

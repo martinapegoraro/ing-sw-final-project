@@ -18,7 +18,7 @@ public class PlayerNameErrorMessage extends ErrorMessage {
 
     /**
      * returns the message
-     * @return
+     * @return the error description
      */
 
     @Override

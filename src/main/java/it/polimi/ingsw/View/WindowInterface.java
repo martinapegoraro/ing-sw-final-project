@@ -21,7 +21,6 @@ public interface WindowInterface {
 
     /**
      * shows messages
-     * @param message
      */
     public void messagePrompt(String message);
 }

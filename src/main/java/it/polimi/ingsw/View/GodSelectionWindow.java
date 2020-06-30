@@ -44,9 +44,7 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
      * builds the window, where a player can slide the
      * possible god cards (which were chosen by the first player),
      * submit his choice and cancel the selected card and choose again
-     * @param view
-     * @param playerNum
-     * @param modelRep
+     * @param playerNum number of players
      */
 
     public GodSelectionWindow(View view, int playerNum, ModelRepresentation modelRep)
@@ -140,8 +138,8 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
         f.addWindowListener(new java.awt.event.WindowAdapter(){
 
             /**
-             * ends the game and closes the window
-             * @param windowEvent
+             * ends the game and closes the window,
+             * asking the player to confirm his decision
              */
             public void windowClosing(java.awt.event.WindowEvent windowEvent){
                 if(JOptionPane.showConfirmDialog(f,"Are you sure you want quit the game?","Quit the game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
@@ -156,9 +154,6 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
 
     /**
      * resize the icon
-     * @param defaultScale
-     * @param scaleDownFactor
-     * @return
      */
 
     private ImageIcon resizeIcon(ImageIcon defaultScale, int scaleDownFactor)
@@ -169,9 +164,8 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
     }
 
     /**
-     * gets the god image
-     * @param name
-     * @return
+     * @param name of the needed god
+     * @return  the god image
      */
 
     private ImageIcon getGodImage(String name)
@@ -187,7 +181,6 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
 
     /**
      * updates the window, according to what the player has clicked on
-     * @param actionEvent
      */
 
     @Override
@@ -264,7 +257,6 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
 
     /**
      * updates the window, according to the model representation
-     * @param update
      */
 
     @Override
@@ -295,7 +287,6 @@ public class GodSelectionWindow extends JFrame implements ActionListener,WindowI
 
     /**
      * shows a message to the players who are not choosing the god
-     * @param message
      */
 
     @Override
