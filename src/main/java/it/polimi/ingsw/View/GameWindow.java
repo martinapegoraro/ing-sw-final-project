@@ -488,11 +488,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                     //The button becomes yellow but still allows to see through
                     boardButtons[row][col].setBackground(new Color(208, 208, 0, 100));
 
-                    //check zeus
-                    if((myWorkerCells[0][0]==row && myWorkerCells[0][1]==col)||(myWorkerCells[1][0]==row && myWorkerCells[1][1]==col))
-                    {
-                        buildUnder=true;
-                    }
+
                 }
                else
                    {
@@ -769,7 +765,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                         {
                             System.out.println(workerHasBeenSelected + " " + selectedWorker);
                             //I first select the worker
-                            if((myWorkerCells[0][0]==cellArray[0] && myWorkerCells[0][1]==cellArray[1]) && !buildUnder)
+                            if((myWorkerCells[0][0]==cellArray[0] && myWorkerCells[0][1]==cellArray[1]))
                             {
                                 if(!workerHasBeenSelected)
                                 {
@@ -783,7 +779,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                 }
 
                             }
-                            else if((myWorkerCells[1][0]==cellArray[0] && myWorkerCells[1][1]==cellArray[1]) && !buildUnder)
+                            else if((myWorkerCells[1][0]==cellArray[0] && myWorkerCells[1][1]==cellArray[1]) )
                             {
                                 if(!workerHasBeenSelected )
                                 {
@@ -818,7 +814,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                                                 workerHasBeenSelected = true;
                                             }
                                             choiceToSend = new BuildChoice(cellArray[0], cellArray[1]);
-                                            buildUnder=false;
+
                                             break;
                                     }
 

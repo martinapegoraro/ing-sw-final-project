@@ -32,6 +32,7 @@ public class BuildState implements State{
     boolean domeAtAnyLevel;
     boolean twoBlocksHephaestus;
     private boolean firstAction;
+    private int firstSelectRecived;
 
 
     /**
@@ -68,6 +69,7 @@ public class BuildState implements State{
         {
             hasFinished=true;
         }
+        firstSelectRecived=0;
 
     }
 
@@ -110,7 +112,13 @@ public class BuildState implements State{
     @Override
     public void update(Choice userChoice, Model model) throws BuildErrorException, WrongChoiceException {
         Player actingPlayer = model.getTurn().getPlayer(userChoice.getId());
-        if(userChoice instanceof SelectWorkerCellChoice)
+        if(model.getTurn().getCurrentPlayer().getGod().getName().equals(GodsList.ZEUS.getName())&&model.getTurn().getCurrentPlayer().isGodActive()
+                &&firstSelectRecived==1&&userChoice.toString().equals("SelectWorkerCellChoice"))
+        {
+            SelectWorkerCellChoice temp=(SelectWorkerCellChoice)userChoice;
+            userChoice=new BuildChoice(temp.x,temp.y);
+        }
+        if(userChoice.toString().equals("SelectWorkerCellChoice"))
         {
             //Cannot assume the choice message is valid!
             Box workerBox;
@@ -135,6 +143,7 @@ public class BuildState implements State{
                     if(!firstAction && possibleBuildListWorker1.isEmpty())
                         playerHasLost(model);
                     model.updateModelRep(possibleBuildListWorker1);
+                    firstSelectRecived++;
 
                 }
                 else if(actingPlayer.getWorkerList().get(1).getPosition() == workerBox)
@@ -143,6 +152,7 @@ public class BuildState implements State{
                     if(!firstAction && possibleBuildListWorker2.isEmpty())
                         playerHasLost(model);
                     model.updateModelRep(possibleBuildListWorker2);
+                    firstSelectRecived++;
                 }
                 else
                 {
@@ -233,6 +243,7 @@ public class BuildState implements State{
                 finally
                 {
                     actingPlayer.setSelectedWorker(null);
+                    firstSelectRecived=0;
                 }
             }
             else

@@ -731,6 +731,7 @@ public class Context implements Observer<Choice> {
                 }
                 else
                 {
+                    hestiaSecondBuild=false;
                     newState = new EndTurnState(contextModel);
                 }
                 switchState(newState);
