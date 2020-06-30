@@ -40,7 +40,7 @@ public class ControllerTest {
         }
     }
 
-    /**Short simulation for turnFlow**/
+    /**Short simulation for turnFlow*/
     @Test
     public void FirstTurnFlowTest()
     {

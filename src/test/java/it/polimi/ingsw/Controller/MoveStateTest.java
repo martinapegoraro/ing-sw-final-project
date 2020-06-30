@@ -249,5 +249,4 @@ public class MoveStateTest {
 
     }
 
-    //TODO: Add Minotaur test, add Persephone test
 }

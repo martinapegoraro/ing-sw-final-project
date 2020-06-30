@@ -15,7 +15,7 @@ public class MoveGodsTest {
     private Model model;
     private Context context;
 
-    /**
+    /*
      * MODEL SETUP:
      * Player0: Pippo       Player1: Pluto
      * <p>
@@ -35,7 +35,7 @@ public class MoveGodsTest {
      * |     |     |     |
      * 4  W1 |  W0 |  -  |  -  |  -
      * |     |     |     |
-     **/
+     */
     @Before
     public void modelSetUp() {
         List<String> listaNomi = new ArrayList<>();
