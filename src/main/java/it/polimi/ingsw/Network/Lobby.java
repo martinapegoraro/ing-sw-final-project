@@ -58,9 +58,10 @@ public class Lobby {
     {
         if(!connectionMap.containsValue(name)) {
             connectionMap.put(conn, name);
-            if (connectionMap.size() == numberOfPlayers)
+            if (connectionMap.size() == numberOfPlayers) {
                 isComplete = true;
                 startGame();
+            }
         }
         else
         {

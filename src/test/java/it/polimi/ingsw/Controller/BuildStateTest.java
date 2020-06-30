@@ -1,10 +1,7 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.Block;
-import it.polimi.ingsw.Model.Board;
-import it.polimi.ingsw.Model.Box;
+import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Exceptions.*;
-import it.polimi.ingsw.Model.Model;
 import it.polimi.ingsw.Utils.BuildChoice;
 import it.polimi.ingsw.Utils.Choice;
 import it.polimi.ingsw.Utils.MoveChoice;
@@ -46,6 +43,9 @@ public class BuildStateTest {
         Box b4=model.getTurn().getBoardInstance().getBox(4,0);
         model.getTurn().getPlayersList().get(1).setWorkersPosition(b3,b4);
         model.updateModelRep(StateEnum.Build);
+        model.getTurn().getPlayersList().get(0).setGodCard(GodsList.APOLLO);
+        model.getTurn().getPlayersList().get(0).setGodCard(GodsList.HEPHAESTUS);
+
 
     }
 
