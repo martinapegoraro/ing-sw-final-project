@@ -18,7 +18,7 @@ public class SelectedCellErrorMessage extends ErrorMessage {
 
     /**
      * returns the message
-     * @return
+     * @return the error description
      */
 
     public String getMessage()

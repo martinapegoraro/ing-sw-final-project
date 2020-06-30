@@ -39,9 +39,9 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
 
     /**
      * the builder methods creates the input and output streams and at the end it runs the ping method
-     * @param socket
-     * @param server
-     * @throws IOException
+     * @param socket is the socket used for communicating
+     * @param server instance used during the game
+     * @throws IOException thrown when the connection is unexpectedly closed
      */
     public SocketClientConnection(Socket socket,Server server) throws IOException {
         this.socket=socket;
@@ -107,8 +107,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
     }
 
     /**
-     * the send method sends a message to the client
-     * @param message
+     * @param message sent to the client
      */
     public synchronized void send(MessageToVirtualView message) {
         try {
@@ -163,9 +162,9 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
 
     /**
      * the asyncRead reads in an asynchronous way from the socket
-     * @param connection
-     * @param in
-     * @return
+     * @param connection used for communication channel
+     * @param in stream where the message arrives
+     * @return the thread
      */
     public Thread asyncReadFromSocket(SocketClientConnection connection,final ObjectInputStream in){
         Thread t = new Thread(new Runnable() {

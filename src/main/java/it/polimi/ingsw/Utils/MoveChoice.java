@@ -11,8 +11,8 @@ public class MoveChoice extends Choice {
     /**
      * the builder sets the coordinates of
      * the box the player has chosen
-     * @param x
-     * @param y
+     * @param x is the row coordinate if the field
+     * @param y is the column in the field
      */
 
     public MoveChoice(int x, int y)

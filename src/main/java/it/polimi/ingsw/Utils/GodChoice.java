@@ -15,7 +15,7 @@ public class GodChoice extends Choice {
     /**
      * the builder sets the choice type and
      * selects the chosen god
-     * @param godName
+     * @param godName is the name of the card we are choosing
      */
 
     public GodChoice(String godName)
@@ -29,8 +29,7 @@ public class GodChoice extends Choice {
     }
 
     /**
-     * returns the god
-     * @return
+     * @return the GodList instance of the god
      */
 
     public GodsList getGod()

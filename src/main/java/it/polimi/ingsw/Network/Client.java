@@ -30,8 +30,8 @@ public class Client implements Observer<Choice> {
 
     /**
      * given the parameters
-     * @param ip
-     * @param port
+     * @param ip ip address of the server
+     * @param port ip port of the server
      * the client creates an instance of the view and put itself as observer of the view
      */
     public Client(String ip,int port)
@@ -45,7 +45,7 @@ public class Client implements Observer<Choice> {
 
     /**
      * checks if the client is still active
-     * @return
+     * @return true if the client is active else false
      */
     public synchronized boolean isActive(){
         return active;
@@ -53,7 +53,7 @@ public class Client implements Observer<Choice> {
 
     /**
      * sets the active following the parameter
-     * @param active
+     * @param active if true active will be true else false
      */
     public synchronized void setActive(boolean active){
         this.active = active;
@@ -65,8 +65,8 @@ public class Client implements Observer<Choice> {
      * if the message is a modelRep I update the view
      * if the message is an exit message I close the client
      * if the message is a ping message I reply to the ping
-     * @param in
-     * @return
+     * @param in is the input stream where we'll read the server's messages
+     * @return a thread
      */
     public Thread asyncReadFromSocket(final ObjectInputStream in){
         Thread t = new Thread(new Runnable() {
@@ -118,9 +118,9 @@ public class Client implements Observer<Choice> {
 
     /**
      * this method creates a new thread which sends a choice in the ObjectOutputStream
-     * @param c
-     * @param out
-     * @return
+     * @param c is the choice we want send to the server
+     * @param out is the OutputStream where we want sends the choice
+     * @return the thread
      */
     public Thread asyncWriteToSocket(Choice c, final ObjectOutputStream out){
         Thread t = new Thread(new Runnable() {
@@ -145,8 +145,8 @@ public class Client implements Observer<Choice> {
     /**
      * the run methods creates the connection between client and server
      * and until the client is active it keep reading from the socket
-     * @throws IOException
-     * @throws InterruptedException
+     * @throws IOException if I try to read or write but the streams are closed
+     * @throws InterruptedException if the read write process ar unexpectedly closed
      */
     public void run() throws IOException, InterruptedException {
         socket=new Socket(ip,port);
@@ -177,8 +177,8 @@ public class Client implements Observer<Choice> {
     }
 
     /**
-     * the client update recives as parameter a choice object aas sends it through the socket
-     * @param c
+     * the client update recives as parameter a choice object as sends it through the socket
+     * @param c is the choice we want send to the server
      */
     @Override
     public void update(Choice c) {

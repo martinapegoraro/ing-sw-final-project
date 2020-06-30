@@ -11,8 +11,8 @@ public class InitialPositionChoice extends Choice {
 
     /**
      * the builder sets the initial position and the choice type
-     * @param x
-     * @param y
+     * @param x is the row coordinate for the worker position
+     * @param y is the column coordinate for the worker position
      */
 
     public InitialPositionChoice(int x, int y)

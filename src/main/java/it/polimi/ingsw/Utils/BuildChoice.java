@@ -13,8 +13,8 @@ public class BuildChoice extends Choice {
      * the builder is used to set
      * the coordinates of the box
      * selected by the user
-     * @param x
-     * @param y
+     * @param x is the column in the field
+     * @param y is the row in the field
      */
 
     public BuildChoice(int x, int y)
