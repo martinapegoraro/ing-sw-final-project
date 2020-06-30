@@ -10,10 +10,10 @@ public enum Block {
 
     /**
      * given
-     * @param base
+     * @param base the last Block of the tower
      * @return the next block of the tower
-     * @throws TowerCompleteException if the @param base is a dome, because that is supposed to be the last block
-     * on a tower nothing can be built over it
+     * @throws TowerCompleteException if the base is a dome, because that is supposed to be the last block
+     * on a tower
      */
     public static Block getNextBlock(Block base)throws TowerCompleteException
     {

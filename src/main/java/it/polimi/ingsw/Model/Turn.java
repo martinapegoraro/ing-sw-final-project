@@ -17,7 +17,6 @@ public class Turn {
 
     /**
      * the builder is used to initialize the first turn of the game
-     * @param playersNamesList
      */
 
     public Turn(List<String> playersNamesList)
@@ -26,7 +25,7 @@ public class Turn {
         idFirstPlayer=0;
         Board.newBoard();
         boardInstance= Board.getInstance();
-        listaGiocatori=new ArrayList<Player>();
+        listaGiocatori=new ArrayList<>();
         for (String name:playersNamesList) {
             try {
                 addPlayer(name);
@@ -76,8 +75,8 @@ public class Turn {
     }
 
     /**
-     * this method sets the id of the player who starts
-     * @param id
+     * Sets the first player using his/her Id
+     * @param id the id of the player who starts
      */
 
     public void setIdFirstPlayer(int id)
@@ -87,8 +86,7 @@ public class Turn {
 
 
     /**
-     * returns the current player
-     * @return
+     * @return the current active player
      */
 
     public Player getCurrentPlayer()
@@ -101,8 +99,7 @@ public class Turn {
     }
 
     /**
-     * returns the instance of the board
-     * @return
+     * @return the instance of the board
      */
 
     public Board getBoardInstance() {
@@ -110,9 +107,8 @@ public class Turn {
     }
 
     /**
-     * returns the god chosen by a given player
-     * @param player
-     * @return
+     * @deprecated
+     * @return the god chosen by a given player
      */
 
     public GodsList getPlayerGod(Player player)
@@ -122,8 +118,8 @@ public class Turn {
 
     /**
      * adds a player to the list of players
-     * @param name
-     * @throws ImpossibleAddAnotherPlayerException
+     * @param name players name
+     * @throws ImpossibleAddAnotherPlayerException if three players are already in the game
      */
 
     public void addPlayer(String name)throws ImpossibleAddAnotherPlayerException
@@ -135,14 +131,14 @@ public class Turn {
     }
 
     /**
-     * given a certain box, returns the list of the boxes a worker can move to
-     * @param b
-     * @return
+     * given a box, returns the list of the boxes a worker can move to around the selected box
+     * @param b selected box
+     * @return the list of the boxes a worker can move to
      */
 
     public List<Box> getPossibleMoves(Box b)
     {
-        List<Box> lista=new ArrayList<Box>();
+        List<Box> lista=new ArrayList<>();
         List<Box> borderBoxes=boardInstance.getBorderBoxes(b);
         for (Box cell:borderBoxes) {
             if(!cell.isOccupied() && b.isReachable(cell))
@@ -153,14 +149,14 @@ public class Turn {
     }
 
     /**
-     * given a certain box, returns the possible boxes a worker can build on
-     * @param b
-     * @return
+     * given a box, returns the possible boxes a worker can build on around it
+     * @param b selected box
+     * @return possible boxes a worker can build on
      */
 
     public List<Box> getPossibleBuildLocations(Box b)
     {
-        List<Box> lista=new ArrayList<Box>();
+        List<Box> lista=new ArrayList<>();
         for (Box cell:boardInstance.getBorderBoxes(b)) {
             if(!cell.isOccupied())
                 lista.add(cell);
@@ -169,8 +165,7 @@ public class Turn {
     }
 
     /**
-     * returns the list of players
-     * @return
+     * @return the list of players
      */
 
     public List<Player> getPlayersList()
@@ -180,8 +175,6 @@ public class Turn {
 
     /**
      * returns a player, given his ID
-     * @param id
-     * @return
      */
 
     public Player getPlayer(int id)

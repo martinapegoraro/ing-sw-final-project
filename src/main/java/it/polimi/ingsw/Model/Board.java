@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The following class represents a Board
+ * The following class represents the game Board
  */
 public class Board {
     private static Box[][] board;

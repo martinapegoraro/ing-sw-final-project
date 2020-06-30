@@ -11,17 +11,17 @@ public class Worker{
     private Box position;
     /**
      * if the worker is on a tower this attribute represents his height
-     * in this way we don't need to go in the box and his tower to have this information
+     * in this way it's not needed to go in the box and his tower to have this information
      */
     private int height;
     private int posX,posY;
 
 
     /**
-     * the builder is called only have selected the first position of the worker
-     * @param b
-     * @throws NullPointerException
-     * @throws BoxAlreadyOccupiedException
+     * the constructor is called only after having selected the first position of the worker
+     * @param b workers position
+     * @throws NullPointerException if the box parameter is null
+     * @throws BoxAlreadyOccupiedException when b is already occupied by another worker
      */
     public Worker(Box b) throws NullPointerException, BoxAlreadyOccupiedException
     {
@@ -41,9 +41,9 @@ public class Worker{
     }
 
     /**
-     * change the current position of the worker in the box given as parameter
-     * @param to
-     * @throws MoveErrorException
+     * changes the current position of the worker
+     * @param to box where the worker moves to
+     * @throws MoveErrorException if the box where the worker wants to move is not adjacent to his current box
      */
     public void move(Box to) throws MoveErrorException
     {
@@ -83,8 +83,7 @@ public class Worker{
     }
 
     /**
-     * return the position of the worker
-     * @return
+     * @return the position of the worker
      */
     public Box getPosition()
     {
@@ -92,7 +91,7 @@ public class Worker{
     }
 
     /**
-     * updates the informations of the worker such as coordinates (tacken frome the box where the worker is placed)
+     * updates the informations of the worker such as coordinates (taken from the box where the worker is placed)
      * and his height
      */
     private void updatePosition()
@@ -104,7 +103,7 @@ public class Worker{
 
     /**
      * this method is used by the worker to build in the selected cell
-     * @param where
+     * @param where the build box
      */
     public void build(Box where)
     {
@@ -114,7 +113,8 @@ public class Worker{
     /**
      * this method is used by the worker to build a specified block in the selected cell
      *
-     * @param where
+     * @param where build box
+     * @param nextBlock the block being built
      */
     public void build(Box where,Block nextBlock)
     {
@@ -127,8 +127,7 @@ public class Worker{
     }
 
     /**
-     * returns a string containing the basic information of the worker
-     * @return
+     * @return a string containing the basic information of the worker
      */
     public String toString()
     {

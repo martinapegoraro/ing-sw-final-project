@@ -17,7 +17,8 @@ public class Model extends Observable<MessageToVirtualView> {
     private ModelRepresentation modelRep;
 
     /**
-     * given the  @param playersNamesList in this class builder is created a new instance of the game
+     * given playersNamesList a new instance of the game is created
+     * @param playersNamesList containing two or three player names
      */
     public Model(List<String> playersNamesList)
     {
@@ -50,7 +51,7 @@ public class Model extends Observable<MessageToVirtualView> {
      */
     public void updateModelRep()
     {
-        //I initialize mi matrix with just zeroes (java default value for int)
+        //I initialize my matrix with just zeroes (java default value for int)
         int [][] selectedCells = new int[5][5];
         modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList(),selectedCells);
         //modelRep.currentState = null; This is not necessary, moved in ModelRep constructor
@@ -60,8 +61,9 @@ public class Model extends Observable<MessageToVirtualView> {
     }
 
     /**
-     * this update modelRep in addiction to save in the modelRep the selected cells saves also the current state of the controller
+     * this update modelRep in addition to save in the modelRep the selected cells saves also the current state of the controller
      * in this way the client can know the state of the context (moveState or buildState)
+     * @param currentState current State of the game server-side
      */
     public void updateModelRep(StateEnum currentState)
     {
@@ -75,6 +77,7 @@ public class Model extends Observable<MessageToVirtualView> {
     /**
      * update modelRep used at the beginning of the game is used to show the second (and the third) player the
      * gods selected for the current game by the first player
+     * @param godsList selected gods
      */
     public void updateModelRep(List<GodsList> godsList)
     {
@@ -89,8 +92,8 @@ public class Model extends Observable<MessageToVirtualView> {
     }
 
     /**
-     * this updateModelRep update the position of the workers in the modelRep
-     * @param selectedWorkerCells
+     * updates the cells where the worker can move
+     * @param selectedWorkerCells the cells where the worker can move to
      */
     public void updateModelRep(ArrayList<Box> selectedWorkerCells)
     {
@@ -111,7 +114,6 @@ public class Model extends Observable<MessageToVirtualView> {
 
     /**
      * this notify sends the messageToVirtualView which contains the modelRep to the VirtualView
-     * @param message
      */
     @Override
     public void notify(MessageToVirtualView message) {

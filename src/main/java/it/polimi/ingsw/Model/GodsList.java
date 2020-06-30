@@ -3,7 +3,7 @@ package it.polimi.ingsw.Model;
 import it.polimi.ingsw.Model.Exceptions.NotExistingGodException;
 
 /**
- * This class represents the enumeration of the possible Gods
+ * This class represents the enumeration of the possible Gods, with a short description of the god effect
  */
 public enum GodsList {
     APOLLO("Apollo", "<html>Your Worker may<br>" +
@@ -54,7 +54,8 @@ public enum GodsList {
 
     /**
      * given
-     * @param name it is filled with a string containing the name of the God
+     * @param name contains the name of the God
+     * @param desc contains a description of the God effect
      */
     GodsList(String name, String desc){
         this.name = name;
@@ -83,6 +84,8 @@ public enum GodsList {
         throw new NotExistingGodException("This God doesn't exist");
     }
 
+    /**
+     * @return a description of the gods effect*/
     public String getDesc()
     {
         return desc;

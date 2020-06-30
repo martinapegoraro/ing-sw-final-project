@@ -30,10 +30,10 @@ public class ModelRepresentation implements Serializable {
     public StateEnum currentState;
 
     /**
-     * given the parameters the builder creates the representation of the model
-     * @param instance
-     * @param players
-     * @param selectedCells
+     * Creates the representation of the model
+     * @param instance board instance
+     * @param players list of Players in the game
+     * @param selectedCells cells which have to be highlighted client-side (where the user can move/build)
      */
     public ModelRepresentation(Board instance, List<Player> players, int[][] selectedCells)
     {
@@ -218,10 +218,9 @@ public class ModelRepresentation implements Serializable {
     }
 
     /**
-     * for every cell return the last block of the tower in that box
-     * this information can't be given by the tower position because same
-     * gods break the construction rules
-     * @return
+     * this information can't be obtained by the tower height because Atlas
+     * can build domes at any level
+     * @return the last block of the tower in that box
      */
     public String[][] getLastBlock()
     {
@@ -239,12 +238,12 @@ public class ModelRepresentation implements Serializable {
     public boolean[] getHasLost() { return hasLost; }
 
     /**
-     * returns the current state of the controller
+     * @return the current state of the controller
      */
     public  StateEnum getCurrentState() {return  currentState;}
 
     /**
-     * return an array list that contains the gods selected by the player 0 at the beginning of the game
+     * @return a list that contains the gods selected by the player 0 at the beginning of the game
      * it will be used only in the first phase of the game
      */
     public List<GodsList> getGods() { return gods; }

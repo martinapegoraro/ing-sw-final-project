@@ -22,9 +22,8 @@ public class Tower {
     }
 
     /**
-     * return the height of a tower
-     * the height is equivalent at the number of blocks in the tower not which pieces are in the tower
-     * @return
+     * the height is equivalent at the number of blocks in the tower
+     * @return the height of a tower
      */
     public int getHeight(){
 
@@ -32,8 +31,7 @@ public class Tower {
     }
 
     /**
-     * returns the list of the pieces which are in the tower
-     * @return
+     * @return the list of pieces which are in the tower
      */
     public List<Block> getPieces()
     {
@@ -41,9 +39,9 @@ public class Tower {
     }
 
     /**
-     * this build method is used when don't have to follow the build order defined by the game's rules
-     * @param b
-     * @throws TowerCompleteException
+     * this build method is used when a custom block has to be built
+     * @param b custom block to build
+     * @throws TowerCompleteException when the tower has already a dome
      */
     public void build(Block b) throws TowerCompleteException{
         if(pieces.contains(Block.DOME))
@@ -54,8 +52,8 @@ public class Tower {
 
 
     /**
-     * this build method is used when I have to build a block in a tower but not using the gods effects which changes the build rules
-     * @throws TowerCompleteException
+     * this build method is used when I have to build the default block on a tower
+     * @throws TowerCompleteException if the tower has already a dome
      */
     public void build() throws TowerCompleteException{
         if(getHeight()==0)

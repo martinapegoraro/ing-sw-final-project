@@ -103,7 +103,7 @@ public class Player {
     public int getNumber()
     {
         return idNumber;
-    } //TODO: Useful test to see if idNumber is in synch with Turn array
+    }
 
     /**
      *
@@ -116,7 +116,7 @@ public class Player {
 
     /**
      * method that sets the god of the player during the game
-     * @param card
+     * @param card the god card
      */
     public void setGodCard(GodsList card)
     {
@@ -141,7 +141,6 @@ public class Player {
 
     /**
      * sets the active property of the player's god
-     * @param active
      */
      public void setGodActive(boolean active)
      {
@@ -158,8 +157,8 @@ public class Player {
      }
 
     /**
-     * sets true or false the athena condition of the player
-     * @param active
+     * sets the athena condition of the player
+     * @param active if true means Athena is active
      */
      public void changeAthenaCondition(boolean active)
      {
@@ -174,16 +173,14 @@ public class Player {
 
     /**
      * sets the pan condition of the player
-     * @param active
+     * @param active if true means the Pan effect condition is met
      */
      public void changePanCondition (boolean active) {panCondition = active;}
 
 
     /**
-     * given 2 boxes
-     * @param b1
-     * @param b2
-     * the method sets the workers position
+     * given 2 boxes the method sets the worker positions
+     * at the start of the game
      */
     public void setWorkersPosition(Box b1,Box b2)
     {
@@ -213,7 +210,6 @@ public class Player {
 
     /**
      * sets as selected a worker of the player
-     * @param selected
      */
     public void setSelectedWorker(Worker selected)
     {
@@ -222,7 +218,7 @@ public class Player {
 
     /**
      * sets a worker as selected but this time given the index of the worker
-     * @param n
+     * @param n index of the worker, either 0 or 1
      */
     public void setSelectedWorker(int n)
     {
