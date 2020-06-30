@@ -593,7 +593,7 @@ public class Context implements Observer<Choice> {
 
         for (Box opponentWorkerBox : contextModel.getTurn().getBoardInstance().getBorderBoxes(playerWorkerBox)) {
             //Check if the cell is occupied by a worker and is reachable
-            if(opponentWorkerBox.isOccupied() && opponentWorkerBox.isReachable(playerWorkerBox)
+            if(opponentWorkerBox.isOccupied() && playerWorkerBox.isReachable(opponentWorkerBox)
                     && (!opponentWorkerBox.getTower().getPieces().contains(Block.DOME)))
             {
 
