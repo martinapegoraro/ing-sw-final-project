@@ -351,13 +351,13 @@ public class Context implements Observer<Choice> {
 
         if(hestiaSecondBuild)
         {
-            ArrayList<Box> temp1=getPossibleMoveBoxes(workerPositions.get(0));
+            ArrayList<Box> temp1=getPossibleBuildBoxes(workerPositions.get(0));
             possibleBuildList0=new ArrayList<>();
             for (Box b:temp1) {
                 if(!b.isBorder())
                     possibleBuildList0.add(b);
             }
-            temp1=getPossibleMoveBoxes(workerPositions.get(1));
+            temp1=getPossibleBuildBoxes(workerPositions.get(1));
             possibleBuildList1=new ArrayList<>();
             for (Box b:temp1) {
                 if(!b.isBorder())
@@ -413,6 +413,10 @@ public class Context implements Observer<Choice> {
         return godMoves;
     }
 
+    /**This method removes boxes which do not meet Athenas god power
+     * @param basicMoves basic list of move boxes (without god effects applied)
+     * @param b box where the player's worker is at
+     * @return list of boxes where a move is permitted*/
     //REQUIRES: athenaCondition == true on the player who activated the card
     private ArrayList<Box> athenaEffect(ArrayList<Box> basicMoves, Box b)
     {
@@ -483,7 +487,9 @@ public class Context implements Observer<Choice> {
     }
 
     /**The method removes the box in which the Player moved during his first Artemis move
-     * and returns the new list of possible move boxes**/
+     * and returns the new list of possible move boxes
+     * @param basicMoves basic list of move boxes (without god effects applied)*/
+
     private ArrayList<Box> artemisBoxEffect(ArrayList<Box> basicMoves)
     {
         ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
@@ -545,7 +551,8 @@ public class Context implements Observer<Choice> {
     }
 
     /**The method removes the box in which the Player built during his first Demeter build
-     * and returns the new list of possible build boxes**/
+     * @param basicBuilds basic list of build boxes (without god effects applied)
+     * @return the new list of possible build boxes*/
     private ArrayList<Box> demeterBoxEffect(ArrayList<Box> basicBuilds)
     {
         //returns the list without the last box where actingPlayer built
@@ -555,6 +562,10 @@ public class Context implements Observer<Choice> {
     }
 
 
+    /**The method remove boxes which cannot have two more blocks built on them
+     * @param basicMoves basic list of move boxes (without god effects applied)
+     * @param b box where the player's worker is at
+     * @return list of possible build boxes*/
     private ArrayList<Box> hephaestusEffect(ArrayList<Box> basicMoves, Box b) {
         ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
 
