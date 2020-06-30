@@ -14,8 +14,7 @@ public class BackgroundPanel extends JPanel {
     Image img;
 
     /**
-     * the builder is used to set the path of the image
-     * @param path
+     * the constructor is used to set the path of the image
      */
 
     public BackgroundPanel(String path)
@@ -30,7 +29,6 @@ public class BackgroundPanel extends JPanel {
 
     /**
      * sets the dimension of the image
-     * @return
      */
 
     @Override
@@ -40,7 +38,6 @@ public class BackgroundPanel extends JPanel {
 
     /**
      * puts the image on the window
-     * @param g
      */
 
     @Override

@@ -27,9 +27,9 @@ public class VirtualView extends View {
 
 
     /**
-     * the virtualview builder builds the object and sets the Message reciver private class as observer of the connection
-     * @param idPlayer
-     * @param connection
+     * the constructor of the VirtualView builds the object and sets
+     * the Message receiver private class as observer of the connection
+
      */
     public VirtualView(int idPlayer,SocketClientConnection connection)
     {
@@ -39,7 +39,7 @@ public class VirtualView extends View {
     }
 
     /**
-     * the notify sends to the controller the choice recived
+     * the notify sends to the controller the choice received
      */
     public void notify(Choice click)
     {
@@ -56,7 +56,6 @@ public class VirtualView extends View {
 
     /**
      * this update method sends through the connection the message to the view
-     * @param message
      */
     @Override
     public void update(MessageToVirtualView message) {

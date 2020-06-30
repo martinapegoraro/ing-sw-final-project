@@ -11,7 +11,6 @@ public class Observable<T> {
 
     /**
      * add an observer
-     * @param observer
      */
 
     public void addObservers(Observer<T> observer){
@@ -20,7 +19,6 @@ public class Observable<T> {
 
     /**
      * notifies a change so that the observers can update
-     * @param message
      */
 
     public void notify(T message){

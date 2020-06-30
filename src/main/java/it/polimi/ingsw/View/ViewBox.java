@@ -19,9 +19,7 @@ public class ViewBox extends JButton {
     private Image img;
 
     /**
-     * builds each box
-     * @param x
-     * @param y
+     * builds each box, given its coordinates
      */
 
     public ViewBox(int x,int y)
@@ -47,8 +45,6 @@ public class ViewBox extends JButton {
 
     /**
      * sets the level and the last block of a tower
-     * @param level
-     * @param lastBlock
      */
 
     public void setTower(int level,String lastBlock)
@@ -59,7 +55,6 @@ public class ViewBox extends JButton {
 
     /**
      * sets an highlighted box
-     * @param highlighted
      */
     public void setHighlighted(boolean highlighted)
     {
@@ -69,7 +64,6 @@ public class ViewBox extends JButton {
 
     /**
      * sets the image given a path
-     * @param path
      */
     public void setImage(String path)
     {

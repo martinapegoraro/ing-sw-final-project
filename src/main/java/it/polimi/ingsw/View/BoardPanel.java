@@ -16,7 +16,7 @@ public class BoardPanel extends JPanel {
     private ViewBox[][] buttonsGrid;
 
     /**
-     * the builder sets the path of the chosen image
+     * the constructor sets the path of the chosen image
      * and builds the grid where the workers
      * and towers are going to be with buttons,
      * so that the player can select any box
@@ -47,7 +47,6 @@ public class BoardPanel extends JPanel {
 
     /**
      * puts the image on the window
-     * @param g
      */
 
     @Override
@@ -60,10 +59,10 @@ public class BoardPanel extends JPanel {
     }
 
     /**
-     * returns the box corresponding to the coordinates
-     * @param x
-     * @param y
-     * @return
+     * given
+     * @param x coordinate x
+     * @param y coordinate y
+     * @return the box corresponding to the coordinates
      */
 
     public ViewBox getBox(int x,int y)
