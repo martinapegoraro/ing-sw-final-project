@@ -635,13 +635,13 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
             }
             if(modelRep.hasLost[myID])
             {
-                if(JOptionPane.showConfirmDialog(playersSideBar,"You have lost \n you want leave the field?","End Game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
+                JOptionPane.showMessageDialog(playersSideBar,"You have lost \n you want leave the field?");
                     //Choice c=new ExitChoice();
                     //c.setId(myID);
                     //view.update(c);
                     //System.exit(0);
                     this.setWindowNotVisible();
-                }
+
                 return;
             }
 
