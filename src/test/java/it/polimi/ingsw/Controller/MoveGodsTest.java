@@ -64,6 +64,7 @@ public class MoveGodsTest {
         //checks if the minotaur effect is properly applied
         //player 0 "pippo" can move his workers but applying the minotaur effect there is no difference
         model.getTurn().getPlayersList().get(1).setGodCard(GodsList.MINOTAUR);
+        model.getTurn().getPlayersList().get(0).setGodCard(GodsList.APOLLO);
         context.switchState(new EndTurnState(model));
         context.switchState(new BeginTurnState(model));
         Player actingPlayer = model.getTurn().getCurrentPlayer();

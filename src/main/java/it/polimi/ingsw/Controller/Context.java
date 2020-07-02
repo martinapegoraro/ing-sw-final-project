@@ -242,7 +242,14 @@ public class Context implements Observer<Choice> {
         heraActive = false;
         if(activeGods.contains(GodsList.MINOTAUR)) pushWorker = true;
         if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;
-        if(activeGods.contains(GodsList.HERA)) heraActive = true;
+        //if(activeGods.contains(GodsList.HERA)) heraActive = true;
+        for(String s:contextModel.getModelRep().getGodList())
+        {
+            if (s.equals(GodsList.HERA.getName())) {
+                heraActive = true;
+                break;
+            }
+        }
         if(activeGods.contains(GodsList.ARTEMIS) && !artemisFirstMove)
         {
             if(possibleMovesWorker0.isEmpty() && possibleMovesWorker1.isEmpty())
