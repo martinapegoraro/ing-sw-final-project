@@ -141,7 +141,10 @@ public class Context implements Observer<Choice> {
                 break;
 
             case FirstCheckWinCondition:
-                newState = buildStateConstructor(false);
+                if(!contextModel.getTurn().getCurrentPlayer().getHasLost())
+                     newState = buildStateConstructor(false);
+                else
+                    newState=new EndTurnState(contextModel);
                 switchState(newState);
                 break;
 
@@ -164,10 +167,7 @@ public class Context implements Observer<Choice> {
 
     public void switchState(State next)
     {
-        if(!contextModel.getTurn().getCurrentPlayer().getHasLost())
-            currentState = new EndTurnState(contextModel);
-        else
-            currentState = next;
+        currentState = next;
     }
 
 
@@ -457,15 +457,21 @@ public class Context implements Observer<Choice> {
                     break;
 
             case FirstCheckWinCondition:
-                if(artemisFirstMove)
+                if(!contextModel.getTurn().getCurrentPlayer().getHasLost())
                 {
-                    artemisFirstMove = false;
-                    newState = moveStateConstructor(false);
-                }
-                else
+                    if(artemisFirstMove)
+                    {
+                        artemisFirstMove = false;
+                        newState = moveStateConstructor(false);
+                    }
+                    else
                     {
                         newState = buildStateConstructor(false);
                     }
+                }
+                else
+                    newState=new EndTurnState(contextModel);
+
                 switchState(newState);
                 break;
 
@@ -519,8 +525,14 @@ public class Context implements Observer<Choice> {
                 break;
 
             case FirstCheckWinCondition:
-                demeterFirstBuild = true;
-                newState = buildStateConstructor(false);
+                if(!contextModel.getTurn().getCurrentPlayer().getHasLost())
+                {
+                    demeterFirstBuild = true;
+                    newState = buildStateConstructor(false);
+                }
+                else
+                    newState=new EndTurnState(contextModel);
+
                 switchState(newState);
                 break;
 
@@ -725,8 +737,14 @@ public class Context implements Observer<Choice> {
                 break;
 
             case FirstCheckWinCondition:
-                hestiaSecondBuild = false;
-                newState = buildStateConstructor(false);
+                if(!contextModel.getTurn().getCurrentPlayer().getHasLost())
+                {
+                    hestiaSecondBuild = false;
+                    newState = buildStateConstructor(false);
+                }
+                else
+                    newState=new EndTurnState(contextModel);
+
                 switchState(newState);
                 break;
 
