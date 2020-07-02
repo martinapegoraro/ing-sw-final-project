@@ -141,10 +141,7 @@ public class Context implements Observer<Choice> {
                 break;
 
             case FirstCheckWinCondition:
-                if(!contextModel.getTurn().getCurrentPlayer().getHasLost())
-                     newState = buildStateConstructor(false);
-                else
-                    newState=new EndTurnState(contextModel);
+                newState = buildStateConstructor(false);
                 switchState(newState);
                 break;
 
@@ -167,7 +164,10 @@ public class Context implements Observer<Choice> {
 
     public void switchState(State next)
     {
-        currentState = next;
+        if(!contextModel.getTurn().getCurrentPlayer().getHasLost())
+            currentState = new EndTurnState(contextModel);
+        else
+            currentState = next;
     }
 
 
