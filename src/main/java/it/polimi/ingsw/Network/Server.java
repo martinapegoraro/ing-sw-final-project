@@ -68,7 +68,7 @@ public class Server {
                 }
                 else
                     {
-                        if(lobbiesList.get(0).getConnections().isEmpty())
+                        if(lobbiesList.size() == 1 && lobbiesList.get(0).getConnections().isEmpty())
                         {
                             //If a client who was playing has disconnected the server will accept new connections
                                 flushLobbies();

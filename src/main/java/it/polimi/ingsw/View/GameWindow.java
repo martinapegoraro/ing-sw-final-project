@@ -632,7 +632,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                     view.update(c);
                     System.exit(0);
                 }
-                return;
+                //return;
             }
             if(modelRep.hasLost[myID])
             {
@@ -648,7 +648,7 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                         Choice c=new ExitChoice();
                         c.setId(myID);
                         view.update(c);
-                        //System.exit(0);
+                        System.exit(0);
                     }
                 }
 
