@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BeginTurnState</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BeginTurnState (it.polimi.ingsw.Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BeginTurnState</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72,2%
+  </span>
+  <span class="absValue">
+    (13/ 18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.MessageToVirtualView;
+<i>4</i>&nbsp;import it.polimi.ingsw.Model.Model;
+<i>5</i>&nbsp;import it.polimi.ingsw.Utils.Choice;
+<i>6</i>&nbsp;import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * the BeginTurnState class is built every time the turn is changed
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public class BeginTurnState implements State {
+<i>13</i>&nbsp;    private StateEnum stateID;
+<i>14</i>&nbsp;    private boolean hasFinished;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * the constructor is called to initialize the state,
+<i>18</i>&nbsp;     * it skips the player if it has lost
+<i>19</i>&nbsp;     */
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public BeginTurnState(Model model)
+<b class="fc"><i>22</i>&nbsp;    {</b>
+<b class="fc"><i>23</i>&nbsp;        stateID = StateEnum.BeginTurn;</b>
+<b class="fc"><i>24</i>&nbsp;        hasFinished = false;</b>
+<b class="fc"><i>25</i>&nbsp;        startup(model);</b>
+<b class="fc"><i>26</i>&nbsp;        if(model.getTurn().getCurrentPlayer().getHasLost())</b>
+<i>27</i>&nbsp;        {
+<b class="nc"><i>28</i>&nbsp;            hasFinished=true;</b>
+<i>29</i>&nbsp;        }
+<b class="fc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * @return the ID of the state
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @Override
+<i>37</i>&nbsp;    public StateEnum getID()
+<i>38</i>&nbsp;    {
+<b class="fc"><i>39</i>&nbsp;        return stateID;</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * sets the next player skipping the player who has lost (game with 3 players),
+<i>45</i>&nbsp;     * resets the Athena condition and updates the ModelRepresentation
+<i>46</i>&nbsp;     * with the current state
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    @Override
+<i>50</i>&nbsp;    public void startup(Model model)
+<i>51</i>&nbsp;    {
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;        //Athena condition is resetted at the start of a players turn
+<b class="fc"><i>54</i>&nbsp;        model.getTurn().getCurrentPlayer().changeAthenaCondition(false);</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;        //setNextPlayer should already skip players who have lost
+<b class="fc"><i>57</i>&nbsp;        if(model.getTurn().getCurrentPlayer().getHasLost())</b>
+<i>58</i>&nbsp;        {
+<b class="nc"><i>59</i>&nbsp;            model.getTurn().setNextPlayer();</b>
+<i>60</i>&nbsp;        }
+<b class="fc"><i>61</i>&nbsp;        model.updateModelRep(stateID);</b>
+<b class="fc"><i>62</i>&nbsp;        hasFinished = true;</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;    }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * prints an error message if a choice is received during this state,
+<i>69</i>&nbsp;     * the method is overridden from the State interface and performs no action
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    @Override
+<i>73</i>&nbsp;    public void update(Choice userChoice, Model model)
+<i>74</i>&nbsp;    {
+<b class="nc"><i>75</i>&nbsp;        model.notify(new MessageToVirtualView(new SentChoiceError()));</b>
+<b class="nc"><i>76</i>&nbsp;        System.out.println(&quot;No choice can be received in BeginTurnState! RECEIVED: &quot; + userChoice.toString());</b>
+<b class="nc"><i>77</i>&nbsp;    }</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * @return the boolean variable that is used to check if the state has finished
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    @Override
+<i>84</i>&nbsp;    public boolean hasFinished() {
+<b class="fc"><i>85</i>&nbsp;        return hasFinished;</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-02 19:17</div>
+</div>
+</body>
+</html>

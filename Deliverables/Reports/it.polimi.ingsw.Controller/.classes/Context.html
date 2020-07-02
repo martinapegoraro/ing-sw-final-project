@@ -1,0 +1,960 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Context</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Context (it.polimi.ingsw.Controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Context</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (18/ 20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,1%
+  </span>
+  <span class="absValue">
+    (275/ 323)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Context$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    90,5%
+  </span>
+  <span class="absValue">
+    (19/ 21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,2%
+  </span>
+  <span class="absValue">
+    (276/ 324)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.Model.Exceptions.*;
+<i>5</i>&nbsp;import it.polimi.ingsw.Utils.Choice;
+<i>6</i>&nbsp;import it.polimi.ingsw.Utils.ErrorMessages.GodNotActionableErrorMessage;
+<i>7</i>&nbsp;import it.polimi.ingsw.Utils.ErrorMessages.SentChoiceError;
+<i>8</i>&nbsp;import it.polimi.ingsw.View.Observer;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * The Context contains the logic of the game.
+<i>14</i>&nbsp; * it controls the turn flow according to the choices
+<i>15</i>&nbsp; * of the players and the current model.
+<i>16</i>&nbsp; * It contains some boolean variables used to apply god effects
+<i>17</i>&nbsp; * and an ArrayList used by Artemis and Demeter
+<i>18</i>&nbsp; * to save the old player positions
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;public class Context implements Observer&lt;Choice&gt; {
+<i>22</i>&nbsp;    private State currentState;
+<i>23</i>&nbsp;    //private int numberofPlayers;
+<i>24</i>&nbsp;    private Model contextModel;
+<i>25</i>&nbsp;    private ArrayList&lt;GodsList&gt; activeGods;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    //Variables used to apply god effects
+<i>28</i>&nbsp;    private boolean prometheusFirstBuild;
+<i>29</i>&nbsp;    private boolean artemisFirstMove;
+<i>30</i>&nbsp;    private boolean demeterFirstBuild;
+<i>31</i>&nbsp;    private boolean hestiaSecondBuild;
+<i>32</i>&nbsp;    //Used by Artemis and Demeter to save the old player positions
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Context constructor
+<i>36</i>&nbsp;     * @throws NullPointerException when model is null
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public Context(Model model) throws NullPointerException
+<b class="fc"><i>40</i>&nbsp;    {</b>
+<b class="fc"><i>41</i>&nbsp;        if(model == null)</b>
+<i>42</i>&nbsp;        {
+<b class="nc"><i>43</i>&nbsp;            throw new NullPointerException(&quot;Model can&#39;t be null when linking Context!&quot;);</b>
+<i>44</i>&nbsp;        }
+<b class="fc"><i>45</i>&nbsp;        currentState = new SetUpState(model);</b>
+<i>46</i>&nbsp;        //numberofPlayers = 0;
+<b class="fc"><i>47</i>&nbsp;        contextModel = model;</b>
+<b class="fc"><i>48</i>&nbsp;        activeGods = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>49</i>&nbsp;        hestiaSecondBuild=false;</b>
+<b class="fc"><i>50</i>&nbsp;    }</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    //______________________________________State change methods_______________________________________________________
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**The method provides a quick way to change to the next state in the State pattern
+<i>57</i>&nbsp;     * according to current state and active god cards whom disrupt
+<i>58</i>&nbsp;     * the normal state flow
+<i>59</i>&nbsp;     * **/
+<i>60</i>&nbsp;    private void stateChange()
+<i>61</i>&nbsp;    {
+<i>62</i>&nbsp;        //If a god who changes state flow is active the state transition is
+<i>63</i>&nbsp;        //handled by the god method
+<b class="fc"><i>64</i>&nbsp;        if(activeGods.size()&gt;0)</b>
+<i>65</i>&nbsp;        {
+<b class="fc"><i>66</i>&nbsp;            if(activeGods.contains(GodsList.ARTEMIS))</b>
+<i>67</i>&nbsp;            {
+<b class="fc"><i>68</i>&nbsp;                artemisTurnFlow();</b>
+<b class="fc"><i>69</i>&nbsp;                return;</b>
+<i>70</i>&nbsp;            }
+<b class="fc"><i>71</i>&nbsp;            else if(activeGods.contains(GodsList.DEMETER))</b>
+<i>72</i>&nbsp;            {
+<b class="fc"><i>73</i>&nbsp;                demeterTurnFlow();</b>
+<b class="fc"><i>74</i>&nbsp;                return;</b>
+<i>75</i>&nbsp;            }
+<b class="fc"><i>76</i>&nbsp;            else if(activeGods.contains(GodsList.PROMETHEUS))</b>
+<i>77</i>&nbsp;            {
+<b class="fc"><i>78</i>&nbsp;                prometheusTurnFlow();</b>
+<b class="fc"><i>79</i>&nbsp;                return;</b>
+<i>80</i>&nbsp;            }
+<b class="fc"><i>81</i>&nbsp;            else if(activeGods.contains(GodsList.HESTIA))</b>
+<i>82</i>&nbsp;            {
+<b class="fc"><i>83</i>&nbsp;                hestiaTurnFlow();</b>
+<b class="fc"><i>84</i>&nbsp;                return;</b>
+<i>85</i>&nbsp;            }
+<i>86</i>&nbsp;        }
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;        State newState;
+<i>89</i>&nbsp;
+<b class="fc"><i>90</i>&nbsp;        switch(currentState.getID())</b>
+<i>91</i>&nbsp;        {
+<i>92</i>&nbsp;            case SetUp:
+<b class="fc"><i>93</i>&nbsp;                newState = new BeginTurnState(contextModel);</b>
+<b class="fc"><i>94</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>95</i>&nbsp;                break;</b>
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;            case BeginTurn:
+<b class="fc"><i>98</i>&nbsp;                newState = new ActivationGodState(contextModel);</b>
+<b class="fc"><i>99</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>100</i>&nbsp;                break;</b>
+<i>101</i>&nbsp;            case ActivationGod:
+<i>102</i>&nbsp;                //I save the active Gods for this turn for easier access later
+<b class="fc"><i>103</i>&nbsp;                ArrayList&lt;Player&gt; playersList = (ArrayList&lt;Player&gt;)contextModel.getTurn().getPlayersList();</b>
+<b class="fc"><i>104</i>&nbsp;                for(Player player : playersList)</b>
+<i>105</i>&nbsp;                {
+<b class="fc"><i>106</i>&nbsp;                    if(player.isGodActive())</b>
+<i>107</i>&nbsp;                    {
+<b class="fc"><i>108</i>&nbsp;                        activeGods.add(player.getGod());</b>
+<i>109</i>&nbsp;                    }
+<b class="fc"><i>110</i>&nbsp;                }</b>
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;                //The check is done again to ensure state switches are handled after ActivatioGodState
+<i>113</i>&nbsp;                //without this second check the flow would go directly to MoveState
+<b class="fc"><i>114</i>&nbsp;                if(activeGods.contains(GodsList.ARTEMIS))</b>
+<i>115</i>&nbsp;                {
+<b class="fc"><i>116</i>&nbsp;                    artemisTurnFlow();</b>
+<i>117</i>&nbsp;                }
+<b class="fc"><i>118</i>&nbsp;                else if(activeGods.contains(GodsList.DEMETER))</b>
+<i>119</i>&nbsp;                {
+<b class="fc"><i>120</i>&nbsp;                    demeterTurnFlow();</b>
+<i>121</i>&nbsp;                }
+<b class="fc"><i>122</i>&nbsp;                else if(activeGods.contains(GodsList.PROMETHEUS))</b>
+<i>123</i>&nbsp;                {
+<b class="fc"><i>124</i>&nbsp;                    prometheusTurnFlow();</b>
+<i>125</i>&nbsp;                }
+<b class="fc"><i>126</i>&nbsp;                else if(activeGods.contains(GodsList.HESTIA))</b>
+<i>127</i>&nbsp;                {
+<b class="fc"><i>128</i>&nbsp;                    hestiaTurnFlow();</b>
+<i>129</i>&nbsp;                }
+<i>130</i>&nbsp;                else
+<i>131</i>&nbsp;                    {
+<b class="fc"><i>132</i>&nbsp;                        newState = moveStateConstructor(true);</b>
+<b class="fc"><i>133</i>&nbsp;                        switchState(newState);</b>
+<i>134</i>&nbsp;                    }
+<i>135</i>&nbsp;
+<b class="fc"><i>136</i>&nbsp;                break;</b>
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;            case Move:
+<b class="fc"><i>139</i>&nbsp;                newState = new CheckWinConditionState(1, contextModel);</b>
+<b class="fc"><i>140</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>141</i>&nbsp;                break;</b>
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;            case FirstCheckWinCondition:
+<b class="fc"><i>144</i>&nbsp;                if(!contextModel.getTurn().getCurrentPlayer().getHasLost())</b>
+<b class="fc"><i>145</i>&nbsp;                     newState = buildStateConstructor(false);</b>
+<i>146</i>&nbsp;                else
+<b class="nc"><i>147</i>&nbsp;                    newState=new EndTurnState(contextModel);</b>
+<b class="fc"><i>148</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>149</i>&nbsp;                break;</b>
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;            case Build:
+<b class="fc"><i>152</i>&nbsp;                newState = new CheckWinConditionState(2, contextModel);</b>
+<b class="fc"><i>153</i>&nbsp;                switchState(newState);</b>
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;            case SecondCheckWinCondition:
+<b class="fc"><i>156</i>&nbsp;                newState = new EndTurnState(contextModel);</b>
+<b class="fc"><i>157</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>158</i>&nbsp;                break;</b>
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;            case EndTurn:
+<b class="fc"><i>161</i>&nbsp;                newState = new BeginTurnState(contextModel);</b>
+<b class="fc"><i>162</i>&nbsp;                activeGods.clear();</b>
+<b class="fc"><i>163</i>&nbsp;                switchState(newState);</b>
+<i>164</i>&nbsp;                break;
+<i>165</i>&nbsp;        }
+<b class="fc"><i>166</i>&nbsp;    }</b>
+<i>167</i>&nbsp;
+<i>168</i>&nbsp;    public void switchState(State next)
+<i>169</i>&nbsp;    {
+<b class="fc"><i>170</i>&nbsp;        currentState = next;</b>
+<b class="fc"><i>171</i>&nbsp;    }</b>
+<i>172</i>&nbsp;
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;
+<i>175</i>&nbsp;    //________________________________________MOVE/BUILD METHODS__________________________________________________
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;    /**Returns a List of all the possible Move boxes surrounding
+<i>178</i>&nbsp;     * the active player selected worker
+<i>179</i>&nbsp;     * taking in consideration active move-affecting gods
+<i>180</i>&nbsp;     * @param currentCell the selected workers cell*/
+<i>181</i>&nbsp;    private ArrayList&lt;Box&gt; getPossibleMoveBoxes(Box currentCell)
+<i>182</i>&nbsp;    {
+<b class="fc"><i>183</i>&nbsp;        ArrayList&lt;Box&gt; possibleMoves = (ArrayList&lt;Box&gt;)contextModel.getTurn().getPossibleMoves(currentCell);</b>
+<i>184</i>&nbsp;
+<i>185</i>&nbsp;        //Check god cards to first extend then contract list of boxes
+<i>186</i>&nbsp;        //Gods activated by the current player expanding the list of move boxes
+<b class="fc"><i>187</i>&nbsp;        if(activeGods.contains(GodsList.APOLLO))</b>
+<i>188</i>&nbsp;        {
+<b class="nc"><i>189</i>&nbsp;            possibleMoves = apolloEffect(possibleMoves, currentCell);</b>
+<i>190</i>&nbsp;        }
+<b class="fc"><i>191</i>&nbsp;        else if(activeGods.contains(GodsList.MINOTAUR))</b>
+<i>192</i>&nbsp;        {
+<b class="fc"><i>193</i>&nbsp;            possibleMoves = minotaurEffect(possibleMoves, currentCell);</b>
+<i>194</i>&nbsp;        }
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;        //Gods activated by the current player contracting the list of move boxes
+<b class="fc"><i>197</i>&nbsp;        if (activeGods.contains(GodsList.ARTEMIS) &amp;&amp; !artemisFirstMove)</b>
+<i>198</i>&nbsp;        {
+<i>199</i>&nbsp;            //Eliminates from the list of possible moves the last cell where the Player moved to
+<b class="fc"><i>200</i>&nbsp;            possibleMoves = artemisBoxEffect(possibleMoves);</b>
+<i>201</i>&nbsp;        }
+<b class="fc"><i>202</i>&nbsp;        else if(activeGods.contains(GodsList.PROMETHEUS))</b>
+<i>203</i>&nbsp;        {
+<b class="fc"><i>204</i>&nbsp;            possibleMoves = prometheusMoveEffect(possibleMoves, currentCell);</b>
+<i>205</i>&nbsp;        }
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;        //Gods activated by another player contracting the list of move boxes
+<b class="fc"><i>208</i>&nbsp;        if(activeGods.contains(GodsList.ATHENA))</b>
+<i>209</i>&nbsp;        {
+<b class="fc"><i>210</i>&nbsp;            possibleMoves = athenaEffect(possibleMoves, currentCell);</b>
+<i>211</i>&nbsp;        }
+<b class="fc"><i>212</i>&nbsp;        else if (activeGods.contains(GodsList.PERSEPHONE))</b>
+<i>213</i>&nbsp;        {
+<i>214</i>&nbsp;            //If the player can move up then the choice is forced, if not the card has no effect
+<b class="fc"><i>215</i>&nbsp;            ArrayList&lt;Box&gt; godMoves = persephoneEffect(possibleMoves, currentCell);</b>
+<b class="fc"><i>216</i>&nbsp;            if(!godMoves.isEmpty())</b>
+<i>217</i>&nbsp;            {
+<b class="fc"><i>218</i>&nbsp;                possibleMoves = godMoves;</b>
+<i>219</i>&nbsp;            }
+<i>220</i>&nbsp;        }
+<i>221</i>&nbsp;
+<b class="fc"><i>222</i>&nbsp;        return possibleMoves;</b>
+<i>223</i>&nbsp;    }
+<i>224</i>&nbsp;
+<i>225</i>&nbsp;    /**Returns a State constructed following the rules for
+<i>226</i>&nbsp;     * every active move-affecting god
+<i>227</i>&nbsp;     * @param firstAction used when the move is the first action performed in the turn**/
+<i>228</i>&nbsp;    private State moveStateConstructor(boolean firstAction)
+<i>229</i>&nbsp;    {
+<b class="fc"><i>230</i>&nbsp;        ArrayList&lt;Box&gt; workerPositions = new ArrayList&lt;&gt;();</b>
+<i>231</i>&nbsp;        //Get worker cells and move boxes
+<b class="fc"><i>232</i>&nbsp;        workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());</b>
+<b class="fc"><i>233</i>&nbsp;        workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());</b>
+<i>234</i>&nbsp;
+<b class="fc"><i>235</i>&nbsp;        ArrayList&lt;Box&gt; possibleMovesWorker0 = new ArrayList&lt;&gt;(getPossibleMoveBoxes(workerPositions.get(0)));</b>
+<b class="fc"><i>236</i>&nbsp;        ArrayList&lt;Box&gt; possibleMovesWorker1 = new ArrayList&lt;&gt;(getPossibleMoveBoxes(workerPositions.get(1)));</b>
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;        //Define god flags to build state
+<i>239</i>&nbsp;        boolean pushWorker, swapWorker, heraActive;
+<b class="fc"><i>240</i>&nbsp;        pushWorker = false;</b>
+<b class="fc"><i>241</i>&nbsp;        swapWorker = false;</b>
+<b class="fc"><i>242</i>&nbsp;        heraActive = false;</b>
+<b class="fc"><i>243</i>&nbsp;        if(activeGods.contains(GodsList.MINOTAUR)) pushWorker = true;</b>
+<b class="fc"><i>244</i>&nbsp;        if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;</b>
+<b class="fc"><i>245</i>&nbsp;        if(activeGods.contains(GodsList.HERA)) heraActive = true;</b>
+<i>246</i>&nbsp;
+<b class="fc"><i>247</i>&nbsp;        if(activeGods.contains(GodsList.ARTEMIS) &amp;&amp; !artemisFirstMove)</b>
+<i>248</i>&nbsp;        {
+<b class="fc"><i>249</i>&nbsp;            if(possibleMovesWorker0.isEmpty() &amp;&amp; possibleMovesWorker1.isEmpty())</b>
+<i>250</i>&nbsp;            {
+<i>251</i>&nbsp;                //Since this move is the second one done by the player it&#39;s not mandatory
+<i>252</i>&nbsp;                //If no moves are possible the state returned is going to be FirstCheckWinConditionState
+<b class="nc"><i>253</i>&nbsp;                return new CheckWinConditionState(1, contextModel);</b>
+<i>254</i>&nbsp;            }
+<i>255</i>&nbsp;        }
+<i>256</i>&nbsp;
+<b class="fc"><i>257</i>&nbsp;        return new MoveState(possibleMovesWorker0, possibleMovesWorker1, pushWorker, swapWorker, heraActive, contextModel,firstAction);</b>
+<i>258</i>&nbsp;    }
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;    /**@return a State constructed following the rules of
+<i>261</i>&nbsp;     * each active build-affecting god**/
+<i>262</i>&nbsp;    private State buildStateConstructor(boolean firstAction)
+<i>263</i>&nbsp;    {
+<b class="fc"><i>264</i>&nbsp;        ArrayList&lt;Box&gt; workerPositions = new ArrayList&lt;&gt;();</b>
+<i>265</i>&nbsp;        //Get worker cells and build boxes
+<b class="fc"><i>266</i>&nbsp;        workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(0).getPosition());</b>
+<b class="fc"><i>267</i>&nbsp;        workerPositions.add(contextModel.getTurn().getCurrentPlayer().getWorkerList().get(1).getPosition());</b>
+<i>268</i>&nbsp;
+<b class="fc"><i>269</i>&nbsp;        ArrayList&lt;Box&gt; possibleBuildList0 = getPossibleBuildBoxes(workerPositions.get(0));</b>
+<b class="fc"><i>270</i>&nbsp;        ArrayList&lt;Box&gt; possibleBuildList1 = getPossibleBuildBoxes(workerPositions.get(1));</b>
+<i>271</i>&nbsp;        //Initialize god flags
+<b class="fc"><i>272</i>&nbsp;        boolean domeAtAnyLevel = false;</b>
+<b class="fc"><i>273</i>&nbsp;        boolean twoBlocksInOneBuild = false;</b>
+<b class="fc"><i>274</i>&nbsp;        if(activeGods.contains(GodsList.ATLAS)) domeAtAnyLevel = true;</b>
+<b class="fc"><i>275</i>&nbsp;        if(activeGods.contains(GodsList.HEPHAESTUS)) twoBlocksInOneBuild = true;</b>
+<b class="fc"><i>276</i>&nbsp;        if(activeGods.contains(GodsList.DEMETER) &amp;&amp; !demeterFirstBuild)</b>
+<i>277</i>&nbsp;        {
+<b class="fc"><i>278</i>&nbsp;            if(possibleBuildList0.isEmpty() &amp;&amp; possibleBuildList1.isEmpty())</b>
+<i>279</i>&nbsp;            {
+<i>280</i>&nbsp;                //Since this build is the second one done by the player it&#39;s not mandatory
+<i>281</i>&nbsp;                //If no builds are possible the state returned is going to be SecondCheckWinConditionState
+<b class="nc"><i>282</i>&nbsp;                return new CheckWinConditionState(2, contextModel);</b>
+<i>283</i>&nbsp;            }
+<i>284</i>&nbsp;        }
+<i>285</i>&nbsp;
+<b class="fc"><i>286</i>&nbsp;        if(activeGods.contains(GodsList.PROMETHEUS))</b>
+<i>287</i>&nbsp;        {
+<b class="fc"><i>288</i>&nbsp;            if(prometheusFirstBuild)</b>
+<i>289</i>&nbsp;            {
+<i>290</i>&nbsp;                //Saves the possible moves of both workers
+<b class="nc"><i>291</i>&nbsp;                ArrayList&lt;Box&gt; possiblePrometheusMoves0 = new ArrayList&lt;&gt;(getPossibleMoveBoxes(workerPositions.get(0)));</b>
+<b class="nc"><i>292</i>&nbsp;                ArrayList&lt;Box&gt; possiblePrometheusMoves1 = new ArrayList&lt;&gt;(getPossibleMoveBoxes(workerPositions.get(1)));</b>
+<i>293</i>&nbsp;
+<i>294</i>&nbsp;                //Since it&#39;s prometheus first build the player can&#39;t trap himself
+<i>295</i>&nbsp;                //Checks if after the build the player can move, if not it eliminates the build cell
+<i>296</i>&nbsp;                //If after the elimination of said build cells no cell is left or no move cell
+<i>297</i>&nbsp;                //was present from the beginning
+<i>298</i>&nbsp;                //I deactivate prometheus and proceed with a default turn
+<i>299</i>&nbsp;
+<b class="nc"><i>300</i>&nbsp;                if(possiblePrometheusMoves0.size() == 1)</b>
+<i>301</i>&nbsp;                {
+<i>302</i>&nbsp;                    //By building I could remove my only possible move if cellHeight + 1 &gt; workerCellHeight
+<b class="nc"><i>303</i>&nbsp;                    if(possiblePrometheusMoves0.get(0).getTower().getHeight() + 1 &gt; workerPositions.get(0).getTower().getHeight())</b>
+<i>304</i>&nbsp;                    {
+<b class="nc"><i>305</i>&nbsp;                        possibleBuildList0.remove(possiblePrometheusMoves0.get(0));</b>
+<i>306</i>&nbsp;                    }
+<i>307</i>&nbsp;                }
+<i>308</i>&nbsp;
+<b class="nc"><i>309</i>&nbsp;                if(possiblePrometheusMoves1.size() == 1)</b>
+<i>310</i>&nbsp;                {
+<i>311</i>&nbsp;                    //By building I could remove my only possible move if cellHeight + 1 &gt; workerCellHeight
+<b class="nc"><i>312</i>&nbsp;                    if(possiblePrometheusMoves1.get(0).getTower().getHeight() + 1 &gt; workerPositions.get(1).getTower().getHeight())</b>
+<i>313</i>&nbsp;                    {
+<b class="nc"><i>314</i>&nbsp;                        possibleBuildList1.remove(possiblePrometheusMoves1.get(0));</b>
+<i>315</i>&nbsp;                    }
+<i>316</i>&nbsp;                }
+<i>317</i>&nbsp;
+<i>318</i>&nbsp;                //No build/move cells are left after the check, prometheus is deactivated
+<b class="nc"><i>319</i>&nbsp;                if((possibleBuildList0.isEmpty() &amp;&amp; possibleBuildList1.isEmpty())</b>
+<b class="nc"><i>320</i>&nbsp;                        || (possiblePrometheusMoves0.isEmpty() &amp;&amp; possiblePrometheusMoves1.isEmpty()))</b>
+<i>321</i>&nbsp;                {
+<b class="nc"><i>322</i>&nbsp;                    activeGods.remove(GodsList.PROMETHEUS);</b>
+<b class="nc"><i>323</i>&nbsp;                    contextModel.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), contextModel.getTurn().getCurrentPlayer()));</b>
+<b class="nc"><i>324</i>&nbsp;                    return moveStateConstructor(true);</b>
+<i>325</i>&nbsp;                }
+<i>326</i>&nbsp;
+<b class="nc"><i>327</i>&nbsp;            }</b>
+<i>328</i>&nbsp;            else
+<i>329</i>&nbsp;                {
+<b class="fc"><i>330</i>&nbsp;                    if(possibleBuildList0.isEmpty() &amp;&amp; possibleBuildList1.isEmpty())</b>
+<i>331</i>&nbsp;                    {
+<i>332</i>&nbsp;                        //Since this build is the second one done by the player it&#39;s not mandatory
+<i>333</i>&nbsp;                        //If no builds are possible the state returned is going to be SecondCheckWinConditionState
+<b class="nc"><i>334</i>&nbsp;                        return new CheckWinConditionState(2, contextModel);</b>
+<i>335</i>&nbsp;                    }
+<i>336</i>&nbsp;                }
+<i>337</i>&nbsp;        }
+<i>338</i>&nbsp;
+<b class="fc"><i>339</i>&nbsp;        if(activeGods.contains(GodsList.ZEUS))</b>
+<i>340</i>&nbsp;        {
+<i>341</i>&nbsp;            //possibleBuildList empties if the worker can&#39;t build under itself
+<i>342</i>&nbsp;            //Zeus chooses only god effect cards
+<b class="nc"><i>343</i>&nbsp;            if(workerPositions.get(0).getTower().getHeight()&lt;=2&amp;&amp; !workerPositions.get(0).getTower().getPieces().contains(Block.DOME))</b>
+<b class="nc"><i>344</i>&nbsp;                possibleBuildList0.add(workerPositions.get(0));</b>
+<i>345</i>&nbsp;            else
+<b class="nc"><i>346</i>&nbsp;                possibleBuildList0=new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>347</i>&nbsp;            if(workerPositions.get(1).getTower().getHeight()&lt;=2&amp;&amp; !workerPositions.get(1).getTower().getPieces().contains(Block.DOME))</b>
+<b class="nc"><i>348</i>&nbsp;                possibleBuildList1.add(workerPositions.get(1));</b>
+<i>349</i>&nbsp;            else
+<b class="nc"><i>350</i>&nbsp;                possibleBuildList1=new ArrayList&lt;&gt;();</b>
+<i>351</i>&nbsp;        }
+<i>352</i>&nbsp;
+<b class="fc"><i>353</i>&nbsp;        if(hestiaSecondBuild)</b>
+<i>354</i>&nbsp;        {
+<b class="fc"><i>355</i>&nbsp;            ArrayList&lt;Box&gt; temp1=getPossibleBuildBoxes(workerPositions.get(0));</b>
+<b class="fc"><i>356</i>&nbsp;            possibleBuildList0=new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>357</i>&nbsp;            for (Box b:temp1) {</b>
+<b class="fc"><i>358</i>&nbsp;                if(!b.isBorder())</b>
+<b class="fc"><i>359</i>&nbsp;                    possibleBuildList0.add(b);</b>
+<b class="fc"><i>360</i>&nbsp;            }</b>
+<b class="fc"><i>361</i>&nbsp;            temp1=getPossibleBuildBoxes(workerPositions.get(1));</b>
+<b class="fc"><i>362</i>&nbsp;            possibleBuildList1=new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>363</i>&nbsp;            for (Box b:temp1) {</b>
+<b class="fc"><i>364</i>&nbsp;                if(!b.isBorder())</b>
+<b class="fc"><i>365</i>&nbsp;                    possibleBuildList1.add(b);</b>
+<b class="fc"><i>366</i>&nbsp;            }</b>
+<i>367</i>&nbsp;        }
+<b class="fc"><i>368</i>&nbsp;        return new BuildState(possibleBuildList0,possibleBuildList1,domeAtAnyLevel, twoBlocksInOneBuild, contextModel,firstAction);</b>
+<i>369</i>&nbsp;    }
+<i>370</i>&nbsp;
+<i>371</i>&nbsp;
+<i>372</i>&nbsp;    /**
+<i>373</i>&nbsp;     * @param currentCell the building worker&#39;s cell
+<i>374</i>&nbsp;     * @return  a List of all the possible Build boxes surrounding
+<i>375</i>&nbsp;     * the active player selected worker
+<i>376</i>&nbsp;     * taking in consideration active build-affecting gods**/
+<i>377</i>&nbsp;    private ArrayList&lt;Box&gt; getPossibleBuildBoxes(Box currentCell)
+<i>378</i>&nbsp;
+<i>379</i>&nbsp;    {
+<b class="fc"><i>380</i>&nbsp;        ArrayList&lt;Box&gt; possibleBuildBoxes = (ArrayList&lt;Box&gt;)contextModel.getTurn().getPossibleBuildLocations(currentCell);</b>
+<i>381</i>&nbsp;
+<i>382</i>&nbsp;        //Check god cards to first extend then contract list of boxes
+<b class="fc"><i>383</i>&nbsp;        if(activeGods.contains(GodsList.HEPHAESTUS))</b>
+<i>384</i>&nbsp;        {
+<b class="nc"><i>385</i>&nbsp;            possibleBuildBoxes = hephaestusEffect(possibleBuildBoxes, currentCell);</b>
+<i>386</i>&nbsp;        }
+<i>387</i>&nbsp;
+<b class="fc"><i>388</i>&nbsp;        if (activeGods.contains(GodsList.DEMETER) &amp;&amp; !demeterFirstBuild)</b>
+<i>389</i>&nbsp;        {
+<i>390</i>&nbsp;            //Eliminates from the list of possible builds the last cell where the Player built
+<b class="fc"><i>391</i>&nbsp;            possibleBuildBoxes = demeterBoxEffect(possibleBuildBoxes);</b>
+<i>392</i>&nbsp;        }
+<i>393</i>&nbsp;
+<b class="fc"><i>394</i>&nbsp;        return possibleBuildBoxes;</b>
+<i>395</i>&nbsp;    }
+<i>396</i>&nbsp;
+<i>397</i>&nbsp;
+<i>398</i>&nbsp;    //______________________________________________GOD EFFECTS METHODS_______________________________________________
+<i>399</i>&nbsp;
+<i>400</i>&nbsp;/**@param basicMoves basic list of move boxes (without god effects applied)
+<i>401</i>&nbsp; * @param b box where the player&#39;s worker is at
+<i>402</i>&nbsp; * @return list of possible move boxes including Apollo special effect moves**/
+<i>403</i>&nbsp;    private ArrayList&lt;Box&gt; apolloEffect(ArrayList&lt;Box&gt; basicMoves, Box b)
+<i>404</i>&nbsp;    {
+<b class="nc"><i>405</i>&nbsp;        ArrayList&lt;Box&gt; godMoves = new ArrayList&lt;&gt;(basicMoves);</b>
+<i>406</i>&nbsp;        
+<b class="nc"><i>407</i>&nbsp;        for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {</b>
+<b class="nc"><i>408</i>&nbsp;            if(cell.isOccupied() &amp;&amp; cell.isReachable(b) &amp;&amp; (!cell.getTower().getPieces().contains(Block.DOME)))</b>
+<i>409</i>&nbsp;            {
+<b class="nc"><i>410</i>&nbsp;                godMoves.add(cell);</b>
+<i>411</i>&nbsp;            }
+<b class="nc"><i>412</i>&nbsp;        }</b>
+<i>413</i>&nbsp;
+<b class="nc"><i>414</i>&nbsp;        return godMoves;</b>
+<i>415</i>&nbsp;    }
+<i>416</i>&nbsp;
+<i>417</i>&nbsp;    /**This method removes boxes which do not meet Athenas god power
+<i>418</i>&nbsp;     * @param basicMoves basic list of move boxes (without god effects applied)
+<i>419</i>&nbsp;     * @param b box where the player&#39;s worker is at
+<i>420</i>&nbsp;     * @return list of boxes where a move is permitted*/
+<i>421</i>&nbsp;    //REQUIRES: athenaCondition == true on the player who activated the card
+<i>422</i>&nbsp;    private ArrayList&lt;Box&gt; athenaEffect(ArrayList&lt;Box&gt; basicMoves, Box b)
+<i>423</i>&nbsp;    {
+<i>424</i>&nbsp;        //Prevents the player from moving up
+<b class="fc"><i>425</i>&nbsp;        ArrayList&lt;Box&gt; godMoves = new ArrayList&lt;&gt;(basicMoves);</b>
+<i>426</i>&nbsp;        
+<b class="fc"><i>427</i>&nbsp;        for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {</b>
+<b class="fc"><i>428</i>&nbsp;            if(b.getTower().getHeight() &lt; cell.getTower().getHeight())</b>
+<i>429</i>&nbsp;            {
+<b class="fc"><i>430</i>&nbsp;                godMoves.remove(cell);</b>
+<i>431</i>&nbsp;            }
+<b class="fc"><i>432</i>&nbsp;        }</b>
+<i>433</i>&nbsp;
+<b class="fc"><i>434</i>&nbsp;        return godMoves;</b>
+<i>435</i>&nbsp;    }
+<i>436</i>&nbsp;
+<i>437</i>&nbsp;    /**The method defines state changes during a turn in which
+<i>438</i>&nbsp;     * the god card Artemis is played, overruling the
+<i>439</i>&nbsp;     * default stateChange() method**/
+<i>440</i>&nbsp;    private void artemisTurnFlow()
+<i>441</i>&nbsp;    {
+<i>442</i>&nbsp;        State newState;
+<b class="fc"><i>443</i>&nbsp;        switch(currentState.getID())</b>
+<i>444</i>&nbsp;        {
+<i>445</i>&nbsp;
+<i>446</i>&nbsp;            case ActivationGod:
+<i>447</i>&nbsp;                //This move MUST be possible
+<i>448</i>&nbsp;                //The flag is used by moveStateConstructor
+<b class="fc"><i>449</i>&nbsp;                artemisFirstMove = true;</b>
+<b class="fc"><i>450</i>&nbsp;                newState = moveStateConstructor(true);</b>
+<b class="fc"><i>451</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>452</i>&nbsp;                break;</b>
+<i>453</i>&nbsp;
+<i>454</i>&nbsp;            case Move:
+<b class="fc"><i>455</i>&nbsp;                    newState = new CheckWinConditionState(1, contextModel);</b>
+<b class="fc"><i>456</i>&nbsp;                    switchState(newState);</b>
+<b class="fc"><i>457</i>&nbsp;                    break;</b>
+<i>458</i>&nbsp;
+<i>459</i>&nbsp;            case FirstCheckWinCondition:
+<b class="fc"><i>460</i>&nbsp;                if(!contextModel.getTurn().getCurrentPlayer().getHasLost())</b>
+<i>461</i>&nbsp;                {
+<b class="fc"><i>462</i>&nbsp;                    if(artemisFirstMove)</b>
+<i>463</i>&nbsp;                    {
+<b class="fc"><i>464</i>&nbsp;                        artemisFirstMove = false;</b>
+<b class="fc"><i>465</i>&nbsp;                        newState = moveStateConstructor(false);</b>
+<i>466</i>&nbsp;                    }
+<i>467</i>&nbsp;                    else
+<i>468</i>&nbsp;                    {
+<b class="fc"><i>469</i>&nbsp;                        newState = buildStateConstructor(false);</b>
+<i>470</i>&nbsp;                    }
+<i>471</i>&nbsp;                }
+<i>472</i>&nbsp;                else
+<b class="nc"><i>473</i>&nbsp;                    newState=new EndTurnState(contextModel);</b>
+<i>474</i>&nbsp;
+<b class="fc"><i>475</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>476</i>&nbsp;                break;</b>
+<i>477</i>&nbsp;
+<i>478</i>&nbsp;            case Build:
+<b class="fc"><i>479</i>&nbsp;                    newState = new CheckWinConditionState(2, contextModel);</b>
+<b class="fc"><i>480</i>&nbsp;                    switchState(newState);</b>
+<b class="fc"><i>481</i>&nbsp;                    break;</b>
+<i>482</i>&nbsp;
+<i>483</i>&nbsp;            case SecondCheckWinCondition:
+<b class="fc"><i>484</i>&nbsp;                newState = new EndTurnState(contextModel);</b>
+<b class="fc"><i>485</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>486</i>&nbsp;                break;</b>
+<i>487</i>&nbsp;
+<i>488</i>&nbsp;            case EndTurn:
+<b class="fc"><i>489</i>&nbsp;                newState = new BeginTurnState(contextModel);</b>
+<b class="fc"><i>490</i>&nbsp;                activeGods.clear();</b>
+<b class="fc"><i>491</i>&nbsp;                switchState(newState);</b>
+<i>492</i>&nbsp;                break;
+<i>493</i>&nbsp;        }
+<b class="fc"><i>494</i>&nbsp;    }</b>
+<i>495</i>&nbsp;
+<i>496</i>&nbsp;    /**The method removes the box in which the Player moved during his first Artemis move
+<i>497</i>&nbsp;     * and returns the new list of possible move boxes
+<i>498</i>&nbsp;     * @param basicMoves basic list of move boxes (without god effects applied)*/
+<i>499</i>&nbsp;
+<i>500</i>&nbsp;    private ArrayList&lt;Box&gt; artemisBoxEffect(ArrayList&lt;Box&gt; basicMoves)
+<i>501</i>&nbsp;    {
+<b class="fc"><i>502</i>&nbsp;        ArrayList&lt;Box&gt; godMoves = new ArrayList&lt;&gt;(basicMoves);</b>
+<b class="fc"><i>503</i>&nbsp;        godMoves.remove(contextModel.getTurn().getCurrentPlayer().getLastMoveBox());</b>
+<b class="fc"><i>504</i>&nbsp;        return godMoves;</b>
+<i>505</i>&nbsp;    }
+<i>506</i>&nbsp;
+<i>507</i>&nbsp;    /**The method defines state changes during a turn in which
+<i>508</i>&nbsp;     * the god card Demeter is played, overruling the
+<i>509</i>&nbsp;     * default stateChange() method*/
+<i>510</i>&nbsp;    private void demeterTurnFlow()
+<i>511</i>&nbsp;    {
+<i>512</i>&nbsp;        State newState;
+<b class="fc"><i>513</i>&nbsp;        switch(currentState.getID())</b>
+<i>514</i>&nbsp;        {
+<i>515</i>&nbsp;
+<i>516</i>&nbsp;            case ActivationGod:
+<i>517</i>&nbsp;                //This build is possible, it has been checked in ActivationGodState
+<b class="fc"><i>518</i>&nbsp;                newState = moveStateConstructor(true);</b>
+<b class="fc"><i>519</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>520</i>&nbsp;                break;</b>
+<i>521</i>&nbsp;
+<i>522</i>&nbsp;            case Move:
+<b class="fc"><i>523</i>&nbsp;                newState = new CheckWinConditionState(1, contextModel);</b>
+<b class="fc"><i>524</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>525</i>&nbsp;                break;</b>
+<i>526</i>&nbsp;
+<i>527</i>&nbsp;            case FirstCheckWinCondition:
+<b class="fc"><i>528</i>&nbsp;                if(!contextModel.getTurn().getCurrentPlayer().getHasLost())</b>
+<i>529</i>&nbsp;                {
+<b class="fc"><i>530</i>&nbsp;                    demeterFirstBuild = true;</b>
+<b class="fc"><i>531</i>&nbsp;                    newState = buildStateConstructor(false);</b>
+<i>532</i>&nbsp;                }
+<i>533</i>&nbsp;                else
+<b class="nc"><i>534</i>&nbsp;                    newState=new EndTurnState(contextModel);</b>
+<i>535</i>&nbsp;
+<b class="fc"><i>536</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>537</i>&nbsp;                break;</b>
+<i>538</i>&nbsp;
+<i>539</i>&nbsp;            case Build:
+<b class="fc"><i>540</i>&nbsp;                    newState = new CheckWinConditionState(2, contextModel);</b>
+<b class="fc"><i>541</i>&nbsp;                    switchState(newState);</b>
+<b class="fc"><i>542</i>&nbsp;                    break;</b>
+<i>543</i>&nbsp;
+<i>544</i>&nbsp;            case SecondCheckWinCondition:
+<b class="fc"><i>545</i>&nbsp;                if(demeterFirstBuild)</b>
+<i>546</i>&nbsp;                {
+<b class="fc"><i>547</i>&nbsp;                    demeterFirstBuild = false;</b>
+<b class="fc"><i>548</i>&nbsp;                    newState = buildStateConstructor(false);</b>
+<i>549</i>&nbsp;
+<i>550</i>&nbsp;                }
+<i>551</i>&nbsp;                else
+<i>552</i>&nbsp;                    {
+<b class="fc"><i>553</i>&nbsp;                        newState = new EndTurnState(contextModel);</b>
+<i>554</i>&nbsp;                    }
+<b class="fc"><i>555</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>556</i>&nbsp;                break;</b>
+<i>557</i>&nbsp;
+<i>558</i>&nbsp;            case EndTurn:
+<b class="fc"><i>559</i>&nbsp;                newState = new BeginTurnState(contextModel);</b>
+<b class="fc"><i>560</i>&nbsp;                activeGods.clear();</b>
+<b class="fc"><i>561</i>&nbsp;                switchState(newState);</b>
+<i>562</i>&nbsp;                break;
+<i>563</i>&nbsp;        }
+<b class="fc"><i>564</i>&nbsp;    }</b>
+<i>565</i>&nbsp;
+<i>566</i>&nbsp;    /**The method removes the box in which the Player built during his first Demeter build
+<i>567</i>&nbsp;     * @param basicBuilds basic list of build boxes (without god effects applied)
+<i>568</i>&nbsp;     * @return the new list of possible build boxes*/
+<i>569</i>&nbsp;    private ArrayList&lt;Box&gt; demeterBoxEffect(ArrayList&lt;Box&gt; basicBuilds)
+<i>570</i>&nbsp;    {
+<i>571</i>&nbsp;        //returns the list without the last box where actingPlayer built
+<b class="fc"><i>572</i>&nbsp;        ArrayList&lt;Box&gt; godBuilds = new ArrayList&lt;&gt;(basicBuilds);</b>
+<b class="fc"><i>573</i>&nbsp;        godBuilds.remove(contextModel.getTurn().getCurrentPlayer().getLastBuildBox());</b>
+<b class="fc"><i>574</i>&nbsp;        return godBuilds;</b>
+<i>575</i>&nbsp;    }
+<i>576</i>&nbsp;
+<i>577</i>&nbsp;
+<i>578</i>&nbsp;    /**The method remove boxes which cannot have two more blocks built on them
+<i>579</i>&nbsp;     * @param basicMoves basic list of move boxes (without god effects applied)
+<i>580</i>&nbsp;     * @param b box where the player&#39;s worker is at
+<i>581</i>&nbsp;     * @return list of possible build boxes*/
+<i>582</i>&nbsp;    private ArrayList&lt;Box&gt; hephaestusEffect(ArrayList&lt;Box&gt; basicMoves, Box b) {
+<b class="nc"><i>583</i>&nbsp;        ArrayList&lt;Box&gt; godMoves = new ArrayList&lt;&gt;(basicMoves);</b>
+<i>584</i>&nbsp;
+<b class="nc"><i>585</i>&nbsp;        for (Box cell : contextModel.getTurn().getBoardInstance().getBorderBoxes(b)) {</b>
+<b class="nc"><i>586</i>&nbsp;            if (cell.isOccupied() || (cell.getTower().getHeight() &gt; 1))</b>
+<i>587</i>&nbsp;            {
+<b class="nc"><i>588</i>&nbsp;                godMoves.remove(cell);</b>
+<i>589</i>&nbsp;            }
+<i>590</i>&nbsp;
+<b class="nc"><i>591</i>&nbsp;        }</b>
+<b class="nc"><i>592</i>&nbsp;        return godMoves;</b>
+<i>593</i>&nbsp;    }
+<i>594</i>&nbsp;
+<i>595</i>&nbsp;    /**@param basicMoves basic list of move boxes (without god effects applied)
+<i>596</i>&nbsp;     * @param playerWorkerBox selected worker Box
+<i>597</i>&nbsp;     * @return a list of boxes containing also special move Boxes permitted by Minotaur**/
+<i>598</i>&nbsp;    private ArrayList&lt;Box&gt; minotaurEffect(ArrayList&lt;Box&gt; basicMoves, Box playerWorkerBox)
+<i>599</i>&nbsp;    {
+<b class="fc"><i>600</i>&nbsp;        ArrayList&lt;Box&gt; godMoves = new ArrayList&lt;&gt;();</b>
+<i>601</i>&nbsp;        int x1,x2,y1,y2;
+<i>602</i>&nbsp;        int xBehind, yBehind;
+<i>603</i>&nbsp;
+<b class="fc"><i>604</i>&nbsp;        x2 = playerWorkerBox.getCoord()[0];</b>
+<b class="fc"><i>605</i>&nbsp;        y2 = playerWorkerBox.getCoord()[1];</b>
+<i>606</i>&nbsp;
+<b class="fc"><i>607</i>&nbsp;        for (Box opponentWorkerBox : contextModel.getTurn().getBoardInstance().getBorderBoxes(playerWorkerBox)) {</b>
+<i>608</i>&nbsp;            //Check if the cell is occupied by a worker and is reachable
+<b class="fc"><i>609</i>&nbsp;            if(opponentWorkerBox.isOccupied() &amp;&amp; playerWorkerBox.isReachable(opponentWorkerBox)</b>
+<b class="fc"><i>610</i>&nbsp;                    &amp;&amp; (!opponentWorkerBox.getTower().getPieces().contains(Block.DOME)))</b>
+<i>611</i>&nbsp;            {
+<i>612</i>&nbsp;
+<b class="fc"><i>613</i>&nbsp;                x1 = opponentWorkerBox.getCoord()[0];</b>
+<b class="fc"><i>614</i>&nbsp;                y1 = opponentWorkerBox.getCoord()[1];</b>
+<b class="fc"><i>615</i>&nbsp;                xBehind = x1 + (x1-x2);</b>
+<b class="fc"><i>616</i>&nbsp;                yBehind = y1 + (y1-y2);</b>
+<i>617</i>&nbsp;                //Checks if the worker can be pushed back
+<i>618</i>&nbsp;                try
+<i>619</i>&nbsp;                {
+<b class="fc"><i>620</i>&nbsp;                    Box behindBox = contextModel.getTurn().getBoardInstance().getBox(xBehind, yBehind);</b>
+<i>621</i>&nbsp;
+<b class="fc"><i>622</i>&nbsp;                    if(!behindBox.isOccupied())</b>
+<i>623</i>&nbsp;                    {
+<i>624</i>&nbsp;                        //the box behind opponent&#39;s worker is free
+<b class="fc"><i>625</i>&nbsp;                        godMoves.add(opponentWorkerBox);</b>
+<i>626</i>&nbsp;                    }
+<i>627</i>&nbsp;                }
+<b class="nc"><i>628</i>&nbsp;                catch(IndexOutOfBoundsException ex)</b>
+<i>629</i>&nbsp;                {
+<b class="nc"><i>630</i>&nbsp;                    contextModel.notify(new MessageToVirtualView(new GodNotActionableErrorMessage(), contextModel.getTurn().getCurrentPlayer()));</b>
+<b class="nc"><i>631</i>&nbsp;                    System.out.println(&quot;Worker is at the edge of the board, cannot use Minotaur!\n&quot; + ex.getMessage());</b>
+<b class="fc"><i>632</i>&nbsp;                }</b>
+<i>633</i>&nbsp;            }
+<b class="fc"><i>634</i>&nbsp;        }</b>
+<i>635</i>&nbsp;
+<b class="fc"><i>636</i>&nbsp;        return godMoves;</b>
+<i>637</i>&nbsp;    }
+<i>638</i>&nbsp;
+<i>639</i>&nbsp;    /**
+<i>640</i>&nbsp;     * @param basicMoves  contains the list of basic move boxes to modify
+<i>641</i>&nbsp;     * @return list of move boxes higher than the player**/
+<i>642</i>&nbsp;    private ArrayList&lt;Box&gt; persephoneEffect(ArrayList&lt;Box&gt; basicMoves, Box workerBox)
+<i>643</i>&nbsp;    {
+<b class="fc"><i>644</i>&nbsp;        ArrayList&lt;Box&gt; persephoneMoves = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>645</i>&nbsp;        for(Box b : basicMoves)</b>
+<i>646</i>&nbsp;        {
+<b class="fc"><i>647</i>&nbsp;            if(b.getTower().getHeight() &gt; workerBox.getTower().getHeight())</b>
+<i>648</i>&nbsp;            {
+<b class="fc"><i>649</i>&nbsp;                persephoneMoves.add(b);</b>
+<i>650</i>&nbsp;            }
+<b class="fc"><i>651</i>&nbsp;        }</b>
+<i>652</i>&nbsp;
+<b class="fc"><i>653</i>&nbsp;        return persephoneMoves;</b>
+<i>654</i>&nbsp;    }
+<i>655</i>&nbsp;
+<i>656</i>&nbsp;    /**@param basicMoves contains the list of basic move boxes to modify
+<i>657</i>&nbsp;     * @return list of move boxes on the same level as the worker**/
+<i>658</i>&nbsp;    private ArrayList&lt;Box&gt; prometheusMoveEffect(ArrayList&lt;Box&gt; basicMoves, Box workerBox)
+<i>659</i>&nbsp;    {
+<b class="fc"><i>660</i>&nbsp;        ArrayList&lt;Box&gt; prometheusMoves = new ArrayList&lt;&gt;(basicMoves);</b>
+<b class="fc"><i>661</i>&nbsp;        for(Box b : contextModel.getTurn().getBoardInstance().getBorderBoxes(workerBox))</b>
+<i>662</i>&nbsp;        {
+<i>663</i>&nbsp;            //If the cell is higher than the worker cell I remove it from possible moves
+<b class="fc"><i>664</i>&nbsp;            if(workerBox.getTower() != null</b>
+<b class="fc"><i>665</i>&nbsp;                    &amp;&amp; b.getTower().getHeight() &gt; workerBox.getTower().getHeight())</b>
+<i>666</i>&nbsp;            {
+<b class="fc"><i>667</i>&nbsp;                prometheusMoves.remove(b);</b>
+<i>668</i>&nbsp;            }
+<b class="fc"><i>669</i>&nbsp;        }</b>
+<i>670</i>&nbsp;
+<b class="fc"><i>671</i>&nbsp;        return prometheusMoves;</b>
+<i>672</i>&nbsp;    }
+<i>673</i>&nbsp;
+<i>674</i>&nbsp;    /**The method defines state changes during a turn in which
+<i>675</i>&nbsp;     * the god card Prometheus is played, overruling the
+<i>676</i>&nbsp;     * default stateChange() method**/
+<i>677</i>&nbsp;    private void prometheusTurnFlow()
+<i>678</i>&nbsp;    {
+<i>679</i>&nbsp;        State newState;
+<b class="fc"><i>680</i>&nbsp;        switch(currentState.getID())</b>
+<i>681</i>&nbsp;        {
+<i>682</i>&nbsp;
+<i>683</i>&nbsp;        case ActivationGod:
+<i>684</i>&nbsp;            //This build is possible, it has been checked in ActivationGodState
+<b class="fc"><i>685</i>&nbsp;        newState = buildStateConstructor(true);</b>
+<b class="fc"><i>686</i>&nbsp;        prometheusFirstBuild = true;</b>
+<b class="fc"><i>687</i>&nbsp;        switchState(newState);</b>
+<b class="fc"><i>688</i>&nbsp;        break;</b>
+<i>689</i>&nbsp;
+<i>690</i>&nbsp;        case Build:
+<b class="fc"><i>691</i>&nbsp;            if(prometheusFirstBuild)</b>
+<i>692</i>&nbsp;            {
+<i>693</i>&nbsp;                //The move MUST be possible otherwise the player looses
+<b class="fc"><i>694</i>&nbsp;                newState = moveStateConstructor(false);</b>
+<b class="fc"><i>695</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>696</i>&nbsp;                prometheusFirstBuild = false;</b>
+<i>697</i>&nbsp;            }
+<i>698</i>&nbsp;            else
+<i>699</i>&nbsp;                {
+<b class="fc"><i>700</i>&nbsp;                    newState = new CheckWinConditionState(2, contextModel);</b>
+<b class="fc"><i>701</i>&nbsp;                    switchState(newState);</b>
+<i>702</i>&nbsp;                }
+<b class="fc"><i>703</i>&nbsp;            break;</b>
+<i>704</i>&nbsp;
+<i>705</i>&nbsp;        case Move:
+<b class="fc"><i>706</i>&nbsp;        newState = buildStateConstructor(false);</b>
+<b class="fc"><i>707</i>&nbsp;        switchState(newState);</b>
+<b class="fc"><i>708</i>&nbsp;        break;</b>
+<i>709</i>&nbsp;
+<i>710</i>&nbsp;        case SecondCheckWinCondition:
+<b class="fc"><i>711</i>&nbsp;        newState = new EndTurnState(contextModel);</b>
+<b class="fc"><i>712</i>&nbsp;        switchState(newState);</b>
+<b class="fc"><i>713</i>&nbsp;        break;</b>
+<i>714</i>&nbsp;
+<i>715</i>&nbsp;        case EndTurn:
+<b class="fc"><i>716</i>&nbsp;        newState = new BeginTurnState(contextModel);</b>
+<b class="fc"><i>717</i>&nbsp;        activeGods.clear();</b>
+<b class="fc"><i>718</i>&nbsp;        switchState(newState);</b>
+<i>719</i>&nbsp;        break;
+<i>720</i>&nbsp;        }
+<b class="fc"><i>721</i>&nbsp;    }</b>
+<i>722</i>&nbsp;
+<i>723</i>&nbsp;    /**The method defines state changes during a turn in which
+<i>724</i>&nbsp;     * the god card Hestia is played, overruling the
+<i>725</i>&nbsp;     * default stateChange() method**/
+<i>726</i>&nbsp;    private void hestiaTurnFlow() {
+<i>727</i>&nbsp;        State newState;
+<b class="fc"><i>728</i>&nbsp;        switch (currentState.getID()) {</b>
+<i>729</i>&nbsp;            case ActivationGod:
+<b class="fc"><i>730</i>&nbsp;                newState = moveStateConstructor(true);</b>
+<b class="fc"><i>731</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>732</i>&nbsp;                break;</b>
+<i>733</i>&nbsp;
+<i>734</i>&nbsp;            case Move:
+<b class="fc"><i>735</i>&nbsp;                newState = new CheckWinConditionState(1, contextModel);</b>
+<b class="fc"><i>736</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>737</i>&nbsp;                break;</b>
+<i>738</i>&nbsp;
+<i>739</i>&nbsp;            case FirstCheckWinCondition:
+<b class="fc"><i>740</i>&nbsp;                if(!contextModel.getTurn().getCurrentPlayer().getHasLost())</b>
+<i>741</i>&nbsp;                {
+<b class="fc"><i>742</i>&nbsp;                    hestiaSecondBuild = false;</b>
+<b class="fc"><i>743</i>&nbsp;                    newState = buildStateConstructor(false);</b>
+<i>744</i>&nbsp;                }
+<i>745</i>&nbsp;                else
+<b class="nc"><i>746</i>&nbsp;                    newState=new EndTurnState(contextModel);</b>
+<i>747</i>&nbsp;
+<b class="fc"><i>748</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>749</i>&nbsp;                break;</b>
+<i>750</i>&nbsp;
+<i>751</i>&nbsp;            case Build:
+<b class="fc"><i>752</i>&nbsp;                newState = new CheckWinConditionState(2, contextModel);</b>
+<b class="fc"><i>753</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>754</i>&nbsp;                break;</b>
+<i>755</i>&nbsp;
+<i>756</i>&nbsp;            case SecondCheckWinCondition:
+<b class="fc"><i>757</i>&nbsp;                if(!hestiaSecondBuild)</b>
+<i>758</i>&nbsp;                {
+<b class="fc"><i>759</i>&nbsp;                    hestiaSecondBuild = true;</b>
+<b class="fc"><i>760</i>&nbsp;                    newState = buildStateConstructor(false);</b>
+<i>761</i>&nbsp;                }
+<i>762</i>&nbsp;                else
+<i>763</i>&nbsp;                {
+<b class="fc"><i>764</i>&nbsp;                    hestiaSecondBuild=false;</b>
+<b class="fc"><i>765</i>&nbsp;                    newState = new EndTurnState(contextModel);</b>
+<i>766</i>&nbsp;                }
+<b class="fc"><i>767</i>&nbsp;                switchState(newState);</b>
+<b class="fc"><i>768</i>&nbsp;                break;</b>
+<i>769</i>&nbsp;
+<i>770</i>&nbsp;            case EndTurn:
+<b class="fc"><i>771</i>&nbsp;                newState = new BeginTurnState(contextModel);</b>
+<b class="fc"><i>772</i>&nbsp;                activeGods.clear();</b>
+<b class="fc"><i>773</i>&nbsp;                switchState(newState);</b>
+<i>774</i>&nbsp;                break;
+<i>775</i>&nbsp;        }
+<b class="fc"><i>776</i>&nbsp;    }</b>
+<i>777</i>&nbsp;
+<i>778</i>&nbsp;    public void update(Choice userChoice) throws NullPointerException
+<i>779</i>&nbsp;    {
+<b class="fc"><i>780</i>&nbsp;        if(userChoice == null)</b>
+<i>781</i>&nbsp;        {
+<b class="fc"><i>782</i>&nbsp;            contextModel.notify(new MessageToVirtualView(new SentChoiceError()));</b>
+<b class="fc"><i>783</i>&nbsp;            throw new NullPointerException(&quot;Null pointer on model or userChoice!&quot;);</b>
+<i>784</i>&nbsp;        }
+<i>785</i>&nbsp;        /*Player actingPlayer;
+<i>786</i>&nbsp;        ArrayList&lt;Player&gt; playerList = (ArrayList&lt;Player&gt;) contextModel.getTurn().getPlayersList();
+<i>787</i>&nbsp;        actingPlayer = playerList.get(userChoice.getId());*/
+<i>788</i>&nbsp;
+<i>789</i>&nbsp;
+<i>790</i>&nbsp;        //Handle choice errors
+<i>791</i>&nbsp;        try
+<i>792</i>&nbsp;        {
+<b class="fc"><i>793</i>&nbsp;            currentState.update(userChoice, contextModel);</b>
+<i>794</i>&nbsp;        }
+<b class="nc"><i>795</i>&nbsp;        catch(WrongChoiceException ex)</b>
+<i>796</i>&nbsp;        {
+<i>797</i>&nbsp;
+<b class="nc"><i>798</i>&nbsp;            contextModel.notify(new MessageToVirtualView(new SentChoiceError()));</b>
+<b class="nc"><i>799</i>&nbsp;            System.out.println(ex.getMessage());</b>
+<i>800</i>&nbsp;        }
+<b class="fc"><i>801</i>&nbsp;        catch (MoveErrorException | BoxAlreadyOccupiedException | BuildErrorException |GodConditionNotSatisfiedException ex) {</b>
+<i>802</i>&nbsp;           //Da divire i rami catch così da mandare errori diversi?
+<b class="fc"><i>803</i>&nbsp;            contextModel.notify(new MessageToVirtualView(new SentChoiceError()));</b>
+<b class="fc"><i>804</i>&nbsp;            ex.printStackTrace();</b>
+<b class="fc"><i>805</i>&nbsp;            System.out.println(ex.getMessage());</b>
+<b class="fc"><i>806</i>&nbsp;        }</b>
+<i>807</i>&nbsp;
+<i>808</i>&nbsp;        //Check if the state has completed it&#39;s task, skips states that perform tasks only on startup method
+<b class="fc"><i>809</i>&nbsp;        while(currentState.hasFinished())</b>
+<i>810</i>&nbsp;        {
+<i>811</i>&nbsp;            /*try {
+<i>812</i>&nbsp;                TimeUnit.MILLISECONDS.sleep(500);
+<i>813</i>&nbsp;            } catch (InterruptedException e) {
+<i>814</i>&nbsp;                e.printStackTrace();
+<i>815</i>&nbsp;            }*/
+<b class="fc"><i>816</i>&nbsp;            stateChange();</b>
+<i>817</i>&nbsp;        }
+<i>818</i>&nbsp;
+<i>819</i>&nbsp;/*        //Setto i flag in base a quali divinità sono state attivate, se è un GodActivationMessage
+<i>820</i>&nbsp;        if(userChoice instanceof GodActivationChoice)
+<i>821</i>&nbsp;        {
+<i>822</i>&nbsp;            //Prendo i giocatori, seleziono il giocatore corretto in base all&#39;ID e guardo che carta God possiede
+<i>823</i>&nbsp;            //In funzione di quello aggiorno il model
+<i>824</i>&nbsp;            GodActivationChoice scelta;
+<i>825</i>&nbsp;            scelta = (GodActivationChoice)userChoice;
+<i>826</i>&nbsp;            if(scelta.godActive)
+<i>827</i>&nbsp;            {
+<i>828</i>&nbsp;                actingPlayer.setGodActive(true);
+<i>829</i>&nbsp;            }
+<i>830</i>&nbsp;            else
+<i>831</i>&nbsp;                {
+<i>832</i>&nbsp;                    //Non è necessario in quanto resettato alla fine di ogni turno
+<i>833</i>&nbsp;                    //Potrei decidere di sollevare un eccezione
+<i>834</i>&nbsp;                    actingPlayer.setGodActive(false);
+<i>835</i>&nbsp;                }
+<i>836</i>&nbsp;        }
+<i>837</i>&nbsp;        else if(userChoice instanceof MoveChoice)
+<i>838</i>&nbsp;        {
+<i>839</i>&nbsp;            MoveChoice scelta;
+<i>840</i>&nbsp;            scelta = (MoveChoice) userChoice;
+<i>841</i>&nbsp;
+<i>842</i>&nbsp;        }
+<i>843</i>&nbsp;        else if(userChoice instanceof SelectWorkerCellChoice)
+<i>844</i>&nbsp;        {
+<i>845</i>&nbsp;            //Set worker status on model as active, deactivate other workers
+<i>846</i>&nbsp;
+<i>847</i>&nbsp;        }
+<i>848</i>&nbsp;
+<i>849</i>&nbsp; */
+<b class="fc"><i>850</i>&nbsp;    }</b>
+<i>851</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-02 19:17</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Board</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Board (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Board</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (27/ 27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;import java.util.List;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * The following class represents the game Board
+<i>8</i>&nbsp; */
+<i>9</i>&nbsp;public class Board {
+<i>10</i>&nbsp;    private static Box[][] board;
+<b class="fc"><i>11</i>&nbsp;    private static Board singletonBoard = null;</b>
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * builds an instance of board, initially composed by 25 empty Box objects
+<i>15</i>&nbsp;     */
+<i>16</i>&nbsp;    private Board()
+<b class="fc"><i>17</i>&nbsp;    {</b>
+<i>18</i>&nbsp;        int i, k;
+<i>19</i>&nbsp;        //Inizializzo i puntatori senza aver assegnato alcuna Box
+<b class="fc"><i>20</i>&nbsp;        board=new Box[5][5];</b>
+<i>21</i>&nbsp;
+<b class="fc"><i>22</i>&nbsp;        for(i = 0; i &lt; 5; i++)</b>
+<i>23</i>&nbsp;        {
+<b class="fc"><i>24</i>&nbsp;            for(k = 0; k &lt; 5; k++)</b>
+<i>25</i>&nbsp;            {
+<b class="fc"><i>26</i>&nbsp;                board[i][k] = new Box(i, k);</b>
+<i>27</i>&nbsp;            }
+<i>28</i>&nbsp;        }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;        //singletonBoard=null since singletonBoard is static this deletes access to all the referenced boards
+<b class="fc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * this method assigns a new instance of board to the singletonBoard
+<i>35</i>&nbsp;     * @return the singletonBoard, which now is surely the only board present in the match
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    public static Board getInstance()
+<i>38</i>&nbsp;    {
+<b class="fc"><i>39</i>&nbsp;        if(singletonBoard==null)</b>
+<b class="fc"><i>40</i>&nbsp;            singletonBoard=new Board();</b>
+<b class="fc"><i>41</i>&nbsp;        return singletonBoard;</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * given
+<i>46</i>&nbsp;     * @param riga row of the box
+<i>47</i>&nbsp;     * @param col column of the box
+<i>48</i>&nbsp;     * @return the required box
+<i>49</i>&nbsp;     * @throws IndexOutOfBoundsException if the two parameters given do not correspond to an existing box
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;    public Box getBox(int riga, int col) throws IndexOutOfBoundsException
+<i>52</i>&nbsp;    {
+<b class="fc"><i>53</i>&nbsp;        return board[riga][col];</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * given
+<i>58</i>&nbsp;     * @param b , which is a box
+<i>59</i>&nbsp;     * @return an ArrayList of boxes, that are the eight boxes surrounding the given box
+<i>60</i>&nbsp;     * (obviously they can be less than eight if the given box is on the border of the board)
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    public List&lt;Box&gt; getBorderBoxes(Box b)
+<i>63</i>&nbsp;    {
+<b class="fc"><i>64</i>&nbsp;        List&lt;Box&gt; lista=new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>65</i>&nbsp;        int i=-1;</b>
+<i>66</i>&nbsp;        int j;
+<b class="fc"><i>67</i>&nbsp;        while(i&lt;2)</b>
+<i>68</i>&nbsp;        {
+<b class="fc"><i>69</i>&nbsp;            j=-1;</b>
+<b class="fc"><i>70</i>&nbsp;            while(j&lt;2)</b>
+<i>71</i>&nbsp;            {
+<b class="fc"><i>72</i>&nbsp;                if(b.getCoord()[0]+i&gt;=0 &amp;&amp; b.getCoord()[0]+i&lt;5 &amp;&amp; b.getCoord()[1]+j&gt;=0 &amp;&amp; b.getCoord()[1]+j&lt;5)</b>
+<b class="fc"><i>73</i>&nbsp;                    if(i!=0 || j!=0)</b>
+<b class="fc"><i>74</i>&nbsp;                        lista.add(getBox(b.getCoord()[0]+i,b.getCoord()[1]+j));</b>
+<b class="fc"><i>75</i>&nbsp;                j++;</b>
+<i>76</i>&nbsp;            }
+<b class="fc"><i>77</i>&nbsp;            i++;</b>
+<i>78</i>&nbsp;        }
+<b class="fc"><i>79</i>&nbsp;        return lista;</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    /**
+<i>83</i>&nbsp;     * this method creates a new singletonBoard, it is going to be used when a new match is started
+<i>84</i>&nbsp;     * in order to create an empty board
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    public static void newBoard()
+<i>87</i>&nbsp;    {
+<i>88</i>&nbsp;        //Inizializzo i puntatori senza aver assegnato alcuna Box
+<b class="fc"><i>89</i>&nbsp;        board=new Box[5][5];</b>
+<i>90</i>&nbsp;
+<b class="fc"><i>91</i>&nbsp;        for(int i = 0; i &lt; 5; i++)</b>
+<i>92</i>&nbsp;        {
+<b class="fc"><i>93</i>&nbsp;            for(int k = 0; k &lt; 5; k++)</b>
+<i>94</i>&nbsp;            {
+<b class="fc"><i>95</i>&nbsp;                board[i][k] = new Box(i, k);</b>
+<i>96</i>&nbsp;            }
+<i>97</i>&nbsp;        }
+<b class="fc"><i>98</i>&nbsp;    }</b>
+<i>99</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-02 19:17</div>
+</div>
+</body>
+</html>

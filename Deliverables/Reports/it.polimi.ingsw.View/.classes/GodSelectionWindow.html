@@ -1,0 +1,405 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GodSelectionWindow</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GodSelectionWindow (it.polimi.ingsw.View)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GodSelectionWindow</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 110)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GodSelectionWindow$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 116)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.GodsList;
+<i>4</i>&nbsp;import it.polimi.ingsw.Model.MessageToVirtualView;
+<i>5</i>&nbsp;import it.polimi.ingsw.Model.ModelRepresentation;
+<i>6</i>&nbsp;import it.polimi.ingsw.Utils.Choice;
+<i>7</i>&nbsp;import it.polimi.ingsw.Utils.ExitChoice;
+<i>8</i>&nbsp;import it.polimi.ingsw.Utils.GodChoice;
+<i>9</i>&nbsp;import it.polimi.ingsw.Utils.GodsCollectionChoice;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import javax.imageio.ImageIO;
+<i>12</i>&nbsp;import javax.swing.*;
+<i>13</i>&nbsp;import java.awt.*;
+<i>14</i>&nbsp;import java.awt.event.ActionEvent;
+<i>15</i>&nbsp;import java.awt.event.ActionListener;
+<i>16</i>&nbsp;import java.io.IOException;
+<i>17</i>&nbsp;import java.util.ArrayList;
+<i>18</i>&nbsp;import java.util.Arrays;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;/**
+<i>21</i>&nbsp; * this class represents the window where, in turn,
+<i>22</i>&nbsp; * the second (and third) player can choose his god card
+<i>23</i>&nbsp; */
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;public class GodSelectionWindow extends JFrame implements ActionListener,WindowInterface
+<i>26</i>&nbsp;{
+<b class="nc"><i>27</i>&nbsp;    public final int WIN_WIDTH = 1000;</b>
+<b class="nc"><i>28</i>&nbsp;    public final int WIN_HEIGHT = 700;</b>
+<b class="nc"><i>29</i>&nbsp;    ImageIcon blankCard = new ImageIcon(getClass().getResource(&quot;/BlankGod.png&quot;));</b>
+<b class="nc"><i>30</i>&nbsp;    ImageIcon blankResizedIcon = resizeIcon(blankCard, 4);</b>
+<i>31</i>&nbsp;
+<b class="nc"><i>32</i>&nbsp;    ArrayList&lt;GodsList&gt; selectedCards = new ArrayList&lt;&gt;();</b>
+<i>33</i>&nbsp;    JButton godButton;
+<b class="nc"><i>34</i>&nbsp;    int godCounter = 0;</b>
+<i>35</i>&nbsp;    int playerNum;
+<b class="nc"><i>36</i>&nbsp;    JLabel[] godMiniatures = new JLabel[1];</b>
+<b class="nc"><i>37</i>&nbsp;    JButton submitButton =  new JButton(&quot;Submit&quot;);</b>
+<b class="nc"><i>38</i>&nbsp;    JButton cancelButton = new JButton(&quot;Cancel&quot;);</b>
+<i>39</i>&nbsp;    View view;
+<i>40</i>&nbsp;    JFrame f;
+<i>41</i>&nbsp;    ModelRepresentation modelRep;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * builds the window, where a player can slide the
+<i>45</i>&nbsp;     * possible god cards (which were chosen by the first player),
+<i>46</i>&nbsp;     * submit his choice and cancel the selected card and choose again
+<i>47</i>&nbsp;     * @param playerNum number of players
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public GodSelectionWindow(View view, int playerNum, ModelRepresentation modelRep)
+<b class="nc"><i>51</i>&nbsp;    {</b>
+<b class="nc"><i>52</i>&nbsp;        this.playerNum = playerNum;</b>
+<b class="nc"><i>53</i>&nbsp;        this.view=view;</b>
+<b class="nc"><i>54</i>&nbsp;        this.modelRep = modelRep;</b>
+<i>55</i>&nbsp;
+<b class="nc"><i>56</i>&nbsp;        godButton=new JButton(getGodImage(modelRep.gods.get(0).getName()));</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;        //Declaring needed constants
+<b class="nc"><i>59</i>&nbsp;        int defaultCardWidth = blankCard.getIconWidth();</b>
+<b class="nc"><i>60</i>&nbsp;        int defaultCardHeight = blankCard.getIconHeight();</b>
+<i>61</i>&nbsp;
+<b class="nc"><i>62</i>&nbsp;        int defaultIconWidth = blankResizedIcon.getIconWidth();</b>
+<b class="nc"><i>63</i>&nbsp;        int defaultIconHeight = blankResizedIcon.getIconHeight();</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;        //Declaring needed objects
+<b class="nc"><i>66</i>&nbsp;        f=new JFrame(&quot;God Selection&quot;);</b>
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;        JLabel background = new JLabel(new ImageIcon(getClass().getResource(&quot;/GodSelWindow.png&quot;)));</b>
+<b class="nc"><i>69</i>&nbsp;        background.setBounds(0,0,1000,700);</b>
+<b class="nc"><i>70</i>&nbsp;        JButton leftButton=new JButton(&quot;&lt;&quot;);</b>
+<b class="nc"><i>71</i>&nbsp;        leftButton.setToolTipText(&quot;Switches to God on the left&quot;);</b>
+<b class="nc"><i>72</i>&nbsp;        leftButton.setActionCommand(&quot;before&quot;);</b>
+<b class="nc"><i>73</i>&nbsp;        godButton.setActionCommand(&quot;god&quot;);</b>
+<b class="nc"><i>74</i>&nbsp;        godButton.setToolTipText(modelRep.gods.get(0).getDesc());</b>
+<b class="nc"><i>75</i>&nbsp;        JButton rightButton=new JButton(&quot;&gt;&quot;);</b>
+<b class="nc"><i>76</i>&nbsp;        rightButton.setActionCommand(&quot;next&quot;);</b>
+<b class="nc"><i>77</i>&nbsp;        rightButton.setToolTipText(&quot;Switches to God on the right&quot;);</b>
+<b class="nc"><i>78</i>&nbsp;        submitButton.setActionCommand(&quot;submit&quot;);</b>
+<b class="nc"><i>79</i>&nbsp;        submitButton.setEnabled(false);</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;        JLabel chosenGod = new JLabel(&quot;Chosen God&quot;, blankResizedIcon, JLabel.CENTER);</b>
+<b class="nc"><i>83</i>&nbsp;        chosenGod.setVerticalTextPosition(JLabel.TOP);</b>
+<b class="nc"><i>84</i>&nbsp;        chosenGod.setHorizontalTextPosition(JLabel.CENTER);</b>
+<i>85</i>&nbsp;
+<b class="nc"><i>86</i>&nbsp;        godMiniatures[0] = chosenGod;</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;
+<b class="nc"><i>89</i>&nbsp;        cancelButton.setToolTipText(&quot;Cancels the selected card&quot;);</b>
+<i>90</i>&nbsp;        //By default it&#39;s disabled, only available after selecting god cards
+<b class="nc"><i>91</i>&nbsp;        cancelButton.setEnabled(false);</b>
+<b class="nc"><i>92</i>&nbsp;        cancelButton.setActionCommand(&quot;cancel&quot;);</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;        //Setting relative objects coordinates
+<b class="nc"><i>98</i>&nbsp;        final int centeredButtonY = WIN_HEIGHT / 16 + defaultCardHeight / 2 - WIN_HEIGHT / 12;</b>
+<b class="nc"><i>99</i>&nbsp;        leftButton.setBounds(WIN_WIDTH/8, centeredButtonY, WIN_WIDTH/8,WIN_HEIGHT/6);</b>
+<b class="nc"><i>100</i>&nbsp;        godButton.setBounds(WIN_WIDTH/2 - defaultCardWidth/2,WIN_HEIGHT/16, defaultCardWidth, defaultCardHeight);</b>
+<b class="nc"><i>101</i>&nbsp;        rightButton.setBounds(WIN_WIDTH*6/8, centeredButtonY, WIN_WIDTH/8,WIN_HEIGHT/6);</b>
+<i>102</i>&nbsp;
+<b class="nc"><i>103</i>&nbsp;        chosenGod.setBounds(WIN_WIDTH/16,WIN_HEIGHT*29/32 - defaultIconHeight, defaultIconWidth,defaultIconHeight + 20);</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;
+<b class="nc"><i>106</i>&nbsp;        submitButton.setBounds(WIN_WIDTH*6/8, WIN_HEIGHT*12/16, 200, 50);</b>
+<b class="nc"><i>107</i>&nbsp;        cancelButton.setBounds(WIN_WIDTH*6/8, WIN_HEIGHT*14/16, 200, 50);</b>
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;        //Setting objects properties
+<b class="nc"><i>110</i>&nbsp;        godButton.isDefaultButton();</b>
+<b class="nc"><i>111</i>&nbsp;        leftButton.addActionListener(this);</b>
+<b class="nc"><i>112</i>&nbsp;        godButton.addActionListener(this);</b>
+<b class="nc"><i>113</i>&nbsp;        rightButton.addActionListener(this);</b>
+<b class="nc"><i>114</i>&nbsp;        cancelButton.addActionListener(this);</b>
+<b class="nc"><i>115</i>&nbsp;        submitButton.addActionListener(this);</b>
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;        //Add objects to Frame
+<b class="nc"><i>118</i>&nbsp;        f.add(leftButton);</b>
+<b class="nc"><i>119</i>&nbsp;        f.add(godButton);</b>
+<b class="nc"><i>120</i>&nbsp;        f.add(rightButton);</b>
+<b class="nc"><i>121</i>&nbsp;        f.add(chosenGod);</b>
+<b class="nc"><i>122</i>&nbsp;        f.add(submitButton);</b>
+<b class="nc"><i>123</i>&nbsp;        f.add(cancelButton);</b>
+<b class="nc"><i>124</i>&nbsp;        f.add(background);</b>
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;        //Set frame properties
+<i>127</i>&nbsp;        //f.getContentPane().setBackground(Color.DARK_GRAY);
+<i>128</i>&nbsp;        //must be done before setting location relative to screen center (null)
+<b class="nc"><i>129</i>&nbsp;        f.setSize(WIN_WIDTH,WIN_HEIGHT);</b>
+<b class="nc"><i>130</i>&nbsp;        f.setResizable(false);</b>
+<b class="nc"><i>131</i>&nbsp;        f.setLayout(null);</b>
+<i>132</i>&nbsp;        //f terminates process when closed
+<b class="nc"><i>133</i>&nbsp;        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</b>
+<i>134</i>&nbsp;        //f centers itself on screen
+<b class="nc"><i>135</i>&nbsp;        f.setLocationRelativeTo(null);</b>
+<i>136</i>&nbsp;        //the window will be enabled or disabled by the View
+<i>137</i>&nbsp;        //f.setVisible(true);
+<b class="nc"><i>138</i>&nbsp;        f.addWindowListener(new java.awt.event.WindowAdapter(){</b>
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;            /**
+<i>141</i>&nbsp;             * ends the game and closes the window,
+<i>142</i>&nbsp;             * asking the player to confirm his decision
+<i>143</i>&nbsp;             */
+<i>144</i>&nbsp;            public void windowClosing(java.awt.event.WindowEvent windowEvent){
+<b class="nc"><i>145</i>&nbsp;                if(JOptionPane.showConfirmDialog(f,&quot;Are you sure you want quit the game?&quot;,&quot;Quit the game&quot;,JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){</b>
+<b class="nc"><i>146</i>&nbsp;                    Choice c=new ExitChoice();</b>
+<b class="nc"><i>147</i>&nbsp;                    c.setId(playerNum);</b>
+<b class="nc"><i>148</i>&nbsp;                    view.update(c);</b>
+<b class="nc"><i>149</i>&nbsp;                    System.exit(0);</b>
+<i>150</i>&nbsp;                }
+<i>151</i>&nbsp;            }
+<i>152</i>&nbsp;        });
+<i>153</i>&nbsp;    }
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;    /**
+<i>156</i>&nbsp;     * resize the icon
+<i>157</i>&nbsp;     */
+<i>158</i>&nbsp;
+<i>159</i>&nbsp;    private ImageIcon resizeIcon(ImageIcon defaultScale, int scaleDownFactor)
+<i>160</i>&nbsp;    {
+<b class="nc"><i>161</i>&nbsp;        Image newimg = defaultScale.getImage().getScaledInstance( defaultScale.getIconWidth()/scaleDownFactor,</b>
+<b class="nc"><i>162</i>&nbsp;                defaultScale.getIconHeight()/scaleDownFactor,  java.awt.Image.SCALE_SMOOTH ) ;</b>
+<b class="nc"><i>163</i>&nbsp;        return new ImageIcon( newimg );</b>
+<i>164</i>&nbsp;    }
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     * @param name of the needed god
+<i>168</i>&nbsp;     * @return  the god image
+<i>169</i>&nbsp;     */
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    private ImageIcon getGodImage(String name)
+<i>172</i>&nbsp;    {
+<i>173</i>&nbsp;        try {
+<b class="nc"><i>174</i>&nbsp;            return new ImageIcon(ImageIO.read(getClass().getResource(&quot;/&quot;+name+&quot;.png&quot;)));</b>
+<b class="nc"><i>175</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>176</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>177</i>&nbsp;            return null;</b>
+<i>178</i>&nbsp;        }
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;    }
+<i>181</i>&nbsp;
+<i>182</i>&nbsp;    /**
+<i>183</i>&nbsp;     * updates the window, according to what the player has clicked on
+<i>184</i>&nbsp;     */
+<i>185</i>&nbsp;
+<i>186</i>&nbsp;    @Override
+<i>187</i>&nbsp;    public void actionPerformed(ActionEvent actionEvent) {
+<b class="nc"><i>188</i>&nbsp;        if(&quot;next&quot;.equals(actionEvent.getActionCommand()))</b>
+<i>189</i>&nbsp;        {
+<i>190</i>&nbsp;            //clicked on nextButton
+<b class="nc"><i>191</i>&nbsp;            if(godCounter == modelRep.gods.size()-1)</b>
+<i>192</i>&nbsp;            {
+<b class="nc"><i>193</i>&nbsp;                godCounter = 0;</b>
+<i>194</i>&nbsp;            }
+<i>195</i>&nbsp;            else
+<i>196</i>&nbsp;            {
+<b class="nc"><i>197</i>&nbsp;                godCounter++;</b>
+<i>198</i>&nbsp;            }
+<i>199</i>&nbsp;
+<b class="nc"><i>200</i>&nbsp;            godButton.setToolTipText(modelRep.gods.get(godCounter).getDesc());</b>
+<b class="nc"><i>201</i>&nbsp;            godButton.setIcon(getGodImage(modelRep.gods.get(godCounter).getName()));</b>
+<i>202</i>&nbsp;        }
+<b class="nc"><i>203</i>&nbsp;        else if(&quot;before&quot;.equals(actionEvent.getActionCommand()))</b>
+<i>204</i>&nbsp;        {
+<i>205</i>&nbsp;            //god switch to the left
+<b class="nc"><i>206</i>&nbsp;            if(godCounter == 0)</b>
+<i>207</i>&nbsp;            {
+<b class="nc"><i>208</i>&nbsp;                godCounter = modelRep.gods.size()-1;</b>
+<i>209</i>&nbsp;            }
+<i>210</i>&nbsp;            else
+<i>211</i>&nbsp;            {
+<b class="nc"><i>212</i>&nbsp;                godCounter--;</b>
+<i>213</i>&nbsp;            }
+<b class="nc"><i>214</i>&nbsp;            godButton.setToolTipText(modelRep.gods.get(godCounter).getDesc());</b>
+<b class="nc"><i>215</i>&nbsp;            godButton.setIcon(getGodImage(modelRep.gods.get(godCounter).getName()));</b>
+<i>216</i>&nbsp;        }
+<b class="nc"><i>217</i>&nbsp;        else if(&quot;god&quot;.equals(actionEvent.getActionCommand())){</b>
+<i>218</i>&nbsp;            //A god has been selected
+<b class="nc"><i>219</i>&nbsp;            cancelButton.setEnabled(true);</b>
+<b class="nc"><i>220</i>&nbsp;            submitButton.setEnabled(true);</b>
+<b class="nc"><i>221</i>&nbsp;            if(selectedCards.isEmpty())</b>
+<i>222</i>&nbsp;            {
+<b class="nc"><i>223</i>&nbsp;                    ImageIcon smallIcon = resizeIcon(getGodImage(modelRep.gods.get(godCounter).getName()), 4);</b>
+<b class="nc"><i>224</i>&nbsp;                    godMiniatures[selectedCards.size()].setIcon(smallIcon);</b>
+<b class="nc"><i>225</i>&nbsp;                    selectedCards.add(modelRep.gods.get(godCounter));</b>
+<b class="nc"><i>226</i>&nbsp;            }</b>
+<i>227</i>&nbsp;            else
+<i>228</i>&nbsp;            {
+<b class="nc"><i>229</i>&nbsp;                System.out.println(&quot;YOU CAN CHOOSE ONLY ONE GOD!&quot;);</b>
+<i>230</i>&nbsp;            }
+<i>231</i>&nbsp;        }
+<b class="nc"><i>232</i>&nbsp;        else if(&quot;cancel&quot;.equals(actionEvent.getActionCommand()))</b>
+<i>233</i>&nbsp;        {
+<b class="nc"><i>234</i>&nbsp;            selectedCards.clear();</b>
+<i>235</i>&nbsp;
+<b class="nc"><i>236</i>&nbsp;            godMiniatures[0].setIcon(blankResizedIcon);</b>
+<i>237</i>&nbsp;
+<b class="nc"><i>238</i>&nbsp;            cancelButton.setEnabled(false);</b>
+<b class="nc"><i>239</i>&nbsp;            submitButton.setEnabled(false);</b>
+<i>240</i>&nbsp;        }
+<b class="nc"><i>241</i>&nbsp;        else if(&quot;submit&quot;.equals(actionEvent.getActionCommand()))</b>
+<i>242</i>&nbsp;        {
+<b class="nc"><i>243</i>&nbsp;            if(selectedCards.size() == 0)</b>
+<i>244</i>&nbsp;            {
+<b class="nc"><i>245</i>&nbsp;                submitButton.setEnabled(false);</b>
+<i>246</i>&nbsp;            }
+<b class="nc"><i>247</i>&nbsp;            GodChoice c=new GodChoice(selectedCards.get(0).getName());</b>
+<b class="nc"><i>248</i>&nbsp;            c.setId(playerNum);</b>
+<b class="nc"><i>249</i>&nbsp;            view.update(c);</b>
+<b class="nc"><i>250</i>&nbsp;        }</b>
+<i>251</i>&nbsp;        else
+<i>252</i>&nbsp;        {
+<b class="nc"><i>253</i>&nbsp;            System.out.println(&quot;Command not recognized!&quot;);</b>
+<i>254</i>&nbsp;        }
+<i>255</i>&nbsp;    }
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;
+<i>258</i>&nbsp;    /**
+<i>259</i>&nbsp;     * updates the window, according to the model representation
+<i>260</i>&nbsp;     */
+<i>261</i>&nbsp;
+<i>262</i>&nbsp;    @Override
+<i>263</i>&nbsp;    public void updateWindow(MessageToVirtualView update) {
+<b class="nc"><i>264</i>&nbsp;        if(!update.isModelRep())</b>
+<i>265</i>&nbsp;        {
+<b class="nc"><i>266</i>&nbsp;            JOptionPane.showMessageDialog(f,update.getMessage().getMessage());</b>
+<i>267</i>&nbsp;        }
+<i>268</i>&nbsp;    }
+<i>269</i>&nbsp;
+<i>270</i>&nbsp;    /**
+<i>271</i>&nbsp;     * sets the window visible
+<i>272</i>&nbsp;     */
+<i>273</i>&nbsp;
+<i>274</i>&nbsp;    @Override
+<i>275</i>&nbsp;    public void setWindowVisible() {
+<b class="nc"><i>276</i>&nbsp;        f.setVisible(true);</b>
+<i>277</i>&nbsp;    }
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    /**
+<i>280</i>&nbsp;     * sets the window not visible
+<i>281</i>&nbsp;     */
+<i>282</i>&nbsp;
+<i>283</i>&nbsp;    @Override
+<i>284</i>&nbsp;    public void setWindowNotVisible() {
+<b class="nc"><i>285</i>&nbsp;        f.setVisible(false);</b>
+<i>286</i>&nbsp;    }
+<i>287</i>&nbsp;
+<i>288</i>&nbsp;    /**
+<i>289</i>&nbsp;     * shows a message to the players who are not choosing the god
+<i>290</i>&nbsp;     */
+<i>291</i>&nbsp;
+<i>292</i>&nbsp;    @Override
+<i>293</i>&nbsp;    public void messagePrompt(String message) {
+<b class="nc"><i>294</i>&nbsp;        JOptionPane.showMessageDialog(f,message+&quot; is choosing the god&quot;);</b>
+<i>295</i>&nbsp;    }
+<i>296</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-02 19:17</div>
+</div>
+</body>
+</html>

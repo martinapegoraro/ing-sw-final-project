@@ -1,0 +1,268 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Turn</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Turn (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Turn</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,3%
+  </span>
+  <span class="absValue">
+    (12/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,9%
+  </span>
+  <span class="absValue">
+    (52/ 56)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.Exceptions.ImpossibleAddAnotherPlayerException;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.ArrayList;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * this class contains the information of a turn
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public class Turn {
+<i>13</i>&nbsp;    private  int nTurn;
+<i>14</i>&nbsp;    private Board boardInstance;
+<i>15</i>&nbsp;    private ArrayList&lt;Player&gt; listaGiocatori;
+<i>16</i>&nbsp;    private int idFirstPlayer;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * the builder is used to initialize the first turn of the game
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public Turn(List&lt;String&gt; playersNamesList)
+<b class="fc"><i>23</i>&nbsp;    {</b>
+<b class="fc"><i>24</i>&nbsp;        nTurn=0;</b>
+<b class="fc"><i>25</i>&nbsp;        idFirstPlayer=0;</b>
+<b class="fc"><i>26</i>&nbsp;        Board.newBoard();</b>
+<b class="fc"><i>27</i>&nbsp;        boardInstance= Board.getInstance();</b>
+<b class="fc"><i>28</i>&nbsp;        listaGiocatori=new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>29</i>&nbsp;        for (String name:playersNamesList) {</b>
+<i>30</i>&nbsp;            try {
+<b class="fc"><i>31</i>&nbsp;                addPlayer(name);</b>
+<b class="nc"><i>32</i>&nbsp;            } catch (ImpossibleAddAnotherPlayerException e) {</b>
+<b class="nc"><i>33</i>&nbsp;                break;</b>
+<b class="fc"><i>34</i>&nbsp;            }</b>
+<b class="fc"><i>35</i>&nbsp;        }</b>
+<b class="fc"><i>36</i>&nbsp;        listaGiocatori.get(0).setPlayerActive(true);</b>
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    /**
+<i>40</i>&nbsp;     * this method is used to set the next player when the turn changes
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    public void setNextPlayer()
+<i>44</i>&nbsp;    {
+<b class="fc"><i>45</i>&nbsp;        nTurn++;</b>
+<b class="fc"><i>46</i>&nbsp;        int turnoDi=(idFirstPlayer+nTurn)%listaGiocatori.size();</b>
+<b class="fc"><i>47</i>&nbsp;        for (Player p:listaGiocatori) {</b>
+<b class="fc"><i>48</i>&nbsp;            p.setPlayerActive(false);</b>
+<b class="fc"><i>49</i>&nbsp;        }</b>
+<b class="fc"><i>50</i>&nbsp;        while(listaGiocatori.get(turnoDi).getHasLost()) {</b>
+<b class="fc"><i>51</i>&nbsp;            turnoDi = (turnoDi + 1) % listaGiocatori.size();</b>
+<b class="fc"><i>52</i>&nbsp;            nTurn++;</b>
+<i>53</i>&nbsp;        }
+<b class="fc"><i>54</i>&nbsp;        listaGiocatori.get(turnoDi).setPlayerActive(true);</b>
+<i>55</i>&nbsp;
+<b class="fc"><i>56</i>&nbsp;    }</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * the counter is resetted every time all the players (two or three)
+<i>60</i>&nbsp;     * have finished their turn
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    public void resetTurnCounter()
+<i>64</i>&nbsp;    {
+<b class="fc"><i>65</i>&nbsp;        nTurn=0;</b>
+<b class="fc"><i>66</i>&nbsp;        listaGiocatori.get(idFirstPlayer).setPlayerActive(true);</b>
+<b class="fc"><i>67</i>&nbsp;    }</b>
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * @return the id of the first player
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public int getIdFirstPlayer()
+<i>73</i>&nbsp;    {
+<b class="fc"><i>74</i>&nbsp;        return idFirstPlayer;</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /**
+<i>78</i>&nbsp;     * Sets the first player using his/her Id
+<i>79</i>&nbsp;     * @param id the id of the player who starts
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    public void setIdFirstPlayer(int id)
+<i>83</i>&nbsp;    {
+<b class="fc"><i>84</i>&nbsp;        idFirstPlayer=id;</b>
+<b class="fc"><i>85</i>&nbsp;    }</b>
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * @return the current active player
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    public Player getCurrentPlayer()
+<i>93</i>&nbsp;    {
+<b class="fc"><i>94</i>&nbsp;        for (Player p:listaGiocatori) {</b>
+<b class="fc"><i>95</i>&nbsp;            if (p.isPlayerActive())</b>
+<b class="fc"><i>96</i>&nbsp;                return p;</b>
+<b class="fc"><i>97</i>&nbsp;        }</b>
+<b class="nc"><i>98</i>&nbsp;        return null;</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    /**
+<i>102</i>&nbsp;     * @return the instance of the board
+<i>103</i>&nbsp;     */
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    public Board getBoardInstance() {
+<b class="fc"><i>106</i>&nbsp;        return boardInstance;</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /**
+<i>110</i>&nbsp;     * @deprecated
+<i>111</i>&nbsp;     * @return the god chosen by a given player
+<i>112</i>&nbsp;     */
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    public GodsList getPlayerGod(Player player)
+<i>115</i>&nbsp;    {
+<b class="nc"><i>116</i>&nbsp;        return player.getGod();</b>
+<i>117</i>&nbsp;    }
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    /**
+<i>120</i>&nbsp;     * adds a player to the list of players
+<i>121</i>&nbsp;     * @param name players name
+<i>122</i>&nbsp;     * @throws ImpossibleAddAnotherPlayerException if three players are already in the game
+<i>123</i>&nbsp;     */
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    public void addPlayer(String name)throws ImpossibleAddAnotherPlayerException
+<i>126</i>&nbsp;    {
+<b class="fc"><i>127</i>&nbsp;        if(listaGiocatori.size()&lt;3)</b>
+<b class="fc"><i>128</i>&nbsp;            listaGiocatori.add(new Player(listaGiocatori.size(),name));</b>
+<i>129</i>&nbsp;        else
+<b class="fc"><i>130</i>&nbsp;            throw new ImpossibleAddAnotherPlayerException(&quot;max number of players already reached&quot;);</b>
+<b class="fc"><i>131</i>&nbsp;    }</b>
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    /**
+<i>134</i>&nbsp;     * given a box, returns the list of the boxes a worker can move to around the selected box
+<i>135</i>&nbsp;     * @param b selected box
+<i>136</i>&nbsp;     * @return the list of the boxes a worker can move to
+<i>137</i>&nbsp;     */
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    public List&lt;Box&gt; getPossibleMoves(Box b)
+<i>140</i>&nbsp;    {
+<b class="fc"><i>141</i>&nbsp;        List&lt;Box&gt; lista=new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>142</i>&nbsp;        List&lt;Box&gt; borderBoxes=boardInstance.getBorderBoxes(b);</b>
+<b class="fc"><i>143</i>&nbsp;        for (Box cell:borderBoxes) {</b>
+<b class="fc"><i>144</i>&nbsp;            if(!cell.isOccupied() &amp;&amp; b.isReachable(cell))</b>
+<b class="fc"><i>145</i>&nbsp;                lista.add(cell);</b>
+<b class="fc"><i>146</i>&nbsp;        }</b>
+<b class="fc"><i>147</i>&nbsp;        return lista;</b>
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;    }
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    /**
+<i>152</i>&nbsp;     * given a box, returns the possible boxes a worker can build on around it
+<i>153</i>&nbsp;     * @param b selected box
+<i>154</i>&nbsp;     * @return possible boxes a worker can build on
+<i>155</i>&nbsp;     */
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;    public List&lt;Box&gt; getPossibleBuildLocations(Box b)
+<i>158</i>&nbsp;    {
+<b class="fc"><i>159</i>&nbsp;        List&lt;Box&gt; lista=new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>160</i>&nbsp;        for (Box cell:boardInstance.getBorderBoxes(b)) {</b>
+<b class="fc"><i>161</i>&nbsp;            if(!cell.isOccupied())</b>
+<b class="fc"><i>162</i>&nbsp;                lista.add(cell);</b>
+<b class="fc"><i>163</i>&nbsp;        }</b>
+<b class="fc"><i>164</i>&nbsp;        return lista;</b>
+<i>165</i>&nbsp;    }
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;    /**
+<i>168</i>&nbsp;     * @return the list of players
+<i>169</i>&nbsp;     */
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    public List&lt;Player&gt; getPlayersList()
+<i>172</i>&nbsp;    {
+<b class="fc"><i>173</i>&nbsp;        return listaGiocatori;</b>
+<i>174</i>&nbsp;    }
+<i>175</i>&nbsp;
+<i>176</i>&nbsp;    /**
+<i>177</i>&nbsp;     * returns a player, given his ID
+<i>178</i>&nbsp;     */
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;    public Player getPlayer(int id)
+<i>181</i>&nbsp;    {
+<b class="fc"><i>182</i>&nbsp;        return listaGiocatori.get(id);</b>
+<i>183</i>&nbsp;    }
+<i>184</i>&nbsp;
+<i>185</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-02 19:17</div>
+</div>
+</body>
+</html>

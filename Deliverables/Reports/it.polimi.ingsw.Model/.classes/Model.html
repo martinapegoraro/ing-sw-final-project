@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Model</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Model (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Model</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (38/ 38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Controller.StateEnum;
+<i>4</i>&nbsp;import it.polimi.ingsw.View.Observable;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * the model class contains the instance of the game
+<i>11</i>&nbsp; * it&#39;s represents the game and it&#39;s modified by the controller
+<i>12</i>&nbsp; * the model every time it&#39;s modified updates his modelRepresentation and sends it&#39; to the View so it can be seen by the players
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class Model extends Observable&lt;MessageToVirtualView&gt; {
+<i>15</i>&nbsp;    private Turn turn;
+<i>16</i>&nbsp;    private int playerNum;
+<i>17</i>&nbsp;    private ModelRepresentation modelRep;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * given playersNamesList a new instance of the game is created
+<i>21</i>&nbsp;     * @param playersNamesList containing two or three player names
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    public Model(List&lt;String&gt; playersNamesList)
+<b class="fc"><i>24</i>&nbsp;    {</b>
+<b class="fc"><i>25</i>&nbsp;        turn=new Turn(playersNamesList);</b>
+<b class="fc"><i>26</i>&nbsp;        playerNum=playersNamesList.size();</b>
+<i>27</i>&nbsp;        //I create a new modelRep based on the current status of the model
+<i>28</i>&nbsp;        //updateModelRep(modelRep.currentState);
+<b class="fc"><i>29</i>&nbsp;        updateModelRep();</b>
+<b class="fc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * method that return the current turn
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    public Turn getTurn()
+<i>36</i>&nbsp;    {
+<b class="fc"><i>37</i>&nbsp;        return turn;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * @return the current modelRepresentation
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public  ModelRepresentation getModelRep()
+<i>44</i>&nbsp;    {
+<b class="fc"><i>45</i>&nbsp;        return modelRep;</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * this update modelRep is used when we have to show the current player
+<i>50</i>&nbsp;     * in which cells she or he can move or build
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;    public void updateModelRep()
+<i>53</i>&nbsp;    {
+<i>54</i>&nbsp;        //I initialize my matrix with just zeroes (java default value for int)
+<b class="fc"><i>55</i>&nbsp;        int [][] selectedCells = new int[5][5];</b>
+<b class="fc"><i>56</i>&nbsp;        modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList(),selectedCells);</b>
+<i>57</i>&nbsp;        //modelRep.currentState = null; This is not necessary, moved in ModelRep constructor
+<b class="fc"><i>58</i>&nbsp;        StateEnum oldState = modelRep.currentState;</b>
+<b class="fc"><i>59</i>&nbsp;        modelRep.currentState = oldState;</b>
+<b class="fc"><i>60</i>&nbsp;        notify(new MessageToVirtualView(modelRep));</b>
+<b class="fc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * this update modelRep in addition to save in the modelRep the selected cells saves also the current state of the controller
+<i>65</i>&nbsp;     * in this way the client can know the state of the context (moveState or buildState)
+<i>66</i>&nbsp;     * @param currentState current State of the game server-side
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    public void updateModelRep(StateEnum currentState)
+<i>69</i>&nbsp;    {
+<i>70</i>&nbsp;        //I initialize mi matrix with just zeroes (java default value for int)
+<b class="fc"><i>71</i>&nbsp;        int [][] selectedCells = new int[5][5];</b>
+<b class="fc"><i>72</i>&nbsp;        modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList(),selectedCells);</b>
+<b class="fc"><i>73</i>&nbsp;        modelRep.currentState = currentState;</b>
+<b class="fc"><i>74</i>&nbsp;        notify(new MessageToVirtualView(modelRep));</b>
+<b class="fc"><i>75</i>&nbsp;    }</b>
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /**
+<i>78</i>&nbsp;     * update modelRep used at the beginning of the game is used to show the second (and the third) player the
+<i>79</i>&nbsp;     * gods selected for the current game by the first player
+<i>80</i>&nbsp;     * @param godsList selected gods
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    public void updateModelRep(List&lt;GodsList&gt; godsList)
+<i>83</i>&nbsp;    {
+<i>84</i>&nbsp;        //I initialize mi matrix with just zeroes (java default value for int)
+<b class="fc"><i>85</i>&nbsp;        int [][] selectedCells = new int[5][5];</b>
+<b class="fc"><i>86</i>&nbsp;        StateEnum oldState = modelRep.currentState;</b>
+<b class="fc"><i>87</i>&nbsp;        modelRep = new ModelRepresentation(turn.getBoardInstance(),turn.getPlayersList(),selectedCells);</b>
+<b class="fc"><i>88</i>&nbsp;        modelRep.gods=new ArrayList&lt;GodsList&gt;();</b>
+<b class="fc"><i>89</i>&nbsp;        modelRep.gods.addAll(godsList);</b>
+<b class="fc"><i>90</i>&nbsp;        modelRep.currentState = oldState;</b>
+<b class="fc"><i>91</i>&nbsp;        notify(new MessageToVirtualView(modelRep));</b>
+<b class="fc"><i>92</i>&nbsp;    }</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    /**
+<i>95</i>&nbsp;     * updates the cells where the worker can move
+<i>96</i>&nbsp;     * @param selectedWorkerCells the cells where the worker can move to
+<i>97</i>&nbsp;     */
+<i>98</i>&nbsp;    public void updateModelRep(ArrayList&lt;Box&gt; selectedWorkerCells)
+<i>99</i>&nbsp;    {
+<b class="fc"><i>100</i>&nbsp;        int[][] selectedCells = new int[5][5];</b>
+<b class="fc"><i>101</i>&nbsp;        for(Box b : selectedWorkerCells)</b>
+<i>102</i>&nbsp;        {
+<i>103</i>&nbsp;            //Expects just two coordinates
+<b class="fc"><i>104</i>&nbsp;            int[] coordinates = b.getCoord();</b>
+<b class="fc"><i>105</i>&nbsp;            selectedCells[coordinates[0]][coordinates[1]] = 1;</b>
+<b class="fc"><i>106</i>&nbsp;        }</b>
+<i>107</i>&nbsp;        //This method should never be called in a state Change, it&#39;s safe to save the currentState
+<b class="fc"><i>108</i>&nbsp;        StateEnum oldState = modelRep.currentState;</b>
+<b class="fc"><i>109</i>&nbsp;        modelRep = new ModelRepresentation(turn.getBoardInstance(), turn.getPlayersList(), selectedCells);</b>
+<b class="fc"><i>110</i>&nbsp;        modelRep.currentState = oldState;</b>
+<i>111</i>&nbsp;
+<b class="fc"><i>112</i>&nbsp;        notify(new MessageToVirtualView(modelRep));</b>
+<b class="fc"><i>113</i>&nbsp;    }</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    /**
+<i>116</i>&nbsp;     * this notify sends the messageToVirtualView which contains the modelRep to the VirtualView
+<i>117</i>&nbsp;     */
+<i>118</i>&nbsp;    @Override
+<i>119</i>&nbsp;    public void notify(MessageToVirtualView message) {
+<b class="fc"><i>120</i>&nbsp;        super.notify(message);</b>
+<b class="fc"><i>121</i>&nbsp;    }</b>
+<i>122</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-02 19:17</div>
+</div>
+</body>
+</html>

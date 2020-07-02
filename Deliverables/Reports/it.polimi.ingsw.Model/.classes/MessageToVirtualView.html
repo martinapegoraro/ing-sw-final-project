@@ -1,0 +1,175 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MessageToVirtualView</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MessageToVirtualView (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MessageToVirtualView</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (2/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    41,7%
+  </span>
+  <span class="absValue">
+    (10/ 24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Utils.ErrorMessages.ErrorMessage;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.Serializable;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * this class represents the message sent to the virtual view
+<i>9</i>&nbsp; * the class contains two different objects
+<i>10</i>&nbsp; * A modelRepresentation of an ErrorMessage but only one at time
+<i>11</i>&nbsp; * instantiated an object MessageToVirtualView due the absence of set methods and the private attributes is not possible
+<i>12</i>&nbsp; * change the content of the message
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class MessageToVirtualView implements Serializable {
+<i>15</i>&nbsp;    private  ModelRepresentation modelRep;
+<i>16</i>&nbsp;    private  ErrorMessage errorMsg;
+<i>17</i>&nbsp;    private String playerName;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * creates a MessageToVirtualView containing a ModelRepresentation
+<i>21</i>&nbsp;     * @param modelRep contains model representation
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    public  MessageToVirtualView(ModelRepresentation modelRep)
+<b class="fc"><i>24</i>&nbsp;    {</b>
+<b class="fc"><i>25</i>&nbsp;        this.modelRep=modelRep;</b>
+<b class="fc"><i>26</i>&nbsp;        errorMsg=null;</b>
+<b class="fc"><i>27</i>&nbsp;        playerName = null;</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * creates a MessageToVirtualView addressed to a single player
+<i>32</i>&nbsp;     * @param modelRep contains model representation
+<i>33</i>&nbsp;     * @param messageTo contains the Player recipient of the message**/
+<i>34</i>&nbsp;    public MessageToVirtualView(ModelRepresentation modelRep, Player messageTo)
+<b class="nc"><i>35</i>&nbsp;    {</b>
+<b class="nc"><i>36</i>&nbsp;        this.modelRep = modelRep;</b>
+<b class="nc"><i>37</i>&nbsp;        errorMsg = null;</b>
+<b class="nc"><i>38</i>&nbsp;        playerName = messageTo.getPlayerName();</b>
+<b class="nc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * creates a Message To Virtual view containing an error message
+<i>43</i>&nbsp;     * @param errorMsg contains the error
+<i>44</i>&nbsp;     * @param messageTo contains the Player recipient of the message
+<i>45</i>&nbsp;     */
+<i>46</i>&nbsp;    public  MessageToVirtualView(ErrorMessage errorMsg, Player messageTo)
+<b class="nc"><i>47</i>&nbsp;    {</b>
+<b class="nc"><i>48</i>&nbsp;        modelRep=null;</b>
+<b class="nc"><i>49</i>&nbsp;        this.errorMsg=errorMsg;</b>
+<b class="nc"><i>50</i>&nbsp;        playerName = messageTo.getPlayerName();</b>
+<b class="nc"><i>51</i>&nbsp;    }</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * creates a Message To Virtual view containing an error message
+<i>55</i>&nbsp;     * @param errorMsg contains the error
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public  MessageToVirtualView(ErrorMessage errorMsg)
+<b class="fc"><i>58</i>&nbsp;    {</b>
+<b class="fc"><i>59</i>&nbsp;        modelRep=null;</b>
+<b class="fc"><i>60</i>&nbsp;        this.errorMsg=errorMsg;</b>
+<b class="fc"><i>61</i>&nbsp;        playerName = null;</b>
+<b class="fc"><i>62</i>&nbsp;    }</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    /**
+<i>65</i>&nbsp;     * @return if the MessageToVirtualView contains a ModelRepresentation
+<i>66</i>&nbsp;     * else it returns false
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    public boolean isModelRep()
+<i>69</i>&nbsp;    {
+<b class="nc"><i>70</i>&nbsp;        return modelRep != null;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * @return the errorMessage
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;    public ErrorMessage getMessage()
+<i>77</i>&nbsp;    {
+<b class="nc"><i>78</i>&nbsp;        return errorMsg;</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * @return the model representation
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    public ModelRepresentation getModelRep()
+<i>85</i>&nbsp;    {
+<b class="nc"><i>86</i>&nbsp;        return modelRep;</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    /**
+<i>90</i>&nbsp;     * @return the player whom the message is directed to*/
+<b class="nc"><i>91</i>&nbsp;    public String getPlayerName(){return playerName;}</b>
+<i>92</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-02 19:17</div>
+</div>
+</body>
+</html>

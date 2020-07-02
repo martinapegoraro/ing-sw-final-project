@@ -1,0 +1,122 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GodChoice</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Utils</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GodChoice (it.polimi.ingsw.Utils)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GodChoice</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/ 8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Utils;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.Exceptions.NotExistingGodException;
+<i>4</i>&nbsp;import it.polimi.ingsw.Model.GodsList;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * This class is used to select
+<i>8</i>&nbsp; * the chosen god between the ones
+<i>9</i>&nbsp; * selected by the first player
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public class GodChoice extends Choice {
+<i>13</i>&nbsp;    GodsList god;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * the builder sets the choice type and
+<i>17</i>&nbsp;     * selects the chosen god
+<i>18</i>&nbsp;     * @param godName is the name of the card we are choosing
+<i>19</i>&nbsp;     */
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public GodChoice(String godName)
+<b class="fc"><i>22</i>&nbsp;    {</b>
+<i>23</i>&nbsp;        try {
+<b class="fc"><i>24</i>&nbsp;            god=GodsList.getGod(godName);</b>
+<b class="nc"><i>25</i>&nbsp;        } catch (NotExistingGodException e) {</b>
+<b class="nc"><i>26</i>&nbsp;            e.printStackTrace();</b>
+<b class="fc"><i>27</i>&nbsp;        }</b>
+<b class="fc"><i>28</i>&nbsp;        this.type=&quot;GodChoice&quot;;</b>
+<b class="fc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * @return the GodList instance of the god
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public GodsList getGod()
+<i>36</i>&nbsp;    {
+<b class="fc"><i>37</i>&nbsp;        return god;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-02 19:17</div>
+</div>
+</body>
+</html>

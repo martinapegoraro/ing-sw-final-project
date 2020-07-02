@@ -1,0 +1,175 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: VirtualView</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View</a> ]
+</div>
+
+<h1>Coverage Summary for Class: VirtualView (it.polimi.ingsw.View)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VirtualView</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">VirtualView$MessageReceiver</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.MessageToVirtualView;
+<i>4</i>&nbsp;import it.polimi.ingsw.Network.SocketClientConnection;
+<i>5</i>&nbsp;import it.polimi.ingsw.Utils.Choice;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * the virtual view class is used in the server-side of the application
+<i>9</i>&nbsp; * it receives the choice from the client and sends them to the controller and takes the messageToVirtualView from the model and sends to the clients
+<i>10</i>&nbsp; * in this project the virtual view is only the receiver and sender of messages the checks and elaboration methods are implemented in the controller (server-side)
+<i>11</i>&nbsp; * or the view (client-side)
+<i>12</i>&nbsp; * */
+<i>13</i>&nbsp;public class VirtualView extends View {
+<i>14</i>&nbsp;    private int idPlayer;
+<i>15</i>&nbsp;    private SocketClientConnection connection;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * the private class message receiver is used to submit to the controller the choices
+<i>19</i>&nbsp;     */
+<b class="nc"><i>20</i>&nbsp;    private class MessageReceiver extends Observable&lt;Choice&gt; implements Observer&lt;Choice&gt; {</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;        public void update(Choice c)
+<i>23</i>&nbsp;        {
+<b class="nc"><i>24</i>&nbsp;            processChoice(c);</b>
+<i>25</i>&nbsp;        }
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * the constructor of the VirtualView builds the object and sets
+<i>31</i>&nbsp;     * the Message receiver private class as observer of the connection
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    public VirtualView(int idPlayer,SocketClientConnection connection)
+<b class="nc"><i>35</i>&nbsp;    {</b>
+<b class="nc"><i>36</i>&nbsp;        this.idPlayer=idPlayer;</b>
+<b class="nc"><i>37</i>&nbsp;        this.connection=connection;</b>
+<b class="nc"><i>38</i>&nbsp;        connection.addObservers(new MessageReceiver());</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * the notify sends to the controller the choice received
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;    public void notify(Choice click)
+<i>45</i>&nbsp;    {
+<b class="nc"><i>46</i>&nbsp;        super.notify(click);</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * @return the connection
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;    public SocketClientConnection getConnection()
+<i>53</i>&nbsp;    {
+<b class="nc"><i>54</i>&nbsp;        return connection;</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * this update method sends through the connection the message to the view
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    @Override
+<i>61</i>&nbsp;    public void update(MessageToVirtualView message) {
+<b class="nc"><i>62</i>&nbsp;        connection.send(message);</b>
+<i>63</i>&nbsp;        //if(!message.isModelRep() &amp;&amp; message.getMessage().getMessage().equals(&quot;One player left the game&quot;))
+<i>64</i>&nbsp;        //    connection.closeConnection();
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-02 19:17</div>
+</div>
+</body>
+</html>

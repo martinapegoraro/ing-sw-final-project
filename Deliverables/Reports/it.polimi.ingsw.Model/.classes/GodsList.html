@@ -1,0 +1,177 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GodsList</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GodsList (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GodsList</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (5/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92%
+  </span>
+  <span class="absValue">
+    (23/ 25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.Exceptions.NotExistingGodException;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * This class represents the enumeration of the possible Gods, with a short description of the god effect
+<i>7</i>&nbsp; */
+<b class="fc"><i>8</i>&nbsp;public enum GodsList {</b>
+<b class="fc"><i>9</i>&nbsp;    APOLLO(&quot;Apollo&quot;, &quot;&lt;html&gt;Your Worker may&lt;br&gt;&quot; +</b>
+<i>10</i>&nbsp;            &quot;move into an opponent Worker’s&lt;br&gt;&quot; +
+<i>11</i>&nbsp;            &quot;space by forcing their Worker to&lt;br&gt;&quot; +
+<i>12</i>&nbsp;            &quot;the space yours just vacated.&lt;/html&gt;&quot;),
+<b class="fc"><i>13</i>&nbsp;    ARTEMIS(&quot;Artemis&quot;, &quot;&lt;html&gt;Your Worker may&lt;br&gt;&quot; +</b>
+<i>14</i>&nbsp;            &quot;move one additional time, but not&lt;br&gt;&quot; +
+<i>15</i>&nbsp;            &quot;back to its initial space.&lt;/html&gt;&quot;),
+<b class="fc"><i>16</i>&nbsp;    ATHENA(&quot;Athena&quot;, &quot;&lt;html&gt;If one of your&lt;br&gt;&quot; +</b>
+<i>17</i>&nbsp;            &quot;Workers moved up on your last&lt;br&gt;&quot; +
+<i>18</i>&nbsp;            &quot;turn, opponent Workers cannot&lt;br&gt;&quot; +
+<i>19</i>&nbsp;            &quot;move up this turn&lt;/html&gt;&quot;),
+<b class="fc"><i>20</i>&nbsp;    ATLAS( &quot;Atlas&quot;, &quot;&lt;html&gt;Your Worker may&lt;br&gt;&quot; +</b>
+<i>21</i>&nbsp;            &quot;build a dome at any level.&lt;/html&gt;&quot;),
+<b class="fc"><i>22</i>&nbsp;    CHRONUS(&quot;Chronus&quot;, &quot;&lt;html&gt;You also win&lt;br&gt;&quot; +</b>
+<i>23</i>&nbsp;            &quot;when there are at least five&lt;br&gt;&quot; +
+<i>24</i>&nbsp;            &quot;Complete Towers on the board&lt;/html&gt;&quot;),
+<b class="fc"><i>25</i>&nbsp;    DEMETER(&quot;Demeter&quot;, &quot;&lt;html&gt;Your Worker may&lt;br&gt;&quot; +</b>
+<i>26</i>&nbsp;            &quot;build one additional time, but not&lt;br&gt;&quot; +
+<i>27</i>&nbsp;            &quot;on the same space&lt;/html&gt;&quot;),
+<b class="fc"><i>28</i>&nbsp;    HEPHAESTUS(&quot;Hephaestus&quot;, &quot;&lt;html&gt;Your Worker may&lt;br&gt;&quot; +</b>
+<i>29</i>&nbsp;            &quot;build one additional block (not&lt;br&gt;&quot; +
+<i>30</i>&nbsp;            &quot;dome) on top of your first block&lt;/html&gt;&quot;),
+<b class="fc"><i>31</i>&nbsp;    HERA(&quot;Hera&quot;, &quot;&lt;html&gt;An opponent&lt;br&gt;&quot; +</b>
+<i>32</i>&nbsp;            &quot;cannot win by moving into a&lt;br&gt;&quot; +
+<i>33</i>&nbsp;            &quot;perimeter space&lt;/html&gt;&quot;),
+<b class="fc"><i>34</i>&nbsp;    HESTIA(&quot;Hestia&quot;, &quot;&lt;html&gt;Your Worker may&lt;br&gt;&quot; +</b>
+<i>35</i>&nbsp;            &quot;build one additional time, but this&lt;br&gt;&quot; +
+<i>36</i>&nbsp;            &quot;cannot be on a perimeter space&lt;/html&gt;&quot;),
+<b class="fc"><i>37</i>&nbsp;    MINOTAUR( &quot;Minotaur&quot;, &quot;&lt;html&gt;Your Worker may&lt;br&gt;&quot; +</b>
+<i>38</i>&nbsp;            &quot;move into an opponent Worker’s&lt;br&gt;&quot; +
+<i>39</i>&nbsp;            &quot;space, if their Worker can be&lt;br&gt;&quot; +
+<i>40</i>&nbsp;            &quot;forced one space straight backwards to an&lt;br&gt;&quot; +
+<i>41</i>&nbsp;            &quot;unoccupied space at any level.&lt;/html&gt;&quot;),
+<b class="fc"><i>42</i>&nbsp;    PAN( &quot;Pan&quot;, &quot;&lt;html&gt;You also win if&lt;br&gt;&quot; +</b>
+<i>43</i>&nbsp;            &quot;your Worker moves down two or&lt;br&gt;&quot; +
+<i>44</i>&nbsp;            &quot;more levels.&lt;/html&gt;&quot;),
+<b class="fc"><i>45</i>&nbsp;    PERSEPHONE(&quot;Persephone&quot;, &quot;&lt;html&gt;If possible, at&lt;br&gt;&quot; +</b>
+<i>46</i>&nbsp;            &quot;least one Worker must move up&lt;br&gt;&quot; +
+<i>47</i>&nbsp;            &quot;this turn&lt;/html&gt;&quot;),
+<b class="fc"><i>48</i>&nbsp;    PROMETHEUS(&quot;Prometheus&quot;, &quot;&lt;html&gt;If your Worker does&lt;br&gt;&quot; +</b>
+<i>49</i>&nbsp;            &quot;not move up, it may build both&lt;br&gt;&quot; +
+<i>50</i>&nbsp;            &quot;before and after moving.&lt;/html&gt;&quot;),
+<b class="fc"><i>51</i>&nbsp;    ZEUS(&quot;Zeus&quot;, &quot;&lt;html&gt;Your Worker may&lt;br&gt;&quot; +</b>
+<i>52</i>&nbsp;            &quot;build a block under itself.&lt;/html&gt;&quot;);
+<i>53</i>&nbsp;    private String name, desc;
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * given
+<i>57</i>&nbsp;     * @param name contains the name of the God
+<i>58</i>&nbsp;     * @param desc contains a description of the God effect
+<i>59</i>&nbsp;     */
+<b class="fc"><i>60</i>&nbsp;    GodsList(String name, String desc){</b>
+<b class="fc"><i>61</i>&nbsp;        this.name = name;</b>
+<b class="fc"><i>62</i>&nbsp;        this.desc = desc;</b>
+<b class="fc"><i>63</i>&nbsp;    }</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * @return the name of the God
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    public String getName(){
+<b class="fc"><i>69</i>&nbsp;        return name;</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * given
+<i>74</i>&nbsp;     * @param godName , which is a string containing a God&#39;s name
+<i>75</i>&nbsp;     * @return the right element of the enumeration
+<i>76</i>&nbsp;     * @throws NotExistingGodException if the given string (godName) does not correspond to any of the existing Gods
+<i>77</i>&nbsp;     */
+<i>78</i>&nbsp;    public static GodsList getGod(String godName) throws NotExistingGodException
+<i>79</i>&nbsp;    {
+<b class="fc"><i>80</i>&nbsp;        for (GodsList god:GodsList.values()) {</b>
+<b class="fc"><i>81</i>&nbsp;            if(godName.equals(god.name) || godName.equals(god.name.toUpperCase()))</b>
+<b class="fc"><i>82</i>&nbsp;                return god;</b>
+<i>83</i>&nbsp;        }
+<b class="nc"><i>84</i>&nbsp;        throw new NotExistingGodException(&quot;This God doesn&#39;t exist&quot;);</b>
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * @return a description of the gods effect*/
+<i>89</i>&nbsp;    public String getDesc()
+<i>90</i>&nbsp;    {
+<b class="nc"><i>91</i>&nbsp;        return desc;</b>
+<i>92</i>&nbsp;    }
+<i>93</i>&nbsp;}
+<i>94</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-02 19:17</div>
+</div>
+</body>
+</html>
