@@ -89,6 +89,7 @@ public class Server {
      */
     public void addToLobby(SocketClientConnection connection,String name,int numberOfPlayer)
     {
+        System.out.println("Added player: "+name+" to Lobby n: "+ numberOfPlayer);
         boolean fullLobby = false;
         boolean foundLobby = false;
         if(lobbiesList==null){
@@ -144,6 +145,7 @@ public class Server {
      * The method is used after a game is ended to reset the lobby and permit new players to join*/
     public void flushLobbies()
     {
+        System.out.println("Flushing all the Lobbies...");
         lobbiesList.clear();
         gameHasStarted = false;
     }
