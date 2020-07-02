@@ -1,0 +1,8 @@
+it.polimi.ingsw
+it.polimi.ingsw.Controller
+it.polimi.ingsw.Model
+it.polimi.ingsw.Model.Exceptions
+it.polimi.ingsw.Network
+it.polimi.ingsw.Utils
+it.polimi.ingsw.Utils.ErrorMessages
+it.polimi.ingsw.View
