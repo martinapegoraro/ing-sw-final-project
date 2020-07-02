@@ -161,10 +161,12 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         this.addWindowListener(new java.awt.event.WindowAdapter(){
             public void windowClosing(java.awt.event.WindowEvent windowEvent){
                 if(JOptionPane.showConfirmDialog(playersSideBar,"Are you sure you want quit the game?","Quit the game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
-                    Choice c=new ExitChoice();
-                    c.setId(myID);
-                    view.update(c);
-                    System.exit(0);
+                    if(playerCanPlay) {
+                        Choice c = new ExitChoice();
+                        c.setId(myID);
+                        view.update(c);
+                        System.exit(0);
+                    }
                 }
 
             }
@@ -645,10 +647,10 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                     if(modelRep.hasWon[player])
                     {
                         JOptionPane.showMessageDialog(playersSideBar,"The game has ended,\n the game Window will now close");
-                        //Choice c=new ExitChoice();
-                        //c.setId(myID);
-                        //view.update(c);
-                        //System.exit(0);
+                        Choice c=new ExitChoice();
+                        c.setId(myID);
+                        view.update(c);
+                        System.exit(0);
                     }
                 }
 
@@ -740,10 +742,16 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
         else if(actionEvent.getActionCommand().equals("Exit"))
         {
             if(JOptionPane.showConfirmDialog(playersSideBar,"Are you sure you want quit the game?","Quit the game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
-                Choice c=new ExitChoice();
-                c.setId(myID);
-                view.update(c);
-                System.exit(0);
+                if(playerCanPlay) {
+                    Choice c = new ExitChoice();
+                    c.setId(myID);
+                    view.update(c);
+                    System.exit(0);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(playersSideBar,"You have lost \n You'll spectate the game");
+                }
             }
         }
         else

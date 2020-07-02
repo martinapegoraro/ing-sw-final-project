@@ -115,7 +115,12 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
             out.writeObject(message);
             out.reset();
         } catch(IOException e){
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
+            connectionPing=false;
+            closeConnection();
+            System.out.println("Deregistering client...");
+            server.deregisterConnection(this);
+            System.out.println("Done!");
         }
 
     }
@@ -156,6 +161,7 @@ public class SocketClientConnection extends Observable<Choice> implements Runnab
                 t0.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                close();
             }
         }
     }
