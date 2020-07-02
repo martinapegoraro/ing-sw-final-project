@@ -242,14 +242,8 @@ public class Context implements Observer<Choice> {
         heraActive = false;
         if(activeGods.contains(GodsList.MINOTAUR)) pushWorker = true;
         if(activeGods.contains(GodsList.APOLLO)) swapWorker = true;
-        //if(activeGods.contains(GodsList.HERA)) heraActive = true;
-        for(String s:contextModel.getModelRep().getGodList())
-        {
-            if (s.equals(GodsList.HERA.getName())) {
-                heraActive = true;
-                break;
-            }
-        }
+        if(activeGods.contains(GodsList.HERA)) heraActive = true;
+
         if(activeGods.contains(GodsList.ARTEMIS) && !artemisFirstMove)
         {
             if(possibleMovesWorker0.isEmpty() && possibleMovesWorker1.isEmpty())
@@ -591,7 +585,7 @@ public class Context implements Observer<Choice> {
      * @return a list of boxes containing also special move Boxes permitted by Minotaur**/
     private ArrayList<Box> minotaurEffect(ArrayList<Box> basicMoves, Box playerWorkerBox)
     {
-        ArrayList<Box> godMoves = new ArrayList<>(basicMoves);
+        ArrayList<Box> godMoves = new ArrayList<>();
         int x1,x2,y1,y2;
         int xBehind, yBehind;
 
