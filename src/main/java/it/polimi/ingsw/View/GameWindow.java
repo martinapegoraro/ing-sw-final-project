@@ -640,13 +640,21 @@ public class GameWindow extends JFrame implements WindowInterface, ActionListene
                     JOptionPane.showMessageDialog(playersSideBar,"You have lost \n You'll spectate the game");
                     playerCanPlay = false;
                 }
+                for(int player = 0; player < playersName.length; player++)
+                {
+                    if(modelRep.hasWon[player])
+                    {
+                        JOptionPane.showMessageDialog(playersSideBar,"The game has ended,\n the game Window will now close");
+                        Choice c=new ExitChoice();
+                        c.setId(myID);
+                        view.update(c);
+                        System.exit(0);
+                    }
+                }
 
-                    //Choice c=new ExitChoice();
-                    //c.setId(myID);
-                    //view.update(c);
-                    //System.exit(0);
                     //this.setWindowNotVisible();
             }
+
 
             updateCurrentPlayer(modelRep.getActivePlayer());
 
