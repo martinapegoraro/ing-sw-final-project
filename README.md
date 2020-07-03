@@ -10,6 +10,10 @@ Contents:
     -GUI as interface 
     -Client server connection through sockets 
     -1 advanced functionality(added 5 gods)
+    
+Coverage informations:
+- Model 90,7% line coverage
+- Controller 78,9% line coverage
 
 Notes for the execution:
 In the Deliverables folder there are Client-Client.jar and Server-Server.jar 
